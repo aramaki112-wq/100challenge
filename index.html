@@ -2,30 +2,88 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Apps Challenge</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .app-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            display: block;
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: black;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .day {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .day {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>100 Apps Challenge</h1>
+    <h1>🚀 100 Apps Challenge</h1>
 
-    <ul>
-        <li>
-            <a href="day1-hello/index.html">
-                DAY1 Hello App
-            </a>
-        </li>
+    <div class="app-list">
 
-        <li>
-            <a href="day2-name-input/index.html">
-                DAY2 Name App
-            </a>
-        </li>
-        <li>
-            <a href="day3-counter/index.html">
-                DAY3 Counter App
-            </a>
-        </li>
-    </ul>
+        <a class="card" href="day1-hello/index.html">
+            <div class="day">DAY 1</div>
+            <div class="description">Hello App</div>
+        </a>
+
+        <a class="card" href="day2-name-input/index.html">
+            <div class="day">DAY 2</div>
+            <div class="description">Name Input App</div>
+        </a>
+
+        <a class="card" href="day3-counter/index.html">
+            <div class="day">DAY 3</div>
+            <div class="description">Counter App</div>
+        </a>
+
+    </div>
 
 </body>
 </html>
