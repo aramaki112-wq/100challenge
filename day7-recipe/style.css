@@ -36,18 +36,24 @@ button{
     padding:10px;
     margin-bottom:5px;
     border-radius:10px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .recipe-link{
     font-weight:bold;
     cursor:pointer;
-    display:block;
-    margin-bottom:5px;
+    flex:1;
+    color:blue;
 }
-
 .delete-btn{
     background:crimson;
     color:white;
+
+    width:auto;
+    padding:8px 15px;
 }
 
 #result{
