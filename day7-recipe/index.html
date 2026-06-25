@@ -1,38 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAY7 レシピアプリ</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日の献立</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>🍳 レシピ登録アプリ</h1>
+<h1>🍳 今日の献立</h1>
 
-    <input
-        type="text"
-        id="recipeName"
-        placeholder="料理名を入力"
-    >
+<button id="randomButton">
+献立を決める
+</button>
 
-    <div id="stepsContainer"></div>
+<div id="result"></div>
 
-    <button id="saveButton">
-        レシピ登録
-    </button>
+<a href="recipe.html">
+<button>
+レシピ管理ページへ
+</button>
+</a>
 
-    <button id="randomButton">
-        今日の献立
-    </button>
-
-    <h2>登録済みレシピ</h2>
-    <div id="recipeList"></div>
-
-    <h2>献立結果</h2>
-    <div id="result"></div>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
