@@ -1,22 +1,57 @@
+/*
+====================================
+① データ読み込み
+====================================
+*/
+
+// 保存済みレシピを読み込む
 let recipes =
 JSON.parse(
-localStorage.getItem("recipes")
+    localStorage.getItem("recipes")
 ) || [];
 
+// 編集対象の番号
+let editIndex =
+localStorage.getItem("editIndex");
+
 /*
---------------------------------
-recipe.html用
---------------------------------
+====================================
+② recipe.html 初期化
+====================================
 */
 
 const stepsContainer =
-document.getElementById(
-"stepsContainer"
-);
+document.getElementById("stepsContainer");
 
-if(stepsContainer){
+if (stepsContainer) {
 
-    for(let i=1;i<=10;i++){
+    // 工程入力欄作成
+    createStepInputs();
+
+    // レシピ一覧表示
+    displayRecipes();
+
+    // 編集データ読み込み
+    loadRecipeForEdit();
+
+    // 保存ボタン
+    document
+        .getElementById("saveButton")
+        .addEventListener(
+            "click",
+            saveRecipe
+        );
+}
+
+/*
+====================================
+工程入力欄作成
+====================================
+*/
+
+function createStepInputs() {
+
+    for(let i = 1; i <= 10; i++) {
 
         const box =
         document.createElement("div");
@@ -24,94 +59,168 @@ if(stepsContainer){
         box.className =
         "step-box";
 
-        box.innerHTML=`
-        <h3>工程${i}</h3>
+        box.innerHTML = `
+            <h3>工程${i}</h3>
 
-        <textarea
-        id="step${i}"
-        placeholder="工程"
-        ></textarea>
+            <textarea
+                id="step${i}"
+                placeholder="工程を入力"
+            ></textarea>
 
-        <textarea
-        id="note${i}"
-        placeholder="備考"
-        ></textarea>
+            <textarea
+                id="note${i}"
+                placeholder="備考を入力"
+            ></textarea>
         `;
 
         stepsContainer.appendChild(box);
     }
-
-    displayRecipes();
-
-    document
-    .getElementById("saveButton")
-    .addEventListener(
-    "click",
-    saveRecipe
-    );
 }
 
 /*
---------------------------------
-レシピ保存
---------------------------------
+====================================
+③ 編集データ読み込み
+====================================
+*/
+
+function loadRecipeForEdit() {
+
+    if(editIndex === null){
+        return;
+    }
+
+    const recipe =
+    recipes[editIndex];
+
+    if(!recipe){
+        return;
+    }
+
+    document
+        .getElementById("recipeName")
+        .value =
+        recipe.name;
+
+    recipe.steps.forEach(
+        function(item,index){
+
+            document
+                .getElementById(
+                    `step${index+1}`
+                )
+                .value =
+                item.step;
+
+            document
+                .getElementById(
+                    `note${index+1}`
+                )
+                .value =
+                item.note;
+
+        }
+    );
+
+    document
+        .getElementById("saveButton")
+        .textContent =
+        "更新保存";
+}
+
+/*
+====================================
+④ レシピ保存
+====================================
 */
 
 function saveRecipe(){
 
     const recipeName =
     document
-    .getElementById(
-    "recipeName"
-    )
-    .value
-    .trim();
+        .getElementById("recipeName")
+        .value
+        .trim();
 
-    if(recipeName===""){
+    if(recipeName === ""){
+
         alert(
-        "料理名を入力してください"
+            "料理名を入力してください"
         );
+
         return;
     }
 
-    const steps=[];
+    const steps = [];
 
-    for(let i=1;i<=10;i++){
+    for(let i = 1; i <= 10; i++){
 
         const step =
         document
-        .getElementById(
-        `step${i}`
-        ).value;
+            .getElementById(
+                `step${i}`
+            )
+            .value
+            .trim();
 
         const note =
         document
-        .getElementById(
-        `note${i}`
-        ).value;
+            .getElementById(
+                `note${i}`
+            )
+            .value
+            .trim();
 
-        if(step!==""){
+        if(step !== ""){
 
             steps.push({
 
-                step:step,
-                note:note
+                step: step,
+                note: note
 
             });
 
         }
     }
 
-    recipes.push({
+    /*
+    編集モード
+    */
 
-        name:recipeName,
-        steps:steps
+    if(editIndex !== null){
 
-    });
+        recipes[editIndex] = {
 
+            name: recipeName,
+            steps: steps
+
+        };
+
+    }
+
+    /*
+    新規登録モード
+    */
+
+    else{
+
+        recipes.push({
+
+            name: recipeName,
+            steps: steps
+
+        });
+
+    }
+
+    // 保存
     localStorage.setItem(
-    "recipes",
-    JSON.stringify(recipes)
+        "recipes",
+        JSON.stringify(recipes)
+    );
+
+    // 編集モード解除
+    localStorage.removeItem(
+        "editIndex"
     );
 
     alert("保存しました");
@@ -120,85 +229,124 @@ function saveRecipe(){
 }
 
 /*
---------------------------------
-レシピ一覧
---------------------------------
+====================================
+⑤ レシピ一覧表示
+====================================
 */
 
 function displayRecipes(){
 
     const recipeList =
     document.getElementById(
-    "recipeList"
+        "recipeList"
     );
 
-    recipeList.innerHTML="";
+    if(!recipeList){
+        return;
+    }
+
+    recipeList.innerHTML = "";
 
     recipes.forEach(
-    function(recipe,index){
+        function(recipe,index){
 
-        const div =
-        document.createElement("div");
+            const div =
+            document.createElement("div");
 
-        div.className=
-        "recipe-item";
+            div.className =
+            "recipe-item";
 
-        div.innerHTML=`
+            div.innerHTML = `
 
-        <strong>
-        ${recipe.name}
-        </strong>
+                <span
+                    class="recipe-link"
+                    onclick="editRecipe(${index})"
+                >
 
-        <button
-        class="delete-btn"
-        onclick="deleteRecipe(${index})"
-        >
+                    ${recipe.name}
 
-        削除
+                </span>
 
-        </button>
-        `;
+                <button
+                    class="delete-btn"
+                    onclick="deleteRecipe(${index})"
+                >
 
-        recipeList.appendChild(div);
+                    削除
 
-    });
+                </button>
+
+            `;
+
+            recipeList.appendChild(div);
+
+        }
+    );
 }
 
 /*
---------------------------------
-削除
---------------------------------
+====================================
+⑥ 編集処理
+====================================
+*/
+
+function editRecipe(index){
+
+    localStorage.setItem(
+        "editIndex",
+        index
+    );
+
+    location.href =
+    "recipe.html";
+}
+
+/*
+====================================
+⑦ 削除処理
+====================================
 */
 
 function deleteRecipe(index){
 
-    recipes.splice(index,1);
+    const answer =
+    confirm(
+        "削除しますか？"
+    );
+
+    if(!answer){
+        return;
+    }
+
+    recipes.splice(
+        index,
+        1
+    );
 
     localStorage.setItem(
-    "recipes",
-    JSON.stringify(recipes)
+        "recipes",
+        JSON.stringify(recipes)
     );
 
     displayRecipes();
 }
 
 /*
---------------------------------
-index.html用
---------------------------------
+====================================
+⑧ 献立表示
+====================================
 */
 
 const randomButton =
 document.getElementById(
-"randomButton"
+    "randomButton"
 );
 
 if(randomButton){
 
-    randomButton
-    .addEventListener(
-    "click",
-    randomRecipe
+    randomButton.addEventListener(
+        "click",
+        randomRecipe
     );
 }
 
@@ -206,58 +354,60 @@ function randomRecipe(){
 
     const result =
     document.getElementById(
-    "result"
+        "result"
     );
 
-    if(recipes.length===0){
+    if(recipes.length === 0){
 
-        result.innerHTML=
-        "レシピがありません";
+        result.innerHTML =
+        "<p>レシピがありません</p>";
 
         return;
     }
 
     const randomIndex =
     Math.floor(
-    Math.random()
-    * recipes.length
+        Math.random()
+        * recipes.length
     );
 
     const recipe =
     recipes[randomIndex];
 
     let html =
+
     `<h2>${recipe.name}</h2>`;
 
     recipe.steps.forEach(
-    function(item,index){
+        function(item,index){
 
-        html +=`
+            html += `
 
-        <p>
+            <p>
 
-        <strong>
-        工程${index+1}
-        </strong>
+                <strong>
+                工程${index+1}
+                </strong>
 
-        <br>
+                <br>
 
-        ${item.step}
+                ${item.step}
 
-        </p>
+            </p>
 
-        <p>
+            <p>
 
-        備考：
-        ${item.note}
+                備考：
+                ${item.note}
 
-        </p>
+            </p>
 
-        <hr>
+            <hr>
 
-        `;
+            `;
 
-    });
+        }
+    );
 
     result.innerHTML =
     html;

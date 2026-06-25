@@ -12,8 +12,8 @@ input,
 textarea,
 button{
     width:100%;
-    margin-bottom:10px;
     padding:10px;
+    margin-bottom:10px;
     box-sizing:border-box;
     font-size:16px;
 }
@@ -21,6 +21,7 @@ button{
 button{
     border:none;
     border-radius:10px;
+    cursor:pointer;
 }
 
 .step-box{
@@ -37,6 +38,13 @@ button{
     border-radius:10px;
 }
 
+.recipe-link{
+    font-weight:bold;
+    cursor:pointer;
+    display:block;
+    margin-bottom:5px;
+}
+
 .delete-btn{
     background:crimson;
     color:white;
@@ -46,4 +54,5 @@ button{
     background:white;
     padding:15px;
     border-radius:10px;
+    margin-top:10px;
 }
