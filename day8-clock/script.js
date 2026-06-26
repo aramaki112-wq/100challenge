@@ -154,6 +154,15 @@ if (document.getElementById("clockList")) {
             card.className = "clockCard";
 
             const now = new Date();
+            const date = now.toLocaleDateString("ja-JP", {
+
+             timeZone: countries[city],
+                 year: "numeric",
+                month: "2-digit", 
+                  day: "2-digit",
+              weekday: "short"
+
+            });
 
             const time = now.toLocaleTimeString("ja-JP", {
 
@@ -163,6 +172,7 @@ if (document.getElementById("clockList")) {
 
             card.innerHTML = `
                 <h2>${city}</h2>
+                <p>${date}</p>
                 <p>${time}</p>
             `;
 
