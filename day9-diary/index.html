@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAY9 日記アプリ</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📖 日記アプリ</h1>
+
+        <h2 id="monthTitle"></h2>
+
+        <!-- カレンダー -->
+        <div id="calendar"></div>
+
+        <hr>
+
+        <h2 id="selectedDate">
+            日付を選択してください
+        </h2>
+
+        <textarea
+            id="diary"
+            rows="10"
+            placeholder="今日の日記を書きましょう">
+        </textarea>
+
+        <button id="saveButton">
+            💾 登録
+        </button>
+
+        <p id="updatedTime">
+            最終更新：
+        </p>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
