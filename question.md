@@ -1,4 +1,3 @@
-
 DAY8 Challenge Question
 
 Question1
