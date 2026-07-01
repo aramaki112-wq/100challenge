@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAY13 文字数カウンター</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📝文字数カウンター</h1>
+
+        <textarea
+            id="textInput"
+            placeholder="ここに文章を書いてください（Markdown対応）"></textarea>
+
+        <div class="info">
+
+            <p>文字数：<span id="charCount">0</span></p>
+
+            <p>単語数：<span id="wordCount">0</span></p>
+
+            <p>行数：<span id="lineCount">0</span></p>
+
+        </div>
+
+        <button id="clearButton">
+            リセット
+        </button>
+
+        <h2>Markdownプレビュー</h2>
+
+        <div id="preview"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
