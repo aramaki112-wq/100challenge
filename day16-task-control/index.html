@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App Ver1</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>タスク管理アプリ Ver1</h1>
+
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="タスクを入力">
+
+        <select id="priority">
+
+            <option value="高">高</option>
+            <option value="中" selected>中</option>
+            <option value="低">低</option>
+
+        </select>
+
+        <input
+            type="text"
+            id="category"
+            placeholder="カテゴリー">
+
+        <textarea
+            id="memo"
+            placeholder="メモ"></textarea>
+
+        <label>開始日</label>
+
+        <input
+            type="date"
+            id="startDate">
+
+        <label>期限日</label>
+
+        <input
+            type="date"
+            id="dueDate">
+
+        <button id="saveButton">
+            保存
+        </button>
+
+        <div id="taskList"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
