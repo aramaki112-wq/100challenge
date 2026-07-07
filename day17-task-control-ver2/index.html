@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>タスク管理アプリ Ver2</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>タスク管理アプリ</h1>
+
+        <!-- 入力エリア -->
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="タスクを入力">
+
+            <input
+                type="date"
+                id="dueDate">
+
+            <button id="addButton">
+
+                追加
+
+            </button>
+
+        </div>
+
+        <!-- フィルター -->
+
+        <div class="filter-area">
+
+            <span>表示：</span>
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="filter"
+                    value="all"
+                    checked>
+
+                すべて
+
+            </label>
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="filter"
+                    value="active">
+
+                未完了
+
+            </label>
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="filter"
+                    value="completed">
+
+                完了
+
+            </label>
+
+        </div>
+
+        <!-- 集計 -->
+
+        <div class="summary">
+
+            <p>
+
+                件数：
+
+                <span id="taskCount">
+
+                    0
+
+                </span>
+
+                件
+
+            </p>
+
+            <p>
+
+                完了率：
+
+                <span id="completeRate">
+
+                    0
+
+                </span>
+
+                %
+
+            </p>
+
+        </div>
+
+        <!-- タスク一覧 -->
+
+        <ul id="taskList">
+
+        </ul>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
