@@ -1,0 +1,1036 @@
+/* ==========================================================
+   Design Token
+========================================================== */
+
+:root {
+
+    /* ---------- Color ---------- */
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+
+    --success: #22c55e;
+    --danger: #ef4444;
+
+    --background: #f5f7fb;
+    --surface: #ffffff;
+
+    --border: #e5e7eb;
+
+    --text: #1f2937;
+    --text-light: #6b7280;
+
+    /* ---------- Shadow ---------- */
+
+    --shadow-sm:
+
+        0 2px 6px rgba(0,0,0,.06);
+
+    --shadow-md:
+
+        0 6px 18px rgba(0,0,0,.08);
+
+    /* ---------- Radius ---------- */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    /* ---------- Space ---------- */
+
+    --space-xs: .5rem;
+    --space-sm: .75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+
+    /* ---------- Animation ---------- */
+
+    --transition:
+
+        .2s ease;
+
+}
+
+
+/* ==========================================================
+   Reset
+========================================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+
+body{
+
+    font-family:
+
+        "Segoe UI",
+
+        sans-serif;
+
+    background:
+
+        var(--background);
+
+    color:
+
+        var(--text);
+
+    line-height:
+
+        1.6;
+
+}
+
+
+/* ==========================================================
+   Layout
+========================================================== */
+
+.container{
+
+    max-width:900px;
+
+    margin:auto;
+
+    padding:
+
+        var(--space-xl);
+
+}
+
+
+.app-header{
+
+    text-align:center;
+
+    margin-bottom:
+
+        var(--space-xl);
+
+}
+
+
+.app-title{
+
+    font-size:2rem;
+
+    font-weight:bold;
+
+}
+
+
+.app-description{
+
+    color:
+
+        var(--text-light);
+
+    margin-top:
+
+        var(--space-xs);
+
+}
+/* ==========================================================
+   Summary
+========================================================== */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(3,1fr);
+
+    gap:
+
+        var(--space-md);
+
+    margin-bottom:
+
+        var(--space-xl);
+
+}
+
+
+.summary-card{
+
+    background:
+
+        var(--surface);
+
+    border-radius:
+
+        var(--radius-lg);
+
+    padding:
+
+        var(--space-lg);
+
+    box-shadow:
+
+        var(--shadow-md);
+
+    text-align:center;
+
+    transition:
+
+        var(--transition);
+
+}
+
+
+.summary-card:hover{
+
+    transform:
+
+        translateY(-3px);
+
+}
+
+
+.summary-label{
+
+    display:block;
+
+    color:
+
+        var(--text-light);
+
+    font-size:
+
+        .9rem;
+
+    margin-bottom:
+
+        var(--space-xs);
+
+}
+
+
+.summary-value{
+
+    display:block;
+
+    font-size:
+
+        2rem;
+
+    color:
+
+        var(--primary);
+
+}
+
+
+/* ==========================================================
+   Task Form
+========================================================== */
+
+.task-form{
+
+    display:flex;
+
+    gap:
+
+        var(--space-sm);
+
+    margin-bottom:
+
+        var(--space-lg);
+
+    background:
+
+        var(--surface);
+
+    padding:
+
+        var(--space-md);
+
+    border-radius:
+
+        var(--radius-lg);
+
+    box-shadow:
+
+        var(--shadow-sm);
+
+}
+
+
+.task-input{
+
+    flex:1;
+
+    border:
+
+        1px solid var(--border);
+
+    border-radius:
+
+        var(--radius-md);
+
+    padding:
+
+        .85rem 1rem;
+
+    font-size:
+
+        1rem;
+
+    outline:
+
+        none;
+
+    transition:
+
+        var(--transition);
+
+}
+
+
+.task-input:focus{
+
+    border-color:
+
+        var(--primary);
+
+    box-shadow:
+
+        0 0 0 3px rgba(37,99,235,.18);
+
+}
+
+
+/* ==========================================================
+   Button
+========================================================== */
+
+.primary-button{
+
+    border:
+
+        none;
+
+    border-radius:
+
+        var(--radius-md);
+
+    padding:
+
+        .85rem 1.4rem;
+
+    background:
+
+        var(--primary);
+
+    color:
+
+        white;
+
+    font-weight:
+
+        600;
+
+    cursor:
+
+        pointer;
+
+    transition:
+
+        var(--transition);
+
+}
+
+
+.primary-button:hover{
+
+    background:
+
+        var(--primary-hover);
+
+    transform:
+
+        translateY(-2px);
+
+}
+
+
+.primary-button:active{
+
+    transform:
+
+        scale(.98);
+
+}
+/* ==========================================================
+   Filter
+========================================================== */
+
+.filter-bar{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:
+
+        var(--space-sm);
+
+    margin-bottom:
+
+        var(--space-xl);
+
+    flex-wrap:
+
+        wrap;
+
+}
+
+
+.filter-button{
+
+    border:
+
+        1px solid var(--border);
+
+    border-radius:
+
+        999px;
+
+    padding:
+
+        .65rem 1.2rem;
+
+    background:
+
+        var(--surface);
+
+    color:
+
+        var(--text);
+
+    font-weight:
+
+        600;
+
+    cursor:
+
+        pointer;
+
+    transition:
+
+        var(--transition);
+
+}
+
+
+.filter-button:hover{
+
+    border-color:
+
+        var(--primary);
+
+    color:
+
+        var(--primary);
+
+}
+
+
+.filter-button.active{
+
+    background:
+
+        var(--primary);
+
+    border-color:
+
+        var(--primary);
+
+    color:
+
+        white;
+
+}
+
+
+/* ==========================================================
+   Task Section
+========================================================== */
+
+.task-section{
+
+    margin-top:
+
+        var(--space-lg);
+
+}
+
+
+.task-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:
+
+        var(--space-md);
+
+}
+
+
+/* ==========================================================
+   Task Card
+========================================================== */
+
+.task-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:
+
+        var(--space-lg);
+
+    background:
+
+        var(--surface);
+
+    padding:
+
+        var(--space-lg);
+
+    border-radius:
+
+        var(--radius-lg);
+
+    box-shadow:
+
+        var(--shadow-md);
+
+    transition:
+
+        var(--transition);
+
+}
+
+
+.task-card:hover{
+
+    transform:
+
+        translateY(-3px);
+
+    box-shadow:
+
+        0 10px 28px rgba(0,0,0,.10);
+
+}
+
+
+.task-card.completed{
+
+    opacity:
+
+        .75;
+
+}
+
+
+.task-content{
+
+    flex:1;
+
+}
+
+
+.task-meta{
+
+    margin-bottom:
+
+        var(--space-sm);
+
+}
+
+
+.task-title{
+
+    font-size:
+
+        1.1rem;
+
+    font-weight:
+
+        700;
+
+    color:
+
+        var(--text);
+
+}
+
+
+.task-card.completed .task-title{
+
+    text-decoration:
+
+        line-through;
+
+    color:
+
+        var(--text-light);
+
+}
+
+
+.task-date{
+
+    margin-top:
+
+        .25rem;
+
+    font-size:
+
+        .85rem;
+
+    color:
+
+        var(--text-light);
+
+}
+
+
+/* ==========================================================
+   Badge
+========================================================== */
+
+.badge-area{
+
+    display:flex;
+
+    gap:
+
+        var(--space-xs);
+
+    flex-wrap:
+
+        wrap;
+
+}
+
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    border-radius:
+
+        999px;
+
+    padding:
+
+        .25rem .7rem;
+
+    font-size:
+
+        .75rem;
+
+    font-weight:
+
+        700;
+
+}
+
+
+.badge-today{
+
+    background:
+
+        rgba(37,99,235,.10);
+
+    color:
+
+        var(--primary);
+
+}
+
+
+.badge-completed{
+
+    background:
+
+        rgba(34,197,94,.14);
+
+    color:
+
+        var(--success);
+
+}
+
+
+/* ==========================================================
+   Task Actions
+========================================================== */
+
+.task-actions{
+
+    display:flex;
+
+    gap:
+
+        var(--space-xs);
+
+    flex-shrink:
+
+        0;
+
+}
+
+
+.icon-button{
+
+    width:
+
+        42px;
+
+    height:
+
+        42px;
+
+    border:
+
+        none;
+
+    border-radius:
+
+        50%;
+
+    background:
+
+        #f3f4f6;
+
+    cursor:
+
+        pointer;
+
+    font-size:
+
+        1rem;
+
+    transition:
+
+        var(--transition);
+
+}
+
+
+.icon-button:hover{
+
+    transform:
+
+        scale(1.08);
+
+}
+
+
+.complete-button:hover{
+
+    background:
+
+        rgba(34,197,94,.16);
+
+}
+
+
+.edit-button:hover{
+
+    background:
+
+        rgba(37,99,235,.16);
+
+}
+
+
+.delete-button:hover{
+
+    background:
+
+        rgba(239,68,68,.16);
+
+}
+/* ==========================================================
+   Empty State
+========================================================== */
+
+.empty-state{
+
+    text-align:center;
+
+    padding:
+
+        var(--space-xl);
+
+    color:
+
+        var(--text-light);
+
+}
+
+
+.empty-icon{
+
+    font-size:
+
+        3rem;
+
+    margin-bottom:
+
+        var(--space-md);
+
+}
+
+
+.empty-title{
+
+    font-size:
+
+        1.3rem;
+
+    color:
+
+        var(--text);
+
+    margin-bottom:
+
+        var(--space-xs);
+
+}
+
+
+.empty-message{
+
+    font-size:
+
+        .95rem;
+
+}
+
+
+/* ==========================================================
+   Footer
+========================================================== */
+
+.app-footer{
+
+    margin-top:
+
+        var(--space-xl);
+
+    padding-top:
+
+        var(--space-lg);
+
+    border-top:
+
+        1px solid var(--border);
+
+    text-align:center;
+
+    color:
+
+        var(--text-light);
+
+}
+
+
+/* ==========================================================
+   Utility
+========================================================== */
+
+.hidden{
+
+    display:none !important;
+
+}
+
+
+/* ==========================================================
+   Focus
+========================================================== */
+
+button:focus-visible,
+input:focus-visible{
+
+    outline:
+
+        3px solid rgba(37,99,235,.25);
+
+    outline-offset:
+
+        3px;
+
+}
+
+
+/* ==========================================================
+   Animation
+========================================================== */
+
+.fade-in{
+
+    animation:
+
+        fadeIn .25s ease;
+
+}
+
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
+}
+
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:768px){
+
+    .container{
+
+        padding:
+
+            var(--space-lg);
+
+    }
+
+    .summary-grid{
+
+        grid-template-columns:
+
+            1fr;
+
+    }
+
+    .task-form{
+
+        flex-direction:
+
+            column;
+
+    }
+
+    .primary-button{
+
+        width:
+
+            100%;
+
+    }
+
+    .task-card{
+
+        flex-direction:
+
+            column;
+
+    }
+
+    .task-actions{
+
+        width:
+
+            100%;
+
+        justify-content:
+
+            flex-end;
+
+    }
+
+}
+
+
+@media (max-width:480px){
+
+    .container{
+
+        padding:
+
+            var(--space-md);
+
+    }
+
+    .app-title{
+
+        font-size:
+
+            1.6rem;
+
+    }
+
+    .summary-value{
+
+        font-size:
+
+            1.7rem;
+
+    }
+
+    .filter-button{
+
+        flex:
+
+            1;
+
+    }
+
+    .icon-button{
+
+        width:
+
+            38px;
+
+        height:
+
+            38px;
+
+    }
+
+}

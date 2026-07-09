@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Task Management App</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- ========================================================= -->
+        <!-- Header -->
+        <!-- ========================================================= -->
+
+        <header class="app-header">
+
+            <h1 class="app-title">
+                Task Management
+            </h1>
+
+            <p class="app-description">
+                シンプルで使いやすいタスク管理
+            </p>
+
+        </header>
+
+        <!-- ========================================================= -->
+        <!-- Summary -->
+        <!-- ========================================================= -->
+
+        <section
+            class="summary-grid"
+            aria-label="タスク概要">
+
+            <article class="summary-card">
+
+                <span class="summary-label">
+                    全タスク
+                </span>
+
+                <strong
+                    id="totalCount"
+                    class="summary-value">
+
+                    0
+
+                </strong>
+
+            </article>
+
+            <article class="summary-card">
+
+                <span class="summary-label">
+                    未完了
+                </span>
+
+                <strong
+                    id="activeCount"
+                    class="summary-value">
+
+                    0
+
+                </strong>
+
+            </article>
+
+            <article class="summary-card">
+
+                <span class="summary-label">
+                    完了
+                </span>
+
+                <strong
+                    id="completedCount"
+                    class="summary-value">
+
+                    0
+
+                </strong>
+
+            </article>
+
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- Input -->
+        <!-- ========================================================= -->
+
+        <form
+            id="taskForm"
+            class="task-form">
+
+            <input
+
+                id="taskInput"
+
+                class="task-input"
+
+                type="text"
+
+                maxlength="100"
+
+                placeholder="タスクを入力"
+
+                autocomplete="off"
+
+                required>
+
+            <button
+
+                class="primary-button"
+
+                type="submit">
+
+                追加
+
+            </button>
+
+        </form>
+
+        <!-- ========================================================= -->
+        <!-- Filter -->
+        <!-- ========================================================= -->
+
+        <nav
+            class="filter-bar"
+            aria-label="タスクの表示切り替え">
+
+            <button
+                class="filter-button active"
+                type="button"
+                data-filter="all"
+                aria-selected="true">
+                すべて
+            </button>
+
+            <button
+                class="filter-button"
+                type="button"
+                data-filter="active"
+                aria-selected="false">
+                未完了
+            </button>
+
+            <button
+                class="filter-button"
+                type="button"
+                data-filter="completed"
+                aria-selected="false">
+                完了
+            </button>
+
+        </nav>
+
+
+        <!-- ========================================================= -->
+        <!-- Task List -->
+        <!-- ========================================================= -->
+
+        <section
+            class="task-section"
+            aria-label="タスク一覧">
+
+            <div
+                id="emptyState"
+                class="empty-state hidden">
+
+                <p class="empty-icon">
+                    📝
+                </p>
+
+                <h2 class="empty-title">
+                    タスクはまだありません
+                </h2>
+
+                <p class="empty-message">
+                    最初のタスクを追加してみましょう。
+                </p>
+
+            </div>
+
+            <div
+                id="taskList"
+                class="task-list">
+            </div>
+
+        </section>
+
+
+        <!-- ========================================================= -->
+        <!-- Footer -->
+        <!-- ========================================================= -->
+
+        <footer class="app-footer">
+
+            <small>
+                DAY18.5 Release Candidate / Task Management App Ver2
+            </small>
+
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
