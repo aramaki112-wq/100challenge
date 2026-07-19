@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="棋譜データを一手ずつ再現する将棋棋譜再現アプリです。"
+  >
+
+  <title>将棋棋譜再現アプリ Ver1</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <p class="day-label">
+        100アプリチャレンジ DAY19
+      </p>
+
+      <h1>将棋棋譜再現アプリ</h1>
+
+      <p class="app-description">
+        用意された棋譜を「進む」「戻る」で一手ずつ再現します。
+      </p>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <section
+      class="board-section panel"
+      aria-labelledby="board-title"
+    >
+      <div class="section-heading">
+        <div>
+          <p class="section-label">BOARD</p>
+          <h2 id="board-title">現在の局面</h2>
+        </div>
+
+        <p
+          id="storage-status"
+          class="storage-status"
+          aria-live="polite"
+        >
+          棋譜データを確認しています。
+        </p>
+      </div>
+
+      <div class="board-area">
+        <div
+          id="shogi-board"
+          class="shogi-board"
+          role="grid"
+          aria-label="9×9の将棋盤"
+        ></div>
+      </div>
+
+      <div
+        class="move-information"
+        aria-live="polite"
+      >
+        <div class="information-item">
+          <span class="information-label">
+            現在の手数
+          </span>
+
+          <strong id="move-number">
+            0手目
+          </strong>
+        </div>
+
+        <div class="information-item">
+          <span class="information-label">
+            現在の指し手
+          </span>
+
+          <strong id="current-move">
+            開始局面
+          </strong>
+        </div>
+      </div>
+
+      <div
+        class="control-buttons"
+        aria-label="棋譜操作"
+      >
+        <button
+          id="first-button"
+          class="control-button secondary-button"
+          type="button"
+        >
+          最初へ
+        </button>
+
+        <button
+          id="back-button"
+          class="control-button secondary-button"
+          type="button"
+        >
+          戻る
+        </button>
+
+        <button
+          id="next-button"
+          class="control-button primary-button"
+          type="button"
+        >
+          進む
+        </button>
+
+        <button
+          id="last-button"
+          class="control-button primary-button"
+          type="button"
+        >
+          最後へ
+        </button>
+      </div>
+    </section>
+
+    <aside
+      class="move-list-section panel"
+      aria-labelledby="move-list-title"
+    >
+      <div class="section-heading">
+        <div>
+          <p class="section-label">MOVES</p>
+          <h2 id="move-list-title">棋譜一覧</h2>
+        </div>
+
+        <p
+          id="move-count"
+          class="move-count"
+        >
+          全0手
+        </p>
+      </div>
+
+      <p class="move-list-guide">
+        現在表示している指し手が強調されます。
+      </p>
+
+      <ol
+        id="move-list"
+        class="move-list"
+      ></ol>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      DAY19｜Data・State・Event・Renderを学ぶ
+    </p>
+  </footer>
+</body>
+</html>

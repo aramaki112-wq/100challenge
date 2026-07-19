@@ -1,0 +1,500 @@
+/* ========================================
+   基本設定
+======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --background-color: #f4f1e8;
+  --panel-color: #fffdf7;
+  --text-color: #29261f;
+  --sub-text-color: #6b6558;
+  --border-color: #d3c7ae;
+
+  --board-color: #e1b96f;
+  --board-border-color: #5d4224;
+  --board-line-color: #74522c;
+
+  --primary-color: #315948;
+  --primary-hover-color: #244537;
+
+  --secondary-color: #eee7d8;
+  --secondary-hover-color: #dfd5c1;
+
+  --current-move-color: #e7f2ec;
+  --current-move-border: #315948;
+
+  --disabled-color: #d8d4ca;
+  --disabled-text-color: #8c887f;
+
+  --shadow: 0 12px 30px rgba(54, 45, 28, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+
+  color: var(--text-color);
+
+  background: linear-gradient(
+    180deg,
+    #f8f5ed 0%,
+    var(--background-color) 100%
+  );
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Hiragino Sans",
+    "Yu Gothic",
+    Meiryo,
+    sans-serif;
+
+  line-height: 1.6;
+}
+
+button {
+  font: inherit;
+}
+
+
+/* ========================================
+   ヘッダー
+======================================== */
+
+.app-header {
+  padding: 38px 20px 30px;
+  text-align: center;
+}
+
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.day-label {
+  margin: 0 0 8px;
+
+  color: var(--primary-color);
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.app-header h1 {
+  margin: 0;
+
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  line-height: 1.3;
+}
+
+.app-description {
+  margin: 12px 0 0;
+
+  color: var(--sub-text-color);
+
+  font-size: 0.98rem;
+}
+
+
+/* ========================================
+   メインレイアウト
+======================================== */
+
+.app-container {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.4fr)
+    minmax(280px, 0.6fr);
+
+  gap: 24px;
+
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.panel {
+  padding: 24px;
+
+  background-color: var(--panel-color);
+
+  border: 1px solid rgba(93, 66, 36, 0.14);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow);
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+.section-label {
+  margin: 0 0 2px;
+
+  color: var(--primary-color);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.storage-status,
+.move-count {
+  margin: 0;
+
+  color: var(--sub-text-color);
+
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+
+/* ========================================
+   将棋盤
+======================================== */
+
+.board-area {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+  padding: 4px;
+
+  overflow-x: auto;
+}
+
+.shogi-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+
+  width: min(100%, 630px);
+  aspect-ratio: 1 / 1;
+
+  background-color: var(--board-color);
+
+  border: 3px solid var(--board-border-color);
+}
+
+.board-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+
+  background-color: var(--board-color);
+
+  border-right: 1px solid var(--board-line-color);
+  border-bottom: 1px solid var(--board-line-color);
+
+  font-size: clamp(0.9rem, 3.2vw, 1.65rem);
+  font-weight: 700;
+
+  user-select: none;
+}
+
+.board-cell:nth-child(9n) {
+  border-right: none;
+}
+
+.board-cell:nth-last-child(-n + 9) {
+  border-bottom: none;
+}
+
+.piece {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 80%;
+  height: 80%;
+
+  line-height: 1;
+}
+
+.piece.gote {
+  transform: rotate(180deg);
+}
+
+
+/* ========================================
+   手数・現在手
+======================================== */
+
+.move-information {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-top: 22px;
+}
+
+.information-item {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  min-width: 0;
+  padding: 14px 16px;
+
+  background-color: #f6f1e5;
+
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.information-label {
+  color: var(--sub-text-color);
+  font-size: 0.78rem;
+}
+
+.information-item strong {
+  overflow-wrap: anywhere;
+  font-size: 1.05rem;
+}
+
+
+/* ========================================
+   操作ボタン
+======================================== */
+
+.control-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 10px;
+
+  margin-top: 16px;
+}
+
+.control-button {
+  min-height: 48px;
+  padding: 10px 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.control-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.control-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.control-button:focus-visible {
+  outline: 3px solid rgba(49, 89, 72, 0.32);
+  outline-offset: 3px;
+}
+
+.primary-button {
+  color: #ffffff;
+  background-color: var(--primary-color);
+}
+
+.primary-button:hover:not(:disabled) {
+  background-color: var(--primary-hover-color);
+}
+
+.secondary-button {
+  color: var(--text-color);
+  background-color: var(--secondary-color);
+
+  border: 1px solid var(--border-color);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background-color: var(--secondary-hover-color);
+}
+
+.control-button:disabled {
+  color: var(--disabled-text-color);
+  background-color: var(--disabled-color);
+
+  border-color: var(--disabled-color);
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* ========================================
+   棋譜一覧
+======================================== */
+
+.move-list-guide {
+  margin: -6px 0 16px;
+
+  color: var(--sub-text-color);
+
+  font-size: 0.85rem;
+}
+
+.move-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  max-height: 630px;
+  margin: 0;
+  padding: 0 4px 0 34px;
+
+  overflow-y: auto;
+}
+
+.move-list-item {
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  line-height: 1.4;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.move-list-item.current {
+  background-color: var(--current-move-color);
+
+  border-color: var(--current-move-border);
+
+  font-weight: 700;
+}
+
+.move-list-item.current::marker {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+
+/* ========================================
+   フッター
+======================================== */
+
+.app-footer {
+  padding: 28px 20px 34px;
+
+  color: var(--sub-text-color);
+
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+
+/* ========================================
+   タブレット
+======================================== */
+
+@media (max-width: 900px) {
+  .app-container {
+    grid-template-columns: 1fr;
+  }
+
+  .move-list {
+    max-height: 360px;
+  }
+}
+
+
+/* ========================================
+   スマートフォン
+======================================== */
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 28px 16px 22px;
+  }
+
+  .app-container {
+    width: min(100% - 20px, 1180px);
+    gap: 16px;
+  }
+
+  .panel {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .storage-status,
+  .move-count {
+    text-align: left;
+  }
+
+  .move-information {
+    grid-template-columns: 1fr;
+  }
+
+  .control-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .control-button {
+    min-height: 46px;
+  }
+
+  .board-cell {
+    font-size: clamp(0.78rem, 5vw, 1.3rem);
+  }
+}
+
+
+/* ========================================
+   動きを減らす設定
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
