@@ -1,0 +1,733 @@
+```css
+:root {
+  --background-color: #f4f1e8;
+  --panel-color: #fffdf7;
+  --text-color: #25231f;
+  --sub-text-color: #6e685e;
+
+  --border-color: #d8d0bf;
+  --strong-border-color: #918672;
+
+  --accent-color: #3c654d;
+  --accent-hover-color: #2f523e;
+  --accent-light-color: #e6efe9;
+
+  --board-color: #e6ba72;
+  --board-line-color: #4f3a20;
+  --piece-color: #f5d99d;
+  --piece-border-color: #5f4728;
+
+  --current-color: #fff3c4;
+  --current-border-color: #c99d26;
+
+  --success-color: #256b45;
+  --success-background: #e8f4ec;
+
+  --error-color: #a33636;
+  --error-background: #faeaea;
+
+  --information-color: #3f5f80;
+  --information-background: #eaf1f8;
+
+  --disabled-color: #d7d2c8;
+  --disabled-text-color: #918b80;
+
+  --shadow:
+    0 10px 28px rgb(43 37 27 / 8%);
+
+  --small-radius: 8px;
+  --medium-radius: 14px;
+  --large-radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+
+  color: var(--text-color);
+  background:
+    linear-gradient(
+      180deg,
+      #ece5d7 0,
+      var(--background-color) 220px
+    );
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Hiragino Sans",
+    "Yu Gothic UI",
+    "Yu Gothic",
+    sans-serif;
+
+  line-height: 1.7;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+.app-header {
+  padding:
+    42px
+    20px
+    32px;
+
+  text-align: center;
+}
+
+.app-label {
+  margin: 0 0 4px;
+
+  color: var(--accent-color);
+
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.app-header h1 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      1.7rem,
+      5vw,
+      2.75rem
+    );
+
+  line-height: 1.25;
+}
+
+.app-subtitle {
+  margin: 8px 0 0;
+
+  color: var(--sub-text-color);
+
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.1fr)
+    minmax(300px, 0.9fr);
+  gap: 22px;
+
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.panel {
+  padding: 24px;
+
+  background: var(--panel-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--large-radius);
+  box-shadow: var(--shadow);
+}
+
+.input-panel {
+  grid-column: 1 / -1;
+}
+
+.game-information-panel {
+  grid-column: 1 / -1;
+}
+
+.board-panel {
+  grid-row: span 2;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+.panel-heading h2 {
+  margin: 0;
+
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+
+.panel-number {
+  margin: 0 0 2px;
+
+  color: var(--accent-color);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.version-badge,
+.move-count {
+  flex-shrink: 0;
+
+  padding: 5px 10px;
+
+  color: var(--accent-color);
+  background: var(--accent-light-color);
+  border-radius: 999px;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.panel-description {
+  margin:
+    -5px
+    0
+    16px;
+
+  color: var(--sub-text-color);
+  font-size: 0.94rem;
+}
+
+.input-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.kif-input {
+  display: block;
+
+  width: 100%;
+  min-height: 260px;
+  padding: 14px 16px;
+
+  color: var(--text-color);
+  background: #fff;
+  border: 1px solid var(--strong-border-color);
+  border-radius: var(--medium-radius);
+  outline: none;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 0.92rem;
+  line-height: 1.65;
+
+  resize: vertical;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.kif-input:focus {
+  border-color: var(--accent-color);
+  box-shadow:
+    0 0 0 3px rgb(60 101 77 / 16%);
+}
+
+.input-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.action-button,
+.control-button {
+  min-height: 44px;
+  padding: 10px 18px;
+
+  color: var(--text-color);
+  background: #fff;
+  border: 1px solid var(--strong-border-color);
+  border-radius: var(--small-radius);
+
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.2s;
+}
+
+.action-button:hover:not(:disabled),
+.control-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.action-button:focus-visible,
+.control-button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgb(60 101 77 / 30%);
+  outline-offset: 3px;
+}
+
+.primary-button,
+.primary-control {
+  color: #fff;
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.primary-button:hover:not(:disabled),
+.primary-control:hover:not(:disabled) {
+  background: var(--accent-hover-color);
+  border-color: var(--accent-hover-color);
+}
+
+.secondary-button {
+  color: var(--accent-color);
+  background: var(--accent-light-color);
+  border-color: var(--accent-color);
+}
+
+.ghost-button {
+  color: var(--sub-text-color);
+  background: transparent;
+}
+
+.message {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+
+  color: var(--information-color);
+  background: var(--information-background);
+  border-radius: var(--small-radius);
+
+  font-size: 0.9rem;
+}
+
+.message.success {
+  color: var(--success-color);
+  background: var(--success-background);
+}
+
+.message.error {
+  color: var(--error-color);
+  background: var(--error-background);
+}
+
+.support-information {
+  margin-top: 14px;
+
+  border-top: 1px solid var(--border-color);
+}
+
+.support-information summary {
+  padding: 14px 2px 0;
+
+  color: var(--accent-color);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.support-information-body {
+  padding-top: 8px;
+
+  color: var(--sub-text-color);
+  font-size: 0.9rem;
+}
+
+.support-information-body p {
+  margin: 8px 0;
+}
+
+.support-information-body pre {
+  overflow-x: auto;
+
+  padding: 12px;
+
+  color: var(--text-color);
+  background: #f3efe6;
+  border-radius: var(--small-radius);
+}
+
+.game-information-list {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 12px;
+
+  margin: 0;
+}
+
+.game-information-item {
+  min-width: 0;
+  padding: 12px 14px;
+
+  background: #f8f5ed;
+  border: 1px solid var(--border-color);
+  border-radius: var(--medium-radius);
+}
+
+.game-information-item dt {
+  color: var(--sub-text-color);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.game-information-item dd {
+  overflow: hidden;
+
+  margin: 3px 0 0;
+
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.board-area {
+  width: min(100%, 650px);
+  margin: 0 auto;
+}
+
+.file-labels {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+
+  margin: 0 26px 5px 0;
+
+  color: var(--sub-text-color);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.board-with-rank-labels {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    20px;
+  gap: 6px;
+}
+
+.shogi-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  overflow: hidden;
+
+  background: var(--board-color);
+  border:
+    3px
+    solid
+    var(--board-line-color);
+}
+
+.board-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 0;
+
+  border-right:
+    1px
+    solid
+    var(--board-line-color);
+
+  border-bottom:
+    1px
+    solid
+    var(--board-line-color);
+}
+
+.board-cell:nth-child(9n) {
+  border-right: 0;
+}
+
+.board-cell:nth-last-child(-n + 9) {
+  border-bottom: 0;
+}
+
+.rank-labels {
+  display: grid;
+  grid-template-rows: repeat(9, 1fr);
+
+  color: var(--sub-text-color);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.rank-labels span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 74%;
+  height: 82%;
+
+  color: #20170d;
+  background:
+    linear-gradient(
+      145deg,
+      #ffeab6,
+      var(--piece-color)
+    );
+
+  border:
+    1px
+    solid
+    var(--piece-border-color);
+
+  clip-path:
+    polygon(
+      18% 0,
+      82% 0,
+      100% 22%,
+      90% 100%,
+      10% 100%,
+      0 22%
+    );
+
+  font-family:
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    serif;
+
+  font-size:
+    clamp(
+      0.72rem,
+      2.5vw,
+      1.55rem
+    );
+
+  font-weight: 800;
+  line-height: 1;
+
+  filter:
+    drop-shadow(
+      0 1px 1px rgb(0 0 0 / 15%)
+    );
+}
+
+.piece.gote {
+  transform: rotate(180deg);
+}
+
+.current-information {
+  display: grid;
+  gap: 10px;
+
+  margin-bottom: 18px;
+}
+
+.current-information-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  padding: 12px 14px;
+
+  background: #f8f5ed;
+  border-radius: var(--medium-radius);
+}
+
+.information-label {
+  color: var(--sub-text-color);
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.current-information strong {
+  text-align: right;
+}
+
+.control-buttons {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.control-button {
+  padding-inline: 10px;
+}
+
+.control-button:disabled,
+.action-button:disabled {
+  color: var(--disabled-text-color);
+  background: var(--disabled-color);
+  border-color: var(--disabled-color);
+
+  cursor: not-allowed;
+  transform: none;
+}
+
+.move-list {
+  max-height: 430px;
+  margin: 0;
+  padding:
+    0
+    0
+    0
+    2.5rem;
+
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.move-list-item {
+  margin-bottom: 7px;
+  padding: 9px 12px;
+
+  background: #f8f5ed;
+  border: 1px solid transparent;
+  border-radius: var(--small-radius);
+
+  font-family:
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    serif;
+
+  font-weight: 700;
+
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.move-list-item.current {
+  background: var(--current-color);
+  border-color: var(--current-border-color);
+
+  font-weight: 900;
+}
+
+.app-footer {
+  padding: 30px 20px 40px;
+
+  color: var(--sub-text-color);
+
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .app-container {
+    grid-template-columns: 1fr;
+  }
+
+  .board-panel {
+    grid-row: auto;
+  }
+
+  .game-information-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    padding-top: 30px;
+  }
+
+  .app-container {
+    width: min(100% - 20px, 1180px);
+    gap: 14px;
+  }
+
+  .panel {
+    padding: 17px;
+    border-radius: var(--medium-radius);
+  }
+
+  .input-actions {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .primary-button {
+    grid-column: 1 / -1;
+  }
+
+  .game-information-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .control-buttons {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .piece {
+    width: 80%;
+    height: 84%;
+
+    font-size:
+      clamp(
+        0.65rem,
+        4.3vw,
+        1.05rem
+      );
+  }
+
+  .current-information-item {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .current-information strong {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+```

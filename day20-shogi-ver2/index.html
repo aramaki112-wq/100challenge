@@ -1,0 +1,387 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="KIF形式の棋譜を読み込み、一手ずつ局面を再現するアプリ"
+  >
+
+  <title>
+    DAY20 将棋棋譜再現アプリ Ver2
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <script
+    src="script.js"
+    defer
+  ></script>
+</head>
+
+<body>
+  <header class="app-header">
+    <p class="app-label">
+      100アプリチャレンジ DAY20
+    </p>
+
+    <h1>
+      将棋棋譜再現アプリ Ver2
+    </h1>
+
+    <p class="app-subtitle">
+      KIF棋譜読み込み編
+    </p>
+  </header>
+
+  <main class="app-container">
+    <!-- KIF入力エリア -->
+    <section
+      class="panel input-panel"
+      aria-labelledby="kif-input-title"
+    >
+      <div class="panel-heading">
+        <div>
+          <p class="panel-number">
+            INPUT
+          </p>
+
+          <h2 id="kif-input-title">
+            KIF棋譜を入力
+          </h2>
+        </div>
+
+        <span class="version-badge">
+          Ver2
+        </span>
+      </div>
+
+      <p class="panel-description">
+        KIFデータを貼り付けて「KIFを読み込む」を押してください。
+        読み込んだ棋譜はLocalStorageへ保存されます。
+      </p>
+
+      <label
+        class="input-label"
+        for="kif-input"
+      >
+        KIFテキスト
+      </label>
+
+      <textarea
+        id="kif-input"
+        class="kif-input"
+        rows="14"
+        spellcheck="false"
+        placeholder="例：
+手合割：平手
+先手：先手
+後手：後手
+手数----指手---------消費時間--
+1 ７六歩(77)
+2 ３四歩(33)
+3 ２六歩(27)"
+      ></textarea>
+
+      <div class="input-actions">
+        <button
+          id="load-kif-button"
+          class="action-button primary-button"
+          type="button"
+        >
+          KIFを読み込む
+        </button>
+
+        <button
+          id="load-saved-button"
+          class="action-button secondary-button"
+          type="button"
+        >
+          保存済み棋譜
+        </button>
+
+        <button
+          id="clear-input-button"
+          class="action-button ghost-button"
+          type="button"
+        >
+          入力をクリア
+        </button>
+      </div>
+
+      <p
+        id="input-message"
+        class="message"
+        role="status"
+        aria-live="polite"
+      >
+        KIFを入力してください。
+      </p>
+
+      <details class="support-information">
+        <summary>
+          DAY20で読み込めるKIF形式
+        </summary>
+
+        <div class="support-information-body">
+          <p>
+            次のように、移動元が丸括弧で書かれた通常の指し手へ対応します。
+          </p>
+
+          <pre><code>1 ７六歩(77)
+2 ３四歩(33)
+3 ２六歩(27)</code></pre>
+
+          <p>
+            Ver2では「同」「打」「成」「不成」、駒台、
+            平手以外の開始局面には対応していません。
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- 対局情報 -->
+    <section
+      class="panel game-information-panel"
+      aria-labelledby="game-information-title"
+    >
+      <div class="panel-heading">
+        <div>
+          <p class="panel-number">
+            GAME
+          </p>
+
+          <h2 id="game-information-title">
+            対局情報
+          </h2>
+        </div>
+      </div>
+
+      <dl class="game-information-list">
+        <div class="game-information-item">
+          <dt>
+            棋戦
+          </dt>
+
+          <dd id="game-title">
+            未設定
+          </dd>
+        </div>
+
+        <div class="game-information-item">
+          <dt>
+            先手
+          </dt>
+
+          <dd id="sente-name">
+            先手
+          </dd>
+        </div>
+
+        <div class="game-information-item">
+          <dt>
+            後手
+          </dt>
+
+          <dd id="gote-name">
+            後手
+          </dd>
+        </div>
+
+        <div class="game-information-item">
+          <dt>
+            総手数
+          </dt>
+
+          <dd id="total-move-count">
+            0手
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 将棋盤エリア -->
+    <section
+      class="panel board-panel"
+      aria-labelledby="board-title"
+    >
+      <div class="panel-heading">
+        <div>
+          <p class="panel-number">
+            BOARD
+          </p>
+
+          <h2 id="board-title">
+            現在局面
+          </h2>
+        </div>
+      </div>
+
+      <div class="board-area">
+        <div
+          class="file-labels"
+          aria-hidden="true"
+        >
+          <span>9</span>
+          <span>8</span>
+          <span>7</span>
+          <span>6</span>
+          <span>5</span>
+          <span>4</span>
+          <span>3</span>
+          <span>2</span>
+          <span>1</span>
+        </div>
+
+        <div class="board-with-rank-labels">
+          <div
+            id="shogi-board"
+            class="shogi-board"
+            role="grid"
+            aria-label="9×9の将棋盤"
+          ></div>
+
+          <div
+            class="rank-labels"
+            aria-hidden="true"
+          >
+            <span>一</span>
+            <span>二</span>
+            <span>三</span>
+            <span>四</span>
+            <span>五</span>
+            <span>六</span>
+            <span>七</span>
+            <span>八</span>
+            <span>九</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 再生情報・操作 -->
+    <section
+      class="panel control-panel"
+      aria-labelledby="control-title"
+    >
+      <div class="panel-heading">
+        <div>
+          <p class="panel-number">
+            PLAYER
+          </p>
+
+          <h2 id="control-title">
+            棋譜を再現
+          </h2>
+        </div>
+      </div>
+
+      <div class="current-information">
+        <div class="current-information-item">
+          <span class="information-label">
+            現在位置
+          </span>
+
+          <strong id="move-number">
+            0 / 0手
+          </strong>
+        </div>
+
+        <div class="current-information-item">
+          <span class="information-label">
+            現在の指し手
+          </span>
+
+          <strong id="current-move">
+            開始局面
+          </strong>
+        </div>
+      </div>
+
+      <div
+        class="control-buttons"
+        aria-label="棋譜操作"
+      >
+        <button
+          id="first-button"
+          class="control-button"
+          type="button"
+        >
+          最初へ
+        </button>
+
+        <button
+          id="back-button"
+          class="control-button"
+          type="button"
+        >
+          戻る
+        </button>
+
+        <button
+          id="next-button"
+          class="control-button primary-control"
+          type="button"
+        >
+          進む
+        </button>
+
+        <button
+          id="last-button"
+          class="control-button"
+          type="button"
+        >
+          最後へ
+        </button>
+      </div>
+    </section>
+
+    <!-- 棋譜一覧 -->
+    <section
+      class="panel move-list-panel"
+      aria-labelledby="move-list-title"
+    >
+      <div class="panel-heading">
+        <div>
+          <p class="panel-number">
+            MOVES
+          </p>
+
+          <h2 id="move-list-title">
+            棋譜一覧
+          </h2>
+        </div>
+
+        <span
+          id="move-count"
+          class="move-count"
+        >
+          全0手
+        </span>
+      </div>
+
+      <ol
+        id="move-list"
+        class="move-list"
+      ></ol>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      DAY20｜Input → Parser → Validation → Storage → State → Render
+    </p>
+  </footer>
+</body>
+</html>
+```
