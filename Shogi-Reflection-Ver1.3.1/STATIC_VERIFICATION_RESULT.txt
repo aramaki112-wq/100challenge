@@ -1,0 +1,78 @@
+Shogi Reflection Ver.1.3.1 Static Verification
+Date: 2026-08-08
+
+Files: 208
+Ver.1.3 baseline files: 199
+Unchanged Ver.1.3 files: 178
+Modified Ver.1.3 files: 21
+Added Ver.1.3.1 files: 9
+Deleted Ver.1.3 files: 0
+Syntax checked: 130
+Missing imports: 0
+Passed checks: 30
+Failed checks: 0
+
+Modified Ver.1.3 files:
+- 00_README_FIRST.md
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BrowserKifImportMarkup.test.js
+- BrowserKifImportView.js
+- CHANGELOG.md
+- FILE_INVENTORY.txt
+- KifImportController.js
+- KifImportController.test.js
+- KifImportErrorPresenter.js
+- KifImportErrors.js
+- README.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- TEST_RESULT.txt
+- browser_verify.py
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+Added files:
+- BrowserKifClipboardAdapter.js
+- BrowserKifClipboardAdapter.test.js
+- COMPLETION_REPORT_V1_3_1.md
+- KifPastedTextAdapter.js
+- KifPastedTextAdapter.test.js
+- SOURCE_OF_TRUTH_AUDIT_V1_3_1.md
+- SOURCE_OF_TRUTH_V1_3_BASELINE_HASHES.json
+- VER1_3_1_CHANGE_MANIFEST.json
+- Ver.1.3.1操作手順書.md
+
+PASS | Ver.1.3 Source of Truth file count | 199
+PASS | No Ver.1.3 files deleted
+PASS | All JavaScript syntax | 130
+PASS | Missing Import
+PASS | Required Ver.1.3.1 file: BrowserKifClipboardAdapter.js
+PASS | Required Ver.1.3.1 file: KifPastedTextAdapter.js
+PASS | Required Ver.1.3.1 file: BrowserKifClipboardAdapter.test.js
+PASS | Required Ver.1.3.1 file: KifPastedTextAdapter.test.js
+PASS | Required Ver.1.3.1 file: Ver.1.3.1操作手順書.md
+PASS | Required Ver.1.3.1 file: SOURCE_OF_TRUTH_V1_3_BASELINE_HASHES.json
+PASS | package version | 1.3.1
+PASS | test script
+PASS | check script
+PASS | Markup #kif-paste-text
+PASS | Markup #read-kif-clipboard
+PASS | Markup #preview-kif-paste
+PASS | Markup #kif-import-preview
+PASS | Markup #game-review-form
+PASS | Ver.1.3.1 title
+PASS | main paste connection: BrowserKifClipboardAdapter
+PASS | main paste connection: KifPastedTextAdapter
+PASS | main paste connection: previewKifText
+PASS | main paste connection: selectText({ text, sourceFileName })
+PASS | Existing file import retained
+PASS | Existing key position connection retained
+PASS | Existing Markdown export retained
+PASS | Automated total recorded
+PASS | Automated failed zero
+PASS | Browser total recorded
+PASS | Browser failed zero

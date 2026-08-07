@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.3.1",
+  "private": true,
+  "type": "module",
+  "description": "将棋の思考・感情・判断Patternを長期観測し、棋譜再現盤の現在局面を重要局面Snapshotへ安全に接続する将棋振り返りアプリ Ver.1.3.1",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
