@@ -1,0 +1,274 @@
+[
+  {
+    "capacityRuleId": "F1_EQ_A_DEFAULT",
+    "equipmentId": "F1_EQ_A",
+    "capacityValue": 10,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F1_EQ_A_SPECIAL",
+    "equipmentId": "F1_EQ_A",
+    "capacityValue": 7,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F1_EQ_B_DEFAULT",
+    "equipmentId": "F1_EQ_B",
+    "capacityValue": 8,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F1_EQ_B_SPECIAL",
+    "equipmentId": "F1_EQ_B",
+    "capacityValue": 5,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F2_EQ_A_DEFAULT",
+    "equipmentId": "F2_EQ_A",
+    "capacityValue": 10,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F2_EQ_A_SPECIAL",
+    "equipmentId": "F2_EQ_A",
+    "capacityValue": 7,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F2_EQ_B_DEFAULT",
+    "equipmentId": "F2_EQ_B",
+    "capacityValue": 8,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F2_EQ_B_SPECIAL",
+    "equipmentId": "F2_EQ_B",
+    "capacityValue": 5,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F3_EQ_A_DEFAULT",
+    "equipmentId": "F3_EQ_A",
+    "capacityValue": 10,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F3_EQ_A_SPECIAL",
+    "equipmentId": "F3_EQ_A",
+    "capacityValue": 7,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F3_EQ_B_DEFAULT",
+    "equipmentId": "F3_EQ_B",
+    "capacityValue": 8,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F3_EQ_B_SPECIAL",
+    "equipmentId": "F3_EQ_B",
+    "capacityValue": 5,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F4_EQ_A_DEFAULT",
+    "equipmentId": "F4_EQ_A",
+    "capacityValue": 10,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F4_EQ_A_SPECIAL",
+    "equipmentId": "F4_EQ_A",
+    "capacityValue": 7,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  },
+  {
+    "capacityRuleId": "F4_EQ_B_DEFAULT",
+    "equipmentId": "F4_EQ_B",
+    "capacityValue": 8,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 100,
+    "active": true,
+    "conditions": {},
+    "capacityMultiplier": 1,
+    "isDefault": true
+  },
+  {
+    "capacityRuleId": "F4_EQ_B_SPECIAL",
+    "equipmentId": "F4_EQ_B",
+    "capacityValue": 5,
+    "unit": "PIECE",
+    "basis": "HOUR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "priority": 10,
+    "active": true,
+    "conditions": {
+      "productGroup": "SPECIAL"
+    },
+    "capacityMultiplier": 1,
+    "isDefault": false
+  }
+]

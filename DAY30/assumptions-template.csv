@@ -1,0 +1,2 @@
+assumptionId,assumptionType,targetType,targetId,description,status,confidence,owner,confirmationDueDate,confirmedAt,confirmedBy,evidenceType,evidence,sourceUpdatedAt,validFrom,validTo,blocking,impactLevel,impactDescription,note
+ASM-SAMPLE-1,MATERIAL_ARRIVAL,PLANNED_OPERATION,POP-DEMO-1,材料が計画日までに到着する,EXPECTED,MEDIUM,生産管理,2026-08-02,,,,,,,2026-08-03,2026-08-03,true,HIGH,未到着の場合はOperationを開始できない,Sample row

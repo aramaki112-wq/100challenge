@@ -1,0 +1,4352 @@
+
+> day30-production-plan-diagnosis@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: UNKNOWN Assumptionを正しい初期状態から復元できる
+ok 1 - UNKNOWN Assumptionを正しい初期状態から復元できる
+  ---
+  duration_ms: 2.263367
+  type: 'test'
+  ...
+# Subtest: static createはASSUMPTION_REGISTERED Eventを記録する
+ok 2 - static createはASSUMPTION_REGISTERED Eventを記録する
+  ---
+  duration_ms: 2.101226
+  type: 'test'
+  ...
+# Subtest: Assumption ID・Type・Target・Descriptionを厳密に検証する
+ok 3 - Assumption ID・Type・Target・Descriptionを厳密に検証する
+  ---
+  duration_ms: 0.865764
+  type: 'test'
+  ...
+# Subtest: Evidence・Impact・Confidenceの未登録Codeを拒否する
+ok 4 - Evidence・Impact・Confidenceの未登録Codeを拒否する
+  ---
+  duration_ms: 0.592348
+  type: 'test'
+  ...
+# Subtest: EXPECTEDにはConfidenceが必要でUNKNOWNにはConfidenceを持たせない
+ok 5 - EXPECTEDにはConfidenceが必要でUNKNOWNにはConfidenceを持たせない
+  ---
+  duration_ms: 0.395847
+  type: 'test'
+  ...
+# Subtest: CONFIRMEDとREJECTEDには判断日時と判断者が必要
+ok 6 - CONFIRMEDとREJECTEDには判断日時と判断者が必要
+  ---
+  duration_ms: 0.321807
+  type: 'test'
+  ...
+# Subtest: validFromがvalidToより後の場合を拒否する
+ok 7 - validFromがvalidToより後の場合を拒否する
+  ---
+  duration_ms: 0.252885
+  type: 'test'
+  ...
+# Subtest: UNKNOWNからEXPECTEDへ変更し見込み情報を記録する
+ok 8 - UNKNOWNからEXPECTEDへ変更し見込み情報を記録する
+  ---
+  duration_ms: 0.618928
+  type: 'test'
+  ...
+# Subtest: 同じEXPECTED情報への更新はEventを作らない
+ok 9 - 同じEXPECTED情報への更新はEventを作らない
+  ---
+  duration_ms: 0.533291
+  type: 'test'
+  ...
+# Subtest: EXPECTEDからCONFIRMEDへ変更しValidityとEvidenceを記録する
+ok 10 - EXPECTEDからCONFIRMEDへ変更しValidityとEvidenceを記録する
+  ---
+  duration_ms: 0.833626
+  type: 'test'
+  ...
+# Subtest: UNKNOWNから証拠を得て直接CONFIRMEDにできる
+ok 11 - UNKNOWNから証拠を得て直接CONFIRMEDにできる
+  ---
+  duration_ms: 0.318852
+  type: 'test'
+  ...
+# Subtest: CONFIRMEDへの変更に判断者がなければ状態を変更しない
+ok 12 - CONFIRMEDへの変更に判断者がなければ状態を変更しない
+  ---
+  duration_ms: 0.243331
+  type: 'test'
+  ...
+# Subtest: UNKNOWNからREJECTEDへ変更し不成立根拠を必須とする
+ok 13 - UNKNOWNからREJECTEDへ変更し不成立根拠を必須とする
+  ---
+  duration_ms: 0.403158
+  type: 'test'
+  ...
+# Subtest: REJECTEDのEvidenceを空欄へ変更できない
+ok 14 - REJECTEDのEvidenceを空欄へ変更できない
+  ---
+  duration_ms: 1.466996
+  type: 'test'
+  ...
+# Subtest: CONFIRMED AssumptionはValidity期間内だけ有効
+ok 15 - CONFIRMED AssumptionはValidity期間内だけ有効
+  ---
+  duration_ms: 0.306785
+  type: 'test'
+  ...
+# Subtest: EXPECTEDやREJECTEDはValidity範囲内でも有効な事実として扱わない
+ok 16 - EXPECTEDやREJECTEDはValidity範囲内でも有効な事実として扱わない
+  ---
+  duration_ms: 0.18888
+  type: 'test'
+  ...
+# Subtest: CONFIRMEDとEXPECTEDをEXPIREDへ変更できる
+ok 17 - CONFIRMEDとEXPECTEDをEXPIREDへ変更できる
+  ---
+  duration_ms: 0.443938
+  type: 'test'
+  ...
+# Subtest: UNKNOWNを直接EXPIREDへ変更できない
+ok 18 - UNKNOWNを直接EXPIREDへ変更できない
+  ---
+  duration_ms: 0.200377
+  type: 'test'
+  ...
+# Subtest: REJECTEDとEXPIREDをUNKNOWNへ再Openし旧判断Dataを現在状態から除く
+ok 19 - REJECTEDとEXPIREDをUNKNOWNへ再Openし旧判断Dataを現在状態から除く
+  ---
+  duration_ms: 0.341917
+  type: 'test'
+  ...
+# Subtest: UNKNOWNをreopenできない
+ok 20 - UNKNOWNをreopenできない
+  ---
+  duration_ms: 0.190253
+  type: 'test'
+  ...
+# Subtest: EXPIRED Assumptionを新しい証拠で再CONFIRMEDにできる
+ok 21 - EXPIRED Assumptionを新しい証拠で再CONFIRMEDにできる
+  ---
+  duration_ms: 0.457298
+  type: 'test'
+  ...
+# Subtest: Ownerと確認期限を変更し期限超過を判定する
+ok 22 - Ownerと確認期限を変更し期限超過を判定する
+  ---
+  duration_ms: 0.293235
+  type: 'test'
+  ...
+# Subtest: CONFIRMED後は確認期限を過ぎてもOverdueにしない
+ok 23 - CONFIRMED後は確認期限を過ぎてもOverdueにしない
+  ---
+  duration_ms: 0.14816
+  type: 'test'
+  ...
+# Subtest: Blocking・Impactを理由付きで変更する
+ok 24 - Blocking・Impactを理由付きで変更する
+  ---
+  duration_ms: 0.351121
+  type: 'test'
+  ...
+# Subtest: EvidenceとSource更新日時を変更する
+ok 25 - EvidenceとSource更新日時を変更する
+  ---
+  duration_ms: 0.216381
+  type: 'test'
+  ...
+# Subtest: Validityを変更し不正な期間なら現在状態を維持する
+ok 26 - Validityを変更し不正な期間なら現在状態を維持する
+  ---
+  duration_ms: 0.290141
+  type: 'test'
+  ...
+# Subtest: DescriptionとNoteを個別に変更する
+ok 27 - DescriptionとNoteを個別に変更する
+  ---
+  duration_ms: 0.429407
+  type: 'test'
+  ...
+# Subtest: Snapshotは正規化され外部から変更できない
+ok 28 - Snapshotは正規化され外部から変更できない
+  ---
+  duration_ms: 0.21584
+  type: 'test'
+  ...
+# Subtest: Event記録失敗時はStatusを変更しない
+ok 29 - Event記録失敗時はStatusを変更しない
+  ---
+  duration_ms: 0.380444
+  type: 'test'
+  ...
+# Subtest: pullDomainEventsはEventを返してCollectorを空にする
+ok 30 - pullDomainEventsはEventを返してCollectorを空にする
+  ---
+  duration_ms: 0.280616
+  type: 'test'
+  ...
+# Subtest: assertAssumptionはAssumptionだけを受け付ける
+ok 31 - assertAssumptionはAssumptionだけを受け付ける
+  ---
+  duration_ms: 0.22196
+  type: 'test'
+  ...
+# Subtest: Assumption CSVをPreviewしてAtomic Commitできる
+ok 32 - Assumption CSVをPreviewしてAtomic Commitできる
+  ---
+  duration_ms: 7.426224
+  type: 'test'
+  ...
+# Subtest: Planned Operation対象が選択Version外ならErrorにする
+ok 33 - Planned Operation対象が選択Version外ならErrorにする
+  ---
+  duration_ms: 1.250895
+  type: 'test'
+  ...
+# Subtest: 既存Assumptionの対象Identity変更を拒否する
+ok 34 - 既存Assumptionの対象Identity変更を拒否する
+  ---
+  duration_ms: 0.941397
+  type: 'test'
+  ...
+# Subtest: Assumption Preview後のRepository変更を検出する
+ok 35 - Assumption Preview後のRepository変更を検出する
+  ---
+  duration_ms: 1.359906
+  type: 'test'
+  ...
+# Subtest: Assumption CSV Schemaは必要Columnを定義する
+ok 36 - Assumption CSV Schemaは必要Columnを定義する
+  ---
+  duration_ms: 0.683924
+  type: 'test'
+  ...
+# Subtest: 未確認blocking AssumptionはNext Checkを必要とする
+ok 37 - 未確認blocking AssumptionはNext Checkを必要とする
+  ---
+  duration_ms: 1.191898
+  type: 'test'
+  ...
+# Subtest: 確認済みAssumptionはSATISFIEDとして表せる
+ok 38 - 確認済みAssumptionはSATISFIEDとして表せる
+  ---
+  duration_ms: 0.179666
+  type: 'test'
+  ...
+# Subtest: REJECTED blocking Assumptionは実行を妨げる
+ok 39 - REJECTED blocking Assumptionは実行を妨げる
+  ---
+  duration_ms: 0.185676
+  type: 'test'
+  ...
+# Subtest: SATISFIEDとEXPECTEDの矛盾を拒否する
+ok 40 - SATISFIEDとEXPECTEDの矛盾を拒否する
+  ---
+  duration_ms: 0.675772
+  type: 'test'
+  ...
+# Subtest: CONFLICTには関連Assumptionが必要
+ok 41 - CONFLICTには関連Assumptionが必要
+  ---
+  duration_ms: 0.975317
+  type: 'test'
+  ...
+# Subtest: CONFLICTは関連Assumptionを重複なく保持する
+ok 42 - CONFLICTは関連Assumptionを重複なく保持する
+  ---
+  duration_ms: 4.41571
+  type: 'test'
+  ...
+# Subtest: validFromがvalidToより後の場合は拒否する
+ok 43 - validFromがvalidToより後の場合は拒否する
+  ---
+  duration_ms: 0.300976
+  type: 'test'
+  ...
+# Subtest: blockingでない未確認Assumptionは必須Next Checkにしない
+ok 44 - blockingでない未確認Assumptionは必須Next Checkにしない
+  ---
+  duration_ms: 0.125215
+  type: 'test'
+  ...
+# Subtest: Snapshot内の関連ID配列も変更できない
+ok 45 - Snapshot内の関連ID配列も変更できない
+  ---
+  duration_ms: 0.339684
+  type: 'test'
+  ...
+# Subtest: assertAssumptionFindingは別Objectを拒否する
+ok 46 - assertAssumptionFindingは別Objectを拒否する
+  ---
+  duration_ms: 0.360756
+  type: 'test'
+  ...
+# Subtest: 接続AssumptionがなければNOT_APPLICABLEになる
+ok 47 - 接続AssumptionがなければNOT_APPLICABLEになる
+  ---
+  duration_ms: 4.730807
+  type: 'test'
+  ...
+# Subtest: Scenarioへ明示接続されていないAssumptionを自動採用しない
+ok 48 - Scenarioへ明示接続されていないAssumptionを自動採用しない
+  ---
+  duration_ms: 0.728641
+  type: 'test'
+  ...
+# Subtest: 有効期間内のCONFIRMED blocking AssumptionはSATISFIEDになる
+ok 49 - 有効期間内のCONFIRMED blocking AssumptionはSATISFIEDになる
+  ---
+  duration_ms: 1.199469
+  type: 'test'
+  ...
+# Subtest: EXPECTED blocking AssumptionはUNRESOLVEDになる
+ok 50 - EXPECTED blocking AssumptionはUNRESOLVEDになる
+  ---
+  duration_ms: 0.452681
+  type: 'test'
+  ...
+# Subtest: REJECTED blocking AssumptionはREJECTEDになる
+ok 51 - REJECTED blocking AssumptionはREJECTEDになる
+  ---
+  duration_ms: 0.504878
+  type: 'test'
+  ...
+# Subtest: non-blocking REJECTEDは記録するが総合Statusを阻害しない
+ok 52 - non-blocking REJECTEDは記録するが総合Statusを阻害しない
+  ---
+  duration_ms: 0.480192
+  type: 'test'
+  ...
+# Subtest: CONFIRMEDでもOperation日が有効期間外ならUNRESOLVEDになる
+ok 53 - CONFIRMEDでもOperation日が有効期間外ならUNRESOLVEDになる
+  ---
+  duration_ms: 0.475646
+  type: 'test'
+  ...
+# Subtest: 同じ対象・種類にCONFIRMEDとREJECTEDがあればCONFLICTになる
+ok 54 - 同じ対象・種類にCONFIRMEDとREJECTEDがあればCONFLICTになる
+  ---
+  duration_ms: 0.725105
+  type: 'test'
+  ...
+# Subtest: 対象IDがOperationと一致しないAssumptionは適用しない
+ok 55 - 対象IDがOperationと一致しないAssumptionは適用しない
+  ---
+  duration_ms: 0.878613
+  type: 'test'
+  ...
+# Subtest: 必要なFactory Contextがないblocking Assumptionを黙って無視しない
+ok 56 - 必要なFactory Contextがないblocking Assumptionを黙って無視しない
+  ---
+  duration_ms: 0.852634
+  type: 'test'
+  ...
+# Subtest: Factory Contextが一致すればFactory対象Assumptionを評価する
+ok 57 - Factory Contextが一致すればFactory対象Assumptionを評価する
+  ---
+  duration_ms: 0.395166
+  type: 'test'
+  ...
+# Subtest: inactive Relationは評価対象にしない
+ok 58 - inactive Relationは評価対象にしない
+  ---
+  duration_ms: 0.230552
+  type: 'test'
+  ...
+# Subtest: Relationが存在しAssumption本体がない場合はSource不整合にする
+ok 59 - Relationが存在しAssumption本体がない場合はSource不整合にする
+  ---
+  duration_ms: 0.652387
+  type: 'test'
+  ...
+# Subtest: ScenarioとOperationのPlan Version不一致を拒否する
+ok 60 - ScenarioとOperationのPlan Version不一致を拒否する
+  ---
+  duration_ms: 0.236971
+  type: 'test'
+  ...
+# Subtest: 重複Assumption IDをSource不整合として拒否する
+ok 61 - 重複Assumption IDをSource不整合として拒否する
+  ---
+  duration_ms: 0.535284
+  type: 'test'
+  ...
+# Subtest: Resolver Resultを外部から変更できない
+ok 62 - Resolver Resultを外部から変更できない
+  ---
+  duration_ms: 0.310902
+  type: 'test'
+  ...
+# Subtest: Demo BrowserからScenario–Assumption RelationをImportできる
+ok 63 - Demo BrowserからScenario–Assumption RelationをImportできる
+  ---
+  duration_ms: 27.734445
+  type: 'test'
+  ...
+# Subtest: Dashboard HTMLにRelation ImportとBackup Panelを表示する
+ok 64 - Dashboard HTMLにRelation ImportとBackup Panelを表示する
+  ---
+  duration_ms: 0.522254
+  type: 'test'
+  ...
+# Subtest: 診断Button経由のwrite後にBrowserへ自動保存する
+ok 65 - 診断Button経由のwrite後にBrowserへ自動保存する
+  ---
+  duration_ms: 14.560425
+  type: 'test'
+  ...
+# Subtest: Browserを再起動したHarnessが保存済みDiagnosis Resultを復元する
+ok 66 - Browserを再起動したHarnessが保存済みDiagnosis Resultを復元する
+  ---
+  duration_ms: 9.447612
+  type: 'test'
+  ...
+# Subtest: Backup JSON復元後にDashboardを再読込できる
+ok 67 - Backup JSON復元後にDashboardを再読込できる
+  ---
+  duration_ms: 12.735759
+  type: 'test'
+  ...
+# Subtest: Capacity割当結果を不変Objectとして生成できる
+ok 68 - Capacity割当結果を不変Objectとして生成できる
+  ---
+  duration_ms: 0.908026
+  type: 'test'
+  ...
+# Subtest: requestedMinutesとallocatedMinutesとshortageMinutesの整合性を検証する
+ok 69 - requestedMinutesとallocatedMinutesとshortageMinutesの整合性を検証する
+  ---
+  duration_ms: 0.609053
+  type: 'test'
+  ...
+# Subtest: 全量割当・部分割当・ゼロ割当を区別できる
+ok 70 - 全量割当・部分割当・ゼロ割当を区別できる
+  ---
+  duration_ms: 0.138365
+  type: 'test'
+  ...
+# Subtest: 日単位LedgerのKeyではShiftをDAYとして表す
+ok 71 - 日単位LedgerのKeyではShiftをDAYとして表す
+  ---
+  duration_ms: 0.102722
+  type: 'test'
+  ...
+# Subtest: Allocation Snapshotを外部から変更できない
+ok 72 - Allocation Snapshotを外部から変更できない
+  ---
+  duration_ms: 0.257952
+  type: 'test'
+  ...
+# Subtest: assertCapacityAllocationは正式Objectだけを受け付ける
+ok 73 - assertCapacityAllocationは正式Objectだけを受け付ける
+  ---
+  duration_ms: 0.230062
+  type: 'test'
+  ...
+# Subtest: SHIFT Operationを指定Shiftへ全量割当する
+ok 74 - SHIFT Operationを指定Shiftへ全量割当する
+  ---
+  duration_ms: 3.549945
+  type: 'test'
+  ...
+# Subtest: SHIFT Capacity不足はPARTIALLY_FEASIBLEになる
+ok 75 - SHIFT Capacity不足はPARTIALLY_FEASIBLEになる
+  ---
+  duration_ms: 0.529285
+  type: 'test'
+  ...
+# Subtest: 指定ShiftのCapacityがUNKNOWNなら0分とせずUNKNOWNにする
+ok 76 - 指定ShiftのCapacityがUNKNOWNなら0分とせずUNKNOWNにする
+  ---
+  duration_ms: 0.380424
+  type: 'test'
+  ...
+# Subtest: 指定Shift Bucketが存在しない場合もUNKNOWNとして返す
+ok 77 - 指定Shift Bucketが存在しない場合もUNKNOWNとして返す
+  ---
+  duration_ms: 0.261678
+  type: 'test'
+  ...
+# Subtest: DAY Operationは複数Shiftへ順番に割り当てる
+ok 78 - DAY Operationは複数Shiftへ順番に割り当てる
+  ---
+  duration_ms: 7.832607
+  type: 'test'
+  ...
+# Subtest: DAY Operationの既知Capacity不足はPARTIALLY_FEASIBLEになる
+ok 79 - DAY Operationの既知Capacity不足はPARTIALLY_FEASIBLEになる
+  ---
+  duration_ms: 1.022647
+  type: 'test'
+  ...
+# Subtest: DAY Operationで既知不足とUNKNOWN Shiftが混在する場合はUNKNOWNになる
+ok 80 - DAY Operationで既知不足とUNKNOWN Shiftが混在する場合はUNKNOWNになる
+  ---
+  duration_ms: 0.486902
+  type: 'test'
+  ...
+# Subtest: DAY Operationで全既知Capacityが0ならINFEASIBLEになる
+ok 81 - DAY Operationで全既知Capacityが0ならINFEASIBLEになる
+  ---
+  duration_ms: 0.342338
+  type: 'test'
+  ...
+# Subtest: DAY集計BucketとShift Bucketが混在する場合は二重計上防止のため拒否する
+ok 82 - DAY集計BucketとShift Bucketが混在する場合は二重計上防止のため拒否する
+  ---
+  duration_ms: 0.924251
+  type: 'test'
+  ...
+# Subtest: TIME OperationにはShift IDを必須とする
+ok 83 - TIME OperationにはShift IDを必須とする
+  ---
+  duration_ms: 0.708872
+  type: 'test'
+  ...
+# Subtest: TIME Operationは計画時間枠を超えて割り当てない
+ok 84 - TIME Operationは計画時間枠を超えて割り当てない
+  ---
+  duration_ms: 0.307647
+  type: 'test'
+  ...
+# Subtest: 同じRegistryを複数Operationで共有しCapacity二重使用を防ぐ
+ok 85 - 同じRegistryを複数Operationで共有しCapacity二重使用を防ぐ
+  ---
+  duration_ms: 0.489216
+  type: 'test'
+  ...
+# Subtest: Allocation Service Resultを外部から変更できない
+ok 86 - Allocation Service Resultを外部から変更できない
+  ---
+  duration_ms: 0.230652
+  type: 'test'
+  ...
+# Subtest: 既知の利用可能Capacity Bucketを復元できる
+ok 87 - 既知の利用可能Capacity Bucketを復元できる
+  ---
+  duration_ms: 1.338015
+  type: 'test'
+  ...
+# Subtest: 日単位BucketはShift IDなしで一意Keyを持つ
+ok 88 - 日単位BucketはShift IDなしで一意Keyを持つ
+  ---
+  duration_ms: 0.22262
+  type: 'test'
+  ...
+# Subtest: ID・日付・Status・Confidenceを厳密に検証する
+ok 89 - ID・日付・Status・Confidenceを厳密に検証する
+  ---
+  duration_ms: 0.602052
+  type: 'test'
+  ...
+# Subtest: availableMinutesは0以上の整数またはnullだけを許可する
+ok 90 - availableMinutesは0以上の整数またはnullだけを許可する
+  ---
+  duration_ms: 1.04501
+  type: 'test'
+  ...
+# Subtest: 0分は確認済みのCapacityなしとしてnullと区別する
+ok 91 - 0分は確認済みのCapacityなしとしてnullと区別する
+  ---
+  duration_ms: 0.361236
+  type: 'test'
+  ...
+# Subtest: 全条件既知なのにavailableMinutesがnullの状態を拒否する
+ok 92 - 全条件既知なのにavailableMinutesがnullの状態を拒否する
+  ---
+  duration_ms: 0.253796
+  type: 'test'
+  ...
+# Subtest: UNAVAILABLE設備はavailableMinutes=0だけを許可する
+ok 93 - UNAVAILABLE設備はavailableMinutes=0だけを許可する
+  ---
+  duration_ms: 0.205635
+  type: 'test'
+  ...
+# Subtest: UNSATISFIED Resourceは利用可能時間を0にする
+ok 94 - UNSATISFIED Resourceは利用可能時間を0にする
+  ---
+  duration_ms: 0.17516
+  type: 'test'
+  ...
+# Subtest: PARTIALLY_SATISFIED条件では正のCapacityを保持できる
+ok 95 - PARTIALLY_SATISFIED条件では正のCapacityを保持できる
+  ---
+  duration_ms: 0.260797
+  type: 'test'
+  ...
+# Subtest: Reason Codeは重複なしのUpper Snake Caseに限定する
+ok 96 - Reason Codeは重複なしのUpper Snake Caseに限定する
+  ---
+  duration_ms: 0.447203
+  type: 'test'
+  ...
+# Subtest: BucketとSnapshotを外部から変更できない
+ok 97 - BucketとSnapshotを外部から変更できない
+  ---
+  duration_ms: 0.260196
+  type: 'test'
+  ...
+# Subtest: assertCapacityBucketは正式Bucketだけを受け付ける
+ok 98 - assertCapacityBucketは正式Bucketだけを受け付ける
+  ---
+  duration_ms: 0.163944
+  type: 'test'
+  ...
+# Subtest: 既知の利用可能時間から空のLedgerを生成できる
+ok 99 - 既知の利用可能時間から空のLedgerを生成できる
+  ---
+  duration_ms: 1.803144
+  type: 'test'
+  ...
+# Subtest: CapacityBucketからLedgerを生成できる
+ok 100 - CapacityBucketからLedgerを生成できる
+  ---
+  duration_ms: 0.45856
+  type: 'test'
+  ...
+# Subtest: 利用可能時間がUNKNOWNのBucketからLedgerを生成しない
+ok 101 - 利用可能時間がUNKNOWNのBucketからLedgerを生成しない
+  ---
+  duration_ms: 0.470098
+  type: 'test'
+  ...
+# Subtest: 120分要求した場合に全量割当し残り300分になる
+ok 102 - 120分要求した場合に全量割当し残り300分になる
+  ---
+  duration_ms: 0.410278
+  type: 'test'
+  ...
+# Subtest: 残り180分に240分要求した場合は180分だけ割り当てる
+ok 103 - 残り180分に240分要求した場合は180分だけ割り当てる
+  ---
+  duration_ms: 0.132697
+  type: 'test'
+  ...
+# Subtest: 利用可能時間0分では全量不足として記録する
+ok 104 - 利用可能時間0分では全量不足として記録する
+  ---
+  duration_ms: 0.12808
+  type: 'test'
+  ...
+# Subtest: 同じ420分を二つのOperationへ合計480分割り当てない
+ok 105 - 同じ420分を二つのOperationへ合計480分割り当てない
+  ---
+  duration_ms: 0.171695
+  type: 'test'
+  ...
+# Subtest: 同じAllocation IDの二重登録を拒否しLedgerを変更しない
+ok 106 - 同じAllocation IDの二重登録を拒否しLedgerを変更しない
+  ---
+  duration_ms: 0.154249
+  type: 'test'
+  ...
+# Subtest: 不正な割当要求ではLedgerを変更しない
+ok 107 - 不正な割当要求ではLedgerを変更しない
+  ---
+  duration_ms: 0.285734
+  type: 'test'
+  ...
+# Subtest: 0分要求はCapacityを消費せず監査記録として残せる
+ok 108 - 0分要求はCapacityを消費せず監査記録として残せる
+  ---
+  duration_ms: 0.328707
+  type: 'test'
+  ...
+# Subtest: Allocation一覧とSnapshotを外部から変更できない
+ok 109 - Allocation一覧とSnapshotを外部から変更できない
+  ---
+  duration_ms: 0.277902
+  type: 'test'
+  ...
+# Subtest: hasAllocationで登録済みIDを確認できる
+ok 110 - hasAllocationで登録済みIDを確認できる
+  ---
+  duration_ms: 0.152136
+  type: 'test'
+  ...
+# Subtest: assertCapacityLedgerは正式Ledgerだけを受け付ける
+ok 111 - assertCapacityLedgerは正式Ledgerだけを受け付ける
+  ---
+  duration_ms: 0.132937
+  type: 'test'
+  ...
+# Subtest: Snapshotの既知BucketからLedgerを一括生成する
+ok 112 - Snapshotの既知BucketからLedgerを一括生成する
+  ---
+  duration_ms: 9.577515
+  type: 'test'
+  ...
+# Subtest: UNKNOWN Capacityは0分Ledgerへ変換せず別に保持する
+ok 113 - UNKNOWN Capacityは0分Ledgerへ変換せず別に保持する
+  ---
+  duration_ms: 0.589704
+  type: 'test'
+  ...
+# Subtest: 日単位検索はShift ID順で決定的に返す
+ok 114 - 日単位検索はShift ID順で決定的に返す
+  ---
+  duration_ms: 0.81641
+  type: 'test'
+  ...
+# Subtest: 存在しないLedgerをrequireすると明示的Errorになる
+ok 115 - 存在しないLedgerをrequireすると明示的Errorになる
+  ---
+  duration_ms: 0.569675
+  type: 'test'
+  ...
+# Subtest: Registryの配列とSnapshotを外部から変更できない
+ok 116 - Registryの配列とSnapshotを外部から変更できない
+  ---
+  duration_ms: 0.564587
+  type: 'test'
+  ...
+# Subtest: Registryは正式LedgerとUNKNOWN Bucketだけを受け付ける
+ok 117 - Registryは正式LedgerとUNKNOWN Bucketだけを受け付ける
+  ---
+  duration_ms: 0.234618
+  type: 'test'
+  ...
+# Subtest: assertCapacityLedgerRegistryは正式Registryだけを受け付ける
+ok 118 - assertCapacityLedgerRegistryは正式Registryだけを受け付ける
+  ---
+  duration_ms: 0.281528
+  type: 'test'
+  ...
+# Subtest: Operation Overrideを他のRuleより優先する
+ok 119 - Operation Overrideを他のRuleより優先する
+  ---
+  duration_ms: 2.187985
+  type: 'test'
+  ...
+# Subtest: Order Attribute RuleをDefault Ruleより優先する
+ok 120 - Order Attribute RuleをDefault Ruleより優先する
+  ---
+  duration_ms: 0.338472
+  type: 'test'
+  ...
+# Subtest: 条件数が多いRuleを優先する
+ok 121 - 条件数が多いRuleを優先する
+  ---
+  duration_ms: 0.217963
+  type: 'test'
+  ...
+# Subtest: 同じ具体性ではpriorityが小さいRuleを優先する
+ok 122 - 同じ具体性ではpriorityが小さいRuleを優先する
+  ---
+  duration_ms: 0.301237
+  type: 'test'
+  ...
+# Subtest: Operationにない属性はOrder情報から補完して照合する
+ok 123 - Operationにない属性はOrder情報から補完して照合する
+  ---
+  duration_ms: 0.294907
+  type: 'test'
+  ...
+# Subtest: Inactive・期間外・別設備Ruleを候補から除外する
+ok 124 - Inactive・期間外・別設備Ruleを候補から除外する
+  ---
+  duration_ms: 0.185155
+  type: 'test'
+  ...
+# Subtest: 条件不一致の場合はNOT_FOUNDにする
+ok 125 - 条件不一致の場合はNOT_FOUNDにする
+  ---
+  duration_ms: 0.193197
+  type: 'test'
+  ...
+# Subtest: 同一Source・具体性・priorityのRuleはCONFLICTにする
+ok 126 - 同一Source・具体性・priorityのRuleはCONFLICTにする
+  ---
+  duration_ms: 6.297971
+  type: 'test'
+  ...
+# Subtest: Default Ruleへ条件を設定した場合は拒否する
+ok 127 - Default Ruleへ条件を設定した場合は拒否する
+  ---
+  duration_ms: 0.712888
+  type: 'test'
+  ...
+# Subtest: Resolverへ渡すEquipmentがOperationと異なる場合は拒否する
+ok 128 - Resolverへ渡すEquipmentがOperationと異なる場合は拒否する
+  ---
+  duration_ms: 0.470488
+  type: 'test'
+  ...
+# Subtest: 解決結果とRule候補は外部から変更できない
+ok 129 - 解決結果とRule候補は外部から変更できない
+  ---
+  duration_ms: 0.27006
+  type: 'test'
+  ...
+# Subtest: DAY29 Capacityを読み取り専用Snapshotとして復元できる
+ok 130 - DAY29 Capacityを読み取り専用Snapshotとして復元できる
+  ---
+  duration_ms: 1.728113
+  type: 'test'
+  ...
+# Subtest: Scenario・対象月・生成日時・Revisionを厳密に検証する
+ok 131 - Scenario・対象月・生成日時・Revisionを厳密に検証する
+  ---
+  duration_ms: 1.456981
+  type: 'test'
+  ...
+# Subtest: CapacityBucket以外をSnapshotへ入れられない
+ok 132 - CapacityBucket以外をSnapshotへ入れられない
+  ---
+  duration_ms: 0.265013
+  type: 'test'
+  ...
+# Subtest: Bucketの日付はSnapshotの対象月内でなければならない
+ok 133 - Bucketの日付はSnapshotの対象月内でなければならない
+  ---
+  duration_ms: 0.25008
+  type: 'test'
+  ...
+# Subtest: 同じFactory・Equipment・Date・Shiftの重複Bucketを拒否する
+ok 134 - 同じFactory・Equipment・Date・Shiftの重複Bucketを拒否する
+  ---
+  duration_ms: 0.248889
+  type: 'test'
+  ...
+# Subtest: Factory・Equipment・Date・ShiftでBucketを検索できる
+ok 135 - Factory・Equipment・Date・ShiftでBucketを検索できる
+  ---
+  duration_ms: 0.20205
+  type: 'test'
+  ...
+# Subtest: 存在しないBucketをrequireした場合は明示的Errorにする
+ok 136 - 存在しないBucketをrequireした場合は明示的Errorにする
+  ---
+  duration_ms: 0.353254
+  type: 'test'
+  ...
+# Subtest: Equipment・日付単位で複数Shiftを取得できる
+ok 137 - Equipment・日付単位で複数Shiftを取得できる
+  ---
+  duration_ms: 0.671325
+  type: 'test'
+  ...
+# Subtest: 同じEquipment IDでもFactoryを指定して絞り込める
+ok 138 - 同じEquipment IDでもFactoryを指定して絞り込める
+  ---
+  duration_ms: 0.386964
+  type: 'test'
+  ...
+# Subtest: 検索Indexを外部へ公開しない
+ok 139 - 検索Indexを外部へ公開しない
+  ---
+  duration_ms: 0.407424
+  type: 'test'
+  ...
+# Subtest: SnapshotとSource RevisionとBucketsを外部から変更できない
+ok 140 - SnapshotとSource RevisionとBucketsを外部から変更できない
+  ---
+  duration_ms: 0.316459
+  type: 'test'
+  ...
+# Subtest: assertCapacitySnapshotは正式Snapshotだけを受け付ける
+ok 141 - assertCapacitySnapshotは正式Snapshotだけを受け付ける
+  ---
+  duration_ms: 0.185125
+  type: 'test'
+  ...
+# Subtest: Clock基底Classはnow未実装を明示的に拒否する
+ok 142 - Clock基底Classはnow未実装を明示的に拒否する
+  ---
+  duration_ms: 1.13965
+  type: 'test'
+  ...
+# Subtest: assertClockはnow Methodを持つClockを受け付ける
+ok 143 - assertClockはnow Methodを持つClockを受け付ける
+  ---
+  duration_ms: 0.449647
+  type: 'test'
+  ...
+# Subtest: assertClockはClock契約を満たさない値を拒否する
+ok 144 - assertClockはClock契約を満たさない値を拒否する
+  ---
+  duration_ms: 0.863731
+  type: 'test'
+  ...
+# Subtest: FixedClockは指定したTimezone付きDateTimeを繰り返し返す
+ok 145 - FixedClockは指定したTimezone付きDateTimeを繰り返し返す
+  ---
+  duration_ms: 0.214518
+  type: 'test'
+  ...
+# Subtest: FixedClockはTimezoneのないDateTimeを拒否する
+ok 146 - FixedClockはTimezoneのないDateTimeを拒否する
+  ---
+  duration_ms: 0.175781
+  type: 'test'
+  ...
+# Subtest: readClockNowはClockの戻り値を正式DateTimeとして検証する
+ok 147 - readClockNowはClockの戻り値を正式DateTimeとして検証する
+  ---
+  duration_ms: 0.251624
+  type: 'test'
+  ...
+# Subtest: SystemClockはDateをUTC ISO 8601 DateTimeへ変換する
+ok 148 - SystemClockはDateをUTC ISO 8601 DateTimeへ変換する
+  ---
+  duration_ms: 0.348517
+  type: 'test'
+  ...
+# Subtest: SystemClockは不正なdateFactoryを拒否する
+ok 149 - SystemClockは不正なdateFactoryを拒否する
+  ---
+  duration_ms: 0.133799
+  type: 'test'
+  ...
+# Subtest: SystemClockは有効なDate以外の戻り値を拒否する
+ok 150 - SystemClockは有効なDate以外の戻り値を拒否する
+  ---
+  duration_ms: 0.397179
+  type: 'test'
+  ...
+# Subtest: SystemClockはdateFactoryの予期しないErrorをUNEXPECTED_ERRORとして保持する
+ok 151 - SystemClockはdateFactoryの予期しないErrorをUNEXPECTED_ERRORとして保持する
+  ---
+  duration_ms: 0.394184
+  type: 'test'
+  ...
+# Subtest: ADD PreviewをTransaction内で保存する
+ok 152 - ADD PreviewをTransaction内で保存する
+  ---
+  duration_ms: 4.309221
+  type: 'test'
+  ...
+# Subtest: UPDATE Previewで既存Operationを置換する
+ok 153 - UPDATE Previewで既存Operationを置換する
+  ---
+  duration_ms: 1.227441
+  type: 'test'
+  ...
+# Subtest: UNCHANGEDだけのPreviewは書込0件でCommitできる
+ok 154 - UNCHANGEDだけのPreviewは書込0件でCommitできる
+  ---
+  duration_ms: 1.494877
+  type: 'test'
+  ...
+# Subtest: Errorを含むPreviewはCommitできない
+ok 155 - Errorを含むPreviewはCommitできない
+  ---
+  duration_ms: 1.007304
+  type: 'test'
+  ...
+# Subtest: Preview後にRepositoryが変わった場合はSTALEとして拒否する
+ok 156 - Preview後にRepositoryが変わった場合はSTALEとして拒否する
+  ---
+  duration_ms: 0.819626
+  type: 'test'
+  ...
+# Subtest: Commit時に対象Versionが編集不可なら拒否する
+ok 157 - Commit時に対象Versionが編集不可なら拒否する
+  ---
+  duration_ms: 0.398882
+  type: 'test'
+  ...
+# Subtest: Transaction途中失敗時は先行ADDもRollbackする
+ok 158 - Transaction途中失敗時は先行ADDもRollbackする
+  ---
+  duration_ms: 0.713979
+  type: 'test'
+  ...
+# Subtest: Commit Resultは外部から変更できない
+ok 159 - Commit Resultは外部から変更できない
+  ---
+  duration_ms: 0.450148
+  type: 'test'
+  ...
+# Subtest: Constraint Findingを不変Objectとして生成できる
+ok 160 - Constraint Findingを不変Objectとして生成できる
+  ---
+  duration_ms: 1.403222
+  type: 'test'
+  ...
+# Subtest: 定量値を持たないConstraint Findingも生成できる
+ok 161 - 定量値を持たないConstraint Findingも生成できる
+  ---
+  duration_ms: 0.251884
+  type: 'test'
+  ...
+# Subtest: 不足値は必要値と利用可能値の差に一致しなければならない
+ok 162 - 不足値は必要値と利用可能値の差に一致しなければならない
+  ---
+  duration_ms: 0.451279
+  type: 'test'
+  ...
+# Subtest: 定量値は一部だけ指定できない
+ok 163 - 定量値は一部だけ指定できない
+  ---
+  duration_ms: 0.224342
+  type: 'test'
+  ...
+# Subtest: 実行を妨げるFindingはblockingでなければならない
+ok 164 - 実行を妨げるFindingはblockingでなければならない
+  ---
+  duration_ms: 0.142531
+  type: 'test'
+  ...
+# Subtest: LOW Severityは即時Action対象にならない
+ok 165 - LOW Severityは即時Action対象にならない
+  ---
+  duration_ms: 0.675011
+  type: 'test'
+  ...
+# Subtest: Identifierに空白を含められない
+ok 166 - Identifierに空白を含められない
+  ---
+  duration_ms: 0.142581
+  type: 'test'
+  ...
+# Subtest: 正式でないSource Typeを拒否する
+ok 167 - 正式でないSource Typeを拒否する
+  ---
+  duration_ms: 0.126778
+  type: 'test'
+  ...
+# Subtest: Snapshotも変更できない
+ok 168 - Snapshotも変更できない
+  ---
+  duration_ms: 0.326905
+  type: 'test'
+  ...
+# Subtest: assertConstraintFindingは別Objectを拒否する
+ok 169 - assertConstraintFindingは別Objectを拒否する
+  ---
+  duration_ms: 0.35677
+  type: 'test'
+  ...
+# Subtest: 基本CSVをHeaderとRecordへ分ける
+ok 170 - 基本CSVをHeaderとRecordへ分ける
+  ---
+  duration_ms: 1.288711
+  type: 'test'
+  ...
+# Subtest: Quoted comma・escaped quote・quoted line breakを扱う
+ok 171 - Quoted comma・escaped quote・quoted line breakを扱う
+  ---
+  duration_ms: 0.336609
+  type: 'test'
+  ...
+# Subtest: UTF-8 BOMとCRLFを扱う
+ok 172 - UTF-8 BOMとCRLFを扱う
+  ---
+  duration_ms: 0.163973
+  type: 'test'
+  ...
+# Subtest: 空行は既定でRecordから除外する
+ok 173 - 空行は既定でRecordから除外する
+  ---
+  duration_ms: 0.126147
+  type: 'test'
+  ...
+# Subtest: 閉じていないQuoteを拒否する
+ok 174 - 閉じていないQuoteを拒否する
+  ---
+  duration_ms: 0.513312
+  type: 'test'
+  ...
+# Subtest: Quoted fieldの終了後に文字が続くCSVを拒否する
+ok 175 - Quoted fieldの終了後に文字が続くCSVを拒否する
+  ---
+  duration_ms: 0.408116
+  type: 'test'
+  ...
+# Subtest: Parser結果は外部から変更できない
+ok 176 - Parser結果は外部から変更できない
+  ---
+  duration_ms: 0.193707
+  type: 'test'
+  ...
+# Subtest: AC-01 Demo起動から未診断Scenarioを選択できる
+ok 177 - AC-01 Demo起動から未診断Scenarioを選択できる
+  ---
+  duration_ms: 21.069379
+  type: 'test'
+  ...
+# Subtest: AC-02 基準ScenarioはCapacity二重使用を防ぎ一部実行可能になる
+ok 178 - AC-02 基準ScenarioはCapacity二重使用を防ぎ一部実行可能になる
+  ---
+  duration_ms: 9.874035
+  type: 'test'
+  ...
+# Subtest: AC-03 比較Scenarioは残業追加により実行可能となり改善差分を表示する
+ok 179 - AC-03 比較Scenarioは残業追加により実行可能となり改善差分を表示する
+  ---
+  duration_ms: 6.704624
+  type: 'test'
+  ...
+# Subtest: AC-04 Assumption本体とRelationをPreview後にAtomic Commitできる
+ok 180 - AC-04 Assumption本体とRelationをPreview後にAtomic Commitできる
+  ---
+  duration_ms: 5.172572
+  type: 'test'
+  ...
+# Subtest: AC-05 未確認blocking Assumptionを0や不成立へ変換せずUNKNOWNにする
+ok 181 - AC-05 未確認blocking Assumptionを0や不成立へ変換せずUNKNOWNにする
+  ---
+  duration_ms: 4.662495
+  type: 'test'
+  ...
+# Subtest: AC-06 Backup JSONへ本体Repositoryと外部Read Dataを同時保存する
+ok 182 - AC-06 Backup JSONへ本体Repositoryと外部Read Dataを同時保存する
+  ---
+  duration_ms: 4.646351
+  type: 'test'
+  ...
+# Subtest: AC-07 Backup復元後もDiagnosis Result・Assumption・Relationを再利用できる
+ok 183 - AC-07 Backup復元後もDiagnosis Result・Assumption・Relationを再利用できる
+  ---
+  duration_ms: 9.488248
+  type: 'test'
+  ...
+# Subtest: AC-08 壊れたBackupは現在Dataを変更せず復元を拒否する
+ok 184 - AC-08 壊れたBackupは現在Dataを変更せず復元を拒否する
+  ---
+  duration_ms: 4.250725
+  type: 'test'
+  ...
+# Subtest: Gregorian calendarの閏年を正しく判定する
+ok 185 - Gregorian calendarの閏年を正しく判定する
+  ---
+  duration_ms: 0.820166
+  type: 'test'
+  ...
+# Subtest: 月ごとの正しい日数を返す
+ok 186 - 月ごとの正しい日数を返す
+  ---
+  duration_ms: 0.177444
+  type: 'test'
+  ...
+# Subtest: getDaysInMonthは不正な年・月を拒否する
+ok 187 - getDaysInMonthは不正な年・月を拒否する
+  ---
+  duration_ms: 0.456056
+  type: 'test'
+  ...
+# Subtest: targetMonthはyyyy-mmだけを許可する
+ok 188 - targetMonthはyyyy-mmだけを許可する
+  ---
+  duration_ms: 0.204403
+  type: 'test'
+  ...
+# Subtest: 不正なtargetMonthはINVALID_TARGET_MONTHになる
+ok 189 - 不正なtargetMonthはINVALID_TARGET_MONTHになる
+  ---
+  duration_ms: 0.184523
+  type: 'test'
+  ...
+# Subtest: dateは実在するyyyy-mm-ddだけを許可する
+ok 190 - dateは実在するyyyy-mm-ddだけを許可する
+  ---
+  duration_ms: 0.190633
+  type: 'test'
+  ...
+# Subtest: assertDateは前後空白を除き、不正日付をINVALID_DATEにする
+ok 191 - assertDateは前後空白を除き、不正日付をINVALID_DATEにする
+  ---
+  duration_ms: 0.198644
+  type: 'test'
+  ...
+# Subtest: timeは24時間表記hh:mmだけを許可する
+ok 192 - timeは24時間表記hh:mmだけを許可する
+  ---
+  duration_ms: 0.161269
+  type: 'test'
+  ...
+# Subtest: DateTimeは秒とTimezoneを持つISO 8601だけを許可する
+ok 193 - DateTimeは秒とTimezoneを持つISO 8601だけを許可する
+  ---
+  duration_ms: 0.509186
+  type: 'test'
+  ...
+# Subtest: DateTimeのTimezoneは実用範囲±14:00までとする
+ok 194 - DateTimeのTimezoneは実用範囲±14:00までとする
+  ---
+  duration_ms: 0.362628
+  type: 'test'
+  ...
+# Subtest: parseDateTimeはTimezoneを考慮したEpochを返す
+ok 195 - parseDateTimeはTimezoneを考慮したEpochを返す
+  ---
+  duration_ms: 0.221629
+  type: 'test'
+  ...
+# Subtest: assertDateTimeはTimezoneなしをINVALID_DATE_TIMEにする
+ok 196 - assertDateTimeはTimezoneなしをINVALID_DATE_TIMEにする
+  ---
+  duration_ms: 0.15497
+  type: 'test'
+  ...
+# Subtest: dateとtimeを順序比較できる
+ok 197 - dateとtimeを順序比較できる
+  ---
+  duration_ms: 0.14168
+  type: 'test'
+  ...
+# Subtest: DateTime比較は表記上の時刻でなく実際の瞬間を比較する
+ok 198 - DateTime比較は表記上の時刻でなく実際の瞬間を比較する
+  ---
+  duration_ms: 0.101201
+  type: 'test'
+  ...
+# Subtest: dateがtargetMonth内か確認できる
+ok 199 - dateがtargetMonth内か確認できる
+  ---
+  duration_ms: 0.08083
+  type: 'test'
+  ...
+# Subtest: 開始・終了時刻が両方未入力なら未指定Rangeとして扱う
+ok 200 - 開始・終了時刻が両方未入力なら未指定Rangeとして扱う
+  ---
+  duration_ms: 0.499581
+  type: 'test'
+  ...
+# Subtest: 開始・終了の片方だけ入力されたRangeを拒否する
+ok 201 - 開始・終了の片方だけ入力されたRangeを拒否する
+  ---
+  duration_ms: 0.137224
+  type: 'test'
+  ...
+# Subtest: 通常の時間範囲からDurationを計算する
+ok 202 - 通常の時間範囲からDurationを計算する
+  ---
+  duration_ms: 0.074881
+  type: 'test'
+  ...
+# Subtest: 同一時刻は0分として扱わず不正Rangeにする
+ok 203 - 同一時刻は0分として扱わず不正Rangeにする
+  ---
+  duration_ms: 0.166898
+  type: 'test'
+  ...
+# Subtest: 日またぎは明示的に許可された場合だけDurationを計算する
+ok 204 - 日またぎは明示的に許可された場合だけDurationを計算する
+  ---
+  duration_ms: 0.193797
+  type: 'test'
+  ...
+# Subtest: Demo Browser Applicationは未診断状態から開始できる
+ok 205 - Demo Browser Applicationは未診断状態から開始できる
+  ---
+  duration_ms: 21.382053
+  type: 'test'
+  ...
+# Subtest: Demo診断を実行するとCapacity競合を一部実行可能として表示する
+ok 206 - Demo診断を実行するとCapacity競合を一部実行可能として表示する
+  ---
+  duration_ms: 18.611784
+  type: 'test'
+  ...
+# Subtest: Demoを再診断しても新しいResultとして保存できる
+ok 207 - Demoを再診断しても新しいResultとして保存できる
+  ---
+  duration_ms: 8.823187
+  type: 'test'
+  ...
+# Subtest: Demo BrowserからCSV PreviewとCommitを実行できる
+ok 208 - Demo BrowserからCSV PreviewとCommitを実行できる
+  ---
+  duration_ms: 5.649729
+  type: 'test'
+  ...
+# Subtest: Demo BrowserからAssumption CSV PreviewとCommitを実行できる
+ok 209 - Demo BrowserからAssumption CSV PreviewとCommitを実行できる
+  ---
+  duration_ms: 6.260235
+  type: 'test'
+  ...
+# Subtest: Demo BrowserからDiagnosis Scenario CSV PreviewとCommitを実行できる
+ok 210 - Demo BrowserからDiagnosis Scenario CSV PreviewとCommitを実行できる
+  ---
+  duration_ms: 8.692812
+  type: 'test'
+  ...
+# Subtest: Demo BrowserからDAY29外部Data JSONをPreview・Commitできる
+ok 211 - Demo BrowserからDAY29外部Data JSONをPreview・Commitできる
+  ---
+  duration_ms: 5.70411
+  type: 'test'
+  ...
+# Subtest: Demoで基準Scenarioと残業Scenarioを診断すると比較結果を表示する
+ok 212 - Demoで基準Scenarioと残業Scenarioを診断すると比較結果を表示する
+  ---
+  duration_ms: 13.22216
+  type: 'test'
+  ...
+# Subtest: 初期化でPlan・Scenario・最新診断・詳細・Actionを順に読込む
+ok 213 - 初期化でPlan・Scenario・最新診断・詳細・Actionを順に読込む
+  ---
+  duration_ms: 3.06732
+  type: 'test'
+  ...
+# Subtest: Planがなければ正式なEmpty Stateを表示する
+ok 214 - Planがなければ正式なEmpty Stateを表示する
+  ---
+  duration_ms: 0.332534
+  type: 'test'
+  ...
+# Subtest: VersionのないPlanは画面を維持して案内を表示する
+ok 215 - VersionのないPlanは画面を維持して案内を表示する
+  ---
+  duration_ms: 0.227477
+  type: 'test'
+  ...
+# Subtest: Plan選択で下位のScenario・Resultを入れ替える
+ok 216 - Plan選択で下位のScenario・Resultを入れ替える
+  ---
+  duration_ms: 0.438611
+  type: 'test'
+  ...
+# Subtest: 未診断Scenarioを選択すると診断実行可能な案内状態になる
+ok 217 - 未診断Scenarioを選択すると診断実行可能な案内状態になる
+  ---
+  duration_ms: 0.46513
+  type: 'test'
+  ...
+# Subtest: 診断実行後に最新Overview・Detail・Actionを再読込する
+ok 218 - 診断実行後に最新Overview・Detail・Actionを再読込する
+  ---
+  duration_ms: 0.646749
+  type: 'test'
+  ...
+# Subtest: Scenario未選択で診断実行するとError Stateにする
+ok 219 - Scenario未選択で診断実行するとError Stateにする
+  ---
+  duration_ms: 1.116576
+  type: 'test'
+  ...
+# Subtest: 存在しないPlan選択をError Stateへ変換し既存Contentを保持する
+ok 220 - 存在しないPlan選択をError Stateへ変換し既存Contentを保持する
+  ---
+  duration_ms: 0.404921
+  type: 'test'
+  ...
+# Subtest: Action Item Filterを変更して再読込する
+ok 221 - Action Item Filterを変更して再読込する
+  ---
+  duration_ms: 0.71458
+  type: 'test'
+  ...
+# Subtest: 指定ResultのDetailを表示できる
+ok 222 - 指定ResultのDetailを表示できる
+  ---
+  duration_ms: 0.810833
+  type: 'test'
+  ...
+# Subtest: Read Service失敗をError Stateへ変換する
+ok 223 - Read Service失敗をError Stateへ変換する
+  ---
+  duration_ms: 0.338252
+  type: 'test'
+  ...
+# Subtest: 古い非同期応答は新しい画面状態を上書きしない
+ok 224 - 古い非同期応答は新しい画面状態を上書きしない
+  ---
+  duration_ms: 0.308388
+  type: 'test'
+  ...
+# Subtest: Controller契約を検証する
+ok 225 - Controller契約を検証する
+  ---
+  duration_ms: 0.285664
+  type: 'test'
+  ...
+# Subtest: Comparison Scenario選択時にScenario比較を読込む
+ok 226 - Comparison Scenario選択時にScenario比較を読込む
+  ---
+  duration_ms: 0.32382
+  type: 'test'
+  ...
+# Subtest: 正式なDiagnosis Statusを保持する
+ok 227 - 正式なDiagnosis Statusを保持する
+  ---
+  duration_ms: 1.692641
+  type: 'test'
+  ...
+# Subtest: Assumption StatusとPlan Version Statusを区別して保持する
+ok 228 - Assumption StatusとPlan Version Statusを区別して保持する
+  ---
+  duration_ms: 0.226857
+  type: 'test'
+  ...
+# Subtest: 診断粒度はDAY・SHIFT・TIME・UNAVAILABLEを保持する
+ok 229 - 診断粒度はDAY・SHIFT・TIME・UNAVAILABLEを保持する
+  ---
+  duration_ms: 0.24912
+  type: 'test'
+  ...
+# Subtest: 数量単位はPIECE・KILOGRAM・LOTに限定する
+ok 230 - 数量単位はPIECE・KILOGRAM・LOTに限定する
+  ---
+  duration_ms: 0.138125
+  type: 'test'
+  ...
+# Subtest: Code MapとCatalogは外部から変更できない
+ok 231 - Code MapとCatalogは外部から変更できない
+  ---
+  duration_ms: 0.441906
+  type: 'test'
+  ...
+# Subtest: すべてのCode MapでKeyとValueを一致させる
+ok 232 - すべてのCode MapでKeyとValueを一致させる
+  ---
+  duration_ms: 0.503617
+  type: 'test'
+  ...
+# Subtest: 一つのCode Map内に重複Valueを持たない
+ok 233 - 一つのCode Map内に重複Valueを持たない
+  ---
+  duration_ms: 0.31751
+  type: 'test'
+  ...
+# Subtest: isCodeValueで正式Codeを判定できる
+ok 234 - isCodeValueで正式Codeを判定できる
+  ---
+  duration_ms: 0.164734
+  type: 'test'
+  ...
+# Subtest: Code Map以外をHelperへ渡した場合は拒否する
+ok 235 - Code Map以外をHelperへ渡した場合は拒否する
+  ---
+  duration_ms: 0.466041
+  type: 'test'
+  ...
+# Subtest: HTML生成時にUser DataをEscapeする
+ok 236 - HTML生成時にUser DataをEscapeする
+  ---
+  duration_ms: 12.591996
+  type: 'test'
+  ...
+# Subtest: UNKNOWN GuidanceとValidityを画面へ表示する
+ok 237 - UNKNOWN GuidanceとValidityを画面へ表示する
+  ---
+  duration_ms: 0.446252
+  type: 'test'
+  ...
+# Subtest: 数量集計・Operation・Action Itemを描画する
+ok 238 - 数量集計・Operation・Action Itemを描画する
+  ---
+  duration_ms: 0.797403
+  type: 'test'
+  ...
+# Subtest: mountとstartで初期表示をControllerから取得する
+ok 239 - mountとstartで初期表示をControllerから取得する
+  ---
+  duration_ms: 2.386079
+  type: 'test'
+  ...
+# Subtest: DOM EventからPlan・Scenario・Filter操作をControllerへ委譲する
+ok 240 - DOM EventからPlan・Scenario・Filter操作をControllerへ委譲する
+  ---
+  duration_ms: 2.399839
+  type: 'test'
+  ...
+# Subtest: 診断ButtonをControllerへ委譲する
+ok 241 - 診断ButtonをControllerへ委譲する
+  ---
+  duration_ms: 2.325159
+  type: 'test'
+  ...
+# Subtest: Rootがなければ明示的Errorにする
+ok 242 - Rootがなければ明示的Errorにする
+  ---
+  duration_ms: 0.585698
+  type: 'test'
+  ...
+# Subtest: Renderer契約を検証する
+ok 243 - Renderer契約を検証する
+  ---
+  duration_ms: 0.211314
+  type: 'test'
+  ...
+# Subtest: CSV Import PreviewをHTMLへ描画する
+ok 244 - CSV Import PreviewをHTMLへ描画する
+  ---
+  duration_ms: 0.830812
+  type: 'test'
+  ...
+# Subtest: File選択とImport CommitをImport Controllerへ委譲する
+ok 245 - File選択とImport CommitをImport Controllerへ委譲する
+  ---
+  duration_ms: 2.445597
+  type: 'test'
+  ...
+# Subtest: AssumptionとDiagnosis ScenarioのImport Panelを描画する
+ok 246 - AssumptionとDiagnosis ScenarioのImport Panelを描画する
+  ---
+  duration_ms: 0.587802
+  type: 'test'
+  ...
+# Subtest: Scenario比較の差分と因果断定しない注意を描画する
+ok 247 - Scenario比較の差分と因果断定しない注意を描画する
+  ---
+  duration_ms: 0.624606
+  type: 'test'
+  ...
+# Subtest: 初期StateはIDLEかつ変更不能
+ok 248 - 初期StateはIDLEかつ変更不能
+  ---
+  duration_ms: 1.231366
+  type: 'test'
+  ...
+# Subtest: Loading表示は既存Contentを保持できる
+ok 249 - Loading表示は既存Contentを保持できる
+  ---
+  duration_ms: 1.110937
+  type: 'test'
+  ...
+# Subtest: 初期化LoadingではContentを消去できる
+ok 250 - 初期化LoadingではContentを消去できる
+  ---
+  duration_ms: 1.124377
+  type: 'test'
+  ...
+# Subtest: Dashboard用Badge・実行可否・要対応状態を生成する
+ok 251 - Dashboard用Badge・実行可否・要対応状態を生成する
+  ---
+  duration_ms: 0.216952
+  type: 'test'
+  ...
+# Subtest: UNKNOWNの説明で0や不可能へ置換しないことを示す
+ok 252 - UNKNOWNの説明で0や不可能へ置換しないことを示す
+  ---
+  duration_ms: 0.297972
+  type: 'test'
+  ...
+# Subtest: 選択Planが一覧に存在しなければ拒否する
+ok 253 - 選択Planが一覧に存在しなければ拒否する
+  ---
+  duration_ms: 0.346705
+  type: 'test'
+  ...
+# Subtest: Detailと選択Scenarioが異なる場合は拒否する
+ok 254 - Detailと選択Scenarioが異なる場合は拒否する
+  ---
+  duration_ms: 0.184854
+  type: 'test'
+  ...
+# Subtest: Empty Stateは理由とFilterを保持する
+ok 255 - Empty Stateは理由とFilterを保持する
+  ---
+  duration_ms: 0.180959
+  type: 'test'
+  ...
+# Subtest: Application Errorを画面用Errorへ変換する
+ok 256 - Application Errorを画面用Errorへ変換する
+  ---
+  duration_ms: 0.435456
+  type: 'test'
+  ...
+# Subtest: View Model契約を検証する
+ok 257 - View Model契約を検証する
+  ---
+  duration_ms: 0.426433
+  type: 'test'
+  ...
+# Subtest: Scenario比較Outcomeを日本語Badgeへ変換する
+ok 258 - Scenario比較Outcomeを日本語Badgeへ変換する
+  ---
+  duration_ms: 0.244733
+  type: 'test'
+  ...
+# Subtest: ERROR_CODESとERROR_CATEGORYは変更できない
+ok 259 - ERROR_CODESとERROR_CATEGORYは変更できない
+  ---
+  duration_ms: 0.982648
+  type: 'test'
+  ...
+# Subtest: ApplicationErrorはCode・Category・Detailsを保持する
+ok 260 - ApplicationErrorはCode・Category・Detailsを保持する
+  ---
+  duration_ms: 0.867277
+  type: 'test'
+  ...
+# Subtest: ApplicationErrorは原因Errorを保持できる
+ok 261 - ApplicationErrorは原因Errorを保持できる
+  ---
+  duration_ms: 0.298923
+  type: 'test'
+  ...
+# Subtest: isApplicationErrorとhasErrorCodeで想定Errorを識別できる
+ok 262 - isApplicationErrorとhasErrorCodeで想定Errorを識別できる
+  ---
+  duration_ms: 0.158825
+  type: 'test'
+  ...
+# Subtest: toJSONは利用者表示・Log用の安全な構造を返す
+ok 263 - toJSONは利用者表示・Log用の安全な構造を返す
+  ---
+  duration_ms: 0.142852
+  type: 'test'
+  ...
+# Subtest: 未登録Error CodeをApplicationErrorへ渡すと拒否する
+ok 264 - 未登録Error CodeをApplicationErrorへ渡すと拒否する
+  ---
+  duration_ms: 0.110994
+  type: 'test'
+  ...
+# Subtest: assertNonEmptyStringは前後空白を除いて返す
+ok 265 - assertNonEmptyStringは前後空白を除いて返す
+  ---
+  duration_ms: 0.150183
+  type: 'test'
+  ...
+# Subtest: 数値・Boolean・Array・Plain Objectを厳密に検証する
+ok 266 - 数値・Boolean・Array・Plain Objectを厳密に検証する
+  ---
+  duration_ms: 1.164617
+  type: 'test'
+  ...
+# Subtest: assertCodeValueは正式Codeだけを許可する
+ok 267 - assertCodeValueは正式Codeだけを許可する
+  ---
+  duration_ms: 0.412582
+  type: 'test'
+  ...
+# Subtest: 想定外ErrorをUNEXPECTED_ERRORへ変換し、ApplicationErrorは二重変換しない
+ok 268 - 想定外ErrorをUNEXPECTED_ERRORへ変換し、ApplicationErrorは二重変換しない
+  ---
+  duration_ms: 0.342138
+  type: 'test'
+  ...
+# Subtest: 一つのError Code Map内に重複Valueを持たない
+ok 269 - 一つのError Code Map内に重複Valueを持たない
+  ---
+  duration_ms: 0.205745
+  type: 'test'
+  ...
+# Subtest: DAY29 Snapshotと診断Masterを不変Dataとして保持する
+ok 270 - DAY29 Snapshotと診断Masterを不変Dataとして保持する
+  ---
+  duration_ms: 2.586095
+  type: 'test'
+  ...
+# Subtest: toEngineInputはProvider固有RevisionをEngine入力へ混ぜない
+ok 271 - toEngineInputはProvider固有RevisionをEngine入力へ混ぜない
+  ---
+  duration_ms: 0.852564
+  type: 'test'
+  ...
+# Subtest: 標準時間と数量精度を厳密に検証する
+ok 272 - 標準時間と数量精度を厳密に検証する
+  ---
+  duration_ms: 0.519881
+  type: 'test'
+  ...
+# Subtest: 外部Revisionの不正Keyと負数を拒否する
+ok 273 - 外部Revisionの不正Keyと負数を拒否する
+  ---
+  duration_ms: 0.414305
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisExecutionDataは正式Objectだけを受け付ける
+ok 274 - assertDiagnosisExecutionDataは正式Objectだけを受け付ける
+  ---
+  duration_ms: 0.237493
+  type: 'test'
+  ...
+# Subtest: Excel由来CSV一式から正式外部Data JSONを生成する
+ok 275 - Excel由来CSV一式から正式外部Data JSONを生成する
+  ---
+  duration_ms: 4.673341
+  type: 'test'
+  ...
+# Subtest: availableMinutes空欄はnullとして保持する
+ok 276 - availableMinutes空欄はnullとして保持する
+  ---
+  duration_ms: 0.716813
+  type: 'test'
+  ...
+# Subtest: Header順序の違いを拒否する
+ok 277 - Header順序の違いを拒否する
+  ---
+  duration_ms: 0.517918
+  type: 'test'
+  ...
+# Subtest: CAPACITY_SOURCE Revisionなしを拒否する
+ok 278 - CAPACITY_SOURCE Revisionなしを拒否する
+  ---
+  duration_ms: 0.193817
+  type: 'test'
+  ...
+# Subtest: 不整合Capacity BucketをDomainで拒否する
+ok 279 - 不整合Capacity BucketをDomainで拒否する
+  ---
+  duration_ms: 0.367345
+  type: 'test'
+  ...
+# Subtest: CSV File一式を読んでJSON Fileへ出力する
+ok 280 - CSV File一式を読んでJSON Fileへ出力する
+  ---
+  duration_ms: 8.93364
+  type: 'test'
+  ...
+# Subtest: 必須CSVがない場合はFile Errorで終了する
+ok 281 - 必須CSVがない場合はFile Errorで終了する
+  ---
+  duration_ms: 0.580361
+  type: 'test'
+  ...
+# Subtest: 外部Read Dataを正式JSON PackageとしてExportする
+ok 282 - 外部Read Dataを正式JSON PackageとしてExportする
+  ---
+  duration_ms: 2.74437
+  type: 'test'
+  ...
+# Subtest: compact JSONも生成できる
+ok 283 - compact JSONも生成できる
+  ---
+  duration_ms: 0.389648
+  type: 'test'
+  ...
+# Subtest: Export Resultは変更できない
+ok 284 - Export Resultは変更できない
+  ---
+  duration_ms: 0.631316
+  type: 'test'
+  ...
+# Subtest: prettyの不正値を拒否する
+ok 285 - prettyの不正値を拒否する
+  ---
+  duration_ms: 0.302579
+  type: 'test'
+  ...
+# Subtest: DiagnosisExecutionDataはSnapshot化できる
+ok 286 - DiagnosisExecutionDataはSnapshot化できる
+  ---
+  duration_ms: 2.321022
+  type: 'test'
+  ...
+# Subtest: Providerは一覧・状態保存・全置換を行える
+ok 287 - Providerは一覧・状態保存・全置換を行える
+  ---
+  duration_ms: 1.079951
+  type: 'test'
+  ...
+# Subtest: 外部Data Snapshotを作成し別Providerへ復元できる
+ok 288 - 外部Data Snapshotを作成し別Providerへ復元できる
+  ---
+  duration_ms: 1.412465
+  type: 'test'
+  ...
+# Subtest: 外部Data Snapshotの重複Scenario・対象月を拒否する
+ok 289 - 外部Data Snapshotの重複Scenario・対象月を拒否する
+  ---
+  duration_ms: 0.913074
+  type: 'test'
+  ...
+# Subtest: 壊れた外部Data Snapshotは現在Providerを変更しない
+ok 290 - 壊れた外部Data Snapshotは現在Providerを変更しない
+  ---
+  duration_ms: 0.449977
+  type: 'test'
+  ...
+# Subtest: 外部Data JSON ControllerはPreview後にCommitする
+ok 291 - 外部Data JSON ControllerはPreview後にCommitする
+  ---
+  duration_ms: 0.746567
+  type: 'test'
+  ...
+# Subtest: 外部Data JSON Preview後にProviderが変わるとCommitを拒否する
+ok 292 - 外部Data JSON Preview後にProviderが変わるとCommitを拒否する
+  ---
+  duration_ms: 0.554843
+  type: 'test'
+  ...
+# Subtest: Application BackupはRepositoryと外部Dataを同時に復元する
+ok 293 - Application BackupはRepositoryと外部Dataを同時に復元する
+  ---
+  duration_ms: 1.824646
+  type: 'test'
+  ...
+# Subtest: Application Backupは旧Schema Version 1をRepositoryだけ復元できる
+ok 294 - Application Backupは旧Schema Version 1をRepositoryだけ復元できる
+  ---
+  duration_ms: 0.657064
+  type: 'test'
+  ...
+# Subtest: Browser保存はRepositoryとDAY29外部Dataを同時に復元する
+ok 295 - Browser保存はRepositoryとDAY29外部Dataを同時に復元する
+  ---
+  duration_ms: 1.215613
+  type: 'test'
+  ...
+# Subtest: load(request)契約を持つProviderを受け付ける
+ok 296 - load(request)契約を持つProviderを受け付ける
+  ---
+  duration_ms: 2.131341
+  type: 'test'
+  ...
+# Subtest: Providerが正式Data以外を返した場合は拒否する
+ok 297 - Providerが正式Data以外を返した場合は拒否する
+  ---
+  duration_ms: 0.612478
+  type: 'test'
+  ...
+# Subtest: Providerの予期しないErrorをUNEXPECTED_ERRORへ包む
+ok 298 - Providerの予期しないErrorをUNEXPECTED_ERRORへ包む
+  ---
+  duration_ms: 0.341327
+  type: 'test'
+  ...
+# Subtest: loadを持たないObjectを拒否する
+ok 299 - loadを持たないObjectを拒否する
+  ---
+  duration_ms: 0.164664
+  type: 'test'
+  ...
+# Subtest: 全RepositoryをSnapshot化しFresh Repositoryへ復元できる
+ok 300 - 全RepositoryをSnapshot化しFresh Repositoryへ復元できる
+  ---
+  duration_ms: 11.643108
+  type: 'test'
+  ...
+# Subtest: Repository RevisionをBackupから復元する
+ok 301 - Repository RevisionをBackupから復元する
+  ---
+  duration_ms: 1.850354
+  type: 'test'
+  ...
+# Subtest: Diagnosis ResultのOperation・Finding・Summaryを復元できる
+ok 302 - Diagnosis ResultのOperation・Finding・Summaryを復元できる
+  ---
+  duration_ms: 2.213333
+  type: 'test'
+  ...
+# Subtest: 未対応Schema Versionは現在Dataを変更せず拒否する
+ok 303 - 未対応Schema Versionは現在Dataを変更せず拒否する
+  ---
+  duration_ms: 2.317458
+  type: 'test'
+  ...
+# Subtest: 参照切れRelationを含むBackupは現在Dataを壊さない
+ok 304 - 参照切れRelationを含むBackupは現在Dataを壊さない
+  ---
+  duration_ms: 1.804676
+  type: 'test'
+  ...
+# Subtest: Snapshotは外部から変更できない
+ok 305 - Snapshotは外部から変更できない
+  ---
+  duration_ms: 1.249994
+  type: 'test'
+  ...
+# Subtest: LocalStorage Storeへ保存・読込・削除できる
+ok 306 - LocalStorage Storeへ保存・読込・削除できる
+  ---
+  duration_ms: 0.283481
+  type: 'test'
+  ...
+# Subtest: 壊れたLocalStorage JSONを明示的に拒否する
+ok 307 - 壊れたLocalStorage JSONを明示的に拒否する
+  ---
+  duration_ms: 0.163452
+  type: 'test'
+  ...
+# Subtest: Persistence CoordinatorでBrowser保存と復元ができる
+ok 308 - Persistence CoordinatorでBrowser保存と復元ができる
+  ---
+  duration_ms: 1.724157
+  type: 'test'
+  ...
+# Subtest: 保存Dataがない場合はEMPTYを返す
+ok 309 - 保存Dataがない場合はEMPTYを返す
+  ---
+  duration_ms: 0.382237
+  type: 'test'
+  ...
+# Subtest: Backup JSONを書き出して別Repositoryへ復元できる
+ok 310 - Backup JSONを書き出して別Repositoryへ復元できる
+  ---
+  duration_ms: 1.540364
+  type: 'test'
+  ...
+# Subtest: 壊れたBackup JSONは現在Dataを変更しない
+ok 311 - 壊れたBackup JSONは現在Dataを変更しない
+  ---
+  duration_ms: 1.51708
+  type: 'test'
+  ...
+# Subtest: Backup Controllerは保存・Backup作成・復元状態を日本語で保持する
+ok 312 - Backup Controllerは保存・Backup作成・復元状態を日本語で保持する
+  ---
+  duration_ms: 2.030582
+  type: 'test'
+  ...
+# Subtest: Backup Controllerは復元Errorを状態化し現在Dataを残す
+ok 313 - Backup Controllerは復元Errorを状態化し現在Dataを残す
+  ---
+  duration_ms: 0.754529
+  type: 'test'
+  ...
+# Subtest: Browser保存Dataを削除しても現在Repositoryは消さない
+ok 314 - Browser保存Dataを削除しても現在Repositoryは消さない
+  ---
+  duration_ms: 0.689042
+  type: 'test'
+  ...
+# Subtest: 各Read Application ServiceはQueryをRead Modelへ委譲する
+ok 315 - 各Read Application ServiceはQueryをRead Modelへ委譲する
+  ---
+  duration_ms: 1.183235
+  type: 'test'
+  ...
+# Subtest: Read Application Serviceは生成後に依存先を変更できない
+ok 316 - Read Application Serviceは生成後に依存先を変更できない
+  ---
+  duration_ms: 0.367645
+  type: 'test'
+  ...
+# Subtest: DiagnosisReadModel基底Classは未実装Methodを明示的に拒否する
+ok 317 - DiagnosisReadModel基底Classは未実装Methodを明示的に拒否する
+  ---
+  duration_ms: 0.882058
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisReadModelは6つのRead Methodを持つObjectを受け付ける
+ok 318 - assertDiagnosisReadModelは6つのRead Methodを持つObjectを受け付ける
+  ---
+  duration_ms: 0.16231
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisReadModelは不足Methodを拒否する
+ok 319 - assertDiagnosisReadModelは不足Methodを拒否する
+  ---
+  duration_ms: 0.148851
+  type: 'test'
+  ...
+# Subtest: 正式InMemory RepositoryはProductionPlan契約を満たす
+ok 320 - 正式InMemory RepositoryはProductionPlan契約を満たす
+  ---
+  duration_ms: 0.919464
+  type: 'test'
+  ...
+# Subtest: 不足Methodを持つRepositoryを拒否する
+ok 321 - 不足Methodを持つRepositoryを拒否する
+  ---
+  duration_ms: 0.767177
+  type: 'test'
+  ...
+# Subtest: null Repositoryを拒否する
+ok 322 - null Repositoryを拒否する
+  ---
+  duration_ms: 0.196281
+  type: 'test'
+  ...
+# Subtest: 一回の正式な診断結果を不変Objectとして保持する
+ok 323 - 一回の正式な診断結果を不変Objectとして保持する
+  ---
+  duration_ms: 3.92428
+  type: 'test'
+  ...
+# Subtest: SummaryとOperation Resultの順序・件数を一致させる
+ok 324 - SummaryとOperation Resultの順序・件数を一致させる
+  ---
+  duration_ms: 1.29437
+  type: 'test'
+  ...
+# Subtest: CURRENTにはStale理由を登録できない
+ok 325 - CURRENTにはStale理由を登録できない
+  ---
+  duration_ms: 0.413153
+  type: 'test'
+  ...
+# Subtest: STALEとINVALIDには理由が必要
+ok 326 - STALEとINVALIDには理由が必要
+  ---
+  duration_ms: 0.657756
+  type: 'test'
+  ...
+# Subtest: withValidityは元結果を書き換えずSTALE版を返す
+ok 327 - withValidityは元結果を書き換えずSTALE版を返す
+  ---
+  duration_ms: 1.100482
+  type: 'test'
+  ...
+# Subtest: Revisionは空Object・負数・不正Keyを拒否する
+ok 328 - Revisionは空Object・負数・不正Keyを拒否する
+  ---
+  duration_ms: 1.079481
+  type: 'test'
+  ...
+# Subtest: toSnapshotは内部配列とRevisionを変更不能にする
+ok 329 - toSnapshotは内部配列とRevisionを変更不能にする
+  ---
+  duration_ms: 0.813937
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisResultは異なるObjectを拒否する
+ok 330 - assertDiagnosisResultは異なるObjectを拒否する
+  ---
+  duration_ms: 0.268248
+  type: 'test'
+  ...
+# Subtest: Sourceが同一なら元のCURRENT Resultをそのまま返す
+ok 331 - Sourceが同一なら元のCURRENT Resultをそのまま返す
+  ---
+  duration_ms: 3.530876
+  type: 'test'
+  ...
+# Subtest: Revision変更時は元Resultを変更せずSTALE Copyを返す
+ok 332 - Revision変更時は元Resultを変更せずSTALE Copyを返す
+  ---
+  duration_ms: 1.608496
+  type: 'test'
+  ...
+# Subtest: Source Identity不一致時はINVALID Copyを返す
+ok 333 - Source Identity不一致時はINVALID Copyを返す
+  ---
+  duration_ms: 0.454304
+  type: 'test'
+  ...
+# Subtest: 以前STALEでも現在Sourceが診断時Revisionへ一致すればCURRENTへ戻せる
+ok 334 - 以前STALEでも現在Sourceが診断時Revisionへ一致すればCURRENTへ戻せる
+  ---
+  duration_ms: 0.371621
+  type: 'test'
+  ...
+# Subtest: 同じSTALE判定を再評価した場合は同じResult Instanceを返す
+ok 335 - 同じSTALE判定を再評価した場合は同じResult Instanceを返す
+  ---
+  duration_ms: 1.019092
+  type: 'test'
+  ...
+# Subtest: 不正なDetector契約を拒否する
+ok 336 - 不正なDetector契約を拒否する
+  ---
+  duration_ms: 0.405732
+  type: 'test'
+  ...
+# Subtest: EvaluationとSnapshotを外部変更できない
+ok 337 - EvaluationとSnapshotを外部変更できない
+  ---
+  duration_ms: 0.912263
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisResultValidityEvaluationは正式Objectだけを受け付ける
+ok 338 - assertDiagnosisResultValidityEvaluationは正式Objectだけを受け付ける
+  ---
+  duration_ms: 0.308308
+  type: 'test'
+  ...
+# Subtest: BASE Diagnosis Scenarioを復元できる
+ok 339 - BASE Diagnosis Scenarioを復元できる
+  ---
+  duration_ms: 5.950155
+  type: 'test'
+  ...
+# Subtest: static createはDIAGNOSIS_SCENARIO_CREATED Eventを記録する
+ok 340 - static createはDIAGNOSIS_SCENARIO_CREATED Eventを記録する
+  ---
+  duration_ms: 2.045204
+  type: 'test'
+  ...
+# Subtest: ScenarioのID・名称・参照ID・Categoryを厳密に検証する
+ok 341 - ScenarioのID・名称・参照ID・Categoryを厳密に検証する
+  ---
+  duration_ms: 1.03173
+  type: 'test'
+  ...
+# Subtest: DAY30初期版はAVAILABLE_CAPACITY以外のBaselineを拒否する
+ok 342 - DAY30初期版はAVAILABLE_CAPACITY以外のBaselineを拒否する
+  ---
+  duration_ms: 0.227968
+  type: 'test'
+  ...
+# Subtest: BASE Scenarioは別のBase Scenarioを参照できない
+ok 343 - BASE Scenarioは別のBase Scenarioを参照できない
+  ---
+  duration_ms: 0.20236
+  type: 'test'
+  ...
+# Subtest: COMPARISON ScenarioにはBaseと変更概要が必要
+ok 344 - COMPARISON ScenarioにはBaseと変更概要が必要
+  ---
+  duration_ms: 0.626349
+  type: 'test'
+  ...
+# Subtest: COMPARISON Scenarioを正しい条件で生成できる
+ok 345 - COMPARISON Scenarioを正しい条件で生成できる
+  ---
+  duration_ms: 0.266446
+  type: 'test'
+  ...
+# Subtest: Base Scenarioに自分自身を指定できない
+ok 346 - Base Scenarioに自分自身を指定できない
+  ---
+  duration_ms: 0.324551
+  type: 'test'
+  ...
+# Subtest: ARCHIVED Scenarioはactive=trueで復元できない
+ok 347 - ARCHIVED Scenarioはactive=trueで復元できない
+  ---
+  duration_ms: 0.486933
+  type: 'test'
+  ...
+# Subtest: Scenario名称をEvent付きで変更できる
+ok 348 - Scenario名称をEvent付きで変更できる
+  ---
+  duration_ms: 0.834317
+  type: 'test'
+  ...
+# Subtest: 同じ名称の再入力ではEventを発生させない
+ok 349 - 同じ名称の再入力ではEventを発生させない
+  ---
+  duration_ms: 0.245675
+  type: 'test'
+  ...
+# Subtest: Plan Version変更には理由が必要
+ok 350 - Plan Version変更には理由が必要
+  ---
+  duration_ms: 0.292023
+  type: 'test'
+  ...
+# Subtest: Plan Versionを理由付きで変更できる
+ok 351 - Plan Versionを理由付きで変更できる
+  ---
+  duration_ms: 0.257602
+  type: 'test'
+  ...
+# Subtest: DAY29 Capacity Scenarioを理由付きで変更できる
+ok 352 - DAY29 Capacity Scenarioを理由付きで変更できる
+  ---
+  duration_ms: 0.289769
+  type: 'test'
+  ...
+# Subtest: EXPERIMENT Scenarioに比較元と変更概要を設定できる
+ok 353 - EXPERIMENT Scenarioに比較元と変更概要を設定できる
+  ---
+  duration_ms: 0.457869
+  type: 'test'
+  ...
+# Subtest: BASE Scenarioには後から比較元を設定できない
+ok 354 - BASE Scenarioには後から比較元を設定できない
+  ---
+  duration_ms: 0.23597
+  type: 'test'
+  ...
+# Subtest: Scenarioを理由付きで停止し再開できる
+ok 355 - Scenarioを理由付きで停止し再開できる
+  ---
+  duration_ms: 0.388135
+  type: 'test'
+  ...
+# Subtest: 既にactiveまたはinactiveのScenarioへ同じ操作を繰り返せない
+ok 356 - 既にactiveまたはinactiveのScenarioへ同じ操作を繰り返せない
+  ---
+  duration_ms: 0.292975
+  type: 'test'
+  ...
+# Subtest: ScenarioをArchiveするとCategoryとactiveが同時に変わる
+ok 357 - ScenarioをArchiveするとCategoryとactiveが同時に変わる
+  ---
+  duration_ms: 1.188333
+  type: 'test'
+  ...
+# Subtest: Archived Scenarioは再開・条件変更できないが監査Noteは追加できる
+ok 358 - Archived Scenarioは再開・条件変更できないが監査Noteは追加できる
+  ---
+  duration_ms: 0.514634
+  type: 'test'
+  ...
+# Subtest: Event記録失敗時はScenario状態を変更しない
+ok 359 - Event記録失敗時はScenario状態を変更しない
+  ---
+  duration_ms: 0.36378
+  type: 'test'
+  ...
+# Subtest: Snapshotは変更できない
+ok 360 - Snapshotは変更できない
+  ---
+  duration_ms: 0.185034
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisScenarioは異なるObjectを拒否する
+ok 361 - assertDiagnosisScenarioは異なるObjectを拒否する
+  ---
+  duration_ms: 0.265524
+  type: 'test'
+  ...
+# Subtest: BASEとCOMPARISON Scenarioを同一CSVからCommitできる
+ok 362 - BASEとCOMPARISON Scenarioを同一CSVからCommitできる
+  ---
+  duration_ms: 7.738297
+  type: 'test'
+  ...
+# Subtest: 存在しない比較元ScenarioをErrorにする
+ok 363 - 存在しない比較元ScenarioをErrorにする
+  ---
+  duration_ms: 1.151989
+  type: 'test'
+  ...
+# Subtest: 別Plan Versionに属する既存Scenarioの上書きを拒否する
+ok 364 - 別Plan Versionに属する既存Scenarioの上書きを拒否する
+  ---
+  duration_ms: 3.786165
+  type: 'test'
+  ...
+# Subtest: Scenario Preview後のRepository変更を検出する
+ok 365 - Scenario Preview後のRepository変更を検出する
+  ---
+  duration_ms: 1.446946
+  type: 'test'
+  ...
+# Subtest: Diagnosis Scenario CSV Schemaは必要Columnを定義する
+ok 366 - Diagnosis Scenario CSV Schemaは必要Columnを定義する
+  ---
+  duration_ms: 3.603415
+  type: 'test'
+  ...
+# Subtest: すべてFEASIBLEならPlan全体もFEASIBLEになる
+ok 367 - すべてFEASIBLEならPlan全体もFEASIBLEになる
+  ---
+  duration_ms: 2.772852
+  type: 'test'
+  ...
+# Subtest: INFEASIBLEとUNKNOWNが混在しても確定不成立を弱めない
+ok 368 - INFEASIBLEとUNKNOWNが混在しても確定不成立を弱めない
+  ---
+  duration_ms: 0.444189
+  type: 'test'
+  ...
+# Subtest: UNKNOWNがありINFEASIBLEがなければ全体はUNKNOWNになる
+ok 369 - UNKNOWNがありINFEASIBLEがなければ全体はUNKNOWNになる
+  ---
+  duration_ms: 0.310301
+  type: 'test'
+  ...
+# Subtest: 部分成立だけが残る場合はPARTIALLY_FEASIBLEになる
+ok 370 - 部分成立だけが残る場合はPARTIALLY_FEASIBLEになる
+  ---
+  duration_ms: 0.193698
+  type: 'test'
+  ...
+# Subtest: 数量は単位別に集計しUNKNOWN数量を0へ変換しない
+ok 371 - 数量は単位別に集計しUNKNOWN数量を0へ変換しない
+  ---
+  duration_ms: 0.571969
+  type: 'test'
+  ...
+# Subtest: 既知時間と不明時間の件数を分離して集計する
+ok 372 - 既知時間と不明時間の件数を分離して集計する
+  ---
+  duration_ms: 0.260026
+  type: 'test'
+  ...
+# Subtest: FindingとNext Checkを集計し期限超過を判定する
+ok 373 - FindingとNext Checkを集計し期限超過を判定する
+  ---
+  duration_ms: 0.766146
+  type: 'test'
+  ...
+# Subtest: 異なるScenarioまたはPlan Versionの結果を混在させない
+ok 374 - 異なるScenarioまたはPlan Versionの結果を混在させない
+  ---
+  duration_ms: 0.484248
+  type: 'test'
+  ...
+# Subtest: 同じOperationの診断結果を二重集計しない
+ok 375 - 同じOperationの診断結果を二重集計しない
+  ---
+  duration_ms: 0.399162
+  type: 'test'
+  ...
+# Subtest: 空の診断結果一覧を拒否する
+ok 376 - 空の診断結果一覧を拒否する
+  ---
+  duration_ms: 0.335798
+  type: 'test'
+  ...
+# Subtest: Snapshotは集計値とOperation結果まで変更できない
+ok 377 - Snapshotは集計値とOperation結果まで変更できない
+  ---
+  duration_ms: 0.320515
+  type: 'test'
+  ...
+# Subtest: assertDiagnosisSummaryは異なるObjectを拒否する
+ok 378 - assertDiagnosisSummaryは異なるObjectを拒否する
+  ---
+  duration_ms: 0.213046
+  type: 'test'
+  ...
+# Subtest: DomainEventは共通HeaderとPayloadを保持する
+ok 379 - DomainEventは共通HeaderとPayloadを保持する
+  ---
+  duration_ms: 3.593169
+  type: 'test'
+  ...
+# Subtest: recordedAtはoccurredAtと同時刻または後でなければならない
+ok 380 - recordedAtはoccurredAtと同時刻または後でなければならない
+  ---
+  duration_ms: 1.167461
+  type: 'test'
+  ...
+# Subtest: Event TypeとAggregate Typeは大文字Snake Caseに限定する
+ok 381 - Event TypeとAggregate Typeは大文字Snake Caseに限定する
+  ---
+  duration_ms: 0.329488
+  type: 'test'
+  ...
+# Subtest: Event Versionは1以上の整数に限定する
+ok 382 - Event Versionは1以上の整数に限定する
+  ---
+  duration_ms: 0.443318
+  type: 'test'
+  ...
+# Subtest: Actor Typeを正式Codeに限定し未知Fieldを拒否する
+ok 383 - Actor Typeを正式Codeに限定し未知Fieldを拒否する
+  ---
+  duration_ms: 0.371872
+  type: 'test'
+  ...
+# Subtest: Payload・Metadata・Actorを深い階層まで変更不能にする
+ok 384 - Payload・Metadata・Actorを深い階層まで変更不能にする
+  ---
+  duration_ms: 0.401616
+  type: 'test'
+  ...
+# Subtest: PayloadはJSON互換値だけを許可しDate・Function・非有限数を拒否する
+ok 385 - PayloadはJSON互換値だけを許可しDate・Function・非有限数を拒否する
+  ---
+  duration_ms: 0.676594
+  type: 'test'
+  ...
+# Subtest: Payloadの循環参照を拒否する
+ok 386 - Payloadの循環参照を拒否する
+  ---
+  duration_ms: 0.259896
+  type: 'test'
+  ...
+# Subtest: causationIdによる自己参照を拒否する
+ok 387 - causationIdによる自己参照を拒否する
+  ---
+  duration_ms: 0.569284
+  type: 'test'
+  ...
+# Subtest: toSnapshotはEvent内容をSerializableなObjectとして返す
+ok 388 - toSnapshotはEvent内容をSerializableなObjectとして返す
+  ---
+  duration_ms: 1.316222
+  type: 'test'
+  ...
+# Subtest: assertDomainEventはDomainEvent以外を拒否する
+ok 389 - assertDomainEventはDomainEvent以外を拒否する
+  ---
+  duration_ms: 0.389127
+  type: 'test'
+  ...
+# Subtest: CollectorはEventを記録しpeekでは削除しない
+ok 390 - CollectorはEventを記録しpeekでは削除しない
+  ---
+  duration_ms: 0.342298
+  type: 'test'
+  ...
+# Subtest: pullEventsは記録順を維持して返しCollectorを空にする
+ok 391 - pullEventsは記録順を維持して返しCollectorを空にする
+  ---
+  duration_ms: 0.250371
+  type: 'test'
+  ...
+# Subtest: Collectorは同じEvent IDの二重記録を拒否する
+ok 392 - Collectorは同じEvent IDの二重記録を拒否する
+  ---
+  duration_ms: 0.287376
+  type: 'test'
+  ...
+# Subtest: recordAllは重複がある場合に一件も追加しない
+ok 393 - recordAllは重複がある場合に一件も追加しない
+  ---
+  duration_ms: 0.301106
+  type: 'test'
+  ...
+# Subtest: assertDomainEventCollectorは必要Methodを持つCollectorだけを許可する
+ok 394 - assertDomainEventCollectorは必要Methodを持つCollectorだけを許可する
+  ---
+  duration_ms: 0.250622
+  type: 'test'
+  ...
+# Subtest: Generic CSV Import ControllerはPreviewとCommitを管理する
+ok 395 - Generic CSV Import ControllerはPreviewとCommitを管理する
+  ---
+  duration_ms: 1.425654
+  type: 'test'
+  ...
+# Subtest: Error PreviewはCommit不可になる
+ok 396 - Error PreviewはCommit不可になる
+  ---
+  duration_ms: 0.332023
+  type: 'test'
+  ...
+# Subtest: Assumption CSV TemplateのHeaderが正式Schemaと一致する
+ok 397 - Assumption CSV TemplateのHeaderが正式Schemaと一致する
+  ---
+  duration_ms: 4.506689
+  type: 'test'
+  ...
+# Subtest: Diagnosis Scenario CSV TemplateのHeaderが正式Schemaと一致する
+ok 398 - Diagnosis Scenario CSV TemplateのHeaderが正式Schemaと一致する
+  ---
+  duration_ms: 1.972946
+  type: 'test'
+  ...
+# Subtest: 240分を10本／時間で割り当てた場合は40本実行可能
+ok 399 - 240分を10本／時間で割り当てた場合は40本実行可能
+  ---
+  duration_ms: 1.050548
+  type: 'test'
+  ...
+# Subtest: PIECEは実行可能能力の小数点以下を切り捨てる
+ok 400 - PIECEは実行可能能力の小数点以下を切り捨てる
+  ---
+  duration_ms: 0.242239
+  type: 'test'
+  ...
+# Subtest: LOTも小数点以下を切り捨てる
+ok 401 - LOTも小数点以下を切り捨てる
+  ---
+  duration_ms: 0.189221
+  type: 'test'
+  ...
+# Subtest: KILOGRAMは指定精度で安全側へ切り捨てる
+ok 402 - KILOGRAMは指定精度で安全側へ切り捨てる
+  ---
+  duration_ms: 0.176632
+  type: 'test'
+  ...
+# Subtest: 割当時間が十分でも計画数量を超えない
+ok 403 - 割当時間が十分でも計画数量を超えない
+  ---
+  duration_ms: 0.137173
+  type: 'test'
+  ...
+# Subtest: 割当0分なら実行可能数量0
+ok 404 - 割当0分なら実行可能数量0
+  ---
+  duration_ms: 0.108601
+  type: 'test'
+  ...
+# Subtest: Shift基準のCapacityから実行可能数量を計算する
+ok 405 - Shift基準のCapacityから実行可能数量を計算する
+  ---
+  duration_ms: 0.184754
+  type: 'test'
+  ...
+# Subtest: 数量単位不一致を拒否する
+ok 406 - 数量単位不一致を拒否する
+  ---
+  duration_ms: 0.443968
+  type: 'test'
+  ...
+# Subtest: KILOGRAMの精度に負数を指定できない
+ok 407 - KILOGRAMの精度に負数を指定できない
+  ---
+  duration_ms: 0.446072
+  type: 'test'
+  ...
+# Subtest: 計算結果を外部から変更できない
+ok 408 - 計算結果を外部から変更できない
+  ---
+  duration_ms: 0.468645
+  type: 'test'
+  ...
+# Subtest: GitHub正式Fileが存在し空ではない
+ok 409 - GitHub正式Fileが存在し空ではない
+  ---
+  duration_ms: 7.454076
+  type: 'test'
+  ...
+# Subtest: Obsidian正式成果物7点が存在し空ではない
+ok 410 - Obsidian正式成果物7点が存在し空ではない
+  ---
+  duration_ms: 1.33443
+  type: 'test'
+  ...
+# Subtest: READMEはDAY30の四つの診断StatusとResult Validityを説明する
+ok 411 - READMEはDAY30の四つの診断StatusとResult Validityを説明する
+  ---
+  duration_ms: 1.095315
+  type: 'test'
+  ...
+# Subtest: Design Handbookは正式STEP順を含む
+ok 412 - Design Handbookは正式STEP順を含む
+  ---
+  duration_ms: 1.347248
+  type: 'test'
+  ...
+# Subtest: Design Rulesは継承監査で決めたDAY30候補番号形式を使う
+ok 413 - Design Rulesは継承監査で決めたDAY30候補番号形式を使う
+  ---
+  duration_ms: 0.586339
+  type: 'test'
+  ...
+# Subtest: 正式文書に未確定Placeholderを残さない
+ok 414 - 正式文書に未確定Placeholderを残さない
+  ---
+  duration_ms: 5.010111
+  type: 'test'
+  ...
+# Subtest: 日本語Word正式版3冊が存在し空ではない
+ok 415 - 日本語Word正式版3冊が存在し空ではない
+  ---
+  duration_ms: 3.045256
+  type: 'test'
+  ...
+# Subtest: Excel運用Workbookと外部Data入力Templateが存在する
+ok 416 - Excel運用Workbookと外部Data入力Templateが存在する
+  ---
+  duration_ms: 1.113601
+  type: 'test'
+  ...
+# Subtest: 正式Catalog5点が存在し空ではない
+ok 417 - 正式Catalog5点が存在し空ではない
+  ---
+  duration_ms: 0.748149
+  type: 'test'
+  ...
+# Subtest: Status CatalogはDiagnosisCodesの全Codeを含む
+ok 418 - Status CatalogはDiagnosisCodesの全Codeを含む
+  ---
+  duration_ms: 4.660723
+  type: 'test'
+  ...
+# Subtest: Error CatalogはDiagnosisErrorsの全Error Codeを含む
+ok 419 - Error CatalogはDiagnosisErrorsの全Error Codeを含む
+  ---
+  duration_ms: 5.965397
+  type: 'test'
+  ...
+# Subtest: Domain Event Catalogは全Aggregate Eventを含む
+ok 420 - Domain Event Catalogは全Aggregate Eventを含む
+  ---
+  duration_ms: 1.31499
+  type: 'test'
+  ...
+# Subtest: Domain Catalogは主要責任境界を含む
+ok 421 - Domain Catalogは主要責任境界を含む
+  ---
+  duration_ms: 0.753067
+  type: 'test'
+  ...
+# Subtest: Manual Indexは正式版Manual・Excel・Catalogを案内する
+ok 422 - Manual Indexは正式版Manual・Excel・Catalogを案内する
+  ---
+  duration_ms: 0.715881
+  type: 'test'
+  ...
+# Subtest: IdGenerator基底Classはnext未実装を明示的に拒否する
+ok 423 - IdGenerator基底Classはnext未実装を明示的に拒否する
+  ---
+  duration_ms: 1.054484
+  type: 'test'
+  ...
+# Subtest: assertIdGeneratorはnext Methodを持つGeneratorを受け付ける
+ok 424 - assertIdGeneratorはnext Methodを持つGeneratorを受け付ける
+  ---
+  duration_ms: 0.515825
+  type: 'test'
+  ...
+# Subtest: assertIdGeneratorは契約を満たさない値を拒否する
+ok 425 - assertIdGeneratorは契約を満たさない値を拒否する
+  ---
+  duration_ms: 0.216761
+  type: 'test'
+  ...
+# Subtest: SequentialIdGeneratorはNamespace別の正式Prefixで連番IDを生成する
+ok 426 - SequentialIdGeneratorはNamespace別の正式Prefixで連番IDを生成する
+  ---
+  duration_ms: 0.275228
+  type: 'test'
+  ...
+# Subtest: peekは次のIDを返すがCounterを進めない
+ok 427 - peekは次のIDを返すがCounterを進めない
+  ---
+  duration_ms: 1.33542
+  type: 'test'
+  ...
+# Subtest: 初期Counterと桁数を指定して採番を再開できる
+ok 428 - 初期Counterと桁数を指定して採番を再開できる
+  ---
+  duration_ms: 0.228659
+  type: 'test'
+  ...
+# Subtest: 不正Namespace・Counter・Widthを拒否する
+ok 429 - 不正Namespace・Counter・Widthを拒否する
+  ---
+  duration_ms: 0.294707
+  type: 'test'
+  ...
+# Subtest: 不正Prefixと重複Prefixを拒否する
+ok 430 - 不正Prefixと重複Prefixを拒否する
+  ---
+  duration_ms: 0.298893
+  type: 'test'
+  ...
+# Subtest: generateIdはGeneratorの戻り値を検証し予期しないErrorを保持する
+ok 431 - generateIdはGeneratorの戻り値を検証し予期しないErrorを保持する
+  ---
+  duration_ms: 0.514874
+  type: 'test'
+  ...
+# Subtest: Snapshotは現在Counterを外部変更できない形で返す
+ok 432 - Snapshotは現在Counterを外部変更できない形で返す
+  ---
+  duration_ms: 0.428886
+  type: 'test'
+  ...
+# Subtest: Capacity Scenarioと対象月でDataを保存・取得する
+ok 433 - Capacity Scenarioと対象月でDataを保存・取得する
+  ---
+  duration_ms: 1.999335
+  type: 'test'
+  ...
+# Subtest: 同じInstanceの再設定ではRevisionを増やさない
+ok 434 - 同じInstanceの再設定ではRevisionを増やさない
+  ---
+  duration_ms: 0.32388
+  type: 'test'
+  ...
+# Subtest: 未登録Dataを推測で補わずENTITY_NOT_FOUNDにする
+ok 435 - 未登録Dataを推測で補わずENTITY_NOT_FOUNDにする
+  ---
+  duration_ms: 0.502636
+  type: 'test'
+  ...
+# Subtest: 削除成功時だけRevisionを増やす
+ok 436 - 削除成功時だけRevisionを増やす
+  ---
+  duration_ms: 0.231774
+  type: 'test'
+  ...
+# Subtest: ProductionPlan Repositoryは月・Factory・Activeで検索する
+ok 437 - ProductionPlan Repositoryは月・Factory・Activeで検索する
+  ---
+  duration_ms: 8.206021
+  type: 'test'
+  ...
+# Subtest: Plan Version RepositoryはPlan内Version番号の重複を拒否する
+ok 438 - Plan Version RepositoryはPlan内Version番号の重複を拒否する
+  ---
+  duration_ms: 1.291645
+  type: 'test'
+  ...
+# Subtest: Plan Version RepositoryはVersion番号順と最新Versionを返す
+ok 439 - Plan Version RepositoryはVersion番号順と最新Versionを返す
+  ---
+  duration_ms: 0.427484
+  type: 'test'
+  ...
+# Subtest: Planned Operation RepositoryはVersion・Order・設備日で検索する
+ok 440 - Planned Operation RepositoryはVersion・Order・設備日で検索する
+  ---
+  duration_ms: 1.012232
+  type: 'test'
+  ...
+# Subtest: Assumption Repositoryは対象・Status・blockingで検索する
+ok 441 - Assumption Repositoryは対象・Status・blockingで検索する
+  ---
+  duration_ms: 0.938011
+  type: 'test'
+  ...
+# Subtest: Diagnosis Scenario RepositoryはPlan VersionとActiveで検索する
+ok 442 - Diagnosis Scenario RepositoryはPlan VersionとActiveで検索する
+  ---
+  duration_ms: 0.766717
+  type: 'test'
+  ...
+# Subtest: Scenario Assumption Relation Repositoryは接続方向別に検索する
+ok 443 - Scenario Assumption Relation Repositoryは接続方向別に検索する
+  ---
+  duration_ms: 0.419462
+  type: 'test'
+  ...
+# Subtest: Diagnosis Result RepositoryはScenario・Plan Versionから検索する
+ok 444 - Diagnosis Result RepositoryはScenario・Plan Versionから検索する
+  ---
+  duration_ms: 1.763966
+  type: 'test'
+  ...
+# Subtest: Repository Setは正式な7種類を一括生成する
+ok 445 - Repository Setは正式な7種類を一括生成する
+  ---
+  duration_ms: 0.509175
+  type: 'test'
+  ...
+# Subtest: add・find・get・exists・countが成立する
+ok 446 - add・find・get・exists・countが成立する
+  ---
+  duration_ms: 1.378674
+  type: 'test'
+  ...
+# Subtest: addは同一IDの二重登録を拒否する
+ok 447 - addは同一IDの二重登録を拒否する
+  ---
+  duration_ms: 0.721671
+  type: 'test'
+  ...
+# Subtest: saveは同一IDを置換し同一InstanceならRevisionを増やさない
+ok 448 - saveは同一IDを置換し同一InstanceならRevisionを増やさない
+  ---
+  duration_ms: 0.192666
+  type: 'test'
+  ...
+# Subtest: findAllはID順の変更不能配列を返す
+ok 449 - findAllはID順の変更不能配列を返す
+  ---
+  duration_ms: 6.619478
+  type: 'test'
+  ...
+# Subtest: addAllは途中失敗時に全件Rollbackする
+ok 450 - addAllは途中失敗時に全件Rollbackする
+  ---
+  duration_ms: 0.584957
+  type: 'test'
+  ...
+# Subtest: getByIdは未登録Entityを明示Errorにする
+ok 451 - getByIdは未登録Entityを明示Errorにする
+  ---
+  duration_ms: 0.138956
+  type: 'test'
+  ...
+# Subtest: delete・clear・State復元がRevisionを含めて成立する
+ok 452 - delete・clear・State復元がRevisionを含めて成立する
+  ---
+  duration_ms: 0.262129
+  type: 'test'
+  ...
+# Subtest: 複数RepositoryへのwriteをCommitする
+ok 453 - 複数RepositoryへのwriteをCommitする
+  ---
+  duration_ms: 2.070681
+  type: 'test'
+  ...
+# Subtest: 途中Error時は全RepositoryとRevisionをRollbackする
+ok 454 - 途中Error時は全RepositoryとRevisionをRollbackする
+  ---
+  duration_ms: 0.712487
+  type: 'test'
+  ...
+# Subtest: Repositoryが投げた重複Errorでも全体をRollbackする
+ok 455 - Repositoryが投げた重複Errorでも全体をRollbackする
+  ---
+  duration_ms: 0.453192
+  type: 'test'
+  ...
+# Subtest: Nested Transactionを拒否して外側もRollbackする
+ok 456 - Nested Transactionを拒否して外側もRollbackする
+  ---
+  duration_ms: 0.339253
+  type: 'test'
+  ...
+# Subtest: 不正なManager設定とassertを拒否する
+ok 457 - 不正なManager設定とassertを拒否する
+  ---
+  duration_ms: 0.206246
+  type: 'test'
+  ...
+# Subtest: 必須条件がなければMODELEDとして扱う
+ok 458 - 必須条件がなければMODELEDとして扱う
+  ---
+  duration_ms: 0.899093
+  type: 'test'
+  ...
+# Subtest: すべて直接Model化されていればMODELEDになる
+ok 459 - すべて直接Model化されていればMODELEDになる
+  ---
+  duration_ms: 0.791514
+  type: 'test'
+  ...
+# Subtest: Assumption依存条件だけの場合はPARTIALLY_MODELEDになる
+ok 460 - Assumption依存条件だけの場合はPARTIALLY_MODELEDになる
+  ---
+  duration_ms: 0.183041
+  type: 'test'
+  ...
+# Subtest: 直接ModelとAssumption依存が混在すればPARTIALLY_MODELEDになる
+ok 461 - 直接ModelとAssumption依存が混在すればPARTIALLY_MODELEDになる
+  ---
+  duration_ms: 0.203452
+  type: 'test'
+  ...
+# Subtest: すべてModel外ならUNMODELEDになる
+ok 462 - すべてModel外ならUNMODELEDになる
+  ---
+  duration_ms: 0.819255
+  type: 'test'
+  ...
+# Subtest: 直接ModelとModel外が混在すればPARTIALLY_MODELEDになる
+ok 463 - 直接ModelとModel外が混在すればPARTIALLY_MODELEDになる
+  ---
+  duration_ms: 0.240707
+  type: 'test'
+  ...
+# Subtest: non-blockingのModel外条件は記録するがblockingにはしない
+ok 464 - non-blockingのModel外条件は記録するがblockingにはしない
+  ---
+  duration_ms: 0.227417
+  type: 'test'
+  ...
+# Subtest: Assumption依存条件には正式なAssumption Typeを必須とする
+ok 465 - Assumption依存条件には正式なAssumption Typeを必須とする
+  ---
+  duration_ms: 0.419873
+  type: 'test'
+  ...
+# Subtest: 直接Model条件には参照Model要素を必須とする
+ok 466 - 直接Model条件には参照Model要素を必須とする
+  ---
+  duration_ms: 0.294457
+  type: 'test'
+  ...
+# Subtest: Model外条件にはModel外である理由を必須とする
+ok 467 - Model外条件にはModel外である理由を必須とする
+  ---
+  duration_ms: 0.332273
+  type: 'test'
+  ...
+# Subtest: 重複conditionCodeをSource不整合として拒否する
+ok 468 - 重複conditionCodeをSource不整合として拒否する
+  ---
+  duration_ms: 0.190583
+  type: 'test'
+  ...
+# Subtest: 未登録Coverage Typeを拒否する
+ok 469 - 未登録Coverage Typeを拒否する
+  ---
+  duration_ms: 0.127439
+  type: 'test'
+  ...
+# Subtest: 結果・分類配列・Conditionを外部から変更できない
+ok 470 - 結果・分類配列・Conditionを外部から変更できない
+  ---
+  duration_ms: 0.172726
+  type: 'test'
+  ...
+# Subtest: OPEN Next Checkを不変Objectとして生成できる
+ok 471 - OPEN Next Checkを不変Objectとして生成できる
+  ---
+  duration_ms: 1.582196
+  type: 'test'
+  ...
+# Subtest: 期限当日はOverdueにしない
+ok 472 - 期限当日はOverdueにしない
+  ---
+  duration_ms: 0.281697
+  type: 'test'
+  ...
+# Subtest: COMPLETEDには完了日時・完了者・結果が必要
+ok 473 - COMPLETEDには完了日時・完了者・結果が必要
+  ---
+  duration_ms: 0.533471
+  type: 'test'
+  ...
+# Subtest: COMPLETEDを正式な完了情報付きで生成できる
+ok 474 - COMPLETEDを正式な完了情報付きで生成できる
+  ---
+  duration_ms: 0.19578
+  type: 'test'
+  ...
+# Subtest: 完了日時が作成日時より前の場合は拒否する
+ok 475 - 完了日時が作成日時より前の場合は拒否する
+  ---
+  duration_ms: 0.300466
+  type: 'test'
+  ...
+# Subtest: OPENに完了情報を混在させない
+ok 476 - OPENに完了情報を混在させない
+  ---
+  duration_ms: 1.039172
+  type: 'test'
+  ...
+# Subtest: CANNOT_CONFIRMには理由が必要
+ok 477 - CANNOT_CONFIRMには理由が必要
+  ---
+  duration_ms: 0.226135
+  type: 'test'
+  ...
+# Subtest: CANNOT_CONFIRMは理由を残して閉じられる
+ok 478 - CANNOT_CONFIRMは理由を残して閉じられる
+  ---
+  duration_ms: 0.11425
+  type: 'test'
+  ...
+# Subtest: 正式でないCheck Typeを拒否する
+ok 479 - 正式でないCheck Typeを拒否する
+  ---
+  duration_ms: 0.31695
+  type: 'test'
+  ...
+# Subtest: Snapshotは変更できない
+ok 480 - Snapshotは変更できない
+  ---
+  duration_ms: 0.365241
+  type: 'test'
+  ...
+# Subtest: assertNextCheckは別Objectを拒否する
+ok 481 - assertNextCheckは別Objectを拒否する
+  ---
+  duration_ms: 0.190362
+  type: 'test'
+  ...
+# Subtest: FEASIBLE結果は診断実行可能数量と不足量を導出する
+ok 482 - FEASIBLE結果は診断実行可能数量と不足量を導出する
+  ---
+  duration_ms: 2.534198
+  type: 'test'
+  ...
+# Subtest: PARTIALLY_FEASIBLEはCapacity上の部分数量を最終数量に採用する
+ok 483 - PARTIALLY_FEASIBLEはCapacity上の部分数量を最終数量に採用する
+  ---
+  duration_ms: 0.386182
+  type: 'test'
+  ...
+# Subtest: 最終INFEASIBLEはCapacityが足りていても実行可能数量を0とする
+ok 484 - 最終INFEASIBLEはCapacityが足りていても実行可能数量を0とする
+  ---
+  duration_ms: 0.366584
+  type: 'test'
+  ...
+# Subtest: UNKNOWNは実行可能数量を0へ変換しない
+ok 485 - UNKNOWNは実行可能数量を0へ変換しない
+  ---
+  duration_ms: 0.244823
+  type: 'test'
+  ...
+# Subtest: 必要時間または割当時間が不明なら不足時間も不明になる
+ok 486 - 必要時間または割当時間が不明なら不足時間も不明になる
+  ---
+  duration_ms: 0.307937
+  type: 'test'
+  ...
+# Subtest: StatusとPrimary Reasonの不整合を拒否する
+ok 487 - StatusとPrimary Reasonの不整合を拒否する
+  ---
+  duration_ms: 0.630966
+  type: 'test'
+  ...
+# Subtest: Capacity Statusと数量の不整合を拒否する
+ok 488 - Capacity Statusと数量の不整合を拒否する
+  ---
+  duration_ms: 0.311933
+  type: 'test'
+  ...
+# Subtest: 割当時間が必要時間を超える結果を拒否する
+ok 489 - 割当時間が必要時間を超える結果を拒否する
+  ---
+  duration_ms: 0.225034
+  type: 'test'
+  ...
+# Subtest: FindingとNext Checkは同じPlanned Operationだけを受け付ける
+ok 490 - FindingとNext Checkは同じPlanned Operationだけを受け付ける
+  ---
+  duration_ms: 1.32157
+  type: 'test'
+  ...
+# Subtest: 同じFinding IDの重複を拒否する
+ok 491 - 同じFinding IDの重複を拒否する
+  ---
+  duration_ms: 0.660931
+  type: 'test'
+  ...
+# Subtest: Open Next CheckがあればFEASIBLEでもAction対象になる
+ok 492 - Open Next CheckがあればFEASIBLEでもAction対象になる
+  ---
+  duration_ms: 0.400044
+  type: 'test'
+  ...
+# Subtest: Snapshotは配下の配列まで変更できない
+ok 493 - Snapshotは配下の配列まで変更できない
+  ---
+  duration_ms: 0.432732
+  type: 'test'
+  ...
+# Subtest: assertOperationDiagnosisResultは異なるObjectを拒否する
+ok 494 - assertOperationDiagnosisResultは異なるObjectを拒否する
+  ---
+  duration_ms: 0.258734
+  type: 'test'
+  ...
+# Subtest: TIME・SHIFT・DAYの順で並べる
+ok 495 - TIME・SHIFT・DAYの順で並べる
+  ---
+  duration_ms: 3.424288
+  type: 'test'
+  ...
+# Subtest: Operation priorityが小さいものを先にする
+ok 496 - Operation priorityが小さいものを先にする
+  ---
+  duration_ms: 0.441705
+  type: 'test'
+  ...
+# Subtest: Order priorityが小さいOrderを先にする
+ok 497 - Order priorityが小さいOrderを先にする
+  ---
+  duration_ms: 0.426172
+  type: 'test'
+  ...
+# Subtest: 納期が早いOrderを先にする
+ok 498 - 納期が早いOrderを先にする
+  ---
+  duration_ms: 0.571808
+  type: 'test'
+  ...
+# Subtest: TIME同士では開始時刻が早いOperationを先にする
+ok 499 - TIME同士では開始時刻が早いOperationを先にする
+  ---
+  duration_ms: 0.45136
+  type: 'test'
+  ...
+# Subtest: Routing sequenceが小さい工程を先にする
+ok 500 - Routing sequenceが小さい工程を先にする
+  ---
+  duration_ms: 0.380364
+  type: 'test'
+  ...
+# Subtest: 最後はplannedOperationIdで決定的に並べる
+ok 501 - 最後はplannedOperationIdで決定的に並べる
+  ---
+  duration_ms: 0.299615
+  type: 'test'
+  ...
+# Subtest: 入力配列順が変わっても結果は変わらない
+ok 502 - 入力配列順が変わっても結果は変わらない
+  ---
+  duration_ms: 0.251222
+  type: 'test'
+  ...
+# Subtest: Order・Routing情報が未登録でもIDを使って再現可能に並べる
+ok 503 - Order・Routing情報が未登録でもIDを使って再現可能に並べる
+  ---
+  duration_ms: 0.528835
+  type: 'test'
+  ...
+# Subtest: 入力配列を変更せず、結果配列を変更不能にする
+ok 504 - 入力配列を変更せず、結果配列を変更不能にする
+  ---
+  duration_ms: 0.996658
+  type: 'test'
+  ...
+# Subtest: 重複Operation IDを拒否する
+ok 505 - 重複Operation IDを拒否する
+  ---
+  duration_ms: 0.467964
+  type: 'test'
+  ...
+# Subtest: 全条件が成立した場合はFEASIBLEになる
+ok 506 - 全条件が成立した場合はFEASIBLEになる
+  ---
+  duration_ms: 1.237556
+  type: 'test'
+  ...
+# Subtest: Capacityが一部成立ならPARTIALLY_FEASIBLEになる
+ok 507 - Capacityが一部成立ならPARTIALLY_FEASIBLEになる
+  ---
+  duration_ms: 0.238603
+  type: 'test'
+  ...
+# Subtest: Capacityが確認済み0ならINFEASIBLEになる
+ok 508 - Capacityが確認済み0ならINFEASIBLEになる
+  ---
+  duration_ms: 0.122462
+  type: 'test'
+  ...
+# Subtest: Capacityが十分でもblocking Assumption REJECTEDならINFEASIBLEになる
+ok 509 - Capacityが十分でもblocking Assumption REJECTEDならINFEASIBLEになる
+  ---
+  duration_ms: 0.173598
+  type: 'test'
+  ...
+# Subtest: blocking Assumption未確認ならCapacityが十分でもUNKNOWNになる
+ok 510 - blocking Assumption未確認ならCapacityが十分でもUNKNOWNになる
+  ---
+  duration_ms: 1.250825
+  type: 'test'
+  ...
+# Subtest: Assumption競合はUNKNOWNになる
+ok 511 - Assumption競合はUNKNOWNになる
+  ---
+  duration_ms: 0.14816
+  type: 'test'
+  ...
+# Subtest: Capacity一部成立でもblocking前提未確認なら総合StatusはUNKNOWNになる
+ok 512 - Capacity一部成立でもblocking前提未確認なら総合StatusはUNKNOWNになる
+  ---
+  duration_ms: 0.165746
+  type: 'test'
+  ...
+# Subtest: 確認済みblocking制約があればCapacityが十分でもINFEASIBLEになる
+ok 513 - 確認済みblocking制約があればCapacityが十分でもINFEASIBLEになる
+  ---
+  duration_ms: 0.636103
+  type: 'test'
+  ...
+# Subtest: Routing INVALIDはINFEASIBLEになる
+ok 514 - Routing INVALIDはINFEASIBLEになる
+  ---
+  duration_ms: 0.326524
+  type: 'test'
+  ...
+# Subtest: Routing UNKNOWNはUNKNOWNになる
+ok 515 - Routing UNKNOWNはUNKNOWNになる
+  ---
+  duration_ms: 0.32371
+  type: 'test'
+  ...
+# Subtest: 必須未Model条件が残る場合はUNKNOWNになる
+ok 516 - 必須未Model条件が残る場合はUNKNOWNになる
+  ---
+  duration_ms: 0.154379
+  type: 'test'
+  ...
+# Subtest: 非blockingのModel外項目だけならFEASIBLEを妨げない
+ok 517 - 非blockingのModel外項目だけならFEASIBLEを妨げない
+  ---
+  duration_ms: 0.086929
+  type: 'test'
+  ...
+# Subtest: INFERRED制約はconfirmed physical impossibilityとして扱わない
+ok 518 - INFERRED制約はconfirmed physical impossibilityとして扱わない
+  ---
+  duration_ms: 0.089653
+  type: 'test'
+  ...
+# Subtest: 確定不成立と未確認が混在してもINFEASIBLEをUNKNOWNへ弱めない
+ok 519 - 確定不成立と未確認が混在してもINFEASIBLEをUNKNOWNへ弱めない
+  ---
+  duration_ms: 0.083063
+  type: 'test'
+  ...
+# Subtest: Capacity Statusと数量の矛盾を拒否する
+ok 520 - Capacity Statusと数量の矛盾を拒否する
+  ---
+  duration_ms: 0.416958
+  type: 'test'
+  ...
+# Subtest: 同じConfirmed Constraint Codeの重複を拒否する
+ok 521 - 同じConfirmed Constraint Codeの重複を拒否する
+  ---
+  duration_ms: 0.138806
+  type: 'test'
+  ...
+# Subtest: Decision Resultを外部から変更できない
+ok 522 - Decision Resultを外部から変更できない
+  ---
+  duration_ms: 0.108351
+  type: 'test'
+  ...
+# Subtest: 各Serviceを接続してCURRENTのDiagnosis Resultを生成する
+ok 523 - 各Serviceを接続してCURRENTのDiagnosis Resultを生成する
+  ---
+  duration_ms: 8.697649
+  type: 'test'
+  ...
+# Subtest: 同じCapacityを複数Operationへ二重使用しない
+ok 524 - 同じCapacityを複数Operationへ二重使用しない
+  ---
+  duration_ms: 2.163579
+  type: 'test'
+  ...
+# Subtest: 入力配列順が変わってもOperation診断順と結果は変わらない
+ok 525 - 入力配列順が変わってもOperation診断順と結果は変わらない
+  ---
+  duration_ms: 2.35947
+  type: 'test'
+  ...
+# Subtest: Capacity Ruleなしを能力0とせずUNKNOWNにする
+ok 526 - Capacity Ruleなしを能力0とせずUNKNOWNにする
+  ---
+  duration_ms: 0.912594
+  type: 'test'
+  ...
+# Subtest: Capacity Snapshot Revisionと診断Input Revisionを保存する
+ok 527 - Capacity Snapshot Revisionと診断Input Revisionを保存する
+  ---
+  duration_ms: 2.389865
+  type: 'test'
+  ...
+# Subtest: ScenarioとCapacity SnapshotのScenario不一致を拒否する
+ok 528 - ScenarioとCapacity SnapshotのScenario不一致を拒否する
+  ---
+  duration_ms: 0.808059
+  type: 'test'
+  ...
+# Subtest: Plan Versionが異なるOperationを拒否する
+ok 529 - Plan Versionが異なるOperationを拒否する
+  ---
+  duration_ms: 0.562394
+  type: 'test'
+  ...
+# Subtest: Equipment Master不足を推測で補わない
+ok 530 - Equipment Master不足を推測で補わない
+  ---
+  duration_ms: 0.830161
+  type: 'test'
+  ...
+# Subtest: 診断してもPlannedOperationを変更しない
+ok 531 - 診断してもPlannedOperationを変更しない
+  ---
+  duration_ms: 1.478913
+  type: 'test'
+  ...
+# Subtest: 不正なService契約をConstructorで拒否する
+ok 532 - 不正なService契約をConstructorで拒否する
+  ---
+  duration_ms: 0.522364
+  type: 'test'
+  ...
+# Subtest: 日単位Planned Operationを正しい状態から復元できる
+ok 533 - 日単位Planned Operationを正しい状態から復元できる
+  ---
+  duration_ms: 1.582277
+  type: 'test'
+  ...
+# Subtest: static createはPLANNED_OPERATION_ADDED Eventを記録する
+ok 534 - static createはPLANNED_OPERATION_ADDED Eventを記録する
+  ---
+  duration_ms: 1.604209
+  type: 'test'
+  ...
+# Subtest: 必須IDに空欄または空白を含む値を使用できない
+ok 535 - 必須IDに空欄または空白を含む値を使用できない
+  ---
+  duration_ms: 0.516216
+  type: 'test'
+  ...
+# Subtest: 実在しない計画日を拒否する
+ok 536 - 実在しない計画日を拒否する
+  ---
+  duration_ms: 0.280877
+  type: 'test'
+  ...
+# Subtest: Shift指定でSHIFT粒度になる
+ok 537 - Shift指定でSHIFT粒度になる
+  ---
+  duration_ms: 0.192545
+  type: 'test'
+  ...
+# Subtest: 開始・終了時刻指定でTIME粒度と所要時間を保持する
+ok 538 - 開始・終了時刻指定でTIME粒度と所要時間を保持する
+  ---
+  duration_ms: 0.302949
+  type: 'test'
+  ...
+# Subtest: 開始または終了時刻の片方だけを指定できない
+ok 539 - 開始または終了時刻の片方だけを指定できない
+  ---
+  duration_ms: 0.182541
+  type: 'test'
+  ...
+# Subtest: 同時刻および日またぎ時刻をTIME計画として許可しない
+ok 540 - 同時刻および日またぎ時刻をTIME計画として許可しない
+  ---
+  duration_ms: 0.325052
+  type: 'test'
+  ...
+# Subtest: PIECEとLOTは正の整数数量だけを許可する
+ok 541 - PIECEとLOTは正の整数数量だけを許可する
+  ---
+  duration_ms: 0.474113
+  type: 'test'
+  ...
+# Subtest: KILOGRAMは正の小数数量を許可する
+ok 542 - KILOGRAMは正の小数数量を許可する
+  ---
+  duration_ms: 0.34355
+  type: 'test'
+  ...
+# Subtest: 未登録数量単位を拒否する
+ok 543 - 未登録数量単位を拒否する
+  ---
+  duration_ms: 0.196632
+  type: 'test'
+  ...
+# Subtest: Priorityはnullまたは正の整数だけを許可する
+ok 544 - Priorityはnullまたは正の整数だけを許可する
+  ---
+  duration_ms: 0.246225
+  type: 'test'
+  ...
+# Subtest: 外径と肉厚は未入力または正の有限数だけを許可する
+ok 545 - 外径と肉厚は未入力または正の有限数だけを許可する
+  ---
+  duration_ms: 0.241438
+  type: 'test'
+  ...
+# Subtest: 日時・Shift・時刻を一つのrescheduleで変更する
+ok 546 - 日時・Shift・時刻を一つのrescheduleで変更する
+  ---
+  duration_ms: 0.356018
+  type: 'test'
+  ...
+# Subtest: 同じScheduleへの変更はEventを作らない
+ok 547 - 同じScheduleへの変更はEventを作らない
+  ---
+  duration_ms: 0.197513
+  type: 'test'
+  ...
+# Subtest: 設備変更を理由とEventとともに記録する
+ok 548 - 設備変更を理由とEventとともに記録する
+  ---
+  duration_ms: 0.363069
+  type: 'test'
+  ...
+# Subtest: 数量と単位を一つの変更として記録する
+ok 549 - 数量と単位を一つの変更として記録する
+  ---
+  duration_ms: 0.754199
+  type: 'test'
+  ...
+# Subtest: Priorityを設定・解除できる
+ok 550 - Priorityを設定・解除できる
+  ---
+  duration_ms: 0.212525
+  type: 'test'
+  ...
+# Subtest: 能力Rule選択条件をまとめて変更する
+ok 551 - 能力Rule選択条件をまとめて変更する
+  ---
+  duration_ms: 0.595533
+  type: 'test'
+  ...
+# Subtest: Note変更は計画条件変更と別Eventにする
+ok 552 - Note変更は計画条件変更と別Eventにする
+  ---
+  duration_ms: 0.189761
+  type: 'test'
+  ...
+# Subtest: toCapacityContextは診断に必要な計画条件だけを返す
+ok 553 - toCapacityContextは診断に必要な計画条件だけを返す
+  ---
+  duration_ms: 0.178525
+  type: 'test'
+  ...
+# Subtest: Snapshotを外部から変更できない
+ok 554 - Snapshotを外部から変更できない
+  ---
+  duration_ms: 0.140028
+  type: 'test'
+  ...
+# Subtest: Event記録失敗時は設備状態を変更しない
+ok 555 - Event記録失敗時は設備状態を変更しない
+  ---
+  duration_ms: 0.26297
+  type: 'test'
+  ...
+# Subtest: 実際の計画条件変更には理由を必要とし同値入力では理由を要求しない
+ok 556 - 実際の計画条件変更には理由を必要とし同値入力では理由を要求しない
+  ---
+  duration_ms: 0.133438
+  type: 'test'
+  ...
+# Subtest: assertPlannedOperationは正式Entityだけを受け付ける
+ok 557 - assertPlannedOperationは正式Entityだけを受け付ける
+  ---
+  duration_ms: 0.127359
+  type: 'test'
+  ...
+# Subtest: 初期状態はFile選択待ちである
+ok 558 - 初期状態はFile選択待ちである
+  ---
+  duration_ms: 2.128998
+  type: 'test'
+  ...
+# Subtest: 正常CSVをPreviewしADD件数を画面状態へ変換する
+ok 559 - 正常CSVをPreviewしADD件数を画面状態へ変換する
+  ---
+  duration_ms: 2.286892
+  type: 'test'
+  ...
+# Subtest: 入力ErrorがあるPreviewは表示するがCommit不可にする
+ok 560 - 入力ErrorがあるPreviewは表示するがCommit不可にする
+  ---
+  duration_ms: 0.720459
+  type: 'test'
+  ...
+# Subtest: Preview後にCommitするとRepositoryへ保存し完了状態にする
+ok 561 - Preview後にCommitするとRepositoryへ保存し完了状態にする
+  ---
+  duration_ms: 0.902238
+  type: 'test'
+  ...
+# Subtest: PreviewなしのCommitはError状態として返す
+ok 562 - PreviewなしのCommitはError状態として返す
+  ---
+  duration_ms: 1.404823
+  type: 'test'
+  ...
+# Subtest: ResetでPreviewとCommit Resultを破棄する
+ok 563 - ResetでPreviewとCommit Resultを破棄する
+  ---
+  duration_ms: 0.721851
+  type: 'test'
+  ...
+# Subtest: Controller契約とConstructor入力を検証する
+ok 564 - Controller契約とConstructor入力を検証する
+  ---
+  duration_ms: 0.540111
+  type: 'test'
+  ...
+# Subtest: Planned Operation CSVの正式Column順を公開する
+ok 565 - Planned Operation CSVの正式Column順を公開する
+  ---
+  duration_ms: 1.149555
+  type: 'test'
+  ...
+# Subtest: 正式Header一式を有効と判定する
+ok 566 - 正式Header一式を有効と判定する
+  ---
+  duration_ms: 0.211614
+  type: 'test'
+  ...
+# Subtest: 必須Header不足・未知Header・重複Headerを分離する
+ok 567 - 必須Header不足・未知Header・重複Headerを分離する
+  ---
+  duration_ms: 0.252375
+  type: 'test'
+  ...
+# Subtest: HeaderとCell配列をRow Objectへ変換する
+ok 568 - HeaderとCell配列をRow Objectへ変換する
+  ---
+  duration_ms: 0.149782
+  type: 'test'
+  ...
+# Subtest: 配布用CSV TemplateのHeaderは正式Schemaと一致する
+ok 569 - 配布用CSV TemplateのHeaderは正式Schemaと一致する
+  ---
+  duration_ms: 4.913017
+  type: 'test'
+  ...
+# Subtest: ErrorがなければCOMMIT_READYになる
+ok 570 - ErrorがなければCOMMIT_READYになる
+  ---
+  duration_ms: 1.793144
+  type: 'test'
+  ...
+# Subtest: Error IssueがあればREJECTEDになる
+ok 571 - Error IssueがあればREJECTEDになる
+  ---
+  duration_ms: 0.332764
+  type: 'test'
+  ...
+# Subtest: Commit EntryはADDとUPDATEだけを返す
+ok 572 - Commit EntryはADDとUPDATEだけを返す
+  ---
+  duration_ms: 0.231123
+  type: 'test'
+  ...
+# Subtest: Preview Snapshotは内部Dataまで変更できない
+ok 573 - Preview Snapshotは内部Dataまで変更できない
+  ---
+  duration_ms: 0.564718
+  type: 'test'
+  ...
+# Subtest: assertPlannedOperationImportPreviewは正式Previewだけを受け付ける
+ok 574 - assertPlannedOperationImportPreviewは正式Previewだけを受け付ける
+  ---
+  duration_ms: 0.427765
+  type: 'test'
+  ...
+# Subtest: 新規RowをADDとしてPreviewする
+ok 575 - 新規RowをADDとしてPreviewする
+  ---
+  duration_ms: 3.679167
+  type: 'test'
+  ...
+# Subtest: 既存Dataと同じRowをUNCHANGEDにする
+ok 576 - 既存Dataと同じRowをUNCHANGEDにする
+  ---
+  duration_ms: 0.987595
+  type: 'test'
+  ...
+# Subtest: 既存Dataとの差分をUPDATEとWarningにする
+ok 577 - 既存Dataとの差分をUPDATEとWarningにする
+  ---
+  duration_ms: 0.422616
+  type: 'test'
+  ...
+# Subtest: CSV内の重複IDを両方DUPLICATEにする
+ok 578 - CSV内の重複IDを両方DUPLICATEにする
+  ---
+  duration_ms: 0.857362
+  type: 'test'
+  ...
+# Subtest: 選択したPlan VersionとRowのPlan Version不一致を拒否する
+ok 579 - 選択したPlan VersionとRowのPlan Version不一致を拒否する
+  ---
+  duration_ms: 0.561523
+  type: 'test'
+  ...
+# Subtest: 不正な数量をEntity Validation Errorとして返す
+ok 580 - 不正な数量をEntity Validation Errorとして返す
+  ---
+  duration_ms: 0.311832
+  type: 'test'
+  ...
+# Subtest: 未知HeaderがあるCSVをRow変換せず拒否する
+ok 581 - 未知HeaderがあるCSVをRow変換せず拒否する
+  ---
+  duration_ms: 0.46468
+  type: 'test'
+  ...
+# Subtest: 対象Plan Versionが存在しない場合はGlobal Errorにする
+ok 582 - 対象Plan Versionが存在しない場合はGlobal Errorにする
+  ---
+  duration_ms: 0.394455
+  type: 'test'
+  ...
+# Subtest: APPROVED Plan VersionへのImportを拒否する
+ok 583 - APPROVED Plan VersionへのImportを拒否する
+  ---
+  duration_ms: 0.675011
+  type: 'test'
+  ...
+# Subtest: CSV Parse ErrorをPreview Issueへ変換する
+ok 584 - CSV Parse ErrorをPreview Issueへ変換する
+  ---
+  duration_ms: 0.66046
+  type: 'test'
+  ...
+# Subtest: Repository RevisionをPreviewへ保存する
+ok 585 - Repository RevisionをPreviewへ保存する
+  ---
+  duration_ms: 0.511719
+  type: 'test'
+  ...
+# Subtest: Production Planを正しい初期状態から復元できる
+ok 586 - Production Planを正しい初期状態から復元できる
+  ---
+  duration_ms: 1.585011
+  type: 'test'
+  ...
+# Subtest: static createはPRODUCTION_PLAN_CREATED Eventを一件記録する
+ok 587 - static createはPRODUCTION_PLAN_CREATED Eventを一件記録する
+  ---
+  duration_ms: 1.492083
+  type: 'test'
+  ...
+# Subtest: Production PlanのID・名称・対象月・Primary Factoryを厳密に検証する
+ok 588 - Production PlanのID・名称・対象月・Primary Factoryを厳密に検証する
+  ---
+  duration_ms: 0.606469
+  type: 'test'
+  ...
+# Subtest: createdAt・active・任意Textの不正値を拒否する
+ok 589 - createdAt・active・任意Textの不正値を拒否する
+  ---
+  duration_ms: 0.535804
+  type: 'test'
+  ...
+# Subtest: Snapshotは正規化され外部から変更できない
+ok 590 - Snapshotは正規化され外部から変更できない
+  ---
+  duration_ms: 0.34389
+  type: 'test'
+  ...
+# Subtest: renameは名称を変更して差分Eventを記録する
+ok 591 - renameは名称を変更して差分Eventを記録する
+  ---
+  duration_ms: 0.414124
+  type: 'test'
+  ...
+# Subtest: 同じ名称へのrenameは状態もEvent数も変更しない
+ok 592 - 同じ名称へのrenameは状態もEvent数も変更しない
+  ---
+  duration_ms: 0.144615
+  type: 'test'
+  ...
+# Subtest: DescriptionとNoteを個別に変更し各Eventを記録する
+ok 593 - DescriptionとNoteを個別に変更し各Eventを記録する
+  ---
+  duration_ms: 0.303971
+  type: 'test'
+  ...
+# Subtest: deactivateは理由を必須とし使用停止Eventを記録する
+ok 594 - deactivateは理由を必須とし使用停止Eventを記録する
+  ---
+  duration_ms: 0.37764
+  type: 'test'
+  ...
+# Subtest: deactivateの理由が空欄なら状態を変更しない
+ok 595 - deactivateの理由が空欄なら状態を変更しない
+  ---
+  duration_ms: 0.391441
+  type: 'test'
+  ...
+# Subtest: inactive Planを再度deactivateできない
+ok 596 - inactive Planを再度deactivateできない
+  ---
+  duration_ms: 0.210112
+  type: 'test'
+  ...
+# Subtest: inactive PlanをactivateしてEventを記録する
+ok 597 - inactive PlanをactivateしてEventを記録する
+  ---
+  duration_ms: 0.198294
+  type: 'test'
+  ...
+# Subtest: active Planを再度activateできない
+ok 598 - active Planを再度activateできない
+  ---
+  duration_ms: 0.127169
+  type: 'test'
+  ...
+# Subtest: pullDomainEventsはEventを返してCollectorを空にする
+ok 599 - pullDomainEventsはEventを返してCollectorを空にする
+  ---
+  duration_ms: 0.165946
+  type: 'test'
+  ...
+# Subtest: 外部から渡したDomainEventCollectorへEventを蓄積できる
+ok 600 - 外部から渡したDomainEventCollectorへEventを蓄積できる
+  ---
+  duration_ms: 0.142882
+  type: 'test'
+  ...
+# Subtest: targetMonthとprimaryFactoryIdは作成後に直接変更できない
+ok 601 - targetMonthとprimaryFactoryIdは作成後に直接変更できない
+  ---
+  duration_ms: 0.130654
+  type: 'test'
+  ...
+# Subtest: assertProductionPlanはProductionPlan以外を拒否する
+ok 602 - assertProductionPlanはProductionPlan以外を拒否する
+  ---
+  duration_ms: 0.132286
+  type: 'test'
+  ...
+# Subtest: Event生成に失敗したrenameは名称を変更しない
+ok 603 - Event生成に失敗したrenameは名称を変更しない
+  ---
+  duration_ms: 0.131155
+  type: 'test'
+  ...
+# Subtest: Event生成に失敗したdeactivateはactive状態を変更しない
+ok 604 - Event生成に失敗したdeactivateはactive状態を変更しない
+  ---
+  duration_ms: 0.201559
+  type: 'test'
+  ...
+# Subtest: Event記録に失敗した変更はEntity状態へ反映しない
+ok 605 - Event記録に失敗した変更はEntity状態へ反映しない
+  ---
+  duration_ms: 0.905072
+  type: 'test'
+  ...
+# Subtest: Production Plan Versionを正しい状態から復元できる
+ok 606 - Production Plan Versionを正しい状態から復元できる
+  ---
+  duration_ms: 1.419996
+  type: 'test'
+  ...
+# Subtest: static createはPLAN_VERSION_CREATED Eventを記録する
+ok 607 - static createはPLAN_VERSION_CREATED Eventを記録する
+  ---
+  duration_ms: 1.13244
+  type: 'test'
+  ...
+# Subtest: ID・Version番号・名称・Statusを厳密に検証する
+ok 608 - ID・Version番号・名称・Statusを厳密に検証する
+  ---
+  duration_ms: 0.6674
+  type: 'test'
+  ...
+# Subtest: Source Versionは自分自身を参照できない
+ok 609 - Source Versionは自分自身を参照できない
+  ---
+  duration_ms: 0.156422
+  type: 'test'
+  ...
+# Subtest: SUPERSEDEDとARCHIVEDはactive=trueで復元できない
+ok 610 - SUPERSEDEDとARCHIVEDはactive=trueで復元できない
+  ---
+  duration_ms: 0.3978
+  type: 'test'
+  ...
+# Subtest: DRAFTとREVIEWは編集可能でAPPROVED以降は編集不可
+ok 611 - DRAFTとREVIEWは編集可能でAPPROVED以降は編集不可
+  ---
+  duration_ms: 0.400975
+  type: 'test'
+  ...
+# Subtest: DRAFTからREVIEWへ提出できる
+ok 612 - DRAFTからREVIEWへ提出できる
+  ---
+  duration_ms: 0.364681
+  type: 'test'
+  ...
+# Subtest: REVIEWから理由付きでDRAFTへ差し戻せる
+ok 613 - REVIEWから理由付きでDRAFTへ差し戻せる
+  ---
+  duration_ms: 0.304842
+  type: 'test'
+  ...
+# Subtest: 差戻し理由が空欄なら状態を変更しない
+ok 614 - 差戻し理由が空欄なら状態を変更しない
+  ---
+  duration_ms: 0.399652
+  type: 'test'
+  ...
+# Subtest: REVIEWからAPPROVEDへ承認できる
+ok 615 - REVIEWからAPPROVEDへ承認できる
+  ---
+  duration_ms: 0.426072
+  type: 'test'
+  ...
+# Subtest: DRAFTから直接APPROVEDへ変更できない
+ok 616 - DRAFTから直接APPROVEDへ変更できない
+  ---
+  duration_ms: 0.215099
+  type: 'test'
+  ...
+# Subtest: APPROVEDをReplacement Version付きでSUPERSEDEDにできる
+ok 617 - APPROVEDをReplacement Version付きでSUPERSEDEDにできる
+  ---
+  duration_ms: 0.219836
+  type: 'test'
+  ...
+# Subtest: Replacement Versionに自分自身を指定できない
+ok 618 - Replacement Versionに自分自身を指定できない
+  ---
+  duration_ms: 0.15518
+  type: 'test'
+  ...
+# Subtest: SUPERSEDEDを理由付きでARCHIVEDにできる
+ok 619 - SUPERSEDEDを理由付きでARCHIVEDにできる
+  ---
+  duration_ms: 0.188539
+  type: 'test'
+  ...
+# Subtest: 正式経路以外のStatus遷移を拒否する
+ok 620 - 正式経路以外のStatus遷移を拒否する
+  ---
+  duration_ms: 0.320966
+  type: 'test'
+  ...
+# Subtest: renameはDRAFTまたはREVIEWだけで許可する
+ok 621 - renameはDRAFTまたはREVIEWだけで許可する
+  ---
+  duration_ms: 0.249941
+  type: 'test'
+  ...
+# Subtest: 同じ名称・Noteへの変更はEventを作らない
+ok 622 - 同じ名称・Noteへの変更はEventを作らない
+  ---
+  duration_ms: 0.133858
+  type: 'test'
+  ...
+# Subtest: 承認後も監査NoteはEvent付きで追記できる
+ok 623 - 承認後も監査NoteはEvent付きで追記できる
+  ---
+  duration_ms: 0.746868
+  type: 'test'
+  ...
+# Subtest: Event記録失敗時はStatusを変更しない
+ok 624 - Event記録失敗時はStatusを変更しない
+  ---
+  duration_ms: 0.315648
+  type: 'test'
+  ...
+# Subtest: Snapshotは不変で現在状態を保持する
+ok 625 - Snapshotは不変で現在状態を保持する
+  ---
+  duration_ms: 0.136923
+  type: 'test'
+  ...
+# Subtest: pullDomainEvents後は同じEventを再取得しない
+ok 626 - pullDomainEvents後は同じEventを再取得しない
+  ---
+  duration_ms: 0.157423
+  type: 'test'
+  ...
+# Subtest: assertProductionPlanVersionは正しい型だけを受け付ける
+ok 627 - assertProductionPlanVersionは正しい型だけを受け付ける
+  ---
+  duration_ms: 0.137904
+  type: 'test'
+  ...
+# Subtest: Plan一覧はVersion・Scenario・最新診断を結合して不変Dataを返す
+ok 628 - Plan一覧はVersion・Scenario・最新診断を結合して不変Dataを返す
+  ---
+  duration_ms: 10.003757
+  type: 'test'
+  ...
+# Subtest: Plan一覧はactiveOnlyと対象月で絞り込める
+ok 629 - Plan一覧はactiveOnlyと対象月で絞り込める
+  ---
+  duration_ms: 0.236801
+  type: 'test'
+  ...
+# Subtest: Scenario一覧はActive Assumption数と最新診断を返す
+ok 630 - Scenario一覧はActive Assumption数と最新診断を返す
+  ---
+  duration_ms: 2.344607
+  type: 'test'
+  ...
+# Subtest: 存在しないPlan VersionのScenario一覧はENTITY_NOT_FOUNDになる
+ok 631 - 存在しないPlan VersionのScenario一覧はENTITY_NOT_FOUNDになる
+  ---
+  duration_ms: 0.442226
+  type: 'test'
+  ...
+# Subtest: 未診断ScenarioのOverviewはhasDiagnosisResult=falseを返す
+ok 632 - 未診断ScenarioのOverviewはhasDiagnosisResult=falseを返す
+  ---
+  duration_ms: 0.291793
+  type: 'test'
+  ...
+# Subtest: 診断詳細はPlan・Version・Scenario・Summary・Operationを一つに束ねる
+ok 633 - 診断詳細はPlan・Version・Scenario・Summary・Operationを一つに束ねる
+  ---
+  duration_ms: 1.413897
+  type: 'test'
+  ...
+# Subtest: 要対応項目はConstraint・Assumption・Next Checkを優先順で返す
+ok 634 - 要対応項目はConstraint・Assumption・Next Checkを優先順で返す
+  ---
+  duration_ms: 7.41634
+  type: 'test'
+  ...
+# Subtest: assertRepositoryDiagnosisReadModelは別Objectを拒否する
+ok 635 - assertRepositoryDiagnosisReadModelは別Objectを拒否する
+  ---
+  duration_ms: 0.176933
+  type: 'test'
+  ...
+# Subtest: Comparison Scenarioは比較元との最新診断差分を返す
+ok 636 - Comparison Scenarioは比較元との最新診断差分を返す
+  ---
+  duration_ms: 3.3641
+  type: 'test'
+  ...
+# Subtest: 比較元または診断結果がなければ比較不可理由を返す
+ok 637 - 比較元または診断結果がなければ比較不可理由を返す
+  ---
+  duration_ms: 0.453472
+  type: 'test'
+  ...
+# Subtest: 10本／時間で60本の必要時間は360分
+ok 638 - 10本／時間で60本の必要時間は360分
+  ---
+  duration_ms: 1.010619
+  type: 'test'
+  ...
+# Subtest: 60本／Shift・標準420分で30本の必要時間は210分
+ok 639 - 60本／Shift・標準420分で30本の必要時間は210分
+  ---
+  duration_ms: 0.227637
+  type: 'test'
+  ...
+# Subtest: 120本／日・標準840分で60本の必要時間は420分
+ok 640 - 120本／日・標準840分で60本の必要時間は420分
+  ---
+  duration_ms: 0.131735
+  type: 'test'
+  ...
+# Subtest: 能力倍率を有効能力へ反映する
+ok 641 - 能力倍率を有効能力へ反映する
+  ---
+  duration_ms: 0.152836
+  type: 'test'
+  ...
+# Subtest: 必要時間は過少評価を防ぐため分単位で切り上げる
+ok 642 - 必要時間は過少評価を防ぐため分単位で切り上げる
+  ---
+  duration_ms: 0.132576
+  type: 'test'
+  ...
+# Subtest: 数量単位とCapacity Rule単位が異なる場合は拒否する
+ok 643 - 数量単位とCapacity Rule単位が異なる場合は拒否する
+  ---
+  duration_ms: 0.401546
+  type: 'test'
+  ...
+# Subtest: Capacity値0を拒否する
+ok 644 - Capacity値0を拒否する
+  ---
+  duration_ms: 0.220377
+  type: 'test'
+  ...
+# Subtest: Shift基準で標準Shift時間がない場合は拒否する
+ok 645 - Shift基準で標準Shift時間がない場合は拒否する
+  ---
+  duration_ms: 0.690023
+  type: 'test'
+  ...
+# Subtest: 計算結果を外部から変更できない
+ok 646 - 計算結果を外部から変更できない
+  ---
+  duration_ms: 0.320015
+  type: 'test'
+  ...
+# Subtest: 前工程が前日・後工程が翌日ならVALIDになる
+ok 647 - 前工程が前日・後工程が翌日ならVALIDになる
+  ---
+  duration_ms: 2.320281
+  type: 'test'
+  ...
+# Subtest: 前工程が現工程より後日に計画されていればINVALIDになる
+ok 648 - 前工程が現工程より後日に計画されていればINVALIDになる
+  ---
+  duration_ms: 0.305353
+  type: 'test'
+  ...
+# Subtest: 後工程が現工程より前日に計画されていればINVALIDになる
+ok 649 - 後工程が現工程より前日に計画されていればINVALIDになる
+  ---
+  duration_ms: 0.259174
+  type: 'test'
+  ...
+# Subtest: 同日でも前工程終了時刻が現工程開始以前ならVALIDになる
+ok 650 - 同日でも前工程終了時刻が現工程開始以前ならVALIDになる
+  ---
+  duration_ms: 0.537277
+  type: 'test'
+  ...
+# Subtest: 同日の前工程と現工程が重なればINVALIDになる
+ok 651 - 同日の前工程と現工程が重なればINVALIDになる
+  ---
+  duration_ms: 0.345072
+  type: 'test'
+  ...
+# Subtest: 同日の後工程が現工程終了後に始まればVALIDになる
+ok 652 - 同日の後工程が現工程終了後に始まればVALIDになる
+  ---
+  duration_ms: 0.260236
+  type: 'test'
+  ...
+# Subtest: 同日で時刻もShift順も確認できなければUNKNOWNになる
+ok 653 - 同日で時刻もShift順も確認できなければUNKNOWNになる
+  ---
+  duration_ms: 0.212646
+  type: 'test'
+  ...
+# Subtest: Shift順が分かれば同日の前後関係を確認できる
+ok 654 - Shift順が分かれば同日の前後関係を確認できる
+  ---
+  duration_ms: 0.706678
+  type: 'test'
+  ...
+# Subtest: 前工程が後のShiftならINVALIDになる
+ok 655 - 前工程が後のShiftならINVALIDになる
+  ---
+  duration_ms: 0.38409
+  type: 'test'
+  ...
+# Subtest: Shift IDがあっても順序MasterがなければUNKNOWNになる
+ok 656 - Shift IDがあっても順序MasterがなければUNKNOWNになる
+  ---
+  duration_ms: 0.419592
+  type: 'test'
+  ...
+# Subtest: 隣接工程の計画が存在しなければUNKNOWNになる
+ok 657 - 隣接工程の計画が存在しなければUNKNOWNになる
+  ---
+  duration_ms: 0.208199
+  type: 'test'
+  ...
+# Subtest: Routing定義に現工程がなければUNKNOWNになる
+ok 658 - Routing定義に現工程がなければUNKNOWNになる
+  ---
+  duration_ms: 0.58677
+  type: 'test'
+  ...
+# Subtest: 単一工程RoutingはNOT_APPLICABLEになる
+ok 659 - 単一工程RoutingはNOT_APPLICABLEになる
+  ---
+  duration_ms: 0.122412
+  type: 'test'
+  ...
+# Subtest: 同一Routing内の重複SequenceをSource不整合として拒否する
+ok 660 - 同一Routing内の重複SequenceをSource不整合として拒否する
+  ---
+  duration_ms: 6.133748
+  type: 'test'
+  ...
+# Subtest: 同じOrder・Routing工程のPlanned Operationが複数あれば拒否する
+ok 661 - 同じOrder・Routing工程のPlanned Operationが複数あれば拒否する
+  ---
+  duration_ms: 0.20203
+  type: 'test'
+  ...
+# Subtest: 別Order・別Plan VersionのOperationを隣接工程に使わない
+ok 662 - 別Order・別Plan VersionのOperationを隣接工程に使わない
+  ---
+  duration_ms: 0.196271
+  type: 'test'
+  ...
+# Subtest: 結果と内部配列を外部から変更できない
+ok 663 - 結果と内部配列を外部から変更できない
+  ---
+  duration_ms: 0.170793
+  type: 'test'
+  ...
+# Subtest: Repositoryから診断Sourceを組み立てResultをTransaction保存する
+ok 664 - Repositoryから診断Sourceを組み立てResultをTransaction保存する
+  ---
+  duration_ms: 10.279761
+  type: 'test'
+  ...
+# Subtest: Repository Revisionと外部Revisionを診断時点へ保存する
+ok 665 - Repository Revisionと外部Revisionを診断時点へ保存する
+  ---
+  duration_ms: 1.81982
+  type: 'test'
+  ...
+# Subtest: Scenarioにactive接続されたAssumptionだけをEngineへ渡す
+ok 666 - Scenarioにactive接続されたAssumptionだけをEngineへ渡す
+  ---
+  duration_ms: 7.886837
+  type: 'test'
+  ...
+# Subtest: inactive Production Planの診断を拒否する
+ok 667 - inactive Production Planの診断を拒否する
+  ---
+  duration_ms: 0.897822
+  type: 'test'
+  ...
+# Subtest: inactive Plan Versionの診断を拒否する
+ok 668 - inactive Plan Versionの診断を拒否する
+  ---
+  duration_ms: 0.515114
+  type: 'test'
+  ...
+# Subtest: OperationがないPlan VersionをRead Model不整合として拒否する
+ok 669 - OperationがないPlan VersionをRead Model不整合として拒否する
+  ---
+  duration_ms: 0.451449
+  type: 'test'
+  ...
+# Subtest: Relationが存在するのにAssumption本体がなければ拒否する
+ok 670 - Relationが存在するのにAssumption本体がなければ拒否する
+  ---
+  duration_ms: 0.559841
+  type: 'test'
+  ...
+# Subtest: Plan対象月とCapacity Snapshot対象月の不一致を拒否する
+ok 671 - Plan対象月とCapacity Snapshot対象月の不一致を拒否する
+  ---
+  duration_ms: 0.618297
+  type: 'test'
+  ...
+# Subtest: 診断読込中にSource Repositoryが変われば保存しない
+ok 672 - 診断読込中にSource Repositoryが変われば保存しない
+  ---
+  duration_ms: 1.049357
+  type: 'test'
+  ...
+# Subtest: Engine失敗時はDiagnosis Resultを保存しない
+ok 673 - Engine失敗時はDiagnosis Resultを保存しない
+  ---
+  duration_ms: 0.778215
+  type: 'test'
+  ...
+# Subtest: Result保存失敗時はTransactionが既存状態を維持する
+ok 674 - Result保存失敗時はTransactionが既存状態を維持する
+  ---
+  duration_ms: 4.022586
+  type: 'test'
+  ...
+# Subtest: 外部RevisionがRepository Revisionを上書きする場合を拒否する
+ok 675 - 外部RevisionがRepository Revisionを上書きする場合を拒否する
+  ---
+  duration_ms: 0.444899
+  type: 'test'
+  ...
+# Subtest: 不正なDiagnosis Scenario IDを早期に拒否する
+ok 676 - 不正なDiagnosis Scenario IDを早期に拒否する
+  ---
+  duration_ms: 0.373374
+  type: 'test'
+  ...
+# Subtest: ScenarioとAssumptionのRelationを復元できる
+ok 677 - ScenarioとAssumptionのRelationを復元できる
+  ---
+  duration_ms: 1.15993
+  type: 'test'
+  ...
+# Subtest: static createはATTACHED Eventを記録する
+ok 678 - static createはATTACHED Eventを記録する
+  ---
+  duration_ms: 2.181175
+  type: 'test'
+  ...
+# Subtest: 新規Attachをinactive状態では作成できない
+ok 679 - 新規Attachをinactive状態では作成できない
+  ---
+  duration_ms: 0.592559
+  type: 'test'
+  ...
+# Subtest: Relation IDに空欄や空白を許可しない
+ok 680 - Relation IDに空欄や空白を許可しない
+  ---
+  duration_ms: 0.321366
+  type: 'test'
+  ...
+# Subtest: Relationを理由付きでDetachできる
+ok 681 - Relationを理由付きでDetachできる
+  ---
+  duration_ms: 0.425562
+  type: 'test'
+  ...
+# Subtest: DetachしてもAssumption IDは失われない
+ok 682 - DetachしてもAssumption IDは失われない
+  ---
+  duration_ms: 0.55961
+  type: 'test'
+  ...
+# Subtest: inactive Relationを理由付きでReattachできる
+ok 683 - inactive Relationを理由付きでReattachできる
+  ---
+  duration_ms: 0.307666
+  type: 'test'
+  ...
+# Subtest: 同じactive状態への操作はNo-opになる
+ok 684 - 同じactive状態への操作はNo-opになる
+  ---
+  duration_ms: 0.179356
+  type: 'test'
+  ...
+# Subtest: 実際のAttach・Detach変更には理由が必要
+ok 685 - 実際のAttach・Detach変更には理由が必要
+  ---
+  duration_ms: 0.549685
+  type: 'test'
+  ...
+# Subtest: Relation NoteをEvent付きで変更できる
+ok 686 - Relation NoteをEvent付きで変更できる
+  ---
+  duration_ms: 0.43781
+  type: 'test'
+  ...
+# Subtest: Event記録失敗時はRelation状態を変更しない
+ok 687 - Event記録失敗時はRelation状態を変更しない
+  ---
+  duration_ms: 0.423569
+  type: 'test'
+  ...
+# Subtest: Snapshotは変更できない
+ok 688 - Snapshotは変更できない
+  ---
+  duration_ms: 0.225144
+  type: 'test'
+  ...
+# Subtest: assertScenarioAssumptionRelationは異なるObjectを拒否する
+ok 689 - assertScenarioAssumptionRelationは異なるObjectを拒否する
+  ---
+  duration_ms: 0.201449
+  type: 'test'
+  ...
+# Subtest: Scenario–Assumption RelationをADD Previewできる
+ok 690 - Scenario–Assumption RelationをADD Previewできる
+  ---
+  duration_ms: 4.103025
+  type: 'test'
+  ...
+# Subtest: RelationをAtomic Commitできる
+ok 691 - RelationをAtomic Commitできる
+  ---
+  duration_ms: 1.336673
+  type: 'test'
+  ...
+# Subtest: 既存Relationのactive・note変更をUPDATEとして扱う
+ok 692 - 既存Relationのactive・note変更をUPDATEとして扱う
+  ---
+  duration_ms: 0.854518
+  type: 'test'
+  ...
+# Subtest: 同じ内容はUNCHANGEDになる
+ok 693 - 同じ内容はUNCHANGEDになる
+  ---
+  duration_ms: 0.366144
+  type: 'test'
+  ...
+# Subtest: CSV内の同一Relation重複を拒否する
+ok 694 - CSV内の同一Relation重複を拒否する
+  ---
+  duration_ms: 10.824263
+  type: 'test'
+  ...
+# Subtest: 存在しないScenarioを拒否する
+ok 695 - 存在しないScenarioを拒否する
+  ---
+  duration_ms: 0.389297
+  type: 'test'
+  ...
+# Subtest: 存在しないAssumptionを拒否する
+ok 696 - 存在しないAssumptionを拒否する
+  ---
+  duration_ms: 0.3642
+  type: 'test'
+  ...
+# Subtest: 別Plan VersionのScenarioを拒否する
+ok 697 - 別Plan VersionのScenarioを拒否する
+  ---
+  duration_ms: 0.64701
+  type: 'test'
+  ...
+# Subtest: Preview後にRepositoryが変わった場合はCommitを拒否する
+ok 698 - Preview後にRepositoryが変わった場合はCommitを拒否する
+  ---
+  duration_ms: 1.401879
+  type: 'test'
+  ...
+# Subtest: Errorを含むPreviewはCommitできない
+ok 699 - Errorを含むPreviewはCommitできない
+  ---
+  duration_ms: 0.644646
+  type: 'test'
+  ...
+# Subtest: Scenario比較は不足減少をIMPROVEDとして集計する
+ok 700 - Scenario比較は不足減少をIMPROVEDとして集計する
+  ---
+  duration_ms: 16.417229
+  type: 'test'
+  ...
+# Subtest: 同じ結果はUNCHANGEDになる
+ok 701 - 同じ結果はUNCHANGEDになる
+  ---
+  duration_ms: 4.413085
+  type: 'test'
+  ...
+# Subtest: 不足増加はWORSENEDになる
+ok 702 - 不足増加はWORSENEDになる
+  ---
+  duration_ms: 3.007711
+  type: 'test'
+  ...
+# Subtest: UNKNOWNを含む差は良化・悪化と断定しない
+ok 703 - UNKNOWNを含む差は良化・悪化と断定しない
+  ---
+  duration_ms: 2.990185
+  type: 'test'
+  ...
+# Subtest: 異なるPlan VersionのScenario比較を拒否する
+ok 704 - 異なるPlan VersionのScenario比較を拒否する
+  ---
+  duration_ms: 4.478362
+  type: 'test'
+  ...
+# Subtest: Comparison Scenarioの比較元と異なるBaseを拒否する
+ok 705 - Comparison Scenarioの比較元と異なるBaseを拒否する
+  ---
+  duration_ms: 2.367261
+  type: 'test'
+  ...
+# Subtest: Snapshotは外部から変更できない
+ok 706 - Snapshotは外部から変更できない
+  ---
+  duration_ms: 1.799299
+  type: 'test'
+  ...
+# Subtest: すべてのDiagnosisCodes named importが実在する
+ok 707 - すべてのDiagnosisCodes named importが実在する
+  ---
+  duration_ms: 58.148418
+  type: 'test'
+  ...
+# Subtest: すべてのERROR_CODES参照がCatalogへ登録されている
+ok 708 - すべてのERROR_CODES参照がCatalogへ登録されている
+  ---
+  duration_ms: 17.070077
+  type: 'test'
+  ...
+# Subtest: すべてのID Namespaceに一意なDefault Prefixがある
+ok 709 - すべてのID Namespaceに一意なDefault Prefixがある
+  ---
+  duration_ms: 0.368997
+  type: 'test'
+  ...
+# Subtest: 同じSource RevisionならCURRENTになる
+ok 710 - 同じSource RevisionならCURRENTになる
+  ---
+  duration_ms: 3.999452
+  type: 'test'
+  ...
+# Subtest: Capacity Revision変更をSTALEとして検出する
+ok 711 - Capacity Revision変更をSTALEとして検出する
+  ---
+  duration_ms: 0.939724
+  type: 'test'
+  ...
+# Subtest: Calendar・Assignment・Capacity Rule変更を個別Reasonへ変換する
+ok 712 - Calendar・Assignment・Capacity Rule変更を個別Reasonへ変換する
+  ---
+  duration_ms: 0.499952
+  type: 'test'
+  ...
+# Subtest: Plan・Assumption・Routing変更を個別Reasonへ変換する
+ok 713 - Plan・Assumption・Routing変更を個別Reasonへ変換する
+  ---
+  duration_ms: 0.394365
+  type: 'test'
+  ...
+# Subtest: Scenario–Assumption接続変更をAssumption変更として扱う
+ok 714 - Scenario–Assumption接続変更をAssumption変更として扱う
+  ---
+  duration_ms: 1.017348
+  type: 'test'
+  ...
+# Subtest: 未知のRevision Key変更はSource別Generic Reasonにする
+ok 715 - 未知のRevision Key変更はSource別Generic Reasonにする
+  ---
+  duration_ms: 0.513502
+  type: 'test'
+  ...
+# Subtest: Presentation-only変更は記録するがSTALEにしない
+ok 716 - Presentation-only変更は記録するがSTALEにしない
+  ---
+  duration_ms: 0.361947
+  type: 'test'
+  ...
+# Subtest: Source Identity変更は比較対象不一致のためINVALIDになる
+ok 717 - Source Identity変更は比較対象不一致のためINVALIDになる
+  ---
+  duration_ms: 0.376399
+  type: 'test'
+  ...
+# Subtest: Revision Key追加・削除はSchema変更としてINVALIDになる
+ok 718 - Revision Key追加・削除はSchema変更としてINVALIDになる
+  ---
+  duration_ms: 0.853476
+  type: 'test'
+  ...
+# Subtest: Revision後退はSource整合性不明のためINVALIDになる
+ok 719 - Revision後退はSource整合性不明のためINVALIDになる
+  ---
+  duration_ms: 0.420764
+  type: 'test'
+  ...
+# Subtest: Presentation-onlyのSchema変更は診断Validityを無効化しない
+ok 720 - Presentation-onlyのSchema変更は診断Validityを無効化しない
+  ---
+  duration_ms: 0.388066
+  type: 'test'
+  ...
+# Subtest: Revision・Impact Mapの不正値を拒否する
+ok 721 - Revision・Impact Mapの不正値を拒否する
+  ---
+  duration_ms: 0.751875
+  type: 'test'
+  ...
+# Subtest: DetectionとSnapshotを外部から変更できない
+ok 722 - DetectionとSnapshotを外部から変更できない
+  ---
+  duration_ms: 0.284592
+  type: 'test'
+  ...
+# Subtest: assertStaleReasonDetectionは正式Objectだけを受け付ける
+ok 723 - assertStaleReasonDetectionは正式Objectだけを受け付ける
+  ---
+  duration_ms: 0.297482
+  type: 'test'
+  ...
+1..723
+# tests 723
+# suites 0
+# pass 723
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1762.711332

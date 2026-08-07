@@ -1,0 +1,58 @@
+[
+  {
+    "workerId": "W_F1_A",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    }
+  },
+  {
+    "workerId": "W_F2_A",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    }
+  },
+  {
+    "workerId": "W_F2_B",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    }
+  },
+  {
+    "workerId": "W_F3_A",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    }
+  },
+  {
+    "workerId": "W_F3_B",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2026-08-18"
+    }
+  },
+  {
+    "workerId": "W_F4_A",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    }
+  },
+  {
+    "workerId": "W_SUPPORT",
+    "skillId": "OPERATOR",
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    }
+  }
+]

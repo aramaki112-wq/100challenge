@@ -1,0 +1,5 @@
+equipmentId,factoryId,processId,name,equipmentType,priority,planningTarget,usable,defaultCapacityRuleId,capacityUnit,displayOrder,effectivePeriod,active
+F1_EQ_A,F1,F1_P_A,第1工場 設備A,PRIMARY,1,true,true,F1_EQ_A_DEFAULT,PIECE,1,"{""startDate"":""2026-01-01"",""endDate"":""2099-12-31""}",true
+F1_EQ_B,F1,F1_P_B,第1工場 設備B,SECONDARY,2,true,true,F1_EQ_B_DEFAULT,PIECE,2,"{""startDate"":""2026-01-01"",""endDate"":""2099-12-31""}",true
+F2_EQ_A,F2,F2_P_A,第2工場 設備A,PRIMARY,1,true,true,F2_EQ_A_DEFAULT,PIECE,3,"{""startDate"":""2026-01-01"",""endDate"":""2099-12-31""}",true
+F2_EQ_B,F2,F2_P_B,第2工場 設備B,SECONDARY,2,true,true,F2_EQ_B_DEFAULT,PIECE,4,"{""startDate"":""2026-01-01"",""endDate"":""2099-12-31""}",true

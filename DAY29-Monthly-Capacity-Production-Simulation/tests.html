@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY29 ブラウザテスト</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .test-summary { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+    .test-summary div, .test-result { background:#fff; border:1px solid #d8dee4; border-radius:12px; padding:14px; }
+    #results { display:grid; gap:10px; }
+    .passed { border-left:5px solid #16814b; }
+    .failed { border-left:5px solid #b42318; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+    #uiFixture { display:none; }
+    @media (max-width:680px) { .test-summary { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <p class="eyebrow">100アプリチャレンジ DAY29</p>
+    <h1>ブラウザテスト</h1>
+    <a class="test-link" href="./index.html">アプリへ戻る</a>
+  </header>
+  <main class="page-content">
+    <section class="test-summary">
+      <div>総数 <strong id="total">0</strong></div>
+      <div>成功 <strong id="passed">0</strong></div>
+      <div>失敗 <strong id="failed">0</strong></div>
+      <div>成功率 <strong id="successRate">0%</strong></div>
+    </section>
+    <section id="results"></section>
+    <div id="uiFixture"></div>
+  </main>
+  <script type="module" src="./tests.js"></script>
+</body>
+</html>

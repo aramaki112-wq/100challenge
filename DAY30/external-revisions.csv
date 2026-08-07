@@ -1,0 +1,6 @@
+scope,key,value
+CAPACITY_SOURCE,capacity,1
+CAPACITY_SOURCE,calendar,1
+CAPACITY_SOURCE,assignment,1
+EXTERNAL_INPUT,routing,1
+EXTERNAL_INPUT,modelCoverage,1

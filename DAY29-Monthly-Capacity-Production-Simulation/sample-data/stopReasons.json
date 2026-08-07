@@ -1,0 +1,20 @@
+[
+  {
+    "stopReasonId": "BREAKDOWN",
+    "name": "設備故障",
+    "category": "FAILURE",
+    "active": true
+  },
+  {
+    "stopReasonId": "INSPECTION",
+    "name": "定期点検",
+    "category": "MAINTENANCE",
+    "active": true
+  },
+  {
+    "stopReasonId": "PLAN_STOP",
+    "name": "計画停止",
+    "category": "PLAN",
+    "active": true
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "day29-monthly-capacity-production-simulation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node ./node-test-runner.mjs",
+    "check": "node ./verification-runner.mjs"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "application": "DAY30_DIAGNOSIS_EXECUTION_DATA",
+  "schemaVersion": 1,
+  "exportedAt": "2026-08-02T09:00:00+09:00",
+  "providerRevision": 1,
+  "items": [
+    {
+      "capacitySnapshot": {
+        "capacityScenarioId": "CAP-DEMO-BASE",
+        "targetMonth": "2026-08",
+        "generatedAt": "2026-08-02T06:00:00+09:00",
+        "sourceRevision": {
+          "capacity": 1,
+          "calendar": 1,
+          "assignment": 1
+        },
+        "buckets": [
+          {
+            "factoryId": "F-01",
+            "equipmentId": "EQ-01",
+            "date": "2026-08-03",
+            "shiftId": null,
+            "availableMinutes": 420,
+            "availabilityStatus": "AVAILABLE",
+            "workerStatus": "SATISFIED",
+            "skillStatus": "SATISFIED",
+            "assignmentStatus": "SATISFIED",
+            "reasonCodes": [],
+            "dataConfidence": "A"
+          }
+        ]
+      },
+      "defaultFactoryId": null,
+      "factoryIdByOperation": {},
+      "equipments": [
+        {
+          "equipmentId": "EQ-01",
+          "factoryId": "F-01",
+          "name": "デモ設備1"
+        }
+      ],
+      "orders": [
+        {
+          "orderId": "ORD-1001",
+          "priority": 1,
+          "dueDate": "2026-08-10"
+        },
+        {
+          "orderId": "ORD-1002",
+          "priority": 2,
+          "dueDate": "2026-08-12"
+        }
+      ],
+      "routingOperations": [
+        {
+          "routingOperationId": "ROP-1001",
+          "routingId": "ROUTING-1001",
+          "sequence": 1
+        },
+        {
+          "routingOperationId": "ROP-1002",
+          "routingId": "ROUTING-1002",
+          "sequence": 1
+        }
+      ],
+      "shifts": [],
+      "capacityRules": [
+        {
+          "capacityRuleId": "CR-DEMO-01",
+          "equipmentId": "EQ-01",
+          "source": "DEFAULT_RULE",
+          "active": true,
+          "priority": 100,
+          "validFrom": "2026-01-01",
+          "validTo": "2026-12-31",
+          "capacityValue": 10,
+          "quantityUnit": "PIECE",
+          "capacityBasis": "HOUR",
+          "capacityMultiplier": 1
+        }
+      ],
+      "requiredConditionsByOperation": {},
+      "targetContextByOperation": {},
+      "confirmedConstraintsByOperation": {},
+      "constraintFindingsByOperation": {},
+      "assumptionFindingsByOperation": {},
+      "nextChecksByOperation": {},
+      "standardShiftMinutes": null,
+      "standardDayMinutes": null,
+      "quantityPrecision": null,
+      "externalInputRevision": {
+        "routing": 1,
+        "modelCoverage": 1
+      }
+    }
+  ]
+}

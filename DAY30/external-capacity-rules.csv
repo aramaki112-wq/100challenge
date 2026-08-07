@@ -1,0 +1,2 @@
+capacityRuleId,equipmentId,source,active,priority,validFrom,validTo,plannedOperationId,productGroup,materialGroup,dimensionGroup,outsideDiameter,wallThickness,processingType,difficultyClass,operationType,capacityValue,quantityUnit,capacityBasis,capacityMultiplier
+CR-DEMO-01,EQ-01,DEFAULT_RULE,TRUE,100,2026-01-01,2026-12-31,,,,,,,,,,10,PIECE,HOUR,1

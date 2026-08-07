@@ -1,0 +1,12 @@
+{
+  "name": "day30-production-plan-diagnosis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node VerifyProject.mjs"
+  },
+  "description": "DAY30 Production Plan Diagnosis - explainable feasibility diagnosis using DAY29 capacity context",
+  "license": "MIT"
+}

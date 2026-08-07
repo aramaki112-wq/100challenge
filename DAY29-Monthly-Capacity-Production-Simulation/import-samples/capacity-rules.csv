@@ -1,0 +1,9 @@
+capacityRuleId,equipmentId,capacityValue,unit,basis,effectivePeriod,priority,active,conditions,capacityMultiplier,isDefault,startDate,endDate
+F1_EQ_A_DEFAULT,F1_EQ_A,10,PIECE,HOUR,,100,true,{},1,true,2026-01-01,2099-12-31
+F1_EQ_A_SPECIAL,F1_EQ_A,7,PIECE,HOUR,,10,true,"{""productGroup"":""SPECIAL""}",1,false,2026-01-01,2099-12-31
+F1_EQ_B_DEFAULT,F1_EQ_B,8,PIECE,HOUR,,100,true,{},1,true,2026-01-01,2099-12-31
+F1_EQ_B_SPECIAL,F1_EQ_B,5,PIECE,HOUR,,10,true,"{""productGroup"":""SPECIAL""}",1,false,2026-01-01,2099-12-31
+F2_EQ_A_DEFAULT,F2_EQ_A,10,PIECE,HOUR,,100,true,{},1,true,2026-01-01,2099-12-31
+F2_EQ_A_SPECIAL,F2_EQ_A,7,PIECE,HOUR,,10,true,"{""productGroup"":""SPECIAL""}",1,false,2026-01-01,2099-12-31
+F2_EQ_B_DEFAULT,F2_EQ_B,8,PIECE,HOUR,,100,true,{},1,true,2026-01-01,2099-12-31
+F2_EQ_B_SPECIAL,F2_EQ_B,5,PIECE,HOUR,,10,true,"{""productGroup"":""SPECIAL""}",1,false,2026-01-01,2099-12-31

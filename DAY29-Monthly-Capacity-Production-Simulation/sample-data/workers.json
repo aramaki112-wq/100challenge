@@ -1,0 +1,44 @@
+[
+  {
+    "workerId": "W_F1_A",
+    "name": "第一工場 A担当",
+    "homeFactoryId": "F1",
+    "active": true
+  },
+  {
+    "workerId": "W_F2_A",
+    "name": "第二工場 A担当",
+    "homeFactoryId": "F2",
+    "active": true
+  },
+  {
+    "workerId": "W_F2_B",
+    "name": "第二工場 B担当",
+    "homeFactoryId": "F2",
+    "active": true
+  },
+  {
+    "workerId": "W_F3_A",
+    "name": "第三工場 A担当",
+    "homeFactoryId": "F3",
+    "active": true
+  },
+  {
+    "workerId": "W_F3_B",
+    "name": "第三工場 B担当",
+    "homeFactoryId": "F3",
+    "active": true
+  },
+  {
+    "workerId": "W_F4_A",
+    "name": "第四工場 A担当",
+    "homeFactoryId": "F4",
+    "active": true
+  },
+  {
+    "workerId": "W_SUPPORT",
+    "name": "第三工場から第四工場への応援",
+    "homeFactoryId": "F3",
+    "active": true
+  }
+]

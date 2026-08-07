@@ -1,0 +1,58 @@
+[
+  {
+    "processId": "F1_P_A",
+    "factoryId": "F1",
+    "name": "第1工場 主工程A",
+    "sequence": 1,
+    "active": true
+  },
+  {
+    "processId": "F1_P_B",
+    "factoryId": "F1",
+    "name": "第1工場 主工程B",
+    "sequence": 2,
+    "active": true
+  },
+  {
+    "processId": "F2_P_A",
+    "factoryId": "F2",
+    "name": "第2工場 主工程A",
+    "sequence": 3,
+    "active": true
+  },
+  {
+    "processId": "F2_P_B",
+    "factoryId": "F2",
+    "name": "第2工場 主工程B",
+    "sequence": 4,
+    "active": true
+  },
+  {
+    "processId": "F3_P_A",
+    "factoryId": "F3",
+    "name": "第3工場 主工程A",
+    "sequence": 5,
+    "active": true
+  },
+  {
+    "processId": "F3_P_B",
+    "factoryId": "F3",
+    "name": "第3工場 主工程B",
+    "sequence": 6,
+    "active": true
+  },
+  {
+    "processId": "F4_P_A",
+    "factoryId": "F4",
+    "name": "第4工場 主工程A",
+    "sequence": 7,
+    "active": true
+  },
+  {
+    "processId": "F4_P_B",
+    "factoryId": "F4",
+    "name": "第4工場 主工程B",
+    "sequence": 8,
+    "active": true
+  }
+]

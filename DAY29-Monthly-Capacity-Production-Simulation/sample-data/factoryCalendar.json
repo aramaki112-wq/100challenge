@@ -1,0 +1,1122 @@
+[
+  {
+    "factoryId": "F1",
+    "date": "2026-08-01",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-01",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-01",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-01",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-02",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-02",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-02",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-02",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-03",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-03",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-03",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-03",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-04",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-04",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-04",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-04",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-05",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-05",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-05",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-05",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-06",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-06",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-06",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-06",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-07",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-07",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-07",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-07",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-08",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-08",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-08",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-08",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-09",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-09",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-09",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-09",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-10",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-10",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-10",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-10",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-11",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-11",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-11",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-11",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-12",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-12",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-12",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-12",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-13",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-13",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-13",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-13",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-14",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-14",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-14",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-14",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-15",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-15",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-15",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-15",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-16",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-16",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-16",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-16",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-17",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-17",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-17",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-17",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-18",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-18",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-18",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-18",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-19",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-19",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-19",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-19",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-20",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-20",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-20",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-20",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-21",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-21",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-21",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-21",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-22",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-22",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-22",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-22",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-23",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-23",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-23",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-23",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-24",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-24",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-24",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-24",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-25",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-25",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-25",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-25",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-26",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-26",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-26",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-26",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-27",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-27",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-27",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-27",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-28",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-28",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-28",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-28",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-29",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-29",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-29",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-29",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-30",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-30",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-30",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-30",
+    "dayType": "FACTORY_HOLIDAY",
+    "plannedShiftIds": [],
+    "note": "休日"
+  },
+  {
+    "factoryId": "F1",
+    "date": "2026-08-31",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F1_S1",
+      "F1_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F2",
+    "date": "2026-08-31",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F2_S1",
+      "F2_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F3",
+    "date": "2026-08-31",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F3_S1",
+      "F3_S2"
+    ],
+    "note": "通常稼働"
+  },
+  {
+    "factoryId": "F4",
+    "date": "2026-08-31",
+    "dayType": "OPERATING",
+    "plannedShiftIds": [
+      "F4_S1",
+      "F4_S2"
+    ],
+    "note": "通常稼働"
+  }
+]

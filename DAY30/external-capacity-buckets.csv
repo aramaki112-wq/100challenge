@@ -1,0 +1,2 @@
+factoryId,equipmentId,date,shiftId,availableMinutes,availabilityStatus,workerStatus,skillStatus,assignmentStatus,reasonCodes,dataConfidence
+F-01,EQ-01,2026-08-03,,420,AVAILABLE,SATISFIED,SATISFIED,SATISFIED,,A

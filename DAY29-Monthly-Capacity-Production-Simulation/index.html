@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY29 月間Capacity・Production Simulation</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="page-header">
+    <p class="eyebrow">100アプリチャレンジ DAY29</p>
+    <h1>月間設備Capacity／Production Simulation</h1>
+    <p>人員・Skill・Calendar・Assignment・設備能力Ruleを接続し、条件変更後すぐに再計算して不足理由とScenario差分を確認する。</p>
+    <div class="header-links"><a href="./tests.html">Browser Test</a><a href="#validation">整合性チェック</a></div>
+  </header>
+
+  <nav class="section-nav" aria-label="画面Navigation">
+    <a href="#dashboard">Dashboard</a><a href="#master">Master</a><a href="#calendar-input">Calendar</a><a href="#assignment">Assignment</a>
+    <a href="#orders">Orders</a><a href="#monthly-calendar-section">月間設備Calendar</a><a href="#daily-detail-section">日別詳細</a>
+    <a href="#simulation">Simulation</a><a href="#comparison">Scenario比較</a><a href="#validation">整合性</a>
+  </nav>
+
+  <main class="page-content">
+    <section class="control-panel sticky-controls">
+      <div class="control-grid five-columns">
+        <label><span>Scenario</span><select id="scenarioSelect"></select></label>
+        <label><span>比較Scenario</span><select id="compareScenarioSelect"></select></label>
+        <label><span>対象月</span><input id="monthInput" type="month"></label>
+        <label><span>工場Filter</span><select id="factoryFilter"></select></label>
+        <label><span>工程Filter</span><select id="processFilter"></select></label>
+        <label><span>設備Filter</span><select id="equipmentFilter"></select></label>
+      </div>
+      <div class="button-row">
+        <button id="recalculateButton" type="button">再計算</button>
+        <button id="cloneScenarioButton" type="button">Scenarioを複製</button>
+        <button id="restoreBaseButton" type="button" class="secondary">Baseへ戻す</button>
+        <button id="resetSampleButton" type="button" class="secondary danger-outline">Sample初期化</button>
+      </div>
+      <p id="statusMessage" class="status-message" aria-live="polite"></p>
+    </section>
+
+    <section id="dashboard" class="section-block">
+      <div class="section-heading"><div><p class="section-kicker">Result</p><h2>Dashboard</h2></div><p>月間結果から原因へ掘り下げる入口です。</p></div>
+      <div id="dashboardSummary" class="summary-grid eight-columns"></div>
+      <h3>Factory Capacity</h3><div id="factorySummary" class="table-wrap"></div>
+    </section>
+
+    <section id="master" class="section-block">
+      <div class="section-heading"><div><p class="section-kicker">Low-frequency Input</p><h2>Master登録</h2></div><p>日常変更するCalendarと分離します。</p></div>
+      <div class="master-grid">
+        <article class="form-card"><h3>工場Master</h3><form id="factoryForm" class="form-grid">
+          <label><span>Factory ID</span><input name="factoryId" required></label><label><span>工場名</span><input name="factoryName" required></label>
+          <label><span>標準稼働日時間（分）</span><input name="standardDailyMinutes" type="number" value="840" min="1" required></label><label><span>備考</span><input name="note"></label>
+          <button type="submit">工場追加</button></form><div id="factoryTable" class="table-wrap compact-table"></div></article>
+        <article class="form-card"><h3>工程Master</h3><form id="processForm" class="form-grid">
+          <label><span>Process ID</span><input name="processId" required></label><label><span>Factory</span><select name="factoryId" data-options="factory" required></select></label>
+          <label><span>工程名</span><input name="processName" required></label><label><span>工程順</span><input name="sequence" type="number" value="1" min="1" required></label>
+          <label><span>備考</span><input name="note"></label><button type="submit">工程追加</button></form><div id="processTable" class="table-wrap compact-table"></div></article>
+      </div>
+
+      <div class="master-grid">
+        <article class="form-card"><h3>Skill Master</h3><form id="skillForm" class="form-grid">
+          <label><span>Skill ID</span><input name="skillId" required></label><label><span>Skill名</span><input name="skillName" required></label>
+          <label><span>備考</span><input name="note"></label><button type="submit">Skill追加／更新</button></form><div id="skillTable" class="table-wrap compact-table"></div></article>
+        <article class="form-card"><h3>Worker／Worker Skill Master</h3><form id="workerForm" class="form-grid">
+          <label><span>Worker ID</span><input name="workerId" required></label><label><span>Worker名</span><input name="workerName" required></label>
+          <label><span>所属工場</span><select name="homeFactoryId" data-options="factory" required></select></label><label><span>保有Skill</span><select name="skillId" data-options="skill"></select></label>
+          <label><span>Skill有効開始</span><input name="qualificationStartDate" type="date" value="2026-01-01"></label><label><span>Skill有効終了</span><input name="qualificationEndDate" type="date" value="2099-12-31"></label>
+          <label><span>備考</span><input name="note"></label><button type="submit">Worker追加／更新</button></form><div id="workerTable" class="table-wrap compact-table"></div></article>
+        <article class="form-card"><h3>Shift Master</h3><form id="shiftForm" class="form-grid">
+          <label><span>Shift ID</span><input name="shiftId" required></label><label><span>Factory</span><select name="factoryId" data-options="factory" required></select></label>
+          <label><span>Shift名</span><input name="shiftName" required></label><label><span>開始</span><input name="startTime" type="time" value="06:00" required></label>
+          <label><span>終了</span><input name="endTime" type="time" value="13:00" required></label><label><span>表示順</span><input name="displayOrder" type="number" value="1" min="1"></label>
+          <button type="submit">Shift追加／更新</button></form><div id="shiftTable" class="table-wrap compact-table"></div></article>
+        <article class="form-card"><h3>停止理由Master</h3><form id="stopReasonForm" class="form-grid">
+          <label><span>停止理由ID</span><input name="stopReasonId" required></label><label><span>停止理由名</span><input name="stopReasonName" required></label>
+          <label><span>区分</span><input name="category" value="OTHER"></label><label><span>備考</span><input name="note"></label>
+          <button type="submit">停止理由追加／更新</button></form><div id="stopReasonTable" class="table-wrap compact-table"></div></article>
+      </div>
+
+      <article class="form-card wide-card"><h3>Routing Master</h3><p class="helper-text">同じRouting IDで送信するとOperationを追加／更新します。設備候補はカンマ区切りです。</p><form id="routingForm" class="form-grid six-columns">
+        <label><span>Routing ID</span><input name="routingId" required></label><label><span>Product Group</span><input name="productGroup" required></label>
+        <label><span>Operation ID</span><input name="operationId" required></label><label><span>Process</span><select name="processId" data-options="process" required></select></label>
+        <label><span>工程順</span><input name="sequence" type="number" value="1" min="1" required></label><label><span>使用可能Equipment ID</span><input name="eligibleEquipmentIds" placeholder="F1_EQ_A,F1_EQ_B" required></label>
+        <button type="submit">Routing／Operation追加・更新</button></form><div id="routingTable" class="table-wrap"></div></article>
+
+      <article class="form-card wide-card"><h3>設備Master</h3><form id="equipmentForm" class="form-grid six-columns">
+        <label><span>Equipment ID</span><input name="equipmentId" required></label><label><span>Factory</span><select name="factoryId" data-options="factory" required></select></label>
+        <label><span>Process</span><select name="processId" data-options="process" required></select></label><label><span>設備名</span><input name="equipmentName" required></label>
+        <label><span>設備区分</span><input name="equipmentType" value="GENERAL"></label><label><span>Priority</span><input name="priority" type="number" value="100" min="1"></label>
+        <label><span>必要人数</span><input name="requiredWorkerCount" type="number" value="1" min="0"></label><label><span>Role Skill</span><select name="skillId" data-options="skill"></select></label>
+        <label><span>有効開始日</span><input name="startDate" type="date" value="2026-01-01"></label><label><span>有効終了日</span><input name="endDate" type="date" value="2099-12-31"></label>
+        <label class="span-two"><span>備考</span><input name="note"></label><button type="submit">設備追加</button></form><div id="equipmentTable" class="table-wrap"></div></article>
+
+      <article class="form-card wide-card"><h3>設備処理能力Rule</h3><form id="capacityRuleForm" class="form-grid six-columns">
+        <label><span>Capacity Rule ID</span><input name="capacityRuleId" required></label><label><span>Equipment</span><select name="equipmentId" data-options="equipment" required></select></label>
+        <label><span>能力値</span><input name="capacityValue" type="number" step="0.01" min="0.01" value="10" required></label><label><span>能力単位</span><select name="unit"><option value="PIECE">本</option><option value="KILOGRAM">kg</option><option value="LOT">Lot</option></select></label>
+        <label><span>能力基準</span><select name="basis"><option value="HOUR">時間</option><option value="SHIFT">Shift</option><option value="DAY">日</option></select></label><label><span>Rule Priority</span><input name="priority" type="number" value="100" min="1"></label>
+        <label><span>Product Group条件</span><input name="productGroup" placeholder="未入力ならDefault候補"></label><label><span>能力倍率</span><input name="capacityMultiplier" type="number" value="1" min="0" step="0.01"></label>
+        <label><span>有効開始日</span><input name="startDate" type="date" value="2026-01-01"></label><label><span>有効終了日</span><input name="endDate" type="date" value="2099-12-31"></label>
+        <label class="checkbox-label"><input name="isDefault" type="checkbox"><span>Default Ruleにする</span></label><button type="submit">Rule追加</button></form><div id="ruleTable" class="table-wrap"></div></article>
+
+      <article class="form-card wide-card"><h3>CSV／JSON Import・Export</h3><div class="control-grid four-columns">
+        <label><span>対象Master</span><select id="importType"><option value="equipmentMasters">Equipment Master</option><option value="capacityRules">Capacity Rule</option></select></label>
+        <label><span>形式</span><select id="importFormat"><option value="CSV">CSV</option><option value="JSON">JSON</option></select></label>
+      </div><textarea id="importText" rows="8" placeholder="CSVまたはJSONを貼り付けます。登録前にPreviewします。"></textarea>
+      <div class="button-row"><button id="previewImportButton" type="button">Import Preview</button><button id="commitImportButton" type="button">Commit</button><button id="exportButton" type="button" class="secondary">Export</button></div><div id="importPreview" class="table-wrap"></div></article>
+    </section>
+
+    <section id="calendar-input" class="section-block">
+      <div class="section-heading"><div><p class="section-kicker">Daily Input</p><h2>Calendar登録</h2></div><p>設備停止・能力低下・勤務変更を登録すると即時再計算します。</p></div>
+      <div class="master-grid">
+        <article class="form-card"><h3>工場Calendar</h3><form id="factoryCalendarForm" class="form-grid">
+          <label><span>日付</span><input name="date" type="date" value="2026-08-10" required></label><label><span>Factory</span><select name="factoryId" data-options="factory" required></select></label>
+          <label><span>日区分</span><select name="dayType"><option value="OPERATING">稼働日</option><option value="FACTORY_HOLIDAY">工場休日</option><option value="COMPANY_HOLIDAY">会社休日</option><option value="EXTRA_OPERATING">臨時稼働日</option><option value="PLANNED_STOP">計画停止日</option></select></label>
+          <label><span>予定Shift ID</span><input name="plannedShiftIds" placeholder="F1_S1,F1_S2"></label><label><span>備考</span><input name="note"></label>
+          <button type="submit">工場Calendar更新</button></form><div id="factoryCalendarTable" class="table-wrap compact-table"></div></article>
+        <article class="form-card"><h3>設備Calendar</h3><form id="equipmentCalendarForm" class="form-grid">
+          <label><span>日付</span><input name="date" type="date" value="2026-08-10" required></label><label><span>Shift</span><select name="shiftId" data-options="shift" required></select></label>
+          <label><span>Equipment</span><select name="equipmentId" data-options="equipment" required></select></label><label><span>状態</span><select name="state"><option value="AVAILABLE">使用可能</option><option value="PERIODIC_INSPECTION">定期点検</option><option value="BREAKDOWN">設備故障</option><option value="REPAIR">修理</option><option value="PLANNED_STOP">計画停止</option><option value="DEGRADED">能力低下</option></select></label>
+          <label><span>能力倍率</span><input name="capacityMultiplier" type="number" value="1" min="0" step="0.01"></label><label><span>停止理由ID</span><input name="stopReasonId"></label>
+          <label><span>備考</span><input name="note"></label><button type="submit">設備Calendar更新</button></form><div id="equipmentCalendarTable" class="table-wrap compact-table"></div></article>
+        <article class="form-card"><h3>Worker勤務Calendar</h3><form id="workerCalendarForm" class="form-grid">
+          <label><span>Worker</span><select name="workerId" data-options="worker" required></select></label><label><span>日付</span><input name="date" type="date" value="2026-08-10" required></label>
+          <label><span>Shift</span><select name="shiftId" data-options="shift" required></select></label><label><span>状態</span><select name="status"><option value="PRESENT">出勤</option><option value="ABSENT">欠勤</option><option value="PAID_LEAVE">有休</option><option value="LATE">遅刻</option><option value="EARLY_LEAVE">早退</option><option value="OVERTIME">残業</option><option value="PARTIAL">一部勤務</option><option value="SUPPORT_OUT">応援派遣</option><option value="SUPPORT_IN">応援受入</option></select></label>
+          <label><span>配置工場</span><select name="placementFactoryId" data-options="factory" required></select></label><label><span>開始</span><input name="startTime" type="time" value="06:00" required></label>
+          <label><span>終了</span><input name="endTime" type="time" value="13:00" required></label><label><span>備考</span><input name="note"></label><button type="submit">勤務Calendar更新</button></form><div id="workerCalendarTable" class="table-wrap compact-table"></div></article>
+      </div>
+    </section>
+
+    <section id="assignment" class="section-block"><div class="section-heading"><div><p class="section-kicker">Manual Allocation</p><h2>Assignment</h2></div><p>自動最適化より先に、手動配置と競合理由を明確にします。</p></div>
+      <form id="assignmentForm" class="form-grid six-columns form-card">
+        <label><span>Assignment ID</span><input name="assignmentId" placeholder="空欄なら自動生成"></label><label><span>日付</span><input name="date" type="date" value="2026-08-10" required></label>
+        <label><span>Shift</span><select name="shiftId" data-options="shift" required></select></label><label><span>Factory</span><select name="factoryId" data-options="factory" required></select></label>
+        <label><span>Equipment</span><select name="equipmentId" data-options="equipment" required></select></label><label><span>Worker</span><select name="workerId" data-options="worker" required></select></label>
+        <label><span>Role Skill</span><select name="roleSkillId" data-options="skill" required></select></label><label><span>開始</span><input name="startTime" type="time" value="06:00" required></label>
+        <label><span>終了</span><input name="endTime" type="time" value="13:00" required></label><button type="submit">Assignment追加</button></form><div id="assignmentTable" class="table-wrap"></div>
+    </section>
+
+    <section id="orders" class="section-block"><div class="section-heading"><div><p class="section-kicker">Production Input</p><h2>Order／Simulation条件</h2></div><p>Routingと設備候補を通じてCapacityへ投入します。</p></div>
+      <form id="orderForm" class="form-grid six-columns form-card">
+        <label><span>Order ID</span><input name="orderId" required></label><label><span>Product ID</span><input name="productId"></label><label><span>Product Group</span><input name="productGroup"></label>
+        <label><span>必要数量</span><input name="requiredQuantity" type="number" min="0.01" step="0.01" required></label><label><span>単位</span><select name="unit"><option value="PIECE">本</option><option value="KILOGRAM">kg</option><option value="LOT">Lot</option></select></label>
+        <label><span>納期</span><input name="dueDate" type="date" required></label><label><span>Priority</span><input name="priority" type="number" value="100" min="1"></label>
+        <label><span>Routing</span><select name="routingId" data-options="routing" required></select></label><label><span>初期仕掛</span><input name="initialWip" type="number" value="0" min="0"></label><button type="submit">Order追加</button></form>
+    </section>
+
+    <section id="monthly-calendar-section" class="section-block"><div class="section-heading"><div><p class="section-kicker">Monthly Output</p><h2>月間設備Calendar</h2></div><p>セルを選択すると日別・Shift別・Worker理由へ辿れます。</p></div><div id="monthlyCalendar"></div></section>
+    <section id="monthly-summary-section" class="section-block"><h2>月間集計</h2><div id="monthlySummary" class="table-wrap"></div></section>
+    <section id="daily-detail-section" class="section-block"><h2>日別・Shift別詳細</h2><div id="dailyDetail" class="table-wrap"></div></section>
+
+    <section id="simulation" class="section-block"><div class="section-heading"><div><p class="section-kicker">Production Result</p><h2>Production Simulation</h2></div><p>不足を数量だけで終わらせず、Bottleneckと制約理由を表示します。</p></div><div id="simulationSummary"></div><div id="orderResults" class="table-wrap"></div></section>
+    <section id="comparison" class="section-block"><div class="section-heading"><div><p class="section-kicker">Hypothesis Cycle</p><h2>Scenario比較</h2></div><p>条件を一つ変更し、再計算結果の差を確認します。</p></div><div id="scenarioComparison" class="table-wrap"></div></section>
+    <section id="validation" class="section-block"><div class="section-heading"><div><p class="section-kicker">Integrity</p><h2>整合性チェック</h2></div><div id="validationSummary"></div></div><div id="validationTable" class="table-wrap"></div></section>
+  </main>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

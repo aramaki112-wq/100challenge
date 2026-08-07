@@ -1,0 +1,78 @@
+[
+  {
+    "routingId": "ROUTE_STANDARD",
+    "productGroup": "STANDARD",
+    "operations": [
+      {
+        "operationId": "STD_OP1",
+        "processId": "F1_P_A",
+        "sequence": 1,
+        "eligibleEquipmentIds": [
+          "F1_EQ_A"
+        ]
+      },
+      {
+        "operationId": "STD_OP2",
+        "processId": "F2_P_A",
+        "sequence": 2,
+        "eligibleEquipmentIds": [
+          "F2_EQ_A"
+        ]
+      },
+      {
+        "operationId": "STD_OP3",
+        "processId": "F3_P_A",
+        "sequence": 3,
+        "eligibleEquipmentIds": [
+          "F3_EQ_A"
+        ]
+      },
+      {
+        "operationId": "STD_OP4",
+        "processId": "F4_P_A",
+        "sequence": 4,
+        "eligibleEquipmentIds": [
+          "F4_EQ_A"
+        ]
+      }
+    ]
+  },
+  {
+    "routingId": "ROUTE_SPECIAL",
+    "productGroup": "SPECIAL",
+    "operations": [
+      {
+        "operationId": "SP_OP1",
+        "processId": "F1_P_B",
+        "sequence": 1,
+        "eligibleEquipmentIds": [
+          "F1_EQ_B"
+        ]
+      },
+      {
+        "operationId": "SP_OP2",
+        "processId": "F2_P_B",
+        "sequence": 2,
+        "eligibleEquipmentIds": [
+          "F2_EQ_B"
+        ]
+      },
+      {
+        "operationId": "SP_OP3",
+        "processId": "F3_P_B",
+        "sequence": 3,
+        "eligibleEquipmentIds": [
+          "F3_EQ_B"
+        ]
+      },
+      {
+        "operationId": "SP_OP4",
+        "processId": "F4_P_B",
+        "sequence": 4,
+        "eligibleEquipmentIds": [
+          "F4_EQ_B"
+        ]
+      }
+    ]
+  }
+]

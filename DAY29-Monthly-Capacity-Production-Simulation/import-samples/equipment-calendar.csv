@@ -1,0 +1,3 @@
+equipmentId,date,shiftId,state,capacityMultiplier,stopReasonId,note
+F3_EQ_A,2026-08-10,F3_S1,DEGRADED,0.5,,能力低下
+F4_EQ_A,2026-08-17,F4_S1,BREAKDOWN,0,BREAKDOWN,設備故障

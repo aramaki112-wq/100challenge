@@ -1,0 +1,20 @@
+[
+  {
+    "equipmentId": "F3_EQ_A",
+    "date": "2026-08-10",
+    "shiftId": "F3_S1",
+    "state": "DEGRADED",
+    "capacityMultiplier": 0.5,
+    "stopReasonId": null,
+    "note": "能力低下"
+  },
+  {
+    "equipmentId": "F4_EQ_A",
+    "date": "2026-08-17",
+    "shiftId": "F4_S1",
+    "state": "BREAKDOWN",
+    "capacityMultiplier": 0,
+    "stopReasonId": "BREAKDOWN",
+    "note": "設備故障"
+  }
+]

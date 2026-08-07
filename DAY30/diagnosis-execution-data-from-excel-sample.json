@@ -1,0 +1,125 @@
+{
+  "application": "DAY30_DIAGNOSIS_EXECUTION_DATA",
+  "schemaVersion": 1,
+  "exportedAt": "2026-08-02T09:30:00+09:00",
+  "providerRevision": 1,
+  "items": [
+    {
+      "capacitySnapshot": {
+        "capacityScenarioId": "CAP-DEMO-BASE",
+        "targetMonth": "2026-08",
+        "generatedAt": "2026-08-02T06:00:00+09:00",
+        "sourceRevision": {
+          "capacity": 1,
+          "calendar": 1,
+          "assignment": 1
+        },
+        "buckets": [
+          {
+            "factoryId": "F-01",
+            "equipmentId": "EQ-01",
+            "date": "2026-08-03",
+            "shiftId": null,
+            "availableMinutes": 420,
+            "availabilityStatus": "AVAILABLE",
+            "workerStatus": "SATISFIED",
+            "skillStatus": "SATISFIED",
+            "assignmentStatus": "SATISFIED",
+            "reasonCodes": [],
+            "dataConfidence": "A"
+          }
+        ]
+      },
+      "defaultFactoryId": "F-01",
+      "factoryIdByOperation": {
+        "POP-DEMO-1": "F-01",
+        "POP-DEMO-2": "F-01"
+      },
+      "equipments": [
+        {
+          "equipmentId": "EQ-01",
+          "factoryId": "F-01",
+          "name": "デモ設備1"
+        }
+      ],
+      "orders": [
+        {
+          "orderId": "ORD-1001",
+          "priority": 1,
+          "dueDate": "2026-08-10",
+          "productGroup": "PIPE-A",
+          "materialGroup": "SUS304",
+          "dimensionGroup": "OD100",
+          "outsideDiameter": 100,
+          "wallThickness": 5,
+          "processingType": "COLD",
+          "difficultyClass": "NORMAL",
+          "operationType": "DRAW"
+        },
+        {
+          "orderId": "ORD-1002",
+          "priority": 2,
+          "dueDate": "2026-08-12",
+          "productGroup": "PIPE-A",
+          "materialGroup": "SUS304",
+          "dimensionGroup": "OD100",
+          "outsideDiameter": 100,
+          "wallThickness": 5,
+          "processingType": "COLD",
+          "difficultyClass": "NORMAL",
+          "operationType": "DRAW"
+        }
+      ],
+      "routingOperations": [
+        {
+          "routingOperationId": "ROP-1001",
+          "routingId": "ROUTING-1001",
+          "sequence": 1
+        },
+        {
+          "routingOperationId": "ROP-1002",
+          "routingId": "ROUTING-1002",
+          "sequence": 1
+        }
+      ],
+      "shifts": [
+        {
+          "shiftId": "S1",
+          "sequence": 1
+        },
+        {
+          "shiftId": "S2",
+          "sequence": 2
+        }
+      ],
+      "capacityRules": [
+        {
+          "capacityRuleId": "CR-DEMO-01",
+          "equipmentId": "EQ-01",
+          "source": "DEFAULT_RULE",
+          "active": true,
+          "priority": 100,
+          "validFrom": "2026-01-01",
+          "validTo": "2026-12-31",
+          "capacityValue": 10,
+          "quantityUnit": "PIECE",
+          "capacityBasis": "HOUR",
+          "capacityMultiplier": 1
+        }
+      ],
+      "requiredConditionsByOperation": {},
+      "targetContextByOperation": {},
+      "confirmedConstraintsByOperation": {},
+      "constraintFindingsByOperation": {},
+      "assumptionFindingsByOperation": {},
+      "nextChecksByOperation": {},
+      "standardShiftMinutes": 420,
+      "standardDayMinutes": 840,
+      "quantityPrecision": 2,
+      "externalInputRevision": {
+        "routing": 1,
+        "modelCoverage": 1
+      }
+    }
+  ]
+}

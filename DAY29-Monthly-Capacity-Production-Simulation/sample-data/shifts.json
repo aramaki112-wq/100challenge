@@ -1,0 +1,74 @@
+[
+  {
+    "shiftId": "F1_S1",
+    "factoryId": "F1",
+    "name": "S1",
+    "startTime": "06:00",
+    "endTime": "13:00",
+    "displayOrder": 1,
+    "active": true
+  },
+  {
+    "shiftId": "F1_S2",
+    "factoryId": "F1",
+    "name": "S2",
+    "startTime": "13:00",
+    "endTime": "20:00",
+    "displayOrder": 2,
+    "active": true
+  },
+  {
+    "shiftId": "F2_S1",
+    "factoryId": "F2",
+    "name": "S1",
+    "startTime": "06:00",
+    "endTime": "13:00",
+    "displayOrder": 1,
+    "active": true
+  },
+  {
+    "shiftId": "F2_S2",
+    "factoryId": "F2",
+    "name": "S2",
+    "startTime": "13:00",
+    "endTime": "20:00",
+    "displayOrder": 2,
+    "active": true
+  },
+  {
+    "shiftId": "F3_S1",
+    "factoryId": "F3",
+    "name": "S1",
+    "startTime": "06:00",
+    "endTime": "13:00",
+    "displayOrder": 1,
+    "active": true
+  },
+  {
+    "shiftId": "F3_S2",
+    "factoryId": "F3",
+    "name": "S2",
+    "startTime": "13:00",
+    "endTime": "20:00",
+    "displayOrder": 2,
+    "active": true
+  },
+  {
+    "shiftId": "F4_S1",
+    "factoryId": "F4",
+    "name": "S1",
+    "startTime": "06:00",
+    "endTime": "13:00",
+    "displayOrder": 1,
+    "active": true
+  },
+  {
+    "shiftId": "F4_S2",
+    "factoryId": "F4",
+    "name": "S2",
+    "startTime": "13:00",
+    "endTime": "20:00",
+    "displayOrder": 2,
+    "active": true
+  }
+]

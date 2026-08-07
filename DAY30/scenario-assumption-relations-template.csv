@@ -1,0 +1,2 @@
+diagnosisScenarioId,assumptionId,active,note
+DGS-DEMO-BASE,ASM-DEMO-1,true,基準Scenarioで材料到着を確認する

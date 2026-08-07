@@ -1,0 +1,34 @@
+[
+  {
+    "factoryId": "F1",
+    "name": "第1工場",
+    "displayOrder": 1,
+    "active": true,
+    "standardDailyMinutes": 840,
+    "note": "DAY29 Sample Factory"
+  },
+  {
+    "factoryId": "F2",
+    "name": "第2工場",
+    "displayOrder": 2,
+    "active": true,
+    "standardDailyMinutes": 840,
+    "note": "DAY29 Sample Factory"
+  },
+  {
+    "factoryId": "F3",
+    "name": "第3工場",
+    "displayOrder": 3,
+    "active": true,
+    "standardDailyMinutes": 840,
+    "note": "DAY29 Sample Factory"
+  },
+  {
+    "factoryId": "F4",
+    "name": "第4工場",
+    "displayOrder": 4,
+    "active": true,
+    "standardDailyMinutes": 840,
+    "note": "DAY29 Sample Factory"
+  }
+]

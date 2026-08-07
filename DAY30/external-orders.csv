@@ -1,0 +1,3 @@
+orderId,priority,dueDate,productGroup,materialGroup,dimensionGroup,outsideDiameter,wallThickness,processingType,difficultyClass,operationType
+ORD-1001,1,2026-08-10,PIPE-A,SUS304,OD100,100,5,COLD,NORMAL,DRAW
+ORD-1002,2,2026-08-12,PIPE-A,SUS304,OD100,100,5,COLD,NORMAL,DRAW

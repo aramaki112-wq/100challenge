@@ -1,0 +1,146 @@
+[
+  {
+    "equipmentId": "F1_EQ_A",
+    "factoryId": "F1",
+    "processId": "F1_P_A",
+    "name": "第1工場 設備A",
+    "equipmentType": "PRIMARY",
+    "priority": 1,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F1_EQ_A_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 1,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F1_EQ_B",
+    "factoryId": "F1",
+    "processId": "F1_P_B",
+    "name": "第1工場 設備B",
+    "equipmentType": "SECONDARY",
+    "priority": 2,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F1_EQ_B_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 2,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F2_EQ_A",
+    "factoryId": "F2",
+    "processId": "F2_P_A",
+    "name": "第2工場 設備A",
+    "equipmentType": "PRIMARY",
+    "priority": 1,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F2_EQ_A_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 3,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F2_EQ_B",
+    "factoryId": "F2",
+    "processId": "F2_P_B",
+    "name": "第2工場 設備B",
+    "equipmentType": "SECONDARY",
+    "priority": 2,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F2_EQ_B_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 4,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F3_EQ_A",
+    "factoryId": "F3",
+    "processId": "F3_P_A",
+    "name": "第3工場 設備A",
+    "equipmentType": "PRIMARY",
+    "priority": 1,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F3_EQ_A_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 5,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F3_EQ_B",
+    "factoryId": "F3",
+    "processId": "F3_P_B",
+    "name": "第3工場 設備B",
+    "equipmentType": "SECONDARY",
+    "priority": 2,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F3_EQ_B_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 6,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F4_EQ_A",
+    "factoryId": "F4",
+    "processId": "F4_P_A",
+    "name": "第4工場 設備A",
+    "equipmentType": "PRIMARY",
+    "priority": 1,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F4_EQ_A_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 7,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  },
+  {
+    "equipmentId": "F4_EQ_B",
+    "factoryId": "F4",
+    "processId": "F4_P_B",
+    "name": "第4工場 設備B",
+    "equipmentType": "SECONDARY",
+    "priority": 2,
+    "planningTarget": true,
+    "usable": true,
+    "defaultCapacityRuleId": "F4_EQ_B_DEFAULT",
+    "capacityUnit": "PIECE",
+    "displayOrder": 8,
+    "effectivePeriod": {
+      "startDate": "2026-01-01",
+      "endDate": "2099-12-31"
+    },
+    "active": true
+  }
+]

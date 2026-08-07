@@ -1,0 +1,2 @@
+capacityScenarioId,targetMonth,generatedAt,defaultFactoryId,standardShiftMinutes,standardDayMinutes,quantityPrecision
+CAP-DEMO-BASE,2026-08,2026-08-02T06:00:00+09:00,F-01,420,840,2

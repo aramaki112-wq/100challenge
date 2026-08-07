@@ -1,0 +1,82 @@
+[
+  {
+    "equipmentId": "F1_EQ_A",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F1_EQ_B",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F2_EQ_A",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F2_EQ_B",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F3_EQ_A",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F3_EQ_B",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F4_EQ_A",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  },
+  {
+    "equipmentId": "F4_EQ_B",
+    "requiredWorkerCount": 1,
+    "roleRequirements": [
+      {
+        "skillId": "OPERATOR",
+        "requiredCount": 1
+      }
+    ]
+  }
+]

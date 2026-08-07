@@ -1,0 +1,31 @@
+[
+  {
+    "orderId": "ORDER_STD_001",
+    "productId": "STD-001",
+    "productGroup": "STANDARD",
+    "requiredQuantity": 1000,
+    "unit": "PIECE",
+    "dueDate": "2026-08-26",
+    "priority": 1,
+    "routingId": "ROUTE_STANDARD",
+    "initialWip": 0,
+    "attributes": {
+      "productGroup": "STANDARD"
+    }
+  },
+  {
+    "orderId": "ORDER_SP_001",
+    "productId": "SP-001",
+    "productGroup": "SPECIAL",
+    "requiredQuantity": 100,
+    "unit": "PIECE",
+    "dueDate": "2026-08-24",
+    "priority": 2,
+    "routingId": "ROUTE_SPECIAL",
+    "initialWip": 0,
+    "attributes": {
+      "productGroup": "SPECIAL",
+      "difficultyClass": "HIGH"
+    }
+  }
+]

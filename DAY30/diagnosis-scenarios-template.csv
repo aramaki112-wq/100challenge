@@ -1,0 +1,2 @@
+diagnosisScenarioId,name,planVersionId,capacityScenarioId,capacityBaseline,baseDiagnosisScenarioId,scenarioCategory,changeSummary,description,createdBy,createdAt,active,note
+DGS-SAMPLE-COMP,残業追加Scenario,PV-DEMO-1,CAP-DEMO-OT,AVAILABLE_CAPACITY,DGS-DEMO-BASE,COMPARISON,残業を2時間追加,基準Scenarioとの差を確認する,生産管理,2026-08-02T09:00:00+09:00,true,Sample row
