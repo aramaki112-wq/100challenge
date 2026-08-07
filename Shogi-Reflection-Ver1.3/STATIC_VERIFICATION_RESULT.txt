@@ -1,0 +1,108 @@
+Shogi Reflection Ver.1.3 Static Verification
+Date: 2026-08-02
+
+Files: 199
+Ver.1.2 baseline files: 173
+Unchanged baseline files: 139
+Modified baseline files: 34
+Added files: 26
+Deleted baseline files: 0
+Syntax checked: 126
+Missing imports: 0
+Passed checks: 94
+Failed checks: 0
+
+PASS | Source archive | Shogi-Reflection-Ver1.2(2).zip
+PASS | Ver.1.2 baseline file count | 173
+PASS | Deleted Ver.1.2 files
+PASS | Expected modified files | 00_README_FIRST.md, BROWSER_VERIFICATION_RESULT.txt, BROWSER_VERIFICATION_SCREENSHOT.png, BrowserGameReviewFormView.js, BrowserShogiReplayView.js, CHANGELOG.md, COMPLETION_REPORT.md, Design Handbook.md, Design Novel.md, Design Rules.md, Design-Decisions.md, Explanation.md, FILE_INVENTORY.txt, GameReviewEditMapper.js, GameReviewFormMapper.js, GameReviewMarkdownFormatter.js, GameReviewSnapshotMapper.js, KeyPosition.js, Learning Roadmap.md, README.md, Review Checklist.md, SOURCE_OF_TRUTH_AUDIT.md, STATIC_VERIFICATION_RESULT.txt, SYNTAX_CHECK_RESULT.txt, ShogiReplayController.js, TEST_RESULT.txt, Thought Process.md, browser_verify.py, challenge.md, index.html, main.js, package.json, style.css, verify.mjs
+PASS | Expected added files | AddCurrentPositionToKeyPosition.js, AddCurrentPositionToKeyPosition.test.js, BoardSnapshot.js, BrowserKeyPositionReplayMarkup.test.js, GameReviewReplayCompatibility.test.js, HandSnapshot.js, KEY_POSITION_REPLAY_CONNECTION.md, KeyPositionReplayController.js, KeyPositionReplayErrors.js, KeyPositionReplayIntegration.test.js, KeyPositionReplayReference.js, KeyPositionReplayReference.test.js, KeyPositionReplayViewModel.js, KeyPositionReplayViewModel.test.js, ReplayPositionSnapshot.js, ReplayPositionSnapshot.test.js, ReplayPositionSnapshotFactory.js, ReplayPositionSnapshotSerializer.js, ReplaySnapshotFingerprint.js, ReplayWarningReference.js, SNAPSHOT_COMPATIBILITY_MATRIX.md, SNAPSHOT_FORMAT.md, SOURCE_OF_TRUTH_BASELINE_HASHES.json, ShogiPositionSnapshot.js, VER1_3_CHANGE_MANIFEST.json, Ver.1.3操作手順書.md
+PASS | Expected deleted files
+PASS | Unchanged baseline hash count | 139
+PASS | All JavaScript syntax | 126
+PASS | Missing Import
+PASS | Required file: ReplayPositionSnapshot.js
+PASS | Required file: BoardSnapshot.js
+PASS | Required file: HandSnapshot.js
+PASS | Required file: ShogiPositionSnapshot.js
+PASS | Required file: KeyPositionReplayReference.js
+PASS | Required file: ReplayPositionSnapshotFactory.js
+PASS | Required file: ReplayPositionSnapshotSerializer.js
+PASS | Required file: AddCurrentPositionToKeyPosition.js
+PASS | Required file: KeyPositionReplayController.js
+PASS | Required file: KeyPositionReplayViewModel.js
+PASS | Required file: KeyPositionReplayErrors.js
+PASS | Required file: ReplayPositionSnapshot.test.js
+PASS | Required file: KeyPositionReplayReference.test.js
+PASS | Required file: AddCurrentPositionToKeyPosition.test.js
+PASS | Required file: GameReviewReplayCompatibility.test.js
+PASS | Required file: KeyPositionReplayViewModel.test.js
+PASS | Required file: KeyPositionReplayIntegration.test.js
+PASS | Required file: BrowserKeyPositionReplayMarkup.test.js
+PASS | Required file: Ver.1.3操作手順書.md
+PASS | Required file: KEY_POSITION_REPLAY_CONNECTION.md
+PASS | Required file: SNAPSHOT_FORMAT.md
+PASS | Required file: SNAPSHOT_COMPATIBILITY_MATRIX.md
+PASS | Required file: SOURCE_OF_TRUTH_AUDIT.md
+PASS | Required file: COMPLETION_REPORT.md
+PASS | Required file: TEST_RESULT.txt
+PASS | Required file: BROWSER_VERIFICATION_RESULT.txt
+PASS | package version | 1.3.0
+PASS | test script
+PASS | check script
+PASS | Markup #shogi-replay-panel
+PASS | Markup #shogi-board
+PASS | Markup #replay-status
+PASS | Markup #replay-move-list
+PASS | Markup #replay-warning
+PASS | Markup #replay-error
+PASS | Markup #add-current-position
+PASS | Markup #add-current-position-reason
+PASS | Markup #key-position-list
+PASS | Markup #game-review-form
+PASS | Ver.1.3 title
+PASS | main connection: AddCurrentPositionToKeyPosition
+PASS | main connection: KeyPositionReplayController
+PASS | main connection: loadReplay(result.form.kifuText
+PASS | main connection: loadReplay(found.gameReview.kifuText
+PASS | main connection: formView.markReplayReferencesSaved
+PASS | Add Service has no Repository dependency
+PASS | Snapshot Factory has no Browser dependency
+PASS | GameReview has no Replay navigation dependency
+PASS | Browser View has no Snapshot Factory rule
+PASS | KifParser remains Replay-independent
+PASS | Replay connection error code KEY_POSITION_REPLAY_NOT_AVAILABLE
+PASS | Replay connection error code KEY_POSITION_REPLAY_MOVE_REQUIRED
+PASS | Replay connection error code KEY_POSITION_REPLAY_SNAPSHOT_INVALID
+PASS | Replay connection error code KEY_POSITION_REPLAY_DUPLICATE
+PASS | Replay connection error code KEY_POSITION_LIMIT_REACHED
+PASS | Replay connection error code KEY_POSITION_REPLAY_SOURCE_MISMATCH
+PASS | Replay connection error code KEY_POSITION_REPLAY_REFERENCE_INVALID
+PASS | Replay connection error code KEY_POSITION_SNAPSHOT_VERSION_UNSUPPORTED
+PASS | Replay connection error code KEY_POSITION_REPLAY_ADD_FAILED
+PASS | Replay connection error extends ApplicationError
+PASS | Design Rule CO
+PASS | Design Rule CP
+PASS | Design Rule CQ
+PASS | Design Rule CR
+PASS | Design Rule CS
+PASS | Design Rule CT
+PASS | Design Rule CU
+PASS | Design Rule CV
+PASS | Design Rule CW
+PASS | Design Rule CX
+PASS | Design Rule CY
+PASS | Design Rule CZ
+PASS | Handbook four parts
+PASS | Handbook twelve steps
+PASS | Handbook label ### 1. 🎯 このSTEPの目的
+PASS | Handbook label ### 2. 🤔 なぜこの作業をするのか
+PASS | Handbook label ### 3. 💻 コードを書く
+PASS | Handbook label ### 4. 💡 設計者のひとこと
+PASS | Handbook label ### 5. ✅ チェックポイント
+PASS | Handbook label ### 6. ▶ 次へ進む条件
+PASS | Test total recorded
+PASS | Ver.1.2 tests recorded
+PASS | Ver.1.3 tests recorded
+PASS | Browser total recorded
+PASS | Browser failed zero

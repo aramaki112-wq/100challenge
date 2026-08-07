@@ -1,0 +1,28 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+const html = fs.readFileSync(new URL("./index.html", import.meta.url), "utf8");
+const main = fs.readFileSync(new URL("./main.js", import.meta.url), "utf8");
+const formView = fs.readFileSync(new URL("./BrowserGameReviewFormView.js", import.meta.url), "utf8");
+const css = fs.readFileSync(new URL("./style.css", import.meta.url), "utf8");
+
+test("この局面を重要局面へ追加Buttonを表示する", () => assert.match(html, /id="add-current-position"/));
+test("追加Buttonの無効理由表示を持つ", () => assert.match(html, /id="add-current-position-reason"/));
+test("Button操作だけでは保存されない説明がある", () => assert.match(html, /追加しても保存はされません|保存されません/));
+test("FACTを自動生成しない説明がある", () => assert.match(html, /FACT・INTERPRETATION・HYPOTHESISは空欄/));
+test("Replay接続Controllerをmainへ接続する", () => assert.match(main, /KeyPositionReplayController/));
+test("追加Application Serviceをmainへ接続する", () => assert.match(main, /AddCurrentPositionToKeyPosition/));
+test("保存済み詳細から編集状態へ移す境界がある", () => assert.match(main, /保存済み対局を編集状態へ移しました/));
+test("KeyPosition FormへReplay Reference Fieldを持つ", () => assert.match(formView, /data-field="replayReference"/));
+test("現在指し手入力欄を持つ", () => assert.match(formView, /data-field="moveText"/));
+test("Snapshot表示Detailsを持つ", () => assert.match(formView, /data-snapshot-details/));
+test("小型盤面Previewを持つ", () => assert.match(formView, /snapshot-board/));
+test("持ち駒Previewを持つ", () => assert.match(formView, /snapshot-hand/));
+test("判断Patternと学びの入力欄を持つ", () => { assert.match(formView, /data-field="decisionPattern"/); assert.match(formView, /data-field="learning"/); });
+test("追加成功時に未保存を明示する", () => assert.match(main, /まだ保存されていません/));
+test("重複時に既存項目へFocusする", () => assert.match(main, /duplicateIndex/));
+test("5件上限の事前無効化を持つ", () => assert.match(fs.readFileSync(new URL("./BrowserShogiReplayView.js", import.meta.url), "utf8"), /keyPositionCount >= 5/));
+test("WarningとErrorのroleを分離する", () => { assert.match(html, /replay-warning[^>]*role="status"/); assert.match(html, /replay-error[^>]*role="alert"/); });
+test("Snapshot Squareのaria-labelを生成する", () => assert.match(formView, /role="gridcell" aria-label/));
+test("Smartphone Layoutを持つ", () => assert.match(css, /key-position-connect-panel[\s\S]*grid-template-columns:1fr/));
+test("色だけでなくBorderで最終移動を示す", () => { assert.match(css, /snapshot-square\.is-last-from/); assert.match(css, /border:1px dashed/); });

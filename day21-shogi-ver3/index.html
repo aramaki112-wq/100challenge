@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="KIF形式の将棋棋譜を読み込み、保存し、一手ずつ再現するApplicationです。"
+  >
+
+  <title>
+    将棋棋譜再現Application | DAY21
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="./style.css"
+  >
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="app-header__inner">
+      <p class="app-header__day">
+        100アプリチャレンジ DAY21
+      </p>
+
+      <h1 class="app-header__title">
+        将棋棋譜再現Application
+      </h1>
+
+      <p class="app-header__theme">
+        Composition RootとDependency Injection
+      </p>
+    </div>
+  </header>
+
+  <div
+    id="application-fatal-error"
+    class="message message--error application-fatal-error"
+    role="alert"
+    hidden
+  ></div>
+
+  <main class="app-main">
+    <div class="app-sidebar">
+      <section
+        class="panel kif-import-panel"
+        aria-labelledby="kif-import-title"
+      >
+        <div class="panel__header">
+          <p class="panel__eyebrow">
+            Import
+          </p>
+
+          <h2
+            id="kif-import-title"
+            class="panel__title"
+          >
+            KIF棋譜を読み込む
+          </h2>
+        </div>
+
+        <p class="panel__description">
+          KIF形式の棋譜を貼り付けると、
+          Applicationへ読み込み、
+          LocalStorageへ保存します。
+        </p>
+
+        <form
+          id="kif-import-form"
+          class="kif-import-form"
+        >
+          <div class="form-field">
+            <label
+              for="kif-input"
+              class="form-label"
+            >
+              KIF棋譜
+            </label>
+
+            <textarea
+              id="kif-input"
+              class="kif-input"
+              rows="15"
+              required
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="KIF形式の棋譜を貼り付けてください。"
+            ></textarea>
+          </div>
+
+          <button
+            id="kif-import-button"
+            class="button button--primary button--full"
+            type="submit"
+          >
+            読み込んで保存
+          </button>
+        </form>
+
+        <div
+          id="kif-import-message"
+          class="message"
+          aria-live="polite"
+          hidden
+        ></div>
+      </section>
+
+      <section
+        class="panel saved-games-panel"
+        aria-labelledby="saved-games-title"
+      >
+        <div class="panel__header">
+          <p class="panel__eyebrow">
+            Library
+          </p>
+
+          <h2
+            id="saved-games-title"
+            class="panel__title"
+          >
+            保存済み棋譜
+          </h2>
+        </div>
+
+        <p class="panel__description">
+          保存した棋譜を選択すると、
+          初期局面から再び操作できます。
+        </p>
+
+        <div
+          id="saved-game-message"
+          class="message"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <ul
+          id="saved-game-list"
+          class="saved-game-list"
+          aria-label="保存済み棋譜一覧"
+        ></ul>
+      </section>
+    </div>
+
+    <section
+      class="panel replay-panel"
+      aria-labelledby="replay-title"
+    >
+      <div class="panel__header replay-panel__header">
+        <div>
+          <p class="panel__eyebrow">
+            Replay
+          </p>
+
+          <h2
+            id="replay-title"
+            class="panel__title"
+          >
+            棋譜再現
+          </h2>
+        </div>
+
+        <p
+          id="current-move-status"
+          class="current-move-status"
+          aria-live="polite"
+        >
+          0 / 0手
+        </p>
+      </div>
+
+      <div class="replay-summary">
+        <h3
+          id="current-game-title"
+          class="replay-summary__title"
+        >
+          棋譜未選択
+        </h3>
+
+        <p
+          id="current-game-players"
+          class="replay-summary__text"
+        >
+          先手：— ／ 後手：—
+        </p>
+
+        <p
+          id="current-game-date"
+          class="replay-summary__text"
+        >
+          対局日：—
+        </p>
+      </div>
+
+      <div
+        id="replay-message"
+        class="message"
+        aria-live="polite"
+        hidden
+      ></div>
+
+      <div class="replay-workspace">
+        <div class="board-area">
+          <div
+            id="shogi-board"
+            class="shogi-board"
+            role="grid"
+            aria-label="将棋盤"
+          ></div>
+
+          <div
+            class="replay-controls"
+            aria-label="棋譜再現操作"
+          >
+            <button
+              id="first-move-button"
+              class="button button--secondary"
+              type="button"
+              disabled
+            >
+              最初
+            </button>
+
+            <button
+              id="previous-move-button"
+              class="button button--secondary"
+              type="button"
+              disabled
+            >
+              戻る
+            </button>
+
+            <button
+              id="next-move-button"
+              class="button button--secondary"
+              type="button"
+              disabled
+            >
+              進む
+            </button>
+
+            <button
+              id="last-move-button"
+              class="button button--secondary"
+              type="button"
+              disabled
+            >
+              最後
+            </button>
+          </div>
+        </div>
+
+        <aside
+          class="move-list-panel"
+          aria-labelledby="move-list-title"
+        >
+          <h3
+            id="move-list-title"
+            class="move-list-panel__title"
+          >
+            指し手一覧
+          </h3>
+
+          <ol
+            id="move-list"
+            class="move-list"
+          ></ol>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <div class="noscript-message">
+      このApplicationを使用するには、
+      JavaScriptを有効にしてください。
+    </div>
+  </noscript>
+
+  <script
+    type="module"
+    src="./src/composition/main.js"
+  ></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="棋譜と重要局面から、自分の思考・感情・判断Patternを長期観測する将棋振り返りアプリ。">
+  <title>将棋振り返りアプリ Ver.1.3｜重要局面登録接続</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">SHOGI REFLECTION · VER.1.3 · KEY POSITION CONNECTION</p>
+      <h1>過去の一局を、次の一手へ戻す。</h1>
+      <p class="lead">KIFを再現し、現在局面を重要局面候補へ安全に接続して、FACT・INTERPRETATION・HYPOTHESISを自分の言葉で記録できます。</p>
+    </div>
+    <div class="status-card" aria-label="保存状況">
+      <span>Browser内の保存件数</span><strong id="saved-count">0</strong><small>Markdown成果物をObsidianへ持ち出せます</small>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="utility-panel" aria-labelledby="persistence-heading">
+      <div><p class="eyebrow">SAFE PERSISTENCE</p><h2 id="persistence-heading">保存・Backup</h2><p>入力内容はDomain Ruleを通してから保存されます。JSON Backupは全件をAtomic Restoreする復元用Dataです。</p></div>
+      <div class="button-cluster">
+        <button id="save-browser" type="button" class="secondary-button">現在DataをBrowser保存</button>
+        <button id="load-browser" type="button" class="secondary-button">Browser保存Dataを読込</button>
+        <button id="download-backup" type="button" class="secondary-button">JSON Backup</button>
+        <label class="file-button">JSON Restore<input id="restore-backup" type="file" accept="application/json,.json"></label>
+        <button id="delete-browser" type="button" class="danger-button">Browser保存Dataを削除</button>
+      </div>
+    </section>
+
+    <div id="form-feedback" class="feedback" tabindex="-1" hidden aria-live="polite"></div>
+
+    <section id="kif-import-panel" class="kif-import-panel" aria-labelledby="kif-import-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">KIF IMPORT · PREVIEW FIRST</p>
+          <h2 id="kif-import-heading">KIFファイルから対局情報を入力する</h2>
+          <p>ImportはFormへの入力だけを行います。Preview確認後も、下の「振り返りを保存する」を押すまでRepositoryやBrowserには保存されません。</p>
+        </div>
+      </div>
+
+      <div class="kif-import-controls">
+        <label class="file-button kif-file-button">KIFファイルを選択
+          <input id="kif-file-input" type="file" accept=".kif,.kifu,text/plain">
+        </label>
+        <div id="kif-drop-zone" class="kif-drop-zone" tabindex="0" role="button" aria-label="KIFファイルをDrag and Drop">
+          <strong>ここへKIFファイルをDrag &amp; Drop</strong>
+          <span>.kif（Shift_JIS）／.kifu（UTF-8）、最大2MiB</span>
+        </div>
+      </div>
+
+      <div id="kif-import-status" class="kif-import-status" data-kind="info" aria-live="polite">
+        KIFファイルを選択すると、Formへ反映する前にImport Previewを表示します。
+      </div>
+
+      <section id="kif-import-preview" class="kif-import-preview" hidden aria-labelledby="kif-preview-heading">
+        <div class="section-heading">
+          <div><p class="eyebrow">IMPORT PREVIEW</p><h3 id="kif-preview-heading">解析内容を確認</h3></div>
+        </div>
+        <dl class="kif-preview-grid">
+          <div><dt>File名</dt><dd data-preview-file></dd></div>
+          <div><dt>Encoding</dt><dd data-preview-encoding></dd></div>
+          <div><dt>対局日時</dt><dd data-preview-date></dd></div>
+          <div><dt>先手</dt><dd data-preview-sente></dd></div>
+          <div><dt>後手</dt><dd data-preview-gote></dd></div>
+          <div><dt>棋戦</dt><dd data-preview-event></dd></div>
+          <div><dt>場所</dt><dd data-preview-place></dd></div>
+          <div><dt>手合割</dt><dd data-preview-handicap></dd></div>
+          <div><dt>持ち時間</dt><dd data-preview-time-control></dd></div>
+          <div><dt>結果</dt><dd data-preview-result></dd></div>
+          <div><dt>終局理由</dt><dd data-preview-termination></dd></div>
+          <div><dt>総手数</dt><dd data-preview-moves></dd></div>
+          <div><dt>Source判定</dt><dd data-preview-source></dd></div>
+          <div class="wide"><dt>棋譜概要</dt><dd data-preview-summary></dd></div>
+        </dl>
+
+        <div class="kif-preview-notes">
+          <div><strong>Parser Warning</strong><ul data-preview-warnings></ul></div>
+          <div><strong>互換性確認</strong><ul data-preview-compatibility></ul></div>
+        </div>
+
+        <div class="kif-apply-row">
+          <label>この対局での自分の手番
+            <select id="kif-my-side">
+              <option value="SENTE">先手</option>
+              <option value="GOTE">後手</option>
+            </select>
+          </label>
+          <div class="button-cluster">
+            <button id="cancel-kif-import" type="button" class="secondary-button">Importを中止</button>
+            <button id="apply-kif-import" type="button" class="primary-button">この内容をFormへ反映</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+
+    <section id="shogi-replay-panel" class="shogi-replay-panel" aria-labelledby="shogi-replay-heading">
+      <div class="section-heading replay-heading">
+        <div>
+          <p class="eyebrow">POSITION HISTORY · NAVIGATION</p>
+          <h2 id="shogi-replay-heading">棋譜再現盤</h2>
+          <p>Formの棋譜Textまたは保存済み対局から局面履歴を構築します。Replay操作だけでは振り返りDataを変更・保存しません。</p>
+        </div>
+        <div class="button-cluster">
+          <button id="replay-current-form" type="button" class="secondary-button">現在Formの棋譜を再現</button>
+          <button id="replay-flip" type="button" class="secondary-button" aria-pressed="false" disabled>盤面を反転</button>
+        </div>
+      </div>
+
+      <div id="replay-empty" class="replay-message replay-empty" role="status">KIFをFormへ反映するか、保存済み対局を選択すると棋譜を再現できます。</div>
+      <div id="replay-warning" class="replay-message replay-warning" role="status" aria-live="polite" hidden></div>
+      <div id="replay-error" class="replay-message replay-error" role="alert" hidden></div>
+
+      <div class="replay-layout">
+        <div class="replay-main-column">
+          <div id="replay-status" class="replay-status" aria-live="polite"></div>
+          <div class="replay-board-shell">
+            <aside id="gote-hand" class="replay-hand" aria-label="後手の持ち駒"></aside>
+            <div id="shogi-board" class="shogi-board" role="grid" aria-label="将棋盤"></div>
+            <aside id="sente-hand" class="replay-hand" aria-label="先手の持ち駒"></aside>
+          </div>
+
+          <div class="replay-navigation" aria-label="棋譜Navigation">
+            <button id="replay-first" type="button" class="secondary-button" disabled>最初へ</button>
+            <button id="replay-previous" type="button" class="secondary-button" disabled>前へ</button>
+            <button id="replay-next" type="button" class="primary-button" disabled>次へ</button>
+            <button id="replay-last" type="button" class="secondary-button" disabled>最後へ</button>
+          </div>
+          <div class="replay-jump-controls">
+            <label for="replay-jump">手数をRangeで移動</label>
+            <input id="replay-jump" type="range" min="0" max="0" value="0" disabled>
+            <label for="replay-jump-number">任意手数</label>
+            <input id="replay-jump-number" type="number" min="0" max="0" value="0" inputmode="numeric" disabled>
+            <button id="replay-jump-button" type="button" class="secondary-button" disabled>移動</button>
+          </div>
+          <p class="replay-keyboard-help">Keyboard：← 前へ／→ 次へ／Home 最初へ／End 最後へ。入力欄へFocus中は動作しません。</p>
+          <div class="key-position-connect-panel" aria-labelledby="key-position-connect-heading">
+            <div>
+              <p class="eyebrow">REPLAY → KEY POSITION</p>
+              <h3 id="key-position-connect-heading">現在局面を振り返りへ接続</h3>
+              <p>手数・指し手・客観的な局面Snapshotだけを候補へ反映します。FACT・INTERPRETATION・HYPOTHESISは空欄のままです。</p>
+            </div>
+            <button id="add-current-position" type="button" class="primary-button" disabled>この局面を重要局面へ追加</button>
+            <p id="add-current-position-reason" class="add-current-position-reason" data-kind="availability" role="status">0手目は追加対象外です。1手目以降へ移動してください。</p>
+          </div>
+        </div>
+
+        <aside class="replay-move-panel" aria-labelledby="replay-move-list-heading">
+          <h3 id="replay-move-list-heading">棋譜一覧</h3>
+          <div id="replay-move-list" class="replay-move-list" role="listbox" aria-label="指し手一覧"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="saved-review-library" class="library-panel" aria-labelledby="library-heading">
+      <div class="section-heading">
+        <div><p class="eyebrow">SAVED REVIEWS</p><h2 id="library-heading">保存済み対局</h2><p>一覧から詳細確認・再編集・削除に加え、保存済みReviewをMarkdown成果物へ変換できます。</p></div>
+        <button id="new-review" type="button" class="secondary-button">新しい振り返り</button>
+      </div>
+      <div class="library-layout">
+        <div id="saved-review-list" class="saved-review-list" aria-label="保存済み対局一覧"></div>
+        <div id="saved-review-detail" class="saved-review-detail" aria-live="polite"></div>
+      </div>
+    </section>
+
+
+    <section id="markdown-export-panel" class="markdown-export-panel" aria-labelledby="markdown-export-heading" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OBSIDIAN OUTPUT</p>
+          <h2 id="markdown-export-heading">Markdown Preview</h2>
+          <p id="markdown-export-description">保存済み対局からMarkdownを作成すると、ここへ表示されます。</p>
+        </div>
+        <div class="button-cluster">
+          <button id="copy-markdown" type="button" class="secondary-button" disabled>ClipboardへCopy</button>
+          <button id="download-markdown" type="button" class="primary-button" disabled>.mdをDownload</button>
+        </div>
+      </div>
+      <textarea id="markdown-preview" class="markdown-preview" rows="24" readonly aria-label="Markdown Preview"></textarea>
+      <aside class="obsidian-help">
+        <strong>Obsidianへの登録</strong>
+        <p>Downloadした.md FileをObsidian Vault内の保存先Folderへ移動するか、CopyしたMarkdownを新規Noteへ貼り付けます。振り返りNoteとObservation Cardは相互Linkされます。</p>
+      </aside>
+    </section>
+
+    <form id="game-review-form" novalidate>
+      <section class="form-section" aria-labelledby="basic-heading">
+        <div class="section-heading"><div><p class="eyebrow">01 · GAME</p><h2 id="basic-heading">対局基本情報</h2><p>一覧の「編集する」を押すと、保存済みDataをこのFormへ戻します。</p></div></div>
+        <div class="field-grid two-columns">
+          <label>Review ID<input name="reviewId" type="text" readonly required><small>新規時は自動生成され、編集時は同じIDを維持します。</small></label>
+          <label>対局日時<input name="gameDate" type="datetime-local" required></label>
+          <label>手番<select name="side" required><option value="SENTE">先手</option><option value="GOTE">後手</option></select></label>
+          <label>結果<select name="result" required><option value="UNKNOWN">未設定</option><option value="WIN">勝ち</option><option value="LOSS">負け</option><option value="DRAW">引き分け</option></select></label>
+          <label>対局相手<input name="opponentName" type="text" placeholder="任意"></label>
+          <label>持ち時間・対局形式<input name="timeControl" type="text" placeholder="例：10分切れ負け"></label>
+        </div>
+        <label>棋譜Text <span class="required-mark">必須</span><textarea name="kifuText" rows="10" required placeholder="KIF Importまたは手入力した棋譜Textを、原文のまま保存します。"></textarea></label>
+        <label>対局の物語<textarea name="gameStory" rows="5" placeholder="序盤から終局までを、自分の言葉で一つの物語として振り返ります。"></textarea></label>
+      </section>
+
+      <section class="form-section" aria-labelledby="positions-heading">
+        <div class="section-heading"><div><p class="eyebrow">02 · KEY POSITIONS</p><h2 id="positions-heading">重要局面</h2><p>3件を基本として、最大5件まで追加できます。空のCardは保存対象から除外されます。</p></div><button id="add-key-position" type="button" class="secondary-button">重要局面を追加</button></div>
+        <aside class="separation-note"><strong>混ぜないための三分離</strong><span><b>FACT</b>＝盤上で起きたこと</span><span><b>INTERPRETATION</b>＝自分がどう受け取ったか</span><span><b>HYPOTHESIS</b>＝別の見方・次に確認する可能性</span></aside>
+        <div id="key-position-list" class="key-position-list"></div>
+      </section>
+
+      <section class="form-section" aria-labelledby="next-heading">
+        <div class="section-heading"><div><p class="eyebrow">03 · NEXT GAME</p><h2 id="next-heading">判断Patternと次局への接続</h2></div></div>
+        <label>判断Pattern<textarea name="decisionPattern" rows="4" placeholder="例：攻めが見えると、相手の反撃確認を省略する。"></textarea></label>
+        <label>Observation Theme<textarea name="observationTheme" rows="3" placeholder="次局で一つだけ観察するTheme"></textarea></label>
+        <fieldset><legend>次局の実行Rule <span>1〜3件</span></legend><label>Rule 1<input name="actionRule1" type="text" placeholder="例：指す前に相手の王手・取り・侵入を確認する。"></label><label>Rule 2<input name="actionRule2" type="text"></label><label>Rule 3<input name="actionRule3" type="text"></label></fieldset>
+        <label>自由Memo<textarea name="note" rows="4"></textarea></label>
+      </section>
+
+      <section class="save-panel"><div><strong>次局へ接続できる条件</strong><p>重要局面3〜5件、Observation Theme 1件、実行Rule 1〜3件。未完成でも振り返りDataとして保存できます。</p></div><button type="submit" class="primary-button">振り返りを保存する</button></section>
+    </form>
+  </main>
+  <footer><p>将棋振り返りアプリ Ver.1.3 · 棋譜再現盤・重要局面登録接続 · Markdown成果物・次局用Observation Card</p></footer>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
