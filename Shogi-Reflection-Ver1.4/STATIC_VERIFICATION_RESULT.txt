@@ -1,0 +1,159 @@
+Shogi Reflection Ver.1.4 Static Verification
+Date: 2026-08-08
+
+Files: 250
+Ver.1.3.3 baseline files: 229
+Unchanged Ver.1.3.3 files: 192
+Modified Ver.1.3.3 files: 37
+Added Ver.1.4 files: 21
+Deleted Ver.1.3.3 files: 0
+Syntax checked: 148
+Missing imports: 0
+Passed checks: 83
+Failed checks: 0
+
+Modified Ver.1.3.3 files:
+- 00_README_FIRST.md
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BrowserGameReviewFormView.js
+- BrowserGameReviewLibraryView.js
+- BrowserShogiReplayView.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- Explanation.md
+- FILE_INVENTORY.txt
+- GameReview.js
+- GameReviewEditMapper.js
+- GameReviewFormMapper.js
+- GameReviewLibraryPresenter.js
+- GameReviewMarkdownFormatter.js
+- GameReviewSnapshotMapper.js
+- KifImportFormMapper.js
+- Learning Roadmap.md
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- SaveGameReview.js
+- SubmitGameReviewForm.js
+- TEST_RESULT.txt
+- Thought Process.md
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+Added Ver.1.4 files:
+- ASSET_LICENSE_POLICY.md
+- BoardGraphicsV14.test.js
+- BrowserApplicationView.js
+- BrowserFinalReportView.js
+- BrowserStepNavigation.js
+- GAME_SAVE_LIFECYCLE.md
+- GameSaveWithoutReflectionV14.test.js
+- HelpAndLifecycleCompatibilityV14.test.js
+- ReflectionCompletionValidationV14.test.js
+- ReflectionWorkflowStatus.js
+- SAVED_GAME_VIEWER_DESIGN.md
+- SHOGI_BOARD_GRAPHICS_GUIDELINE.md
+- SOURCE_OF_TRUTH_V1_3_3_BASELINE_HASHES.json
+- STEP_UI_DESIGN.md
+- SavedGameViewerV14.test.js
+- ShogiPieceSvg.js
+- StepNavigationV14.test.js
+- USER_MANUAL.md
+- Ver.1.4操作手順書.md
+- WorkflowErrors.js
+- browser_verify_v1_3_3_reference.py
+
+PASS | Ver.1.3.3 Source of Truth file count | 229
+PASS | No Ver.1.3.3 files deleted
+PASS | All JavaScript syntax | 148
+PASS | Missing Import = 0
+PASS | Required Ver.1.4 file: ReflectionWorkflowStatus.js
+PASS | Required Ver.1.4 file: WorkflowErrors.js
+PASS | Required Ver.1.4 file: BrowserStepNavigation.js
+PASS | Required Ver.1.4 file: BrowserApplicationView.js
+PASS | Required Ver.1.4 file: BrowserFinalReportView.js
+PASS | Required Ver.1.4 file: ShogiPieceSvg.js
+PASS | Required Ver.1.4 file: GameSaveWithoutReflectionV14.test.js
+PASS | Required Ver.1.4 file: ReflectionCompletionValidationV14.test.js
+PASS | Required Ver.1.4 file: SavedGameViewerV14.test.js
+PASS | Required Ver.1.4 file: StepNavigationV14.test.js
+PASS | Required Ver.1.4 file: BoardGraphicsV14.test.js
+PASS | Required Ver.1.4 file: HelpAndLifecycleCompatibilityV14.test.js
+PASS | Required Ver.1.4 file: STEP_UI_DESIGN.md
+PASS | Required Ver.1.4 file: GAME_SAVE_LIFECYCLE.md
+PASS | Required Ver.1.4 file: SAVED_GAME_VIEWER_DESIGN.md
+PASS | Required Ver.1.4 file: SHOGI_BOARD_GRAPHICS_GUIDELINE.md
+PASS | Required Ver.1.4 file: ASSET_LICENSE_POLICY.md
+PASS | Required Ver.1.4 file: USER_MANUAL.md
+PASS | Required Ver.1.4 file: Ver.1.4操作手順書.md
+PASS | Required Ver.1.4 file: SOURCE_OF_TRUTH_AUDIT.md
+PASS | Required Ver.1.4 file: COMPLETION_REPORT.md
+PASS | package version | 1.4.0
+PASS | test script
+PASS | check script
+PASS | Markup #workflow-view
+PASS | Markup #library-view
+PASS | Markup #help-view
+PASS | Markup #step-current-status
+PASS | Markup #step-menu
+PASS | Markup #save-game-and-exit
+PASS | Markup #save-reflection-draft
+PASS | Markup #complete-reflection
+PASS | Markup #saved-review-library
+PASS | Markup #final-report-preview
+PASS | Markup #nav-help
+PASS | Markup #kif-paste-text
+PASS | Markup #clear-kif-paste
+PASS | Markup #replay-next
+PASS | Markup #replay-previous
+PASS | Markup #replay-move-list
+PASS | Markup #shogi-board
+PASS | Seven Step panels | 7
+PASS | Japanese workflow statuses
+PASS | Sente/Gote editable fields
+PASS | Context Help links
+PASS | Delete and Clear labels separated
+PASS | Save/Complete intents separated
+PASS | Completion status validation
+PASS | 3-5 KeyPosition rule retained
+PASS | 1-3 action rule retained
+PASS | Observation Theme retained
+PASS | Viewer summary avoids PositionHistory
+PASS | Viewer counts KIF without replay construction
+PASS | Original SVG piece component
+PASS | No external image URL in Piece component
+PASS | Promoted visual marker
+PASS | Smartphone CSS
+PASS | 48px Replay touch target
+PASS | ReplayScrollPolicy.js hash preserved
+PASS | PositionHistory.js hash preserved
+PASS | ShogiReplayApplicationService.js hash preserved
+PASS | AddCurrentPositionToKeyPosition.js hash preserved
+PASS | ReplayPositionSnapshotFactory.js hash preserved
+PASS | LocalStorageSnapshotStore.js hash preserved
+PASS | LICENSE hash preserved
+PASS | ReplayScrollPolicy no page scrolling
+PASS | ReplayScrollPolicy internal scroll
+PASS | Backup includes lifecycle fields
+PASS | Backup remains schemaVersion 1
+PASS | Legacy backup lifecycle fallback
+PASS | Automated total recorded | Total: 543
+PASS | Automated failed zero
+PASS | Browser total recorded | Checks: 86
+PASS | Browser failed zero
+PASS | Browser game-only save verified
+PASS | Browser saved viewer verified
+PASS | Browser board graphics verified
+PASS | Browser Backup Restore verified
+PASS | Browser Replay Scroll verified

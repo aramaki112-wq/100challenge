@@ -1,0 +1,98 @@
+Shogi Reflection Ver.1.4 Browser Verification
+==============================================
+Viewport main: 390x844
+Checks: 86
+Passed: 86
+Failed: 0
+Browser: Chromium via Playwright
+Automation: yes
+
+[PASS] Ver1.4 title | 将棋振り返りアプリ Ver.1.4｜Step型UI・保存済み対局
+[PASS] Initial Step1
+[PASS] Seven Step menu
+[PASS] Current Step aria-label
+[PASS] Help header button
+[PASS] KIF paste touch target
+[PASS] KIF paste 16px on smartphone
+[PASS] Help view opens
+[PASS] Help explains backup
+[PASS] Help explains Replay
+[PASS] Help returns to workflow
+[PASS] Paste Preview
+[PASS] Preview not saved
+[PASS] Retry hides Preview
+[PASS] Retry preserves paste
+[PASS] Retry different KIF
+[PASS] Clear empties temporary KIF
+[PASS] Clear does not save/delete
+[PASS] Clipboard Preview
+[PASS] File Preview
+[PASS] Drag Drop Preview
+[PASS] Apply moves to Step2
+[PASS] Sente name mapped
+[PASS] Gote name mapped
+[PASS] Game remains unsaved after apply
+[PASS] Game-only save opens Viewer
+[PASS] Game-only status visible
+[PASS] Game-only persisted
+[PASS] Zero key positions persisted
+[PASS] Lifecycle timestamps persisted
+[PASS] Sente/Gote persisted
+[PASS] Saved detail opens
+[PASS] Incomplete markdown disabled
+[PASS] Saved Replay opens Step3
+[PASS] Board has 81 squares
+[PASS] Board initial piece count 40
+[PASS] Piece is SVG
+[PASS] Board accessible names
+[PASS] Replay Next touch target
+[PASS] Next navigation
+[PASS] Next keeps Page scroll
+[PASS] Previous navigation
+[PASS] Previous keeps Page scroll
+[PASS] Current Move highlight
+[PASS] Horse promoted SVG
+[PASS] Horse text
+[PASS] Board flip
+[PASS] Flip keeps Page scroll
+[PASS] Promoted piece browser render 成桂
+[PASS] Promoted piece browser render 成香
+[PASS] Promoted piece browser render 成銀
+[PASS] Promoted piece browser render 馬
+[PASS] Promoted piece browser render 龍
+[PASS] Two-character promoted pieces use compact class
+[PASS] Three replay KeyPositions
+[PASS] Step navigation keeps entered data
+[PASS] Draft status persisted
+[PASS] Draft resumes with KeyPositions
+[PASS] Final report includes reflection
+[PASS] Completion status persisted
+[PASS] Completion keeps 3-5 rule
+[PASS] Observation Theme persisted
+[PASS] Execution Rule persisted
+[PASS] Viewer shows complete status
+[PASS] Completed Markdown enabled
+[PASS] Completed Observation Card enabled
+[PASS] Markdown Export works
+[PASS] Observation Card works
+[PASS] Backup JSON downloaded
+[PASS] Saved review Delete requires/uses separate operation
+[PASS] Backup Restore
+[PASS] KIF Clear never deletes saved review
+[PASS] Long Replay 50 next
+[PASS] Long Next page scroll stable | (959, 959)
+[PASS] Move list internal scroll follows
+[PASS] Move highlight after long next
+[PASS] Long Replay 10 previous
+[PASS] Long Previous page scroll stable
+[PASS] Long First
+[PASS] Long First page scroll stable
+[PASS] Long Last
+[PASS] Long Last page scroll stable
+[PASS] Keyboard Replay
+[PASS] Keyboard page scroll stable
+[PASS] Long Replay KeyPosition add
+[PASS] No browser page errors
+
+Browser logs:
+(none)

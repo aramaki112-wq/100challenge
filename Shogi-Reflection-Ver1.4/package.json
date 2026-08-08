@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.4.0",
+  "private": true,
+  "type": "module",
+  "description": "将棋の棋譜先行保存・Step型UI・保存済み対局Viewer・オリジナルSVG駒・取扱説明書を備えた将棋振り返りアプリ Ver.1.4",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
