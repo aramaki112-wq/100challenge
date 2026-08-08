@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.4.1",
+  "private": true,
+  "type": "module",
+  "description": "将棋盤固定9×9Gridと保存済み対局Summary表示を改善した将棋振り返りアプリ Ver.1.4.1",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

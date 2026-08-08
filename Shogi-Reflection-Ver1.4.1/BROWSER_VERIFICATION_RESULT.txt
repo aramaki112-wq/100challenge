@@ -1,0 +1,179 @@
+Shogi Reflection Ver.1.4.1 Browser Verification
+==============================================
+Viewport main: 390x844
+Checks: 107
+Passed: 107
+Failed: 0
+Browser: Chromium via Playwright
+Automation: yes
+
+[PASS] Ver1.4.1 title | 将棋振り返りアプリ Ver.1.4.1｜固定Grid・保存済み対局表示改善
+[PASS] Initial Step1
+[PASS] Seven Step menu
+[PASS] Current Step aria-label
+[PASS] Help header button
+[PASS] KIF paste touch target
+[PASS] KIF paste 16px on smartphone
+[PASS] Help view opens
+[PASS] Help explains backup
+[PASS] Help explains Replay
+[PASS] Help returns to workflow
+[PASS] Paste Preview
+[PASS] Preview not saved
+[PASS] Retry hides Preview
+[PASS] Retry preserves paste
+[PASS] Retry different KIF
+[PASS] Clear empties temporary KIF
+[PASS] Clear does not save/delete
+[PASS] Clipboard Preview
+[PASS] File Preview
+[PASS] Drag Drop Preview
+[PASS] Apply moves to Step2
+[PASS] Sente name mapped
+[PASS] Gote name mapped
+[PASS] Game remains unsaved after apply
+[PASS] Game-only save opens Viewer
+[PASS] Game-only status visible
+[PASS] Saved list game date label | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+保存：2026/08/08 22:10　更新：2026/08/08 22:10
+振り返りを開く
+対局を削除
+[PASS] Saved list opening | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+保存：2026/08/08 22:10　更新：2026/08/08 22:10
+振り返りを開く
+対局を削除
+[PASS] Saved list raw KIF hidden | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+保存：2026/08/08 22:10　更新：2026/08/08 22:10
+振り返りを開く
+対局を削除
+[PASS] Saved list opponent | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+保存：2026/08/08 22:10　更新：2026/08/08 22:10
+振り返りを開く
+対局を削除
+[PASS] Saved list result | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+保存：2026/08/08 22:10　更新：2026/08/08 22:10
+振り返りを開く
+対局を削除
+[PASS] Saved list move count | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+保存：2026/08/08 22:10　更新：2026/08/08 22:10
+振り返りを開く
+対局を削除
+[PASS] Game-only persisted
+[PASS] Zero key positions persisted
+[PASS] Lifecycle timestamps persisted
+[PASS] Sente/Gote persisted
+[PASS] Saved detail opens
+[PASS] Incomplete markdown disabled
+[PASS] Saved Replay opens Step3
+[PASS] Board has 81 squares
+[PASS] Board initial piece count 40
+[PASS] Piece is SVG
+[PASS] Board accessible names
+[PASS] Board grid has one square width | {'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}
+[PASS] Board grid has one square height | {'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}
+[PASS] Board grid is square | {'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}
+[PASS] Replay Next touch target
+[PASS] Next navigation
+[PASS] Next keeps Page scroll
+[PASS] Previous navigation
+[PASS] Previous keeps Page scroll
+[PASS] Current Move highlight
+[PASS] Horse promoted SVG
+[PASS] Horse text
+[PASS] Promoted move keeps grid width | ({'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}, {'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37})
+[PASS] Promoted move keeps grid height | ({'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}, {'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37})
+[PASS] Fixed grid injected 成桂 | {'label': '成桂', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 成香 | {'label': '成香', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 成銀 | {'label': '成銀', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 馬 | {'label': '馬', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 龍 | {'label': '龍', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Board flip
+[PASS] Flip keeps Page scroll
+[PASS] Promoted piece browser render 成桂
+[PASS] Promoted piece browser render 成香
+[PASS] Promoted piece browser render 成銀
+[PASS] Promoted piece browser render 馬
+[PASS] Promoted piece browser render 龍
+[PASS] Two-character promoted pieces use compact class
+[PASS] Three replay KeyPositions
+[PASS] Snapshot boards rendered | 3
+[PASS] Snapshot board has 81 squares
+[PASS] Snapshot fixed grid geometry | {'width': 262, 'height': 262, 'sw': [29], 'sh': [29]}
+[PASS] Step navigation keeps entered data
+[PASS] Draft status persisted
+[PASS] Draft resumes with KeyPositions
+[PASS] Final report includes reflection
+[PASS] Completion status persisted
+[PASS] Completion keeps 3-5 rule
+[PASS] Observation Theme persisted
+[PASS] Execution Rule persisted
+[PASS] Viewer shows complete status
+[PASS] Completed Markdown enabled
+[PASS] Completed Observation Card enabled
+[PASS] Markdown Export works
+[PASS] Observation Card works
+[PASS] Backup JSON downloaded
+[PASS] Saved review Delete requires/uses separate operation
+[PASS] Backup Restore
+[PASS] KIF Clear never deletes saved review
+[PASS] Long Replay first 10 next
+[PASS] Long first 10 next page scroll stable
+[PASS] Long Replay 50 next
+[PASS] Long Next page scroll stable | (959, 959)
+[PASS] Move list internal scroll follows
+[PASS] Move highlight after long next
+[PASS] Long Replay 10 previous
+[PASS] Long Previous page scroll stable
+[PASS] Long First
+[PASS] Long First page scroll stable
+[PASS] Long Last
+[PASS] Long Last page scroll stable
+[PASS] Keyboard Replay
+[PASS] Keyboard page scroll stable
+[PASS] Long Replay KeyPosition add
+[PASS] No browser page errors
+
+Browser logs:
+(none)

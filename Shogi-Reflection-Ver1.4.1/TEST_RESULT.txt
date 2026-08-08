@@ -1,0 +1,21 @@
+Shogi Reflection Ver.1.4.1 Automated Test Result
+=================================================
+Command: npm test
+Runner: node --test
+Total: 567
+Passed: 567
+Failed: 0
+
+Baseline Ver.1.4: 543 / 543 passed before modification.
+Ver.1.4.1 added/updated coverage includes:
+- Fixed Board Grid
+- Piece Container / Piece Layout
+- two-character promoted pieces: 成桂 / 成香 / 成銀
+- 馬 / 龍
+- Board Flip / Snapshot structure
+- Saved Game Summary labels
+- 戦型 extraction
+- Raw KIF Header suppression in saved-game list
+
+Browser layout/scroll assertions are recorded separately in BROWSER_VERIFICATION_RESULT.txt.
+Static/hash/import assertions are recorded separately in STATIC_VERIFICATION_RESULT.txt.
