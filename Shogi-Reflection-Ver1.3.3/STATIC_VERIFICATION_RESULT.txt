@@ -1,0 +1,141 @@
+Shogi Reflection Ver.1.3.3 Static Verification
+Date: 2026-08-08
+
+Files: 229
+Ver.1.3.2 baseline files: 219
+Unchanged Ver.1.3.2 files: 181
+Modified Ver.1.3.2 files: 38
+Added Ver.1.3.3 files: 10
+Deleted Ver.1.3.2 files: 0
+Syntax checked: 136
+Missing imports: 0
+Passed checks: 75
+Failed checks: 0
+
+Modified Ver.1.3.2 files:
+- 00_README_FIRST.md
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BrowserGameReviewFormView.js
+- BrowserGameReviewLibraryView.js
+- BrowserGameReviewLibraryView.test.js
+- BrowserKeyPositionReplayMarkup.test.js
+- BrowserKifClipboardAdapter.js
+- BrowserKifImportMarkup.test.js
+- BrowserKifImportView.js
+- BrowserMarkdownExportView.js
+- BrowserMarkup.test.js
+- BrowserShogiReplayView.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- Explanation.md
+- FILE_INVENTORY.txt
+- KeyPositionReplayViewModel.js
+- KifImportErrorPresenter.js
+- Learning Roadmap.md
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- ShogiReplayViewModel.js
+- TEST_RESULT.txt
+- Thought Process.md
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+Added files:
+- COMPLETION_REPORT_V1_3_3.md
+- JAPANESE_UI_GUIDELINE.md
+- JapaneseUiText.test.js
+- KIF_INPUT_RESET_POLICY.md
+- KifImportDraftResetController.js
+- KifImportDraftResetController.test.js
+- SOURCE_OF_TRUTH_AUDIT_V1_3_3.md
+- SOURCE_OF_TRUTH_V1_3_2_BASELINE_HASHES.json
+- VER1_3_3_CHANGE_MANIFEST.json
+- Ver.1.3.3操作手順書.md
+
+PASS | Ver.1.3.2 Source of Truth file count | 219
+PASS | No Ver.1.3.2 files deleted
+PASS | All JavaScript syntax | 136
+PASS | Missing Import
+PASS | Required Ver.1.3.3 file: KifImportDraftResetController.js
+PASS | Required Ver.1.3.3 file: KifImportDraftResetController.test.js
+PASS | Required Ver.1.3.3 file: JapaneseUiText.test.js
+PASS | Required Ver.1.3.3 file: KIF_INPUT_RESET_POLICY.md
+PASS | Required Ver.1.3.3 file: JAPANESE_UI_GUIDELINE.md
+PASS | Required Ver.1.3.3 file: Ver.1.3.3操作手順書.md
+PASS | Required Ver.1.3.3 file: SOURCE_OF_TRUTH_V1_3_2_BASELINE_HASHES.json
+PASS | Required Ver.1.3.3 file: ReplayScrollPolicy.js
+PASS | Required Ver.1.3.3 file: ReplayScrollPolicy.test.js
+PASS | Required Ver.1.3.3 file: REPLAY_SCROLL_POLICY.md
+PASS | Required Ver.1.3.3 file: MOBILE_REPLAY_UX.md
+PASS | package version | 1.3.3
+PASS | test script
+PASS | check script
+PASS | Markup #kif-paste-text
+PASS | Markup #read-kif-clipboard
+PASS | Markup #preview-kif-paste
+PASS | Markup #clear-kif-paste
+PASS | Markup #kif-import-preview
+PASS | Markup #cancel-kif-import
+PASS | Markup #apply-kif-import
+PASS | Markup #game-review-form
+PASS | Markup #shogi-replay-panel
+PASS | Markup #replay-move-list
+PASS | Markup #replay-next
+PASS | Markup #replay-previous
+PASS | Markup #add-current-position
+PASS | Ver.1.3.3 title
+PASS | Clear label Japanese
+PASS | Retry label Japanese and explicit
+PASS | Preview label Japanese
+PASS | Replay label Japanese
+PASS | Key Position label Japanese
+PASS | Reset controller wired
+PASS | Clear does not import Repository
+PASS | Clear does not import LocalStorage
+PASS | Clear does not import Clipboard
+PASS | Retry retains textarea by preview-only reset
+PASS | View clear empties textarea
+PASS | View reset preview does not empty textarea
+PASS | Replay view uses ReplayScrollPolicy
+PASS | Current Move does not use scrollIntoView
+PASS | Scroll policy changes container scrollTop
+PASS | Scroll policy does not call window scroll
+PASS | Scroll policy does not call scrollIntoView
+PASS | ReplayScrollPolicy hash preserved from Ver.1.3.2
+PASS | Move List overflow retained
+PASS | 48px Replay touch target
+PASS | 48px KIF touch target
+PASS | Focus preventScroll retained
+PASS | Move List tap returns to Replay
+PASS | KIF paste connection retained: BrowserKifClipboardAdapter
+PASS | KIF paste connection retained: KifPastedTextAdapter
+PASS | KIF paste connection retained: previewKifText
+PASS | KIF paste connection retained: selectText({ text, sourceFileName })
+PASS | Existing file import retained
+PASS | Existing key position connection retained
+PASS | Existing Markdown export retained
+PASS | Internal GameReview identifier retained
+PASS | Internal KeyPosition identifier retained
+PASS | Automated total recorded
+PASS | Automated failed zero
+PASS | Browser total recorded
+PASS | Browser failed zero
+PASS | Browser clear verification recorded
+PASS | Browser retry verification recorded
+PASS | Browser saved data safety recorded
+PASS | Browser localStorage safety recorded
+PASS | Browser clipboard safety recorded
+PASS | Browser scrollY verification recorded
+PASS | Browser internal scroll verification recorded

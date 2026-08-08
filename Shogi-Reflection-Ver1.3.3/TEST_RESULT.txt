@@ -1,0 +1,23 @@
+Shogi Reflection Ver.1.3.3 Automated Test Result
+Date: 2026-08-08
+Command: npm test
+
+Source of Truth Ver.1.3.2: 495 passed / 0 failed
+Ver.1.3.3 added: 10
+Total: 505
+Passed: 505
+Failed: 0
+
+Added coverage:
+- KIF Temporary InputをClearできる
+- KIF ClearでPreviewを破棄できる
+- KIF ClearでRepository / LocalStorage / Clipboard sentinelを変更しない
+- Preview後にKIF本文を保持したまま入力へ戻れる
+- 別KIFへ貼り替えて再Previewできる
+- 旧Preview状態を残さない
+- 主要UI日本語Label
+- 日本語aria-label
+- Presentation表示と内部Domain識別子の分離
+- KIF Clear / RetryのSmartphone Touch Target Markup
+
+Existing Ver.1.3.2 tests were retained and passed.
