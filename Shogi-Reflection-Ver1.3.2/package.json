@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.3.2",
+  "private": true,
+  "type": "module",
+  "description": "将棋の思考・感情・判断Patternを長期観測し、Replay中のPage Scrollと棋譜一覧内部Scrollを分離した将棋振り返りアプリ Ver.1.3.2",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

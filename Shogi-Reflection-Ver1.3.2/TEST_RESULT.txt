@@ -1,0 +1,24 @@
+Shogi Reflection Ver.1.3.2 Automated Test Result
+Date: 2026-08-08
+Command: npm test
+
+Source of Truth Ver.1.3.1: 471 passed / 0 failed
+Ver.1.3.2 added: 24
+Total: 495
+Passed: 495
+Failed: 0
+
+Added coverage:
+- Replay Scroll Policy: Page Scrollを要求しない
+- Move List Container内部だけのscrollTop追従
+- Current Move visibility判定
+- Current Move ID / Highlight / Scroll Target
+- 盤面反転とScroll Targetの独立
+- Replay ControllerがPage Scrollを要求しない
+- Current Move追従からscrollIntoViewを除去
+- window.scrollTo / scrollIntoViewをPolicyで使用しない
+- Smartphone 48px Touch Target
+- 重要局面追加成功時にReplay Focusを奪わない
+- 重複局面FocusのpreventScroll
+
+Existing Ver.1.3.1 tests were retained and passed.

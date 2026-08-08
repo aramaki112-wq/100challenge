@@ -1,0 +1,42 @@
+{
+  "version": "1.3.1",
+  "sourceArchive": "Shogi-Reflection-Ver1.3.zip",
+  "sourceFileCount": 199,
+  "currentFileCount": 208,
+  "unchangedFileCount": 178,
+  "modifiedFiles": [
+    "00_README_FIRST.md",
+    "BROWSER_VERIFICATION_RESULT.txt",
+    "BROWSER_VERIFICATION_SCREENSHOT.png",
+    "BrowserKifImportMarkup.test.js",
+    "BrowserKifImportView.js",
+    "CHANGELOG.md",
+    "FILE_INVENTORY.txt",
+    "KifImportController.js",
+    "KifImportController.test.js",
+    "KifImportErrorPresenter.js",
+    "KifImportErrors.js",
+    "README.md",
+    "STATIC_VERIFICATION_RESULT.txt",
+    "SYNTAX_CHECK_RESULT.txt",
+    "TEST_RESULT.txt",
+    "browser_verify.py",
+    "index.html",
+    "main.js",
+    "package.json",
+    "style.css",
+    "verify.mjs"
+  ],
+  "addedFiles": [
+    "BrowserKifClipboardAdapter.js",
+    "BrowserKifClipboardAdapter.test.js",
+    "COMPLETION_REPORT_V1_3_1.md",
+    "KifPastedTextAdapter.js",
+    "KifPastedTextAdapter.test.js",
+    "SOURCE_OF_TRUTH_AUDIT_V1_3_1.md",
+    "SOURCE_OF_TRUTH_V1_3_BASELINE_HASHES.json",
+    "VER1_3_1_CHANGE_MANIFEST.json",
+    "Ver.1.3.1操作手順書.md"
+  ],
+  "deletedFiles": []
+}

@@ -1,0 +1,106 @@
+Shogi Reflection Ver.1.3.2 Static Verification
+Date: 2026-08-08
+
+Files: 219
+Ver.1.3.1 baseline files: 208
+Unchanged Ver.1.3.1 files: 178
+Modified Ver.1.3.1 files: 30
+Added Ver.1.3.2 files: 11
+Deleted Ver.1.3.1 files: 0
+Syntax checked: 133
+Missing imports: 0
+Passed checks: 47
+Failed checks: 0
+
+Modified Ver.1.3.1 files:
+- 00_README_FIRST.md
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BrowserGameReviewFormView.js
+- BrowserShogiReplayView.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- Explanation.md
+- FILE_INVENTORY.txt
+- Learning Roadmap.md
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- ShogiReplayController.test.js
+- ShogiReplayViewModel.js
+- ShogiReplayViewModel.test.js
+- TEST_RESULT.txt
+- Thought Process.md
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+Added files:
+- BrowserReplayScrollMarkup.test.js
+- COMPLETION_REPORT_V1_3_2.md
+- MOBILE_REPLAY_UX.md
+- REPLAY_SCROLL_POLICY.md
+- ReplayScrollPolicy.js
+- ReplayScrollPolicy.test.js
+- SOURCE_OF_TRUTH_AUDIT_V1_3_2.md
+- SOURCE_OF_TRUTH_V1_3_1_BASELINE_HASHES.json
+- VER1_3_2_CHANGE_MANIFEST.json
+- Ver.1.3.2操作手順書.md
+- fixtures/replay-long-300.kif
+
+PASS | Ver.1.3.1 Source of Truth file count | 208
+PASS | No Ver.1.3.1 files deleted
+PASS | All JavaScript syntax | 133
+PASS | Missing Import
+PASS | Required Ver.1.3.2 file: ReplayScrollPolicy.js
+PASS | Required Ver.1.3.2 file: ReplayScrollPolicy.test.js
+PASS | Required Ver.1.3.2 file: BrowserReplayScrollMarkup.test.js
+PASS | Required Ver.1.3.2 file: fixtures/replay-long-300.kif
+PASS | Required Ver.1.3.2 file: REPLAY_SCROLL_POLICY.md
+PASS | Required Ver.1.3.2 file: MOBILE_REPLAY_UX.md
+PASS | Required Ver.1.3.2 file: Ver.1.3.2操作手順書.md
+PASS | Required Ver.1.3.2 file: SOURCE_OF_TRUTH_V1_3_1_BASELINE_HASHES.json
+PASS | package version | 1.3.2
+PASS | test script
+PASS | check script
+PASS | Markup #kif-paste-text
+PASS | Markup #read-kif-clipboard
+PASS | Markup #preview-kif-paste
+PASS | Markup #kif-import-preview
+PASS | Markup #game-review-form
+PASS | Markup #shogi-replay-panel
+PASS | Markup #replay-move-list
+PASS | Markup #replay-next
+PASS | Markup #add-current-position
+PASS | Ver.1.3.2 title
+PASS | Replay view uses ReplayScrollPolicy
+PASS | Current Move does not use scrollIntoView
+PASS | Scroll policy changes container scrollTop
+PASS | Scroll policy does not call window scroll
+PASS | Scroll policy does not call scrollIntoView
+PASS | Move List overflow retained
+PASS | 48px Replay touch target
+PASS | Focus preventScroll retained
+PASS | Move List tap returns to Replay
+PASS | KIF paste connection retained: BrowserKifClipboardAdapter
+PASS | KIF paste connection retained: KifPastedTextAdapter
+PASS | KIF paste connection retained: previewKifText
+PASS | KIF paste connection retained: selectText({ text, sourceFileName })
+PASS | Existing file import retained
+PASS | Existing key position connection retained
+PASS | Existing Markdown export retained
+PASS | Automated total recorded
+PASS | Automated failed zero
+PASS | Browser total recorded
+PASS | Browser failed zero
+PASS | Browser scrollY verification recorded
+PASS | Browser internal scroll verification recorded

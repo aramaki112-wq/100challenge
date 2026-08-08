@@ -1,0 +1,177 @@
+Shogi Reflection Ver.1.3.2 Browser Verification
+Date: 2026-08-08
+
+Execution method:
+- Chromium headless via Playwright
+- Original index.html, style.css and ES Modules loaded through an Import Map
+- Native File, DataTransfer, DragEvent, Clipboard readText, textarea paste path, Keyboard, JSON Backup and responsive viewport boundaries
+- Snapshot add, duplicate prevention, five-item limit, save/reload, legacy data and atomic restore
+- Ver.1.3.2 Page scrollY stability, 300-move Replay, Move List internal scroll and 390px touch target
+
+PASS | Application title | 将棋振り返りアプリ Ver.1.3.2｜Replay UX・スマートフォン操作改善
+PASS | Initial key position cards
+PASS | File selection element
+PASS | Drag and Drop element
+PASS | KIF paste textarea
+PASS | Clipboard read button
+PASS | Pasted KIF preview button
+PASS | Add current position button
+PASS | Replay starts unavailable
+PASS | Add disabled before replay
+PASS | Manual paste preview
+PASS | Manual paste parses players
+PASS | Manual paste remains unsaved
+PASS | Cancel clears pasted text
+PASS | Clipboard button fills textarea
+PASS | Clipboard button previews KIF
+PASS | Clipboard import remains unsaved
+PASS | File selection preview
+PASS | Preview total moves
+PASS | Import remains unsaved
+PASS | Drag and Drop preview
+PASS | Pasted KIF applied to Form
+PASS | Pasted KIF reaches replay board
+PASS | Board rendered
+PASS | Initial position status
+PASS | Initial piece count
+PASS | Form apply not saved
+PASS | Zero move add disabled
+PASS | Zero move reason
+PASS | Next navigation
+PASS | Last move source highlight
+PASS | Last move destination highlight
+PASS | Previous navigation
+PASS | Last navigation
+PASS | First navigation
+PASS | Range jump
+PASS | Promoted piece rendered
+PASS | Captured piece in hand
+PASS | Add enabled at replayable move
+PASS | Move number auto input
+PASS | Current move auto input
+PASS | FACT remains empty
+PASS | INTERPRETATION remains empty
+PASS | HYPOTHESIS remains empty
+PASS | Emotion remains empty
+PASS | Replay candidate remains unsaved
+PASS | Replay origin visible
+PASS | Snapshot version stored
+PASS | Source game stored
+PASS | Source KIF move stored
+PASS | Current position stored
+PASS | Previous position stored
+PASS | Board state stored
+PASS | Sente hand stored
+PASS | Last move from stored
+PASS | Last move to stored
+PASS | Orientation not stored
+PASS | Small board preview
+PASS | Small board promoted piece
+PASS | Small board hand
+PASS | Snapshot ARIA labels
+PASS | Duplicate warning
+PASS | Duplicate code
+PASS | Duplicate focuses existing card
+PASS | Duplicate does not add card
+PASS | Board flip state
+PASS | Flipped square order | 19
+PASS | Hands swap on flip | sente-hand
+PASS | Add while flipped
+PASS | Flipped add internal from
+PASS | Flipped add internal to
+PASS | Flipped setting not persisted
+PASS | Five candidates registered
+PASS | Five item limit disables add
+PASS | Five item limit reason
+PASS | Manual add also disabled
+PASS | Candidate delete
+PASS | Delete re-enables add
+PASS | Keyboard ArrowRight
+PASS | Keyboard End
+PASS | Input focus ignores shortcut
+PASS | Move list click jump
+PASS | Current move highlight
+PASS | Termination displayed
+PASS | Save
+PASS | Snapshot persisted
+PASS | User FACT persisted separately
+PASS | Top-level schema compatible
+PASS | Saved review detail
+PASS | Detail replay button
+PASS | Replay from saved detail
+PASS | Review Markdown preview
+PASS | Review Markdown keeps snapshot info
+PASS | Markdown clipboard
+PASS | Observation Card preview
+PASS | Reload restores saved review
+PASS | Replay after reload
+PASS | Detail view does not pre-edit
+PASS | Saved detail auto enters edit state
+PASS | Saved detail candidate added
+PASS | Saved detail add remains unsaved
+PASS | Saved detail edit saves only on Save
+PASS | Update does not create duplicate Review
+PASS | Snapshot survives saved edit
+PASS | Unsupported handicap replay error
+PASS | Replay error preserves saved review
+PASS | Invalid KIF error displayed
+PASS | Invalid import preserves current Form
+PASS | Invalid import preserves saved review
+PASS | Backup restore
+PASS | Backup restore keeps snapshots
+PASS | Tampered backup error displayed
+PASS | Tampered backup atomic restore
+PASS | Tampered backup preserves snapshots
+PASS | Ver.1.2 data loads
+PASS | Legacy KeyPosition has no forced snapshot
+PASS | Legacy KeyPosition remains editable
+PASS | Partial replay warning shown
+PASS | Warning position can be added
+PASS | Replay warning retained
+PASS | Warning origin visible
+PASS | Failure move not selectable
+PASS | 390px board and navigation share viewport | {'board': {'x': 27, 'y': 240.46875, 'width': 336, 'height': 363.59375}, 'nav': {'x': 27, 'y': 669.0625, 'width': 336, 'height': 48}}
+PASS | Smartphone navigation touch target >= 48px | 48
+PASS | 50-step continuous next navigation
+PASS | Next navigation keeps Page scrollY | {'before': 2904, 'after': 2904}
+PASS | Next navigation keeps board viewport position
+PASS | Move List follows internally after 50 moves | 2007
+PASS | Current move highlight after 50 moves
+PASS | 10-step continuous previous navigation
+PASS | Previous navigation keeps Page scrollY
+PASS | First navigation status
+PASS | First navigation keeps Page scrollY
+PASS | Last navigation status
+PASS | Last navigation keeps Page scrollY
+PASS | Keyboard navigation long replay
+PASS | Keyboard navigation keeps Page scrollY
+PASS | Long replay jump 100
+PASS | Long replay jump 100 keeps Page scrollY
+PASS | Long replay jump 200
+PASS | Long replay jump 200 keeps Page scrollY
+PASS | Long replay jump 300
+PASS | Long replay jump 300 keeps Page scrollY
+PASS | Flip keeps Page scrollY
+PASS | Flip keeps current move
+PASS | Important position add keeps Replay page position
+PASS | Important position add remains unsaved in long replay
+PASS | Navigation continues after important position add
+PASS | Move list tap jumps to selected move
+PASS | Move list tap returns toward Replay panel | {'away': 4144, 'returned': 2939}
+PASS | Move list internal scroll remains independent
+PASS | Smartphone vertical replay layout | 336px
+PASS | Smartphone board fits viewport | 336
+PASS | Smartphone navigation buttons visible
+PASS | Smartphone KIF paste textarea visible
+PASS | Smartphone KIF paste fits viewport | {'x': 52, 'y': -2792.546875, 'width': 286, 'height': 240}
+PASS | Smartphone KIF paste avoids iOS zoom | 16px
+PASS | Smartphone clipboard button visible
+PASS | Smartphone manual preview button visible
+PASS | Smartphone add button visible
+PASS | Smartphone snapshot preview fits viewport | 232
+PASS | Unexpected browser errors
+
+Total: 162
+Passed: 162
+Failed: 0
+Screenshot: BROWSER_VERIFICATION_SCREENSHOT.png
