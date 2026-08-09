@@ -1,0 +1,361 @@
+# SOURCE_OF_TRUTH_AUDIT — Shogi Reflection Ver.1.7
+
+## Baseline
+- Source of Truth: `Shogi-Reflection-Ver1.6.zip`
+- Ver.1.6元File数: **296**
+- Ver.1.7 File数: **309**
+- Hash一致保持File: **260**
+- 変更File: **36**
+- 追加File: **13**
+- 削除File: **0**
+- 削除理由: **削除なし**
+
+## 必須監査項目
+- Domain変更: GameReview Domain変更なし。`GameReview.js` hash一致 = **True**。
+- Repository変更: GameReview Repository / Engine Analysis Repository契約変更なし。
+- Storage変更: GameReview schema変更なし。Engine Analysis独立Store keyも維持。
+- Migration: **なし**。`GameReviewSnapshotService.js` hash一致 = **True**、schemaVersion 1。
+- Replay変更: Browser event wiringのみ。Candidate / Move List JumpをVer.1.7 Scroll要件へ整合。
+- ReplayScrollPolicy変更: **なし**。hash一致 = **True**。
+- Board変更: 9×9 DOM/Grid Geometryは維持。
+- Piece変更: `ShogiPieceSvg.js` + CSS Presentation。Original SVG、2文字成駒2段、System Serif Stack。
+- Step UI変更: Engine PanelをSTEP4→STEP3。7 Steps維持。
+- Engine UI位置変更: STEP3「棋譜再現」。
+- Candidate → Replay: existing `replayController.jump(ply)`。別盤面なし。
+- Candidate → KeyPosition: existing `KeyPositionReplayController` / `AddCurrentPositionToKeyPosition`。自動登録なし。
+- Snapshot互換: `ReplayPositionSnapshot.js` hash一致 = **True**。
+- Backup互換: GameReview Snapshot schema不変。
+- Restore互換: 既存Restore Service/Controller維持。
+- Markdown Export互換: 既存出力維持。Engine情報と本人のFACT等を混同しない。
+- Observation Card互換: Theme 1件 / Rule 1〜3件の既存Rule維持。Engine自動生成なし。
+- Test追加: Engine UI Flow / Candidate Replay / Candidate KeyPosition / Piece Graphics。
+- Asset License監査: 外部Piece Asset 0、Font File 0、`@font-face` 0、既存LICENSE変更なし。
+
+## Verification — ZIP extraction round 1 / final ZIP extraction round 2
+- Automated Test: **620/620 PASS**
+- Browser Verification: **141/141 PASS** (Chromium 390×844)
+- Visual Verification: **9/9 PASS** + Screenshot目視
+- Static Verification: **58/58 PASS**
+- Missing Import: **0**
+- Final ZIP extraction round 2: **同一結果でPASS**（620/620, 141/141, 9/9, 58/58, Missing Import 0）
+
+## Replay Scroll Rule更新
+Ver.1.6 `INTERLUDE-Rule-DH`のMove List Page Scroll例外は今回の明示要件と衝突したため、Ver.1.7 `INTERLUDE-Rule-FD`で適用しない。`ReplayScrollPolicy.js`自体は変更せず、Browser eventからPage Scroll要求を除去した。Candidate Addでは上部Global Feedbackを表示しないことでBrowser scroll anchoringも防ぎ、Replay内statusで結果を通知する。
+
+## Hash一致保持File
+- 00_README_FIRST.md
+- ASSET_LICENSE_POLICY.md
+- AddCurrentPositionToKeyPosition.js
+- AddCurrentPositionToKeyPosition.test.js
+- AnalyzeGame.js
+- AnalyzeGameV16.test.js
+- ApplicationErrors.js
+- ApplyShogiMove.js
+- ApplyShogiMove.test.js
+- BOARD_FIXED_GRID_DESIGN.md
+- BoardSnapshot.js
+- BrowserApplicationView.js
+- BrowserClipboardAdapter.js
+- BrowserClipboardAdapter.test.js
+- BrowserEngineProvider.js
+- BrowserFileAdapter.js
+- BrowserFileAdapter.test.js
+- BrowserFinalReportView.js
+- BrowserGameReviewFormView.js
+- BrowserGameReviewLibraryView.test.js
+- BrowserKeyPositionReplayMarkup.test.js
+- BrowserKifClipboardAdapter.js
+- BrowserKifClipboardAdapter.test.js
+- BrowserKifImportMarkup.test.js
+- BrowserKifImportView.js
+- BrowserMarkdownExportView.js
+- BrowserMarkdownExportView.test.js
+- BrowserMarkup.test.js
+- BrowserReplayMarkup.test.js
+- BrowserShogiReplayView.js
+- BrowserStepNavigation.js
+- BrowserWorkerUsiTransport.js
+- COMPLETION_REPORT_V1_3_1.md
+- COMPLETION_REPORT_V1_3_2.md
+- COMPLETION_REPORT_V1_3_3.md
+- Clock.js
+- DeleteGameReview.js
+- DeleteGameReviewAndPersist.js
+- DeleteGameReviewAndPersist.test.js
+- Design-Decisions.md
+- ENGINE_FEASIBILITY_AUDIT.md
+- ENGINE_REANALYSIS_DESIGN.md
+- ENGINE_UPDATE_GUIDE.md
+- EngineAnalysisConstants.js
+- EngineAnalysisPersistenceCoordinator.js
+- EngineAnalysisRepository.js
+- EngineAnalysisSettings.js
+- EngineAnalysisSnapshotService.js
+- EngineCandidateSelector.js
+- EngineCandidateSelector.test.js
+- EngineErrors.js
+- EngineFailureV16.test.js
+- EnginePersistenceV16.test.js
+- EvaluationDelta.js
+- EvaluationNormalizationV16.test.js
+- EvaluationNormalizer.js
+- ExportGameReviewAsMarkdown.js
+- ExportObservationCardAsMarkdown.js
+- FixedBoardGridV141.test.js
+- GAME_SAVE_LIFECYCLE.md
+- GameReview.js
+- GameReview.test.js
+- GameReviewApplicationServices.test.js
+- GameReviewEditMapper.js
+- GameReviewEditMapper.test.js
+- GameReviewFormMapper.js
+- GameReviewFormMapper.test.js
+- GameReviewLibraryPresenter.js
+- GameReviewLibraryPresenter.test.js
+- GameReviewMarkdownFormatter.js
+- GameReviewMarkdownFormatter.test.js
+- GameReviewMarkdownNaming.js
+- GameReviewReplayCompatibility.test.js
+- GameReviewRepository.js
+- GameReviewSnapshotMapper.js
+- GameReviewSnapshotService.js
+- GameReviewSnapshotService.test.js
+- GameSaveWithoutReflectionV14.test.js
+- GetGameReview.js
+- HandSnapshot.js
+- HelpAndLifecycleCompatibilityV14.test.js
+- INTERLUDE_PLAN.md
+- Immutable.js
+- InMemoryGameReviewRepository.js
+- InMemoryGameReviewRepository.test.js
+- InitialShogiPositionFactory.js
+- JAPANESE_UI_GUIDELINE.md
+- JapaneseUiText.test.js
+- KEY_POSITION_REPLAY_CONNECTION.md
+- KIF_INPUT_RESET_POLICY.md
+- KIF_SUPPORT_MATRIX.md
+- KeyPosition.js
+- KeyPositionReplayErrors.js
+- KeyPositionReplayIntegration.test.js
+- KeyPositionReplayReference.js
+- KeyPositionReplayReference.test.js
+- KeyPositionReplayViewModel.js
+- KeyPositionReplayViewModel.test.js
+- KifFileReaderAdapter.js
+- KifFileReaderAdapter.test.js
+- KifImportApplicationService.js
+- KifImportApplicationService.test.js
+- KifImportController.js
+- KifImportController.test.js
+- KifImportDraftResetController.js
+- KifImportDraftResetController.test.js
+- KifImportDto.js
+- KifImportErrorPresenter.js
+- KifImportErrors.js
+- KifImportFormMapper.js
+- KifImportFormMapper.test.js
+- KifImportIntegration.test.js
+- KifImportPreviewPresenter.js
+- KifMoveNormalizer.js
+- KifMoveNormalizer.test.js
+- KifParser.js
+- KifParser.test.js
+- KifPastedTextAdapter.js
+- KifPastedTextAdapter.test.js
+- KifTestHelpers.js
+- LICENSE
+- ListGameReviews.js
+- LocalStorageEngineAnalysisStore.js
+- LocalStoragePersistence.test.js
+- LocalStorageSnapshotStore.js
+- MOBILE_REPLAY_UX.md
+- MarkdownExportApplicationServices.test.js
+- MarkdownExportController.js
+- MarkdownExportController.test.js
+- MarkdownExportErrors.js
+- MarkdownFormatHelpers.js
+- MockShogiEngineAdapter.js
+- NodeChildProcessUsiTransport.js
+- ObservationCardMarkdownFormatter.js
+- ObservationCardMarkdownFormatter.test.js
+- PHASE1_COMPATIBILITY_NOTES.md
+- PHASE2_GUIDE.md
+- PHASE3_GUIDE.md
+- PHASE4_GUIDE.md
+- PHASE5_GUIDE.md
+- PersistenceErrors.js
+- Phase1Compatibility.test.js
+- PiyoShogiCompatibility.js
+- PositionHistory.js
+- PositionHistory.test.js
+- PositionHistoryBuilder.js
+- REPLAY_SCROLL_POLICY.md
+- Reference/Debug.md
+- Reference/Design.md
+- Reference/Example.md
+- Reference/Pattern.md
+- Reference/Syntax.md
+- Reference/Tips.md
+- Reference/Word.md
+- ReflectionBackupController.js
+- ReflectionCompletionValidationV14.test.js
+- ReflectionErrors.js
+- ReflectionPersistenceCoordinator.js
+- ReflectionWorkflowStatus.js
+- ReplayIntegration.test.js
+- ReplayPositionSnapshot.js
+- ReplayPositionSnapshot.test.js
+- ReplayPositionSnapshotFactory.js
+- ReplayPositionSnapshotSerializer.js
+- ReplayScrollPolicy.js
+- ReplayScrollPolicy.test.js
+- ReplaySnapshotFingerprint.js
+- ReplayTestHelpers.js
+- ReplayWarningReference.js
+- RepositoryErrors.js
+- ReviewIdGenerator.js
+- ReviewIdGenerator.test.js
+- SAMPLE_GameReview.md
+- SAMPLE_ObservationCard.md
+- SAVED_GAME_SUMMARY_DISPLAY_DESIGN.md
+- SAVED_GAME_VIEWER_DESIGN.md
+- SHOGI_BOARD_GRAPHICS_GUIDELINE.md
+- SHOGI_REPLAY_SUPPORT_MATRIX.md
+- SNAPSHOT_COMPATIBILITY_MATRIX.md
+- SNAPSHOT_FORMAT.md
+- SOURCE_OF_TRUTH_AUDIT_V1_3_1.md
+- SOURCE_OF_TRUTH_AUDIT_V1_3_2.md
+- SOURCE_OF_TRUTH_AUDIT_V1_3_3.md
+- SOURCE_OF_TRUTH_BASELINE_HASHES.json
+- SOURCE_OF_TRUTH_V1_3_1_BASELINE_HASHES.json
+- SOURCE_OF_TRUTH_V1_3_2_BASELINE_HASHES.json
+- SOURCE_OF_TRUTH_V1_3_3_BASELINE_HASHES.json
+- SOURCE_OF_TRUTH_V1_3_BASELINE_HASHES.json
+- SOURCE_OF_TRUTH_V1_4_1_BASELINE_HASHES.json
+- SOURCE_OF_TRUTH_V1_4_BASELINE_HASHES.json
+- STEP_UI_DESIGN.md
+- SaveGameReview.js
+- SavedGameSummaryV141.test.js
+- SavedGameViewerV14.test.js
+- ShogiBoard.js
+- ShogiEnginePort.js
+- ShogiEnginePort.test.js
+- ShogiHand.js
+- ShogiPiece.js
+- ShogiPosition.js
+- ShogiPosition.test.js
+- ShogiPositionSnapshot.js
+- ShogiReplayApplicationService.js
+- ShogiReplayApplicationService.test.js
+- ShogiReplayController.js
+- ShogiReplayController.test.js
+- ShogiReplayErrors.js
+- ShogiReplayViewModel.js
+- ShogiReplayViewModel.test.js
+- ShogiSquare.js
+- StepNavigationV14.test.js
+- SubmitGameReviewForm.js
+- SubmitGameReviewForm.test.js
+- TestFixtures.js
+- USER_MANUAL.md
+- UsiEngineAdapter.js
+- UsiEngineAdapter.test.js
+- UsiInfoParser.js
+- UsiMappingV16.test.js
+- UsiPositionMapper.js
+- VER1_3_1_CHANGE_MANIFEST.json
+- VER1_3_2_CHANGE_MANIFEST.json
+- VER1_3_3_CHANGE_MANIFEST.json
+- VER1_3_CHANGE_MANIFEST.json
+- Ver.1.1操作手順書.md
+- Ver.1.2操作手順書.md
+- Ver.1.3.1操作手順書.md
+- Ver.1.3.2操作手順書.md
+- Ver.1.3.3操作手順書.md
+- Ver.1.3操作手順書.md
+- Ver.1.4.1操作手順書.md
+- Ver.1.4操作手順書.md
+- Ver.1.6操作手順書.md
+- WorkflowErrors.js
+- YaneuraOuEngineAdapter.js
+- browser_verify_v1_3_3_reference.py
+- fixtures/broken-after-termination.kifu
+- fixtures/broken-duplicate.kifu
+- fixtures/broken-footer-conflict.kifu
+- fixtures/broken-gap.kifu
+- fixtures/broken-header.kifu
+- fixtures/broken-move.kifu
+- fixtures/broken-no-moves.kifu
+- fixtures/broken-winner-conflict.kifu
+- fixtures/handicap-warning.kifu
+- fixtures/minimal-warning.kifu
+- fixtures/no-move-header.kifu
+- fixtures/normal-resign-utf8.kifu
+- fixtures/piyo-official-published-sample.kifu
+- fixtures/piyo-resign-shiftjis.kif
+- fixtures/piyo-resign-utf8.kif
+- fixtures/replay-basic.kif
+- fixtures/replay-capture-promote.kifu
+- fixtures/replay-drop.kifu
+- fixtures/replay-long-300.kif
+- fixtures/replay-missing-handicap.kif
+- fixtures/replay-partial-invalid.kif
+- fixtures/replay-unsupported-handicap.kif
+- fixtures/timeout.kifu
+- fixtures/unmapped-header-warning.kifu
+
+## 変更File
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BoardGraphicsV14.test.js
+- BrowserEngineAnalysisView.js
+- BrowserGameReviewLibraryView.js
+- BrowserReplayScrollMarkup.test.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- ENGINE_CANDIDATE_SELECTION_DESIGN.md
+- ENGINE_INTEGRATION_DESIGN.md
+- ENGINE_LICENSE_AUDIT.md
+- EngineBrowserMarkupV16.test.js
+- Explanation.md
+- FILE_INVENTORY.txt
+- KeyPositionReplayController.js
+- Learning Roadmap.md
+- PERFORMANCE_RESULT.txt
+- PieceLayoutV141.test.js
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- ShogiPieceSvg.js
+- TEST_RESULT.txt
+- Thought Process.md
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+## 追加File
+- CandidateKeyPositionV17.test.js
+- CandidateReplayV17.test.js
+- EngineUiFlowV17.test.js
+- PieceGraphicsV17.test.js
+- SOURCE_OF_TRUTH_V1_6_BASELINE_HASHES.json
+- VISUAL_BOARD_FLIP.png
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_SMARTPHONE_STEP3.png
+- VISUAL_VERIFICATION_RESULT.txt
+- Ver.1.7操作手順書.md
+- performance_verify.py
+- visual_verify.py
+
+## 削除File
+- none

@@ -1,0 +1,27 @@
+Shogi Reflection Ver.1.7 Visual Verification
+=============================================
+Browser: Chromium via Playwright
+Viewport: 390x844
+Checks: 9
+Passed: 9
+Failed: 0
+
+[PASS] 通常盤面 Screenshot
+[PASS] 通常盤面 81升
+[PASS] 成駒 Gallery 5種 | {'svg': 5, 'labels': ['成桂', '成香', '成銀', '馬', '龍']}
+[PASS] 成桂/成香/成銀/馬/龍
+[PASS] Board Flip Screenshot
+[PASS] Flip fixed geometry | ({'x': 28, 'y': -1707.96875, 'width': 334, 'height': 334}, {'x': 28, 'y': 765.03125, 'width': 334, 'height': 334})
+[PASS] Smartphone STEP3 Screenshot
+[PASS] Engine候補 visible
+[PASS] Board width within 390px
+
+Screenshot files:
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_BOARD_FLIP.png
+- VISUAL_SMARTPHONE_STEP3.png
+
+Manual screenshot inspection — final ZIP extraction round 2
+- 通常盤面 / 成桂 / 成香 / 成銀 / 馬 / 龍 / Board Flip / 390×844 STEP3を生成Screenshotで再確認。
+- 81升の均一性、2文字成駒の収まり、馬・龍の判読性、Flip時Geometry、Engine PanelのSmartphone可読性に重大な問題なし。

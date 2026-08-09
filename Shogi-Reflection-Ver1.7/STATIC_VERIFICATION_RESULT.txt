@@ -1,0 +1,128 @@
+Shogi Reflection Ver.1.7 Static Verification
+Date: 2026-08-09
+
+Files: 309
+Ver.1.6 baseline files: 296
+Hash-identical Ver.1.6 files: 260
+Modified Ver.1.6 files: 36
+Added Ver.1.7 files: 13
+Deleted Ver.1.6 files: 0
+Syntax checked: 185
+Missing imports: 0
+Passed checks: 58
+Failed checks: 0
+
+Modified Ver.1.6 files:
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BoardGraphicsV14.test.js
+- BrowserEngineAnalysisView.js
+- BrowserGameReviewLibraryView.js
+- BrowserReplayScrollMarkup.test.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- ENGINE_CANDIDATE_SELECTION_DESIGN.md
+- ENGINE_INTEGRATION_DESIGN.md
+- ENGINE_LICENSE_AUDIT.md
+- EngineBrowserMarkupV16.test.js
+- Explanation.md
+- FILE_INVENTORY.txt
+- KeyPositionReplayController.js
+- Learning Roadmap.md
+- PERFORMANCE_RESULT.txt
+- PieceLayoutV141.test.js
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- ShogiPieceSvg.js
+- TEST_RESULT.txt
+- Thought Process.md
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+Added Ver.1.7 files:
+- CandidateKeyPositionV17.test.js
+- CandidateReplayV17.test.js
+- EngineUiFlowV17.test.js
+- PieceGraphicsV17.test.js
+- SOURCE_OF_TRUTH_V1_6_BASELINE_HASHES.json
+- VISUAL_BOARD_FLIP.png
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_SMARTPHONE_STEP3.png
+- VISUAL_VERIFICATION_RESULT.txt
+- Ver.1.7操作手順書.md
+- performance_verify.py
+- visual_verify.py
+
+Deleted Ver.1.6 files:
+- none
+
+PASS | Ver.1.6 Source of Truth file count | 296/296
+PASS | No Ver.1.6 files deleted
+PASS | LICENSE hash preserved
+PASS | All JavaScript syntax | 185
+PASS | Missing Import = 0
+PASS | Required file: AnalyzeGame.js
+PASS | Required file: ShogiEnginePort.js
+PASS | Required file: YaneuraOuEngineAdapter.js
+PASS | Required file: UsiEngineAdapter.js
+PASS | Required file: EvaluationNormalizer.js
+PASS | Required file: EngineCandidateSelector.js
+PASS | Required file: EngineAnalysisRepository.js
+PASS | Required file: BrowserEngineAnalysisView.js
+PASS | Required file: Ver.1.7操作手順書.md
+PASS | Required file: ENGINE_INTEGRATION_DESIGN.md
+PASS | Required file: ENGINE_CANDIDATE_SELECTION_DESIGN.md
+PASS | Required file: ENGINE_LICENSE_AUDIT.md
+PASS | Required file: SOURCE_OF_TRUTH_AUDIT.md
+PASS | Required file: COMPLETION_REPORT.md
+PASS | Required file: VISUAL_VERIFICATION_RESULT.txt
+PASS | Required file: PERFORMANCE_RESULT.txt
+PASS | Required file: EngineUiFlowV17.test.js
+PASS | Required file: CandidateReplayV17.test.js
+PASS | Required file: CandidateKeyPositionV17.test.js
+PASS | Required file: PieceGraphicsV17.test.js
+PASS | Required file: LICENSE
+PASS | package version | 1.7.0
+PASS | test script
+PASS | check script
+PASS | Seven Step panels
+PASS | Engine UI in STEP3
+PASS | Engine UI not centered in STEP4
+PASS | Manual KeyPosition retained
+PASS | FACT examples presentation only
+PASS | Fixed 9x9 geometry retained
+PASS | Original polished SVG
+PASS | Promoted stacked labels
+PASS | No bundled webfont declaration
+PASS | No external piece image URL
+PASS | ReplayScrollPolicy hash preserved
+PASS | GameReview Domain hash preserved
+PASS | GameReview storage hash preserved
+PASS | Game backup schemaVersion remains 1
+PASS | 3-5 KeyPosition rule retained
+PASS | Engine Port isolated from USI
+PASS | USI protocol stays Adapter
+PASS | Re-analysis history retained
+PASS | Separate Engine storage key
+PASS | Candidate does not auto-register
+PASS | Candidate Jump uses existing Replay
+PASS | Move List Jump no page scroll
+PASS | STEP3 displays primary candidates only
+PASS | Saved Viewer has separate analysis status
+PASS | Design Rules Ver1.7
+PASS | Automated tests failed zero
+PASS | Browser verification failed zero
+PASS | Browser 3-5 candidate recorded
+PASS | Visual verification failed zero
