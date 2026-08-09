@@ -1,0 +1,22 @@
+Shogi Reflection Ver.1.8 Automated Test Result
+==============================================
+Date: 2026-08-09
+Runner: Node.js --test
+Tests: 639
+Passed: 639
+Failed: 0
+Cancelled: 0
+Skipped: 0
+
+Real Engine specific coverage:
+- initialize / metadata
+- position / evaluation / bestmove / MultiPV
+- stop / cancel / dispose / restart
+- KIF -> Position History -> Normalization -> Candidate Ranking
+- short / normal / 300-ply fixture with smartphone safety cap
+- STEP3 layout / Board Flip placement
+- Evaluation sanity: initial position finite CP
+- Evaluation sanity: material advantage/disadvantage sign by side-to-move
+- Evaluation sanity: mate remains mate, not forced into CP
+
+Mock regression and Real Engine E2E are intentionally separate.

@@ -1,0 +1,12 @@
+Shogi Reflection Ver.1.8 Real Engine Performance Measurement
+========================================================
+Environment: Chromium headless / Playwright / 390x844 / actual Blob Web Worker
+Engine initialization: 7.70 ms
+Short 5-ply game analysis + candidate generation: 833.70 ms
+Cancel UI-to-CANCELLED response: 70.20 ms
+Worker used: True
+Main-page JS heap before/after standalone init: 10000000 / 10000000 bytes
+Worker heap: NOT DIRECTLY MEASURED
+Physical iPhone: NOT TESTED
+Battery/Thermal: NOT MEASURED
+These measurements are environment-specific and are not claims of device-wide performance.

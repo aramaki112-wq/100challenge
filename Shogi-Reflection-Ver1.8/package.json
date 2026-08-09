@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.8.0",
+  "private": true,
+  "type": "module",
+  "description": "Local Real EngineをWeb Workerで統合し、STEP3 UIとLicense Gateを強化した将棋振り返りアプリ Ver.1.8",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

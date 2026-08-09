@@ -1,0 +1,33 @@
+Shogi Reflection Ver.1.8 Real Engine Browser Verification
+====================================================
+Browser: Chromium / Playwright set_content / actual Blob Web Worker
+Viewport: 390x844
+Checks: 14
+Passed: 14
+Failed: 0
+
+[PASS] Engine Panel before Replay Board
+[PASS] Board Flip inside Replay Navigation
+[PASS] 390px no horizontal overflow | [390, 390]
+[PASS] Real Local Engine completed | Shogi Reflection Local Engine 1.0.0 / 1.0.0 · 評価Model: Material + mobility + king-safety heuristic 1.0.0 · STANDARD
+[PASS] Real progress count shown | 6 / 6 局面（解析完了）
+[PASS] Real candidate generated for short capture fixture | 1
+[PASS] Real Candidate -> existing Replay
+[PASS] Candidate Jump keeps page scroll | (1833, 1833)
+[PASS] Real Candidate -> existing KeyPosition
+[PASS] Board Flip after real analysis
+[PASS] Real Cancel enabled
+[PASS] Real Cancel completed
+[PASS] Re-analysis enabled after cancel
+[PASS] No page errors
+
+Measured performance (this Chromium run; not a device guarantee)
+- Engine initialization: 7.70 ms
+- Short 5-ply game analysis + candidate generation: 833.70 ms
+- Cancel UI-to-CANCELLED response: 70.20 ms
+- Worker used: True
+- Main-page JS heap before/after standalone init: 10000000 / 10000000 bytes (Worker heap not included; availability is browser-dependent)
+
+Physical iPhone: NOT TESTED
+Battery/Thermal: NOT MEASURED
+Network upload: none by engine implementation; the verification uses an in-memory Blob Worker.

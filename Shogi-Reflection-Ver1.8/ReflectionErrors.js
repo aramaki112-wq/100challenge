@@ -1,0 +1,22 @@
+export const REFLECTION_ERROR_CODES = Object.freeze({
+  INVALID_REVIEW_ID: "INVALID_REVIEW_ID",
+  INVALID_GAME_DATE: "INVALID_GAME_DATE",
+  INVALID_SIDE: "INVALID_SIDE",
+  INVALID_RESULT: "INVALID_RESULT",
+  INVALID_KIFU_TEXT: "INVALID_KIFU_TEXT",
+  INVALID_KEY_POSITION: "INVALID_KEY_POSITION",
+  TOO_MANY_KEY_POSITIONS: "TOO_MANY_KEY_POSITIONS",
+  TOO_FEW_KEY_POSITIONS: "TOO_FEW_KEY_POSITIONS",
+  INVALID_OBSERVATION_THEME: "INVALID_OBSERVATION_THEME",
+  INVALID_ACTION_RULE: "INVALID_ACTION_RULE",
+  TOO_MANY_ACTION_RULES: "TOO_MANY_ACTION_RULES"
+});
+
+export class ReflectionError extends Error {
+  constructor(code, message, context = {}) {
+    super(message);
+    this.name = "ReflectionError";
+    this.code = code;
+    this.context = Object.freeze({ ...context });
+  }
+}

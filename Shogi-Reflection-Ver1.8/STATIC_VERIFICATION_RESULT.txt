@@ -1,0 +1,172 @@
+Shogi Reflection Ver.1.8 Static Verification
+Date: 2026-08-09
+
+Files: 331
+Ver.1.7 baseline files: 309
+Hash-identical Ver.1.7 files: 267
+Modified Ver.1.7 files: 42
+Added Ver.1.8 files: 22
+Deleted Ver.1.7 files: 0
+Syntax checked: 194
+Missing imports: 0
+Passed checks: 87
+Failed checks: 0
+
+Modified Ver.1.7 files:
+- AnalyzeGame.js
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BrowserEngineAnalysisView.js
+- BrowserEngineProvider.js
+- BrowserReplayScrollMarkup.test.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- ENGINE_CANDIDATE_SELECTION_DESIGN.md
+- ENGINE_INTEGRATION_DESIGN.md
+- ENGINE_LICENSE_AUDIT.md
+- EngineAnalysisConstants.js
+- EngineAnalysisSettings.js
+- Explanation.md
+- FILE_INVENTORY.txt
+- Learning Roadmap.md
+- PERFORMANCE_RESULT.txt
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- TEST_RESULT.txt
+- Thought Process.md
+- UsiEngineAdapter.js
+- VISUAL_BOARD_FLIP.png
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_SMARTPHONE_STEP3.png
+- VISUAL_VERIFICATION_RESULT.txt
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- performance_verify.py
+- style.css
+- verify.mjs
+- visual_verify.py
+
+Added Ver.1.8 files:
+- DISTRIBUTION_LICENSE_CHECKLIST.md
+- ENGINE_BUILD_REPRODUCIBILITY.md
+- ENGINE_COMPONENT_DECISION.md
+- ENGINE_PERFORMANCE_RESULT.txt
+- ENGINE_SOURCE_DISTRIBUTION_PLAN.md
+- EngineUiLayoutV18.test.js
+- EngineWorkerV18.test.js
+- NodeWebWorkerTestShim.js
+- REAL_ENGINE_BOARD_FLIPPED_V18.png
+- REAL_ENGINE_BOARD_V18.png
+- REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt
+- REAL_ENGINE_PANEL_V18.png
+- RealAnalysisFlowV18.test.js
+- RealEngineAdapterV18.test.js
+- RealEngineE2EV18.test.js
+- RealEngineEvaluationSanityV18.test.js
+- ReflectionLocalEngineAdapter.js
+- ReflectionLocalEngineWorker.js
+- SOURCE_OF_TRUTH_V1_7_BASELINE_HASHES.json
+- THIRD_PARTY_NOTICES.md
+- Ver.1.8操作手順書.md
+- real_engine_browser_verify.py
+
+Deleted Ver.1.7 files:
+- none
+
+PASS | Ver.1.7 Source of Truth file count | 309/309
+PASS | No Ver.1.7 files deleted
+PASS | LICENSE hash preserved | f80358715ec38c12618abead454a81ecd7dc1a8cf4e64e1f498d749a5697988c
+PASS | All JavaScript syntax | 194
+PASS | Missing Import = 0
+PASS | Required file: AnalyzeGame.js
+PASS | Required file: ShogiEnginePort.js
+PASS | Required file: UsiEngineAdapter.js
+PASS | Required file: YaneuraOuEngineAdapter.js
+PASS | Required file: ReflectionLocalEngineAdapter.js
+PASS | Required file: ReflectionLocalEngineWorker.js
+PASS | Required file: BrowserWorkerUsiTransport.js
+PASS | Required file: EvaluationNormalizer.js
+PASS | Required file: EngineCandidateSelector.js
+PASS | Required file: EngineAnalysisRepository.js
+PASS | Required file: BrowserEngineAnalysisView.js
+PASS | Required file: RealEngineAdapterV18.test.js
+PASS | Required file: EngineWorkerV18.test.js
+PASS | Required file: RealAnalysisFlowV18.test.js
+PASS | Required file: RealEngineE2EV18.test.js
+PASS | Required file: EngineUiLayoutV18.test.js
+PASS | Required file: Ver.1.8操作手順書.md
+PASS | Required file: ENGINE_INTEGRATION_DESIGN.md
+PASS | Required file: ENGINE_CANDIDATE_SELECTION_DESIGN.md
+PASS | Required file: ENGINE_LICENSE_AUDIT.md
+PASS | Required file: ENGINE_COMPONENT_DECISION.md
+PASS | Required file: ENGINE_BUILD_REPRODUCIBILITY.md
+PASS | Required file: DISTRIBUTION_LICENSE_CHECKLIST.md
+PASS | Required file: THIRD_PARTY_NOTICES.md
+PASS | Required file: ENGINE_SOURCE_DISTRIBUTION_PLAN.md
+PASS | Required file: SOURCE_OF_TRUTH_AUDIT.md
+PASS | Required file: COMPLETION_REPORT.md
+PASS | Required file: TEST_RESULT.txt
+PASS | Required file: BROWSER_VERIFICATION_RESULT.txt
+PASS | Required file: REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt
+PASS | Required file: VISUAL_VERIFICATION_RESULT.txt
+PASS | Required file: PERFORMANCE_RESULT.txt
+PASS | Required file: ENGINE_PERFORMANCE_RESULT.txt
+PASS | Required file: LICENSE
+PASS | package version | 1.8.0
+PASS | test script
+PASS | check script
+PASS | Seven Step panels
+PASS | Engine Panel before Replay | 592/2736
+PASS | Board Flip inside Replay Navigation
+PASS | Manual KeyPosition retained
+PASS | Fixed 9x9 geometry retained
+PASS | 390px Replay nav wrap
+PASS | Original SVG pieces retained
+PASS | No external piece image URL
+PASS | No bundled webfont declaration
+PASS | ReplayScrollPolicy hash preserved
+PASS | GameReview Domain hash preserved
+PASS | GameReview Snapshot hash preserved
+PASS | Game backup schema remains 1
+PASS | Engine analysis schema remains v1 compatible
+PASS | Engine Port isolated from USI
+PASS | USI protocol stays Adapter
+PASS | Default runtime is real local engine
+PASS | Local engine uses Worker protocol
+PASS | Local engine no network fetch
+PASS | Local engine emits evaluation
+PASS | Local engine emits bestmove
+PASS | Local engine handles stop
+PASS | Main background cancel
+PASS | Resource presets include threads/hash/maxPlies
+PASS | Analysis enforces maxPlies
+PASS | Candidate does not auto-register
+PASS | Candidate Jump uses existing Replay
+PASS | Candidate Add uses existing KeyPosition flow
+PASS | Primary candidate max 5
+PASS | Good move candidate retained
+PASS | Progress completed/total UI
+PASS | Engine statuses include required states
+PASS | YaneuraOu not bundled
+PASS | Evaluation separate license gate
+PASS | Distribution readiness separated
+PASS | Legal review gate documented
+PASS | Third-party notices state no engine WASM bundled
+PASS | Design Rules Ver1.8
+PASS | Automated tests failed zero
+PASS | Browser verification failed zero
+PASS | Real Engine Browser failed zero
+PASS | Real Engine Candidate Replay recorded
+PASS | Real Engine Cancel recorded
+PASS | Visual verification failed zero
+PASS | Real Engine performance recorded
