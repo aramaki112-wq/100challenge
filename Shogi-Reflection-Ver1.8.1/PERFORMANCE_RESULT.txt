@@ -1,0 +1,20 @@
+Shogi Reflection Ver.1.8 Performance Verification
+================================================
+Environment: Chromium headless / 390x844 / local data-URL test harness
+Replay sample: 300-ply fixture
+
+Measured results
+- Replay Next x100 total synchronous event/render time: 1802.80 ms
+- Replay Next average: 18.028 ms/click
+- Replay Next maximum: 33.000 ms/click
+- Current board SVG count: 40
+- Children inside one piece SVG: 3
+- Current board descendant DOM nodes: 290
+- One Snapshot open/render dispatch time: 1.800 ms
+- Snapshot descendant DOM nodes: 281
+
+Interpretation
+- Ver.1.8 keeps one SVG per occupied square; it does not create a second board or Canvas layer.
+- The retained Ver.1.7 piece SVG uses a small presentation-only highlight path; two-character promoted labels use two tspan nodes.
+- These are environment-specific measurements, not a general claim that every device is fast.
+- Real-device thermal, battery, and long-session profiling were not performed.

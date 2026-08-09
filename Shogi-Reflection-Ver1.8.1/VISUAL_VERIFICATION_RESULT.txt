@@ -1,0 +1,33 @@
+Shogi Reflection Ver.1.8 Visual Verification
+=============================================
+Browser: Chromium via Playwright
+Viewport: 390x844
+Checks: 17
+Passed: 17
+Failed: 0
+
+[PASS] 通常盤面 Screenshot
+[PASS] 通常盤面 81升
+[PASS] 成駒 Gallery 5種 | {'svg': 5, 'labels': ['成桂', '成香', '成銀', '馬', '龍']}
+[PASS] 成桂/成香/成銀/馬/龍
+[PASS] Board Flip Screenshot
+[PASS] Flip fixed geometry | ({'x': 28, 'y': -1128.984375, 'width': 334, 'height': 334}, {'x': 28, 'y': -64.984375, 'width': 334, 'height': 334})
+[PASS] Smartphone STEP3 Screenshot
+[PASS] Engine候補 visible
+[PASS] Good Candidate group visible
+[PASS] Bad Candidate group visible
+[PASS] Best Move label visible
+[PASS] Candidate Group Screenshot
+[PASS] Board width within 390px
+[PASS] Candidate Jump Screenshot
+[PASS] Candidate Jump Board visible | {'top': 208.203125, 'bottom': 691.796875, 'viewport': 844, 'navBottom': 182.09375}
+[PASS] Candidate Jump Board clears Header | {'top': 208.203125, 'bottom': 691.796875, 'viewport': 844, 'navBottom': 182.09375}
+[PASS] Candidate Jump Current Move highlight
+
+Screenshot files:
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_BOARD_FLIP.png
+- VISUAL_SMARTPHONE_STEP3.png
+- VISUAL_CANDIDATE_GROUPS.png
+- VISUAL_CANDIDATE_JUMP_BOARD_SCROLL.png

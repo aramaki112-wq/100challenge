@@ -1,0 +1,27 @@
+Shogi Reflection Ver.1.8 Automated Test Result
+Date: 2026-08-09
+Command: npm test
+Runtime: Node.js built-in test runner
+
+Tests: 656
+Passed: 656
+Failed: 0
+Cancelled: 0
+Skipped: 0
+Todo: 0
+
+Scope added/updated in this integration candidate:
+- Good Candidate max 5 / Bad Candidate max 5 / no forced padding
+- duplicate suppression / mate candidate
+- Best Evaluation vs Actual Evaluation / Difference / PV
+- sample KIF Shift_JIS + Parser registration
+- YaneuraOu V9.00 pinned manifest/provider gate
+- explicit ReflectionLocal fallback
+- Candidate Jump -> existing Replay -> intentional Board Scroll
+- USI handshake / setoption / cp / mate / pv / nodes / depth / time / bestmove / stop / quit
+- timeout / structured worker crash
+
+Important evidence boundary:
+- These 656 tests validate application code, adapters, parsers, provider gates and fallback runtime.
+- They do NOT prove that an actual generated YaneuraOu WASM binary ran in this environment.
+- Real YaneuraOu WASM E2E: NOT RUN (Emscripten unavailable).

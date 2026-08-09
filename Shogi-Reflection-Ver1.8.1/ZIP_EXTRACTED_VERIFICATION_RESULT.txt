@@ -1,0 +1,44 @@
+Shogi Reflection Ver.1.8 Integration Candidate — ZIP Extracted Verification
+Date: 2026-08-09
+
+Round 1 archive: /mnt/data/Shogi-Reflection-Ver1.8-Integration-Candidate.zip
+Round 1 SHA-256: c637138d3f427642cfbd3320e2b1b4446f3d43f0920a22d0d82464d2cafb87f2
+ZIP integrity: PASS — unzip -t reported no compressed-data errors.
+Verification root: separate extracted folder only.
+
+Automated Test:
+- Tests: 656
+- Passed: 656
+- Failed: 0
+
+Static:
+- Checks: 96
+- Failed: 0
+- Missing imports: 0
+- Deleted Baseline files: 0
+
+Browser 390x844:
+- Checks: 148
+- Passed: 148
+- Failed: 0
+
+Engine Browser / Formal Gate:
+- ReflectionLocal actual Blob Worker checks: 16/16 PASS
+- YaneuraOu WASM: NOT RUN
+- Reason: manifest available=false; no verified YaneuraOu JS/WASM binary bundled.
+
+Visual:
+- Checks: 17
+- Passed: 17
+- Failed: 0
+
+Performance:
+- 300-ply Replay fixture completed.
+- Latest extracted-run figures are in PERFORMANCE_RESULT.txt and are environment-specific.
+
+Physical iPhone: NOT TESTED
+Battery/Thermal: NOT MEASURED
+
+Formal completion implication:
+- ZIP extraction itself is healthy.
+- This does NOT close the Real YaneuraOu WASM completion gate.

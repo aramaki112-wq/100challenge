@@ -1,0 +1,37 @@
+Shogi Reflection Ver.1.8 Engine Browser Verification / Formal Gate
+===============================================================
+Browser: Chromium / Playwright set_content / actual ReflectionLocal Blob Web Worker
+YaneuraOu WASM: NOT RUN — engine/yaneuraou/engine-manifest.json has available=false; no verified YaneuraOu JS/WASM binary is bundled.
+This file must not be interpreted as Real YaneuraOu E2E evidence.
+Viewport: 390x844
+Checks: 16
+Passed: 16
+Failed: 0
+
+[PASS] Engine Panel before Replay Board
+[PASS] Board Flip inside Replay Navigation
+[PASS] 390px no horizontal overflow | [390, 390]
+[PASS] ReflectionLocal fallback Engine completed | Shogi Reflection Local Engine 1.0.0 / 1.0.0 · 評価Model: Material + mobility + king-safety heuristic 1.0.0 · SMARTPHONE_SAFE · 簡易Engineへ切り替わりました（検証済みYaneuraOu WASM buildをこの配布物で確認できませんでした。）
+[PASS] Real progress count shown | 6 / 6 局面（解析完了）
+[PASS] Fallback candidate generated for short capture fixture | 1
+[PASS] Fallback Candidate -> existing Replay
+[PASS] Candidate Jump intentionally scrolls to board | (2116, 2879)
+[PASS] Candidate Jump board visible | {'top': 194.390625, 'bottom': 677.984375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 2879}
+[PASS] Candidate Jump board clears sticky header | {'top': 194.390625, 'bottom': 677.984375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 2879}
+[PASS] Fallback Candidate -> existing KeyPosition
+[PASS] Board Flip after real analysis
+[PASS] Fallback Cancel enabled
+[PASS] Fallback Cancel completed
+[PASS] Re-analysis enabled after cancel
+[PASS] No page errors
+
+Measured performance (this Chromium run; not a device guarantee)
+- Engine initialization: 6.50 ms
+- Short 5-ply game analysis + candidate generation: 1322.80 ms
+- Cancel UI-to-CANCELLED response: 52.40 ms
+- Worker used: True
+- Main-page JS heap before/after standalone init: 10000000 / 10000000 bytes (Worker heap not included; availability is browser-dependent)
+
+Physical iPhone: NOT TESTED
+Battery/Thermal: NOT MEASURED
+Network upload: none by ReflectionLocal engine implementation; the verification uses an in-memory Blob Worker.

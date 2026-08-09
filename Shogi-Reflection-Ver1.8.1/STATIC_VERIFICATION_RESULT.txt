@@ -1,0 +1,191 @@
+Shogi Reflection Ver.1.8 Static Verification
+Date: 2026-08-09
+Source of Truth: user-supplied Shogi-Reflection-Ver1.8(1).zip
+
+Files: 345
+Baseline files: 331
+Hash-identical Baseline files: 272
+Modified Baseline files: 59
+Added files: 14
+Deleted Baseline files: 0
+Syntax checked: 200
+Missing imports: 0
+Passed checks: 96
+Failed checks: 0
+
+Modified Baseline files:
+- AnalyzeGame.js
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BrowserEngineAnalysisView.js
+- BrowserEngineProvider.js
+- BrowserShogiReplayView.js
+- BrowserWorkerUsiTransport.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- DISTRIBUTION_LICENSE_CHECKLIST.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- ENGINE_BUILD_REPRODUCIBILITY.md
+- ENGINE_CANDIDATE_SELECTION_DESIGN.md
+- ENGINE_COMPONENT_DECISION.md
+- ENGINE_INTEGRATION_DESIGN.md
+- ENGINE_LICENSE_AUDIT.md
+- ENGINE_PERFORMANCE_RESULT.txt
+- ENGINE_SOURCE_DISTRIBUTION_PLAN.md
+- EngineAnalysisSettings.js
+- EngineCandidateSelector.js
+- EngineUiFlowV17.test.js
+- Explanation.md
+- Learning Roadmap.md
+- PERFORMANCE_RESULT.txt
+- README.md
+- REAL_ENGINE_BOARD_FLIPPED_V18.png
+- REAL_ENGINE_BOARD_V18.png
+- REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt
+- REAL_ENGINE_PANEL_V18.png
+- RealAnalysisFlowV18.test.js
+- RealEngineE2EV18.test.js
+- ReflectionLocalEngineAdapter.js
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- TEST_RESULT.txt
+- THIRD_PARTY_NOTICES.md
+- Thought Process.md
+- UsiEngineAdapter.js
+- UsiInfoParser.js
+- VISUAL_BOARD_FLIP.png
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_SMARTPHONE_STEP3.png
+- VISUAL_VERIFICATION_RESULT.txt
+- Ver.1.8操作手順書.md
+- YaneuraOuEngineAdapter.js
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- real_engine_browser_verify.py
+- style.css
+- verify.mjs
+- visual_verify.py
+
+Added files:
+- FORMAL_COMPLETION_STATUS.md
+- FallbackShogiEngineAdapter.js
+- SOURCE_OF_TRUTH_V1_8_BASELINE_HASHES.json
+- UsiProtocolV18.test.js
+- VISUAL_CANDIDATE_GROUPS.png
+- VISUAL_CANDIDATE_JUMP_BOARD_SCROLL.png
+- Ver18FormalRequirements.test.js
+- YaneuraOuWasmAdapter.js
+- YaneuraOuWasmWorkerBootstrap.js
+- ZIP_EXTRACTED_VERIFICATION_RESULT.txt
+- engine/yaneuraou/engine-manifest.json
+- samples/piyo_20260617_170236.kif
+- scripts/build-yaneuraou-wasm.sh
+- scripts/finalize-yaneuraou-manifest.mjs
+
+Deleted Baseline files:
+- none
+
+PASS | User-supplied Ver.1.8 Baseline file count | 331/331
+PASS | No Baseline files deleted
+PASS | Application LICENSE hash preserved | f80358715ec38c12618abead454a81ecd7dc1a8cf4e64e1f498d749a5697988c
+PASS | All JavaScript syntax | 200
+PASS | Missing Import = 0
+PASS | Required file: AnalyzeGame.js
+PASS | Required file: ShogiEnginePort.js
+PASS | Required file: UsiEngineAdapter.js
+PASS | Required file: UsiInfoParser.js
+PASS | Required file: YaneuraOuEngineAdapter.js
+PASS | Required file: YaneuraOuWasmAdapter.js
+PASS | Required file: YaneuraOuWasmWorkerBootstrap.js
+PASS | Required file: FallbackShogiEngineAdapter.js
+PASS | Required file: ReflectionLocalEngineAdapter.js
+PASS | Required file: ReflectionLocalEngineWorker.js
+PASS | Required file: BrowserWorkerUsiTransport.js
+PASS | Required file: EvaluationNormalizer.js
+PASS | Required file: EngineCandidateSelector.js
+PASS | Required file: EngineAnalysisRepository.js
+PASS | Required file: BrowserEngineAnalysisView.js
+PASS | Required file: Ver18FormalRequirements.test.js
+PASS | Required file: UsiProtocolV18.test.js
+PASS | Required file: RealEngineAdapterV18.test.js
+PASS | Required file: EngineWorkerV18.test.js
+PASS | Required file: EngineUiLayoutV18.test.js
+PASS | Required file: samples/piyo_20260617_170236.kif
+PASS | Required file: engine/yaneuraou/engine-manifest.json
+PASS | Required file: scripts/build-yaneuraou-wasm.sh
+PASS | Required file: scripts/finalize-yaneuraou-manifest.mjs
+PASS | Required file: Ver.1.8操作手順書.md
+PASS | Required file: ENGINE_INTEGRATION_DESIGN.md
+PASS | Required file: ENGINE_CANDIDATE_SELECTION_DESIGN.md
+PASS | Required file: ENGINE_LICENSE_AUDIT.md
+PASS | Required file: ENGINE_COMPONENT_DECISION.md
+PASS | Required file: ENGINE_BUILD_REPRODUCIBILITY.md
+PASS | Required file: DISTRIBUTION_LICENSE_CHECKLIST.md
+PASS | Required file: THIRD_PARTY_NOTICES.md
+PASS | Required file: ENGINE_SOURCE_DISTRIBUTION_PLAN.md
+PASS | Required file: SOURCE_OF_TRUTH_AUDIT.md
+PASS | Required file: COMPLETION_REPORT.md
+PASS | Required file: TEST_RESULT.txt
+PASS | Required file: BROWSER_VERIFICATION_RESULT.txt
+PASS | Required file: REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt
+PASS | Required file: VISUAL_VERIFICATION_RESULT.txt
+PASS | Required file: PERFORMANCE_RESULT.txt
+PASS | Required file: ENGINE_PERFORMANCE_RESULT.txt
+PASS | Required file: LICENSE
+PASS | package version | 1.8.0
+PASS | test script
+PASS | check script
+PASS | Seven Step panels
+PASS | Engine Panel before Replay | 592/2756
+PASS | Board Flip inside Replay Navigation
+PASS | Manual KeyPosition retained
+PASS | Fixed 9x9 geometry retained
+PASS | 390px Replay nav wrap
+PASS | Candidate board scroll offset
+PASS | Original SVG pieces retained
+PASS | No external piece image URL
+PASS | No bundled webfont declaration
+PASS | ReplayScrollPolicy.js Baseline hash preserved
+PASS | GameReview.js Baseline hash preserved
+PASS | GameReviewSnapshotService.js Baseline hash preserved
+PASS | ShogiPieceSvg.js Baseline hash preserved
+PASS | Game backup schema remains 1
+PASS | Engine analysis schema remains v1 compatible
+PASS | Engine Port isolated from USI
+PASS | USI protocol stays Adapter
+PASS | YaneuraOu primary architecture present
+PASS | ReflectionLocal remains explicit fallback
+PASS | No external KIF analysis upload in provider
+PASS | Main background cancel
+PASS | Resource presets include threads/hash/maxPlies
+PASS | Analysis enforces maxPlies
+PASS | Candidate does not auto-register
+PASS | Candidate Jump uses existing Replay + intentional board scroll
+PASS | Candidate Add uses existing KeyPosition flow
+PASS | Good and Bad group each max 5
+PASS | Candidate UI says criteria-only
+PASS | Bad Candidate shows best-vs-actual reference
+PASS | Progress completed/total UI
+PASS | Sample KIF UI present
+PASS | Pinned YaneuraOu release
+PASS | MATERIAL Level 1 selected
+PASS | Unverified WASM cannot be silently enabled
+PASS | License audit treats components separately
+PASS | Distribution readiness separated
+PASS | Legal review gate documented
+PASS | No unverified YaneuraOu WASM bundled
+PASS | Third-party notice does not claim bundled binary
+PASS | Existing Application LICENSE unchanged documented
+PASS | Design Rules Ver1.8 retained/extended
+PASS | Automated tests failed zero
+PASS | Browser verification failed zero
+PASS | Visual verification failed zero
+PASS | Real-engine gate status explicitly recorded

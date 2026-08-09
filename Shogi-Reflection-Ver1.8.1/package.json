@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.8.0",
+  "private": true,
+  "type": "module",
+  "description": "YaneuraOu WASM integration boundary, Best Move comparison, Candidate UI and safe ReflectionLocal fallback for Shogi Reflection Ver.1.8",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
