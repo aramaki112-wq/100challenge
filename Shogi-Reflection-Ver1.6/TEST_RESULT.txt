@@ -1,0 +1,26 @@
+Shogi Reflection Ver.1.6 Automated Test Result
+Date: 2026-08-09
+Command: npm test
+Runner: Node.js built-in test runner (node --test)
+
+Tests: 606
+Passed: 606
+Failed: 0
+Cancelled: 0
+Skipped: 0
+Todo: 0
+
+Coverage focus added in Ver.1.6:
+- ShogiEnginePort contract / missing adapter
+- Engine initialization error / analysis error / cancel
+- Engine missing graceful degradation
+- Evaluation normalization: sente/gote/player perspective/positive/negative/mate
+- Evaluation delta: improve/drop/unchanged/major drop/mate transition
+- SFEN / USI move mapping
+- USI info / MultiPV parsing
+- Candidate ranking / duplicate suppression / max 5 / good candidate / best move match
+- Engine metadata
+- Re-analysis history / separate persistence
+- Engine UI static markup
+
+Existing Ver.1.4.1 regression tests remained in the same npm test run.

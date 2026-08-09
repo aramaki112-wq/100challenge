@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+const html=fs.readFileSync(new URL("./index.html",import.meta.url),"utf8");
+const main=fs.readFileSync(new URL("./main.js",import.meta.url),"utf8");
+const form=fs.readFileSync(new URL("./BrowserGameReviewFormView.js",import.meta.url),"utf8");
+test("STEP4にEngine解析・進捗・Cancel・候補領域がある",()=>{ for(const id of ["analyze-game","cancel-analysis","engine-analysis-status","engine-analysis-progress","engine-analysis-candidates"]) assert.match(html,new RegExp(`id="${id}"`)); });
+test("Engine候補は自動登録せず明示ButtonでKeyPositionへ接続",()=>{ assert.match(html,/候補は自動で重要局面へ登録されません/); assert.match(main,/data-engine-add-key-position/); });
+test("Engineなしでも手動Flowを維持する説明がある",()=>assert.match(html,/Engine未設定でもReplay・手動重要局面登録・振り返りは利用できます/));
+test("FACT・INTERPRETATION・HYPOTHESISの短い記入例がPlaceholderにある",()=>{ assert.match(form,/相手の飛車が自陣へ侵入/); assert.match(form,/攻めを優先し、自玉の安全/); assert.match(form,/一度受けてから攻めれば/); });
+test("例文はvalueではなくplaceholderで保存Dataへ混ぜない",()=>assert.doesNotMatch(form,/value="例：相手の飛車が自陣へ侵入/));

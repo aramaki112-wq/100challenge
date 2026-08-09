@@ -1,0 +1,31 @@
+Shogi Reflection Ver.1.6 Performance Result
+Date: 2026-08-09
+
+IMPORTANT:
+- Real YaneuraOu/Suisho engine performance was NOT measured.
+- Values below are architecture/test overhead using Verification Mock Engine only.
+- They must not be used as an estimate of real engine analysis time, heat, battery use, or memory.
+
+Mock analysis benchmark:
+- Fixture: fixtures/replay-long-300.kif
+- Moves: 300
+- Positions analyzed: 301
+- Preset: STANDARD
+- Engine: Verification Mock Engine (delay 0 ms)
+- AnalyzeGame elapsed: 2.85 ms
+- Node heap delta during measured operation: 842,912 bytes
+- Primary candidates: 5
+- Total candidates before primary limiting: 42
+
+Browser responsiveness:
+- 390 x 844 Chromium Browser Automation completed 123/123 checks.
+- Engine analysis/candidate/cancel path used Verification Mock Engine.
+- No real-engine UI-freeze claim is made.
+
+Not measured:
+- Real engine initialization time
+- Real one-game analysis time
+- Real engine RSS/working-set memory
+- Smartphone battery consumption
+- Smartphone thermal behavior
+- Smartphone tab crash threshold

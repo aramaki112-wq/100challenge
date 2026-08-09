@@ -1,0 +1,15 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.6.0",
+  "private": true,
+  "type": "module",
+  "description": "Engineを交換可能な外部能力として接続し、振り返り候補を自動選出する将棋振り返りアプリ Ver.1.6",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

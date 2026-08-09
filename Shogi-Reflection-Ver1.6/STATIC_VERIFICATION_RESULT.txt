@@ -1,0 +1,138 @@
+Shogi Reflection Ver.1.6 Static Verification
+Date: 2026-08-09
+
+Files: 296
+Ver.1.4.1 baseline files: 257
+Hash-identical Ver.1.4.1 files: 228
+Modified Ver.1.4.1 files: 29
+Added Ver.1.6 files: 39
+Deleted Ver.1.4.1 files: 0
+Syntax checked: 181
+Missing imports: 0
+Passed checks: 49
+Failed checks: 0
+
+Modified Ver.1.4.1 files:
+- 00_README_FIRST.md
+- BROWSER_VERIFICATION_RESULT.txt
+- BROWSER_VERIFICATION_SCREENSHOT.png
+- BoardGraphicsV14.test.js
+- BrowserGameReviewFormView.js
+- CHANGELOG.md
+- COMPLETION_REPORT.md
+- Design Handbook.md
+- Design Novel.md
+- Design Rules.md
+- Explanation.md
+- FILE_INVENTORY.txt
+- Learning Roadmap.md
+- PieceLayoutV141.test.js
+- README.md
+- Review Checklist.md
+- SOURCE_OF_TRUTH_AUDIT.md
+- STATIC_VERIFICATION_RESULT.txt
+- SYNTAX_CHECK_RESULT.txt
+- ShogiPieceSvg.js
+- TEST_RESULT.txt
+- Thought Process.md
+- browser_verify.py
+- challenge.md
+- index.html
+- main.js
+- package.json
+- style.css
+- verify.mjs
+
+Added Ver.1.6 files:
+- AnalyzeGame.js
+- AnalyzeGameV16.test.js
+- BrowserEngineAnalysisView.js
+- BrowserEngineProvider.js
+- BrowserWorkerUsiTransport.js
+- ENGINE_CANDIDATE_SELECTION_DESIGN.md
+- ENGINE_FEASIBILITY_AUDIT.md
+- ENGINE_INTEGRATION_DESIGN.md
+- ENGINE_LICENSE_AUDIT.md
+- ENGINE_REANALYSIS_DESIGN.md
+- ENGINE_UPDATE_GUIDE.md
+- EngineAnalysisConstants.js
+- EngineAnalysisPersistenceCoordinator.js
+- EngineAnalysisRepository.js
+- EngineAnalysisSettings.js
+- EngineAnalysisSnapshotService.js
+- EngineBrowserMarkupV16.test.js
+- EngineCandidateSelector.js
+- EngineCandidateSelector.test.js
+- EngineErrors.js
+- EngineFailureV16.test.js
+- EnginePersistenceV16.test.js
+- EvaluationDelta.js
+- EvaluationNormalizationV16.test.js
+- EvaluationNormalizer.js
+- LocalStorageEngineAnalysisStore.js
+- MockShogiEngineAdapter.js
+- NodeChildProcessUsiTransport.js
+- PERFORMANCE_RESULT.txt
+- SOURCE_OF_TRUTH_V1_4_1_BASELINE_HASHES.json
+- ShogiEnginePort.js
+- ShogiEnginePort.test.js
+- UsiEngineAdapter.js
+- UsiEngineAdapter.test.js
+- UsiInfoParser.js
+- UsiMappingV16.test.js
+- UsiPositionMapper.js
+- Ver.1.6操作手順書.md
+- YaneuraOuEngineAdapter.js
+
+Deleted Ver.1.4.1 files:
+- none
+
+PASS | Ver.1.4.1 Source of Truth file count | 257/257
+PASS | No Ver.1.4.1 files deleted
+PASS | LICENSE hash preserved
+PASS | All JavaScript syntax | 181
+PASS | Missing Import = 0
+PASS | Required file: AnalyzeGame.js
+PASS | Required file: ShogiEnginePort.js
+PASS | Required file: YaneuraOuEngineAdapter.js
+PASS | Required file: UsiEngineAdapter.js
+PASS | Required file: EvaluationNormalizer.js
+PASS | Required file: EvaluationDelta.js
+PASS | Required file: EngineCandidateSelector.js
+PASS | Required file: EngineAnalysisRepository.js
+PASS | Required file: BrowserEngineAnalysisView.js
+PASS | Required file: ENGINE_FEASIBILITY_AUDIT.md
+PASS | Required file: ENGINE_INTEGRATION_DESIGN.md
+PASS | Required file: ENGINE_CANDIDATE_SELECTION_DESIGN.md
+PASS | Required file: ENGINE_LICENSE_AUDIT.md
+PASS | Required file: ENGINE_UPDATE_GUIDE.md
+PASS | Required file: ENGINE_REANALYSIS_DESIGN.md
+PASS | Required file: Ver.1.6操作手順書.md
+PASS | Required file: SOURCE_OF_TRUTH_AUDIT.md
+PASS | Required file: COMPLETION_REPORT.md
+PASS | Required file: LICENSE
+PASS | package version | 1.6.0
+PASS | test script
+PASS | check script
+PASS | Seven Step panels
+PASS | Engine UI in STEP4
+PASS | Manual KeyPosition retained
+PASS | FACT examples are presentation only
+PASS | Fixed 9x9 geometry retained
+PASS | Rounded five-point SVG footprint
+PASS | Two-character piece sizing retained
+PASS | Replay scroll internal-only policy hash preserved
+PASS | GameReview Domain hash preserved
+PASS | GameReview storage schema hash preserved
+PASS | Game backup schemaVersion remains 1
+PASS | 3-5 KeyPosition rule retained
+PASS | Engine Port isolated from USI
+PASS | USI protocol stays in Adapter
+PASS | Re-analysis keeps history
+PASS | Separate Engine storage key
+PASS | Engine missing graceful degradation
+PASS | Candidate does not auto-register
+PASS | Design Rules extended beyond EL
+PASS | Automated tests failed zero
+PASS | Browser verification failed zero
+PASS | Browser engine flow recorded

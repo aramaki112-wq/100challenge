@@ -1,0 +1,60 @@
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+const root = path.dirname(fileURLToPath(import.meta.url));
+const baseline = JSON.parse(fs.readFileSync(path.join(root, "SOURCE_OF_TRUTH_V1_4_1_BASELINE_HASHES.json"), "utf8"));
+const outputPath = path.join(root, "STATIC_VERIFICATION_RESULT.txt");
+const syntaxOutputPath = path.join(root, "SYNTAX_CHECK_RESULT.txt");
+const normalize = (value) => value.split(path.sep).join("/");
+const sha256 = (filePath) => crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
+const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
+const exists = (relative) => fs.existsSync(path.join(root, relative));
+function listFiles(directory = root) { const rows=[]; for(const entry of fs.readdirSync(directory,{withFileTypes:true})){ if([".git","node_modules","__pycache__"].includes(entry.name)) continue; if(entry.name==="browser-verification-backup.json") continue; const full=path.join(directory,entry.name); if(entry.isDirectory()) rows.push(...listFiles(full)); else rows.push(normalize(path.relative(root,full))); } return rows.sort(); }
+const passes=[], failures=[];
+function check(name, condition, detail="") { const row=`${condition?"PASS":"FAIL"} | ${name}${detail?` | ${detail}`:""}`; (condition?passes:failures).push(row); }
+const allFiles=listFiles(), baselineFiles=Object.keys(baseline.files).sort(), current=new Set(allFiles);
+const deleted=baselineFiles.filter(f=>!current.has(f));
+const shared=baselineFiles.filter(f=>current.has(f));
+const modified=shared.filter(f=>sha256(path.join(root,f))!==baseline.files[f]).sort();
+const unchanged=shared.filter(f=>sha256(path.join(root,f))===baseline.files[f]).sort();
+const added=allFiles.filter(f=>!(f in baseline.files)).sort();
+check("Ver.1.4.1 Source of Truth file count", baseline.fileCount===257 && baselineFiles.length===257, `${baseline.fileCount}/${baselineFiles.length}`);
+check("No Ver.1.4.1 files deleted", deleted.length===0, deleted.join(", "));
+check("LICENSE hash preserved", baseline.files["LICENSE"]===sha256(path.join(root,"LICENSE")));
+const jsFiles=allFiles.filter(f=>/\.(?:js|mjs)$/.test(f)), syntaxRows=[];
+for(const file of jsFiles){ try{execFileSync(process.execPath,["--check",path.join(root,file)],{stdio:"pipe"});syntaxRows.push(`PASS | ${file}`);}catch(error){syntaxRows.push(`FAIL | ${file} | ${error.stderr?.toString().trim()??error.message}`);} }
+fs.writeFileSync(syntaxOutputPath,["Shogi Reflection Ver.1.6 Syntax Check","Date: 2026-08-09",`Files: ${jsFiles.length}`,"",...syntaxRows,""].join("\n"));
+check("All JavaScript syntax",syntaxRows.every(r=>r.startsWith("PASS")),String(jsFiles.length));
+const missingImports=[];
+for(const file of jsFiles){ const source=read(file), pattern=/(?:from\s+|import\s*\()(["'])(\.\.?\/[^"']+)\1/g; for(const match of source.matchAll(pattern)){const target=path.resolve(path.dirname(path.join(root,file)),match[2]); if(!fs.existsSync(target)) missingImports.push(`${file} -> ${match[2]}`);} }
+check("Missing Import = 0",missingImports.length===0,missingImports.join(", "));
+const required=["AnalyzeGame.js","ShogiEnginePort.js","YaneuraOuEngineAdapter.js","UsiEngineAdapter.js","EvaluationNormalizer.js","EvaluationDelta.js","EngineCandidateSelector.js","EngineAnalysisRepository.js","BrowserEngineAnalysisView.js","ENGINE_FEASIBILITY_AUDIT.md","ENGINE_INTEGRATION_DESIGN.md","ENGINE_CANDIDATE_SELECTION_DESIGN.md","ENGINE_LICENSE_AUDIT.md","ENGINE_UPDATE_GUIDE.md","ENGINE_REANALYSIS_DESIGN.md","Ver.1.6操作手順書.md","SOURCE_OF_TRUTH_AUDIT.md","COMPLETION_REPORT.md","LICENSE"];
+for(const file of required) check(`Required file: ${file}`,exists(file));
+const pkg=JSON.parse(read("package.json")); check("package version",pkg.version==="1.6.0",pkg.version); check("test script",pkg.scripts?.test==="node --test"); check("check script",pkg.scripts?.check==="node verify.mjs");
+const html=read("index.html"), css=read("style.css"), piece=read("ShogiPieceSvg.js"), main=read("main.js"), form=read("BrowserGameReviewFormView.js"), review=read("GameReview.js"), rules=read("Design Rules.md");
+check("Seven Step panels",(html.match(/data-step-panel=/g)??[]).length===7);
+check("Engine UI in STEP4",["analyze-game","cancel-analysis","engine-analysis-status","engine-analysis-progress","engine-analysis-candidates"].every(id=>html.includes(`id=\"${id}\"`)));
+check("Manual KeyPosition retained",html.includes('id="add-current-position"')&&html.includes('id="add-key-position"'));
+check("FACT examples are presentation only",form.includes('placeholder="例：相手の飛車が自陣へ侵入')&&!form.includes('value="例：相手の飛車が自陣へ侵入'));
+check("Fixed 9x9 geometry retained",/grid-template-columns\s*:\s*repeat\(9,\s*minmax\(0,\s*1fr\)\)/.test(css)&&/grid-template-rows\s*:\s*repeat\(9,\s*minmax\(0,\s*1fr\)\)/.test(css));
+check("Rounded five-point SVG footprint",piece.includes('class="piece-body" d="M50 5 Q52 5 54 6')&&piece.includes('L9 104'));
+check("Two-character piece sizing retained",piece.includes("is-two-character")&&["is-成桂","is-成香","is-成銀"].every(x=>css.includes(x)));
+check("Replay scroll internal-only policy hash preserved",baseline.files["ReplayScrollPolicy.js"]===sha256(path.join(root,"ReplayScrollPolicy.js")));
+check("GameReview Domain hash preserved",baseline.files["GameReview.js"]===sha256(path.join(root,"GameReview.js")));
+check("GameReview storage schema hash preserved",baseline.files["GameReviewSnapshotService.js"]===sha256(path.join(root,"GameReviewSnapshotService.js")));
+check("Game backup schemaVersion remains 1",read("GameReviewSnapshotService.js").includes("SHOGI_REFLECTION_SCHEMA_VERSION = 1"));
+check("3-5 KeyPosition rule retained",review.includes("keyPositions.length > 5")&&review.includes("this.keyPositions.length >= 3"));
+check("Engine Port isolated from USI",!read("AnalyzeGame.js").match(/\b(position sfen|setoption|bestmove|score cp|score mate)\b/));
+check("USI protocol stays in Adapter",read("UsiEngineAdapter.js").includes('position sfen')&&read("UsiEngineAdapter.js").includes('bestmove'));
+check("Re-analysis keeps history",read("EngineAnalysisRepository.js").includes("[...history, result]"));
+check("Separate Engine storage key",read("LocalStorageEngineAnalysisStore.js").includes("engine-analyses.v1"));
+check("Engine missing graceful degradation",read("BrowserEngineProvider.js").includes("ENGINE_NOT_FOUND")&&html.includes("手動重要局面登録"));
+check("Candidate does not auto-register",html.includes("自動で重要局面へ登録されません")&&main.includes("data-engine-add-key-position"));
+check("Design Rules extended beyond EL",rules.includes("INTERLUDE-Rule-EM")&&rules.includes("INTERLUDE-Rule-EZ"));
+const testResult=exists("TEST_RESULT.txt")?read("TEST_RESULT.txt"):""; check("Automated tests failed zero",/Failed:\s*0/.test(testResult));
+const browserResult=exists("BROWSER_VERIFICATION_RESULT.txt")?read("BROWSER_VERIFICATION_RESULT.txt"):""; check("Browser verification failed zero",/Failed:\s*0/.test(browserResult)); check("Browser engine flow recorded",browserResult.includes("Engine candidate")&&browserResult.includes("Candidate to KeyPosition"));
+const report=["Shogi Reflection Ver.1.6 Static Verification","Date: 2026-08-09","",`Files: ${allFiles.length}`,`Ver.1.4.1 baseline files: ${baselineFiles.length}`,`Hash-identical Ver.1.4.1 files: ${unchanged.length}`,`Modified Ver.1.4.1 files: ${modified.length}`,`Added Ver.1.6 files: ${added.length}`,`Deleted Ver.1.4.1 files: ${deleted.length}`,`Syntax checked: ${jsFiles.length}`,`Missing imports: ${missingImports.length}`,`Passed checks: ${passes.length}`,`Failed checks: ${failures.length}`,"","Modified Ver.1.4.1 files:",...modified.map(x=>`- ${x}`),"","Added Ver.1.6 files:",...added.map(x=>`- ${x}`),"","Deleted Ver.1.4.1 files:",...(deleted.length?deleted.map(x=>`- ${x}`):["- none"]),"",...passes,...failures,""].join("\n");
+fs.writeFileSync(outputPath,report); console.log(report.split("\n").slice(0,13).join("\n")); if(failures.length) process.exit(1);
