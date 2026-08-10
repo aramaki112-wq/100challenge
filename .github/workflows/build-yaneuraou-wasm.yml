@@ -1,0 +1,236 @@
+name: Build pinned YaneuraOu WASM
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/build-yaneuraou-wasm.yml"
+      - "Shogi-Reflection-Ver1.8.3/scripts/build-yaneuraou-wasm.sh"
+      - "Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh"
+      - "Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs"
+      - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh"
+      - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py"
+      - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py"
+      - "Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt"
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  YANEURAOU_VERSION: V9.00
+  EMSDK_REPOSITORY: https://github.com/emscripten-core/emsdk.git
+  EMSDK_VERSION: 4.0.15
+  EXPECTED_EMSCRIPTEN_RELEASE_COMMIT: b412b6307e541b93dd93f01b61181e15c17302ec
+  MATERIAL_LEVEL: "1"
+
+defaults:
+  run:
+    working-directory: Shogi-Reflection-Ver1.8.3
+
+jobs:
+  build:
+    name: Reproducible MATERIAL WASM build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout Shogi Reflection
+        uses: actions/checkout@v4.2.2
+
+      - name: Record runner environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build-record
+          {
+            echo "github_run_id=${GITHUB_RUN_ID}"
+            echo "github_run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "github_sha=${GITHUB_SHA}"
+            echo "runner_os=${RUNNER_OS}"
+            echo "runner_arch=${RUNNER_ARCH}"
+            echo "image_os=${ImageOS:-UNKNOWN}"
+            echo "image_version=${ImageVersion:-UNKNOWN}"
+            echo "uname=$(uname -a)"
+            echo "--- /etc/os-release ---"
+            cat /etc/os-release
+          } | tee build-record/runner-environment.txt
+          node --version | tee build-record/host-node-version.txt
+          python3 --version | tee build-record/host-python-version.txt
+
+      - name: Install fixed Emscripten SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          EMSDK_DIR="$RUNNER_TEMP/emsdk"
+          git clone --filter=blob:none "$EMSDK_REPOSITORY" "$EMSDK_DIR"
+          git -C "$EMSDK_DIR" rev-parse HEAD | tee build-record/emsdk-repository-commit.txt
+          python3 - "$EMSDK_DIR/emscripten-releases-tags.json" <<'PY'
+          import json, os, sys
+          p=sys.argv[1]
+          data=json.load(open(p, encoding='utf-8'))
+          version=os.environ['EMSDK_VERSION']
+          expected=os.environ['EXPECTED_EMSCRIPTEN_RELEASE_COMMIT']
+          actual=data['releases'].get(version)
+          print(f"emsdkVersion={version}")
+          print(f"expectedEmscriptenReleaseCommit={expected}")
+          print(f"actualEmscriptenReleaseCommit={actual}")
+          if actual != expected:
+              raise SystemExit(f"Emscripten release mapping mismatch: {actual} != {expected}")
+          PY
+          "$EMSDK_DIR/emsdk" install "$EMSDK_VERSION"
+          "$EMSDK_DIR/emsdk" activate "$EMSDK_VERSION"
+          echo "EMSDK_DIR=$EMSDK_DIR" >> "$GITHUB_ENV"
+
+      - name: Clone and verify pinned YaneuraOu source
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          ACTUAL_COMMIT="$(git -C "$SOURCE_DIR" rev-parse HEAD)"
+          test "$ACTUAL_COMMIT" = "$YANEURAOU_COMMIT"
+          git -C "$SOURCE_DIR" status --porcelain=v1 | tee build-record/yaneuraou-source-status.txt
+          test ! -s build-record/yaneuraou-source-status.txt
+          printf '%s\n' "$ACTUAL_COMMIT" | tee build-record/yaneuraou-source-commit.txt
+          echo "YANEURAOU_SOURCE_DIR=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build official-source MATERIAL WASM
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$EMSDK_DIR/emsdk_env.sh"
+          ./scripts/build-yaneuraou-wasm.sh \
+            "$YANEURAOU_SOURCE_DIR" \
+            "$GITHUB_WORKSPACE/$APP_DIR/engine/yaneuraou" \
+            "$GITHUB_WORKSPACE/$APP_DIR/build-record"
+
+      - name: Package corresponding-source evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p corresponding-source
+          git -C "$YANEURAOU_SOURCE_DIR" archive \
+            --format=tar.gz \
+            --output="$GITHUB_WORKSPACE/$APP_DIR/corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" \
+            "$YANEURAOU_COMMIT"
+          sha256sum "corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" \
+            | tee build-record/corresponding-source-sha256.txt
+          cp "$YANEURAOU_SOURCE_DIR/README.md" corresponding-source/YaneuraOu-README.md
+          cp "$YANEURAOU_SOURCE_DIR/source/Makefile" corresponding-source/YaneuraOu-source-Makefile
+          cp "$YANEURAOU_SOURCE_DIR/source/wasm_pre.js" corresponding-source/YaneuraOu-source-wasm_pre.js
+          if [ -f "$YANEURAOU_SOURCE_DIR/LICENSE" ]; then
+            cp "$YANEURAOU_SOURCE_DIR/LICENSE" corresponding-source/YaneuraOu-LICENSE
+          fi
+          if [ -f "$EMSDK_DIR/upstream/emscripten/LICENSE" ]; then
+            cp "$EMSDK_DIR/upstream/emscripten/LICENSE" corresponding-source/Emscripten-LICENSE
+          fi
+
+      - name: Verify build artifact and hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/verify-yaneuraou-wasm.sh
+          node scripts/update-engine-license-gate.mjs --built
+          ./scripts/run-node-tests-with-evidence.sh
+          npm run check
+
+      - name: Install pinned Real Engine browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check -r requirements-real-engine.txt
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run existing browser, visual and fallback regression suites
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 browser_verify.py
+          python3 visual_verify.py
+          python3 real_engine_browser_verify.py
+
+      - name: Run Real YaneuraOu USI verification
+        id: real_usi
+        continue-on-error: true
+        shell: bash
+        run: python3 real_yaneuraou_usi_verify.py
+
+      - name: Run Real YaneuraOu application E2E
+        id: real_e2e
+        continue-on-error: true
+        shell: bash
+        run: python3 real_yaneuraou_browser_verify.py
+
+      - name: Evaluate pre-ZIP Formal Completion Gate (diagnostic)
+        id: formal_gate
+        continue-on-error: true
+        shell: bash
+        run: node scripts/formal-completion-gate.mjs
+
+      - name: Upload Build Bridge artifact
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-v9.00-material1-wasm-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            Shogi-Reflection-Ver1.8.3/engine/yaneuraou/
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_METADATA.json
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/ENGINE_ASSET_SHA256SUMS.txt
+            Shogi-Reflection-Ver1.8.3/REAL_YANEURAOU_ARTIFACT_GATE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/REAL_YANEURAOU_USI_RESULT.json
+            Shogi-Reflection-Ver1.8.3/REAL_YANEURAOU_E2E_RESULT.json
+            Shogi-Reflection-Ver1.8.3/ENGINE_REAL_USI_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/ENGINE_REAL_E2E_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/REAL_YANEURAOU_BROWSER_E2E_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/ENGINE_REAL_PERFORMANCE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/FORMAL_COMPLETION_GATE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_GATE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/build-record/
+            Shogi-Reflection-Ver1.8.3/corresponding-source/
+            Shogi-Reflection-Ver1.8.3/scripts/build-yaneuraou-wasm.sh
+            Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh
+            Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs
+            Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh
+            Shogi-Reflection-Ver1.8.3/scripts/update-engine-license-gate.mjs
+            Shogi-Reflection-Ver1.8.3/scripts/run-node-tests-with-evidence.sh
+            Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py
+            Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py
+            Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_REPRODUCIBILITY.md
+            Shogi-Reflection-Ver1.8.3/YANEURAOU_WASM_BUILD_BRIDGE.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_SOURCE_DISTRIBUTION_PLAN.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_AUDIT.md
+            Shogi-Reflection-Ver1.8.3/THIRD_PARTY_NOTICES.md
+
+      - name: Enforce Real runtime gates after evidence upload
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          required = [
+              ("REAL_YANEURAOU_USI_RESULT.json", "Real USI"),
+              ("REAL_YANEURAOU_E2E_RESULT.json", "Real application E2E"),
+          ]
+          failed=[]
+          for file,label in required:
+              path=Path(file)
+              if not path.exists():
+                  failed.append(f"{label}: evidence missing")
+                  continue
+              data=json.loads(path.read_text(encoding="utf-8"))
+              if data.get("passed") is not True:
+                  failed.append(f"{label}: {data.get('status') or data.get('verdict') or 'failed'}")
+          if failed:
+              raise SystemExit("Real gate failure(s): " + " | ".join(failed))
+          print("Real USI and Real application E2E passed. Final Formal Completion remains a separate integration/report/ZIP-reverification gate.")
+          PY
