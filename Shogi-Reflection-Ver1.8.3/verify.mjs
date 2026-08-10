@@ -95,7 +95,9 @@ check("Build Bridge records runner provenance", workflow.includes("ImageOS") && 
 check("Build Bridge packages Corresponding Source evidence", workflow.includes("git -C \"$YANEURAOU_SOURCE_DIR\" archive") && workflow.includes("corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz") && workflow.includes("corresponding-source-sha256.txt"));
 check("Build Bridge runs separated Real USI and application E2E", workflow.includes("real_yaneuraou_usi_verify.py") && workflow.includes("real_yaneuraou_browser_verify.py"));
 check("Build Bridge uploads evidence even when Real gate fails", workflow.includes("if: always()") && workflow.includes("Enforce Real runtime gates after evidence upload"));
-check("Build metadata does not fabricate measured values", buildMetadata.measured === false ? (buildMetadata.jsSha256 === null && buildMetadata.wasmSha256 === null && buildMetadata.workerSha256 === null) : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerSha256));
+check("Build metadata does not fabricate measured values", buildMetadata.measured === false
+  ? (buildMetadata.jsSha256 === null && buildMetadata.wasmSha256 === null && buildMetadata.workerSha256 === null && buildMetadata.workerBootstrapSha256 === null)
+  : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerBootstrapSha256 && buildMetadata.workerSha256 === null && buildMetadata.workerFile === null && buildMetadata.pthreadWorkerPackaging === "MAIN_JS_SELF_WORKER" && buildMetadata.generatedPthreadWorkerCount === 0));
 check("Current artifact remains NOT-FORMAL without Real build", buildMetadata.measured === true || (buildMetadata.status === "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT" && read("FORMAL_COMPLETION_STATUS.md").includes("FORMAL COMPLETION NOT ACHIEVED")));
 
 const html = read("index.html"), css = read("style.css"), main = read("main.js"), piece = read("ShogiPieceSvg.js");

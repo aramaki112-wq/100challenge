@@ -122,8 +122,8 @@
 - [x] MATERIAL_LEVEL=1 / TARGET_CPU=WASM / COMPILER=em++固定
 - [x] Emscripten 4.0.15 official release mapping照合
 - [x] dirty upstream source拒否
-- [x] actual Worker filename discovery
-- [x] JS/WASM/Worker SHA-256自動化
+- [x] Emscripten 4.0.15 main-JS pthread packaging確認（separate `.worker.js`なし）
+- [x] JS/WASM + Application Worker Bootstrap SHA-256自動化
 - [x] Runner/Image/Compiler/Node/Python provenance設計
 - [ ] Real CI Build実行成功
 

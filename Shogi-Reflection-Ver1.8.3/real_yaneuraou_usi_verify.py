@@ -62,7 +62,7 @@ checks: dict[str, bool] = {name: False for name in PROTOCOL_CHECKS}
 actual_names = {
     "js": metadata.get("jsFile"),
     "wasm": metadata.get("wasmFile"),
-    "worker": metadata.get("workerFile"),
+    "workerBootstrap": metadata.get("workerBootstrapFile"),
 }
 
 if manifest.get("available") is not True or metadata.get("measured") is not True:
@@ -74,17 +74,34 @@ if manifest.get("available") is not True or metadata.get("measured") is not True
     print(reason)
     raise SystemExit(2)
 
+if metadata.get("pthreadWorkerPackaging") != "MAIN_JS_SELF_WORKER" or metadata.get("generatedPthreadWorkerCount") != 0:
+    reason = (
+        f"Unexpected pthread packaging for pinned Emscripten 4.0.15: "
+        f"packaging={metadata.get('pthreadWorkerPackaging')}, count={metadata.get('generatedPthreadWorkerCount')}."
+    )
+    write_result(passed=False, status="NOT_RUN_PTHREAD_PACKAGING_MISMATCH", wasm_sha256=metadata.get("wasmSha256"), checks=checks, reason=reason)
+    print(reason)
+    raise SystemExit(2)
+if metadata.get("workerFile") is not None or metadata.get("workerSha256") is not None or manifest.get("pthreadWorkerUrl") is not None:
+    reason = "A separate pthread worker asset was fabricated or unexpectedly configured; Emscripten 4.0.15 should reuse the generated main JS."
+    write_result(passed=False, status="NOT_RUN_PTHREAD_PACKAGING_MISMATCH", wasm_sha256=metadata.get("wasmSha256"), checks=checks, reason=reason)
+    print(reason)
+    raise SystemExit(2)
+
 missing_names = [kind for kind, name in actual_names.items() if not name]
-missing_files = [str(name) for name in actual_names.values() if name and not (engine_dir / name).is_file()]
+def asset_path(kind: str, name: str) -> Path:
+    return (ROOT / name) if kind == "workerBootstrap" else (engine_dir / name)
+
+missing_files = [str(name) for kind, name in actual_names.items() if name and not asset_path(kind, name).is_file()]
 if missing_names or missing_files:
     reason = f"Build metadata/output mismatch. Missing names={missing_names}; missing files={missing_files}."
     write_result(passed=False, status="NOT_RUN_REAL_WASM_ASSET_UNAVAILABLE", wasm_sha256=None, checks=checks, reason=reason)
     print(reason)
     raise SystemExit(2)
 
-for kind, field in [("js", "jsSha256"), ("wasm", "wasmSha256"), ("worker", "workerSha256")]:
+for kind, field in [("js", "jsSha256"), ("wasm", "wasmSha256"), ("workerBootstrap", "workerBootstrapSha256")]:
     name = actual_names[kind]
-    actual = sha256(engine_dir / name)
+    actual = sha256(asset_path(kind, name))
     expected_metadata = metadata.get(field)
     expected_manifest = manifest.get(field)
     if not expected_metadata or not expected_manifest or actual != expected_metadata or actual != expected_manifest:

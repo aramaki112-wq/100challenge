@@ -35,6 +35,13 @@ jobs:
       - name: Checkout Shogi Reflection
         uses: actions/checkout@v4.2.2
 
+      - name: Prepare shell script permissions
+        shell: bash
+        run: |
+          set -euo pipefail
+          find scripts -maxdepth 1 -type f -name "*.sh" -print -exec chmod +x {} \;
+          ls -l scripts/*.sh
+
       - name: Record runner environment
         shell: bash
         run: |
@@ -98,7 +105,7 @@ jobs:
         run: |
           set -euo pipefail
           source "$EMSDK_DIR/emsdk_env.sh"
-          ./scripts/build-yaneuraou-wasm.sh "$YANEURAOU_SOURCE_DIR" "$GITHUB_WORKSPACE/engine/yaneuraou" "$GITHUB_WORKSPACE/build-record"
+          bash ./scripts/build-yaneuraou-wasm.sh "$YANEURAOU_SOURCE_DIR" "$GITHUB_WORKSPACE/engine/yaneuraou" "$GITHUB_WORKSPACE/build-record"
 
       - name: Package corresponding-source evidence
         shell: bash
@@ -117,9 +124,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ./scripts/verify-yaneuraou-wasm.sh
+          bash ./scripts/verify-yaneuraou-wasm.sh
           node scripts/update-engine-license-gate.mjs --built
-          ./scripts/run-node-tests-with-evidence.sh
+          bash ./scripts/run-node-tests-with-evidence.sh
           npm run check
 
       - name: Install pinned Real Engine browser verifier
@@ -164,6 +171,7 @@ jobs:
           retention-days: 30
           path: |
             engine/yaneuraou/
+            YaneuraOuWasmWorkerBootstrap.js
             ENGINE_BUILD_METADATA.json
             ENGINE_BUILD_RESULT.txt
             ENGINE_ASSET_SHA256SUMS.txt
@@ -189,6 +197,7 @@ jobs:
             requirements-real-engine.txt
             ENGINE_BUILD_REPRODUCIBILITY.md
             YANEURAOU_WASM_BUILD_BRIDGE.md
+            ENGINE_BUILD_INCIDENT_002_PTHREAD_WORKER_PACKAGING.md
             ENGINE_SOURCE_DISTRIBUTION_PLAN.md
             ENGINE_LICENSE_AUDIT.md
             THIRD_PARTY_NOTICES.md

@@ -17,8 +17,8 @@ Use this checklist for the exact artifact that will be shipped. A check from a p
 - [x] MATERIAL_LEVEL=1 selected; external NNUE/水匠 weights excluded.
 - [ ] Real JS generated from exact clean commit.
 - [ ] Real WASM generated from exact clean commit.
-- [ ] Actual pthread Worker generated and filename recorded.
-- [ ] JS/WASM/Worker SHA-256 fixed.
+- [x] Pinned Emscripten 4.0.15 packaging verified: separate pthread `.worker.js` is not generated; `MAIN_JS_SELF_WORKER` recorded.
+- [ ] generated JS/WASM + application Worker bootstrap SHA-256 fixed by corrected Real build.
 - [ ] Generated-output license/notice review completed.
 - [ ] Any local patches recorded (Ver.1.8.3 bridge currently permits none).
 

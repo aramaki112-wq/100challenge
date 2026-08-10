@@ -13,8 +13,8 @@ A YaneuraOu WASM asset is accepted only when all of the following can be tied to
 4. fixed Emscripten 4.0.15 target and verified official release mapping;
 5. actual compiler/runtime versions;
 6. exact Make command;
-7. actual generated JS/WASM/Worker filenames;
-8. SHA-256 for every runtime Engine asset;
+7. actual generated JS/WASM filenames and measured pthread Worker packaging mode;
+8. SHA-256 for generated JS/WASM and the application Worker bootstrap;
 9. runner/build environment record;
 10. Corresponding Source evidence archive;
 11. runtime manifest matching those hashes;
@@ -49,8 +49,10 @@ A YaneuraOu WASM asset is accepted only when all of the following can be tied to
 - LLVM version;
 - Node version;
 - Python version;
-- JS/WASM/Worker actual filenames;
-- JS/WASM/Worker SHA-256.
+- JS/WASM actual filenames;
+- pthread Worker packaging mode and generated pthread Worker count;
+- JS/WASM SHA-256;
+- application Worker bootstrap filename/SHA-256.
 
 No null field in the current NOT-BUILT metadata is described as a measured fact.
 
@@ -85,7 +87,8 @@ Successful build evidence:
 
 - `engine/yaneuraou/yaneuraou.js`
 - `engine/yaneuraou/yaneuraou.wasm`
-- actual `engine/yaneuraou/yaneuraou*.worker.js`
+- no separate generated pthread `.worker.js` under Emscripten 4.0.15 (`MAIN_JS_SELF_WORKER` packaging)
+- `YaneuraOuWasmWorkerBootstrap.js` (application-level Worker boundary)
 - `ENGINE_ASSET_SHA256SUMS.txt`
 - `ENGINE_BUILD_METADATA.json`
 - `ENGINE_BUILD_RESULT.txt`

@@ -89,8 +89,8 @@ Ver.1.7以前の履歴はSource of Truth ZIP内のBaseline CHANGELOGとSHA-256 m
 - GitHub Actionsによるofficial YaneuraOu V9.00 exact-commit Build Bridgeを追加。
 - emsdk/Emscripten 4.0.15とofficial release mappingを固定。
 - MATERIAL_LEVEL=1 / TARGET_CPU=WASM / COMPILER=em++を固定。
-- actual generated pthread Worker名をBuild結果から検出する方式へ変更。
-- JS/WASM/Worker SHA-256と`ENGINE_BUILD_METADATA.json`生成を追加。
+- GitHub Actions実測でEmscripten 4.0.15がseparate pthread `.worker.js`を生成しないことを確認し、`MAIN_JS_SELF_WORKER` packagingを記録する方式へ修正。
+- generated JS/WASMと`YaneuraOuWasmWorkerBootstrap.js`のSHA-256、`ENGINE_BUILD_METADATA.json`生成を追加。
 - exact-commit Corresponding Source evidence archive生成を追加。
 - Real Artifact Gateをmeasured Build Metadata必須へ強化。
 - Real USI verifierとReal Application E2E verifierを分離し、同一WASM SHA-256照合をFormal Gateへ追加。

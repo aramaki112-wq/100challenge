@@ -4,7 +4,9 @@ Date: 2026-08-10
 
 ## Current NOT-FORMAL ZIP
 
-Real YaneuraOu JS/WASM/Worker: **NOT BUNDLED**.
+Real YaneuraOu generated JS/WASM: **NOT BUNDLED**.
+
+Pinned Emscripten 4.0.15 emits **no separate pthread `.worker.js`**. Shogi Reflection's first-party `YaneuraOuWasmWorkerBootstrap.js` is bundled as the application Worker boundary.
 Therefore this package is not claiming a completed binary Corresponding Source delivery.
 
 ## Exact Commit

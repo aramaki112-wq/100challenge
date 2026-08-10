@@ -41,21 +41,31 @@ test("Build verifies official wasm_pre bridge instead of bypassing it",()=>{
   const s=read("scripts/build-yaneuraou-wasm.sh"); assert.match(s,/wasm_pre\.js/); assert.match(s,/postMessage/); assert.match(s,/usi_command/);
 });
 
-test("Generated pthread worker filename is discovered from actual output",()=>{
-  const s=read("scripts/build-yaneuraou-wasm.sh"); assert.match(s,/find .*yaneuraou\*\.worker\.js/); assert.match(s,/expected exactly one generated pthread worker/);
+test("Pinned Emscripten 4.0.15 records main-JS pthread packaging and rejects fabricated worker files",()=>{
+  const s=read("scripts/build-yaneuraou-wasm.sh");
+  assert.match(s,/find .*yaneuraou\*\.worker\.js/);
+  assert.match(s,/MAIN_JS_SELF_WORKER/);
+  assert.match(s,/should not emit a separate pthread \.worker\.js/);
 });
 
-test("Actual JS WASM Worker each receive SHA-256",()=>{
-  const s=read("scripts/hash-engine-assets.sh"); assert.ok((s.match(/sha256sum/g)||[]).length>=3); assert.match(s,/yaneuraou\.wasm/); assert.match(s,/worker\.js/);
+test("Actual JS WASM and application Worker bootstrap each receive SHA-256",()=>{
+  const s=read("scripts/hash-engine-assets.sh");
+  assert.ok((s.match(/sha256sum/g)||[]).length>=3);
+  assert.match(s,/yaneuraou\.wasm/);
+  assert.match(s,/YaneuraOuWasmWorkerBootstrap\.js/);
+  assert.match(s,/Emscripten 4\.0\.15 should not emit a separate/);
 });
 
 test("Build Metadata contains requested traceability fields without pretending unmeasured values",()=>{
   const m=json("ENGINE_BUILD_METADATA.json");
-  for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
+  for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","pthreadWorkerPackaging","generatedPthreadWorkerCount","workerBootstrapFile","workerBootstrapSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
+  assert.equal(m.workerFile,null); assert.equal(m.workerSha256,null);
   if (m.measured === false) {
-    assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null); assert.equal(m.workerSha256,null);
+    assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null); assert.equal(m.workerBootstrapSha256,null);
   } else {
-    assert.equal(m.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerSha256); assert.ok(m.emccVersion); assert.ok(m.emppVersion); assert.ok(m.llvmVersion);
+    assert.equal(m.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerBootstrapSha256);
+    assert.equal(m.pthreadWorkerPackaging,"MAIN_JS_SELF_WORKER"); assert.equal(m.generatedPthreadWorkerCount,0);
+    assert.ok(m.emccVersion); assert.ok(m.emppVersion); assert.ok(m.llvmVersion);
   }
 });
 
@@ -64,12 +74,19 @@ test("Manifest is fail-closed before build and hash-bound after build",()=>{
   if (m.available === false) {
     assert.equal(meta.measured,false); assert.equal(m.pthreadWorkerUrl,null); assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null);
   } else {
-    assert.equal(meta.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerSha256); assert.ok(m.pthreadWorkerUrl);
+    assert.equal(meta.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerBootstrapSha256);
+    assert.equal(m.pthreadWorkerUrl,null); assert.equal(m.workerSha256,null);
+    assert.equal(m.pthreadWorkerPackaging,"MAIN_JS_SELF_WORKER"); assert.equal(m.generatedPthreadWorkerCount,0);
   }
 });
 
-test("Artifact gate requires measured metadata as well as files and hashes",()=>{
-  const s=read("scripts/real-yaneuraou-artifact-gate.mjs"); assert.match(s,/metadata\.measured !== true/); assert.match(s,/Emscripten release commit mapping mismatch/); assert.match(s,/workerFile/);
+test("Artifact gate requires measured metadata, main-JS pthread packaging, files and hashes",()=>{
+  const s=read("scripts/real-yaneuraou-artifact-gate.mjs");
+  assert.match(s,/metadata\.measured !== true/);
+  assert.match(s,/Emscripten release commit mapping mismatch/);
+  assert.match(s,/MAIN_JS_SELF_WORKER/);
+  assert.match(s,/workerBootstrapFile/);
+  assert.match(s,/workerFile !== null/);
 });
 
 test("Formal gate requires Real protocol, analysis, candidate and navigation evidence",()=>{

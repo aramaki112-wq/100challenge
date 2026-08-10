@@ -9,6 +9,8 @@ on:
       - "Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh"
       - "Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs"
       - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh"
+      - "Shogi-Reflection-Ver1.8.3/scripts/real-yaneuraou-artifact-gate.mjs"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py"
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py"
       - "Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt"
@@ -187,6 +189,7 @@ jobs:
           retention-days: 30
           path: |
             Shogi-Reflection-Ver1.8.3/engine/yaneuraou/
+            Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_METADATA.json
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_RESULT.txt
             Shogi-Reflection-Ver1.8.3/ENGINE_ASSET_SHA256SUMS.txt
@@ -205,6 +208,7 @@ jobs:
             Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh
             Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs
             Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh
+            Shogi-Reflection-Ver1.8.3/scripts/real-yaneuraou-artifact-gate.mjs
             Shogi-Reflection-Ver1.8.3/scripts/update-engine-license-gate.mjs
             Shogi-Reflection-Ver1.8.3/scripts/run-node-tests-with-evidence.sh
             Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py
@@ -212,6 +216,8 @@ jobs:
             Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_REPRODUCIBILITY.md
             Shogi-Reflection-Ver1.8.3/YANEURAOU_WASM_BUILD_BRIDGE.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_001_SHELL_PERMISSION.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_002_PTHREAD_WORKER_PACKAGING.md
             Shogi-Reflection-Ver1.8.3/ENGINE_SOURCE_DISTRIBUTION_PLAN.md
             Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_AUDIT.md
             Shogi-Reflection-Ver1.8.3/THIRD_PARTY_NOTICES.md

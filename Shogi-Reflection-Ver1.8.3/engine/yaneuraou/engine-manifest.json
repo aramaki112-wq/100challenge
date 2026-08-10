@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "available": false,
   "status": "NOT_BUILT_IN_CURRENT_VERIFICATION_ENVIRONMENT",
   "engineName": "YaneuraOu",
@@ -29,5 +29,8 @@
   "resourceProfileStatus": "UPSTREAM_WASM_DEFAULTS_NOT_SMARTPHONE_VALIDATED",
   "emsdkVersion": "4.0.15",
   "expectedEmscriptenReleaseCommit": "b412b6307e541b93dd93f01b61181e15c17302ec",
-  "buildMetadataUrl": "./ENGINE_BUILD_METADATA.json"
+  "buildMetadataUrl": "./ENGINE_BUILD_METADATA.json",
+  "pthreadWorkerPackaging": "MAIN_JS_SELF_WORKER_EXPECTED_FOR_EMSCRIPTEN_4_0_15",
+  "generatedPthreadWorkerCount": null,
+  "workerBootstrapSha256": null
 }

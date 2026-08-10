@@ -16,7 +16,7 @@ Ver.1.8.3 successfully adds the reproducible YaneuraOu WASM Build Bridge and str
 - Emscripten 4.0.15 fixed with official release mapping check.
 - exact compiler/runner provenance capture designed.
 - actual generated worker filename discovery implemented.
-- JS/WASM/Worker SHA-256 automation implemented.
+- generated JS/WASM + application Worker bootstrap SHA-256 automation implemented; Emscripten 4.0.15 `MAIN_JS_SELF_WORKER` packaging recorded.
 - measured `ENGINE_BUILD_METADATA.json` generation implemented.
 - Corresponding Source evidence packaging implemented.
 - downloaded Build artifact integration + hash gate implemented.
@@ -28,7 +28,7 @@ Ver.1.8.3 successfully adds the reproducible YaneuraOu WASM Build Bridge and str
 ## Hard Gate still unmet
 
 - Emscripten build executed successfully in an accessible build runner.
-- measured JS/WASM/Worker hashes from that build.
+- measured JS/WASM + application Worker bootstrap hashes and verified `MAIN_JS_SELF_WORKER` packaging from that build.
 - Real Browser load of those exact hashes.
 - Real YaneuraOu initialize and full USI evidence.
 - Real cp/mate/MultiPV/evaluation sanity positions.

@@ -259,7 +259,7 @@ Commit一致、dirty sourceなし、emsdk 4.0.15 mapping一致、emcc/em++/LLVM�
 
 ### STEP 6 — Build ArtifactへTraceabilityを埋め込む
 #### 1. 🎯 このSTEPの目的
-JS/WASM/Workerを実生成物として確定し、SHA-256とBuild Metadataへ結び付ける。
+JS/WASMを実生成物として確定し、Emscripten 4.0.15のpthread packaging（main JS self-worker）とApplication Worker BootstrapをSHA-256/Build Metadataへ結び付ける。
 #### 2. 🤔 なぜこの作業をするのか
 想定File名や推測したCompiler情報では、Real RuntimeがどのBinaryを使ったか証明できないため。
 #### 3. 💻 コードを書く
@@ -267,7 +267,7 @@ JS/WASM/Workerを実生成物として確定し、SHA-256とBuild Metadataへ結
 #### 4. 💡 設計者のひとこと
 Artifact名よりHashを信頼する。名前が同じでも中身が違えば別Buildである。
 #### 5. ✅ チェックポイント
-JS/WASM/Workerが各1つ、hash一致、metadata.measured=true、runtime manifestと一致。
+JS/WASMが各1つ、separate pthread workerが0件、Application Worker Bootstrapが存在し、それぞれ必要Hash一致、metadata.measured=true、runtime manifestと一致。
 #### 6. ▶ 次へ進む条件
 Real Artifact Gateが同じ実測情報だけでPASSできること。
 

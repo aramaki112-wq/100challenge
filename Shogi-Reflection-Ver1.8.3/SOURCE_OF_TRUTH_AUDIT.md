@@ -60,8 +60,10 @@ The upstream pthread/memory/stack values are recorded as reproducibility inputs 
 - external GitHub clone from container: **failed (`Could not resolve host: github.com`)**
 - Real YaneuraOu JS generated: **NO**
 - Real YaneuraOu WASM generated: **NO**
-- generated pthread Worker: **NO**
-- JS/WASM/Worker measured SHA-256: **NO**
+- separate generated pthread Worker: **NOT EXPECTED for Emscripten 4.0.15**
+- GitHub Actions Run #2 upstream `make`: **COMPLETED before first-party post-build worker assumption failed**
+- generated JS/WASM retained in app artifact: **NO — bridge stopped before copy/hash**
+- JS/WASM/application-bootstrap measured SHA-256: **NO — Run #3 required**
 - Real Artifact Gate: **FAIL as designed**
 - Real USI result: **NOT RUN — Real asset unavailable**
 - Real Application E2E result: **NOT RUN — Real asset unavailable**

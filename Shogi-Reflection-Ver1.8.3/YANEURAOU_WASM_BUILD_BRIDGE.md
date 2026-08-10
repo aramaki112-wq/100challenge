@@ -63,11 +63,13 @@ The script refuses:
 - missing `emcc` / `em++`;
 - missing upstream MATERIAL/WASM/`wasm_pre.js` evidence;
 - missing JS/WASM output;
-- zero or multiple generated pthread-worker candidates.
+- any unexpected separate `yaneuraou*.worker.js` output under pinned Emscripten 4.0.15.
 
 ## 5. Actual output is Source of Truth
 
-The Bridge assumes only the two upstream target products documented by the pinned Makefile (`yaneuraou.js` and its `.wasm`). The pthread worker is discovered from the actual generated `yaneuraou*.worker.js` output. Its measured filename is written to Build Metadata and the runtime manifest. No nonexistent worker filename is invented as a successful result.
+The Bridge accepts the actual upstream build products documented by the pinned Makefile: `yaneuraou.js` and its emitted `yaneuraou.wasm`. A second GitHub Actions run confirmed that the compile reached completion but the original bridge failed only because it expected a separate pthread `.worker.js`. Official Emscripten 4.0.15 behavior is different: pthreads reuse the main generated JavaScript as the Worker script and no separate `.worker.js` is emitted.
+
+Therefore the measured result is recorded as `pthreadWorkerPackaging=MAIN_JS_SELF_WORKER`, `generatedPthreadWorkerCount=0`, `workerFile=null`, and `workerSha256=null`. Shogi Reflection's own `YaneuraOuWasmWorkerBootstrap.js` remains the outer classic Worker boundary and receives its own SHA-256. No nonexistent generated Worker filename is invented.
 
 ## 6. Official wasm_pre.js boundary
 
@@ -125,7 +127,7 @@ The workflow:
 8. verifies clean checkout;
 9. runs the fixed MATERIAL WASM build;
 10. checks actual outputs;
-11. hashes JS/WASM/Worker;
+11. hashes generated JS/WASM plus the application Worker bootstrap;
 12. generates measured metadata;
 13. creates a source evidence tarball from the exact checkout;
 14. stores upstream README/Makefile/wasm_pre.js and Emscripten license evidence when present;

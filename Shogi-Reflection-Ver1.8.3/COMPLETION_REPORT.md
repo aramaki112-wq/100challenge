@@ -18,8 +18,8 @@ Accordingly the output remains a **NOT-FORMAL candidate**. The formal filename `
 - clean upstream checkout requirement
 - fixed MATERIAL_LEVEL=1 / WASM / em++ build command
 - measured compiler/runner provenance capture
-- actual generated pthread Worker discovery
-- JS/WASM/Worker SHA-256 automation
+- Emscripten 4.0.15 pthread packaging detection (`MAIN_JS_SELF_WORKER`, no separate `.worker.js`)
+- generated JS/WASM + application Worker bootstrap SHA-256 automation
 - `ENGINE_BUILD_METADATA.json` measured/unmeasured distinction
 - exact-commit Corresponding Source archive generation by `git archive`
 - Build Artifact integration script + Real Artifact Gate
@@ -82,10 +82,12 @@ These are **reproducibility facts, not smartphone optimization claims**.
 | actual Python Version | NOT MEASURED |
 | JS filename | NOT GENERATED |
 | WASM filename | NOT GENERATED |
-| Worker filename | NOT GENERATED |
+| Separate generated pthread Worker filename | NOT APPLICABLE for Emscripten 4.0.15; expected count=0 |
+| Application Worker bootstrap | `YaneuraOuWasmWorkerBootstrap.js` (first-party runtime boundary; hash measured after Build Bridge run) |
 | JS SHA-256 | NOT AVAILABLE |
 | WASM SHA-256 | NOT AVAILABLE |
-| Worker SHA-256 | NOT AVAILABLE |
+| Separate pthread Worker SHA-256 | NOT APPLICABLE; field remains null |
+| Application Worker bootstrap SHA-256 | NOT AVAILABLE until corrected CI run |
 
 `ENGINE_BUILD_METADATA.json` intentionally keeps these fields null and `measured=false`.
 
@@ -190,7 +192,7 @@ Current machine result: **NOT_FORMAL**.
 The following hard gates remain unresolved because the Real artifact is absent:
 
 1. official-source Emscripten build success;
-2. measured JS/WASM/Worker hashes;
+2. measured JS/WASM + application Worker bootstrap hashes and `MAIN_JS_SELF_WORKER` packaging evidence;
 3. Real Browser load;
 4. Real USI/evaluation/bestmove/PV/cancel/re-analysis;
 5. Real Sample KIF full-ply application E2E;

@@ -1,9 +1,13 @@
 /*
  * Classic Worker bootstrap for the official-source Emscripten YaneuraOu build.
- * Expected generated assets:
+ * Expected runtime assets:
  *   ./engine/yaneuraou/yaneuraou.js
  *   ./engine/yaneuraou/yaneuraou.wasm
- *   ./engine/yaneuraou/yaneuraou.worker.js (when emitted by Emscripten pthreads)
+ *
+ * Pinned Emscripten 4.0.15 does NOT emit a separate pthread .worker.js.
+ * Its pthread runtime reuses the generated main JS as the pthread Worker script.
+ * This file is Shogi Reflection's outer classic Worker bootstrap and remains the
+ * BrowserWorkerUsiTransport boundary.
  *
  * The official V9.00 source/wasm_pre.js exposes a small Module API:
  *   addMessageListener(listener)

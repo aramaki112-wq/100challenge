@@ -64,7 +64,7 @@ def write_not_run(reason: str) -> None:
 manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
 metadata = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
 engine_dir = MANIFEST_PATH.parent
-actual = {"js": metadata.get("jsFile"), "wasm": metadata.get("wasmFile"), "worker": metadata.get("workerFile")}
+actual = {"js": metadata.get("jsFile"), "wasm": metadata.get("wasmFile"), "workerBootstrap": metadata.get("workerBootstrapFile")}
 
 if manifest.get("available") is not True or metadata.get("measured") is not True:
     reason = (
@@ -75,16 +75,33 @@ if manifest.get("available") is not True or metadata.get("measured") is not True
     print(reason)
     raise SystemExit(2)
 
-missing = [name for name in actual.values() if not name or not (engine_dir / name).is_file()]
+if metadata.get("pthreadWorkerPackaging") != "MAIN_JS_SELF_WORKER" or metadata.get("generatedPthreadWorkerCount") != 0:
+    reason = (
+        f"Unexpected pthread packaging for pinned Emscripten 4.0.15: "
+        f"packaging={metadata.get('pthreadWorkerPackaging')}, count={metadata.get('generatedPthreadWorkerCount')}."
+    )
+    write_not_run(reason)
+    print(reason)
+    raise SystemExit(2)
+if metadata.get("workerFile") is not None or metadata.get("workerSha256") is not None or manifest.get("pthreadWorkerUrl") is not None:
+    reason = "A separate pthread worker asset was fabricated or unexpectedly configured; Emscripten 4.0.15 should reuse the generated main JS."
+    write_not_run(reason)
+    print(reason)
+    raise SystemExit(2)
+
+def asset_path(kind: str, name: str) -> Path:
+    return (ROOT / name) if kind == "workerBootstrap" else (engine_dir / name)
+
+missing = [name for kind, name in actual.items() if not name or not asset_path(kind, name).is_file()]
 if missing:
     reason = f"Measured build metadata does not resolve all real assets: {missing}"
     write_not_run(reason)
     print(reason)
     raise SystemExit(2)
 
-for kind, field in [("js", "jsSha256"), ("wasm", "wasmSha256"), ("worker", "workerSha256")]:
+for kind, field in [("js", "jsSha256"), ("wasm", "wasmSha256"), ("workerBootstrap", "workerBootstrapSha256")]:
     name = actual[kind]
-    actual_hash = sha256(engine_dir / name)
+    actual_hash = sha256(asset_path(kind, name))
     if actual_hash != metadata.get(field) or actual_hash != manifest.get(field):
         reason = f"{name} SHA-256 mismatch before browser execution."
         write_not_run(reason)
@@ -113,7 +130,7 @@ performance: dict[str, object] = {
     "assetSizeBytes": {
         "js": (engine_dir / actual["js"]).stat().st_size,
         "wasm": (engine_dir / actual["wasm"]).stat().st_size,
-        "worker": (engine_dir / actual["worker"]).stat().st_size,
+        "workerBootstrap": (ROOT / actual["workerBootstrap"]).stat().st_size,
     }
 }
 

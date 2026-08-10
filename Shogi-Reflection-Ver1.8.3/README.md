@@ -68,7 +68,7 @@ Production Providerは次の順序で解決します。
 
 Build helper: `scripts/build-yaneuraou-wasm.sh`
 
-正式Build時はOutput JS/WASM/WorkerのSHA-256とEmscripten Versionを`engine-manifest.json`へ記録してください。
+正式Build時はgenerated JS/WASMとApplication Worker BootstrapのSHA-256、Emscripten Version、pthread Worker Packaging Modeを`engine-manifest.json`へ記録してください。
 
 ## Smartphone-first Preset
 
@@ -182,7 +182,7 @@ Ver.1.8.3は、Ver.1.8.2 NOT-FORMALをSource of TruthとしてReal YaneuraOuを�
 - Evaluation: built-in MATERIAL / `MATERIAL_LEVEL=1`
 - Toolchain target: emsdk / Emscripten `4.0.15`
 - Build: `TARGET_CPU=WASM COMPILER=em++`
-- outputs: actual generated JS/WASM/pthread Workerを採用しSHA-256固定
+- outputs: actual generated JS/WASMを採用しSHA-256固定。Emscripten 4.0.15はseparate pthread `.worker.js`を生成しないため`MAIN_JS_SELF_WORKER`を記録し、Application Worker Bootstrapを別Hash化
 - Real Evidence: USIとApplication E2Eを別Resultへ記録し、同一WASM hashを要求
 - License: Build successとPublic/Commercial Distribution readinessを分離
 

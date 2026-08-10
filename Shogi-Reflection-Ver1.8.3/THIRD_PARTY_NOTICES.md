@@ -4,7 +4,7 @@ Date: 2026-08-10
 
 ## Current package status
 
-**No Real YaneuraOu JS/WASM/pthread Worker binary is bundled in this NOT-FORMAL package.**
+**No Real YaneuraOu generated JS/WASM binary is bundled in this NOT-FORMAL package.** Pinned Emscripten 4.0.15 does not emit a separate pthread `.worker.js`; the first-party `YaneuraOuWasmWorkerBootstrap.js` is not a YaneuraOu binary.
 
 The following third-party components are referenced by the reproducible Build Bridge. Their inclusion in this notice does not mean every component is redistributed with the app.
 
