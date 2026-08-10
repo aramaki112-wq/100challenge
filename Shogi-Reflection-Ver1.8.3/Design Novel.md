@@ -1,0 +1,38 @@
+# Ver.1.8 Design Novel — Engineを答えではなく鏡にする
+
+棋譜を振り返るとき、欲しいのは「47手目は間違いだった」という判決だけではない。
+
+本当に役立つのは、その局面へ戻り、自分が指した手と、別の可能性を盤面で並べて考えることだ。
+
+Ver.1.8では、Candidateを二つに分けた。良かった手と、考え直したい手。どちらも最大5件で、数字合わせのために水増しはしない。悪かった手にはEngine推奨、推奨評価、実戦後評価、その差、短い読み筋を添える。
+
+しかしCardを読んだだけでは振り返りは終わらない。
+
+「局面を見る」を押す。新しいEngine専用盤は開かない。これまで使ってきたReplayがその手数へ進み、Current Move、Snapshot、Board、Move List Highlightが同時に更新される。そして、この操作だけは盤面が見える位置まで画面が動く。
+
+そこから先は本人の仕事である。
+
+なぜその手を選んだのか。相手の何を見落としたのか。Engine推奨手はなぜ候補に入らなかったのか。盤面を見て必要だと思ったときだけ重要局面へ追加し、STEP4でFACT、INTERPRETATION、HYPOTHESISを書く。
+
+Engineは答えを押し付ける先生ではない。自分の思考との差を見せる鏡である。
+
+もう一つ、Ver.1.8には別の境界がある。YaneuraOuは強力だが、「Sourceが公開されている」と「このApplicationへ安全にBundleできる」は同じではない。Source、WASM、Evaluation、Build Toolchain、Corresponding Source。それぞれを説明できなければ正式配布物へ入れない。
+
+今回はV9.00 MATERIAL WASMへの道筋をArchitectureとして作った。しかしBuild環境にEmscriptenが無く、本物のWASMを実行できなかった。だから「完成した」と名前だけ先へ進めない。
+
+最強Engineを急いで載せるより、交換できる境界、止められる探索、壊れないReplay、説明できるLicenseを先に整える。
+
+その上で本物のYaneuraOuが入ったとき、Applicationの中心は変わらない。
+
+**Engineの答えを見ることではなく、その差から自分の思考を振り返ること。**
+## Ver.1.8.2 Finalization Record
+
+### 評価値の線を「地図」にする
+
+グラフの線そのものを答えにしない。線が大きく揺れた場所、候補marker、本人が選んだKeyPositionを入口として盤面へ戻り、「なぜその手を選べなかったか」を本人の言葉で残す。
+
+## Ver.1.8.3 — 棋士より先に、棋譜のあるEngineを作る
+
+盤上で強い手を返すだけなら、どこかからWASMを拾ってきても動くかもしれない。けれど、このアプリで欲しいのは「強そうな箱」ではない。後から振り返ったときに、どのSourceを、どのCommitで、どのCompilerで、どのCommandから作ったのか辿れるEngineである。
+
+だからVer.1.8.3では、Engineの一手より先にEngine自身の棋譜を残す。Source、Build Log、Toolchain、Hash、USI Evidence、Application E2E Evidenceがその棋譜になる。Real Engineは本人のFACT・INTERPRETATION・HYPOTHESISを書き換えず、あくまで「自分の実戦手と比較する鏡」に留まる。

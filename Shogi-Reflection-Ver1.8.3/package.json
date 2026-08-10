@@ -1,0 +1,20 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.8.3",
+  "private": true,
+  "type": "module",
+  "description": "Shogi Reflection Ver.1.8.3 NOT-FORMAL Build Bridge candidate: reproducible pinned YaneuraOu V9.00 MATERIAL WASM build pipeline and explicit Real Engine Formal Gates",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs",
+    "test:real-yaneuraou-artifact": "node scripts/real-yaneuraou-artifact-gate.mjs",
+    "test:formal-gate": "node scripts/formal-completion-gate.mjs",
+    "build:metadata": "node scripts/update-engine-build-metadata.mjs",
+    "test:real-yaneuraou-browser": "python3 real_yaneuraou_browser_verify.py",
+    "test:real-yaneuraou-usi": "python3 real_yaneuraou_usi_verify.py"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

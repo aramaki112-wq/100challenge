@@ -1,0 +1,42 @@
+Shogi Reflection Ver.1.8 Visual Verification
+=============================================
+Browser: Chromium via Playwright
+Viewport: 390x844
+Checks: 24
+Passed: 24
+Failed: 0
+
+[PASS] 通常盤面 Screenshot
+[PASS] 通常盤面 81升
+[PASS] 成駒 Gallery 5種 | {'svg': 5, 'labels': ['成桂', '成香', '成銀', '馬', '龍']}
+[PASS] 成桂/成香/成銀/馬/龍
+[PASS] Board Flip Screenshot
+[PASS] Flip fixed geometry | ({'x': 28, 'y': -1129.484375, 'width': 334, 'height': 334}, {'x': 28, 'y': -65.484375, 'width': 334, 'height': 334})
+[PASS] Smartphone STEP3 Screenshot
+[PASS] Engine候補 visible
+[PASS] Good Candidate group visible
+[PASS] Bad Candidate group visible
+[PASS] Best Move label visible
+[PASS] Evaluation Graph Screenshot
+[PASS] Evaluation Graph SVG visible
+[PASS] Graph candidate marker visible
+[PASS] Candidate Group Screenshot
+[PASS] Board width within 390px
+[PASS] Candidate Jump Screenshot
+[PASS] Candidate Jump Board visible | {'top': 213.8125, 'bottom': 697.40625, 'viewport': 844, 'navBottom': 182.09375}
+[PASS] Candidate Jump Board clears Header | {'top': 213.8125, 'bottom': 697.40625, 'viewport': 844, 'navBottom': 182.09375}
+[PASS] Candidate Jump Current Move highlight
+[PASS] Graph KeyPosition marker visible
+[PASS] Graph -> STEP4 exact KeyPosition card | 1
+[PASS] Graph -> STEP4 FACT focus
+[PASS] Graph -> STEP4 Screenshot
+
+Screenshot files:
+- VISUAL_NORMAL_BOARD.png
+- VISUAL_PROMOTED_PIECES.png
+- VISUAL_BOARD_FLIP.png
+- VISUAL_SMARTPHONE_STEP3.png
+- VISUAL_CANDIDATE_GROUPS.png
+- VISUAL_CANDIDATE_JUMP_BOARD_SCROLL.png
+- VISUAL_EVALUATION_GRAPH_V182.png
+- VISUAL_GRAPH_TO_STEP4_V182.png

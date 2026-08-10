@@ -1,0 +1,5 @@
+Shogi Reflection Ver.1.8.3 Real YaneuraOu Browser E2E
+=====================================================
+Status: NOT RUN
+Reason: manifest.available=False; metadata.measured=False. Run the official-source Build Bridge and integrate its measured artifact first.
+Mock/ReflectionLocal evidence is intentionally not accepted here.

@@ -1,0 +1,4192 @@
+TAP version 13
+# Subtest: 現在局面をKeyPosition候補へ追加できる
+ok 1 - 現在局面をKeyPosition候補へ追加できる
+  ---
+  duration_ms: 7.308919
+  type: 'test'
+  ...
+# Subtest: 手数を自動入力できる
+ok 2 - 手数を自動入力できる
+  ---
+  duration_ms: 1.967802
+  type: 'test'
+  ...
+# Subtest: 指し手を自動入力できる
+ok 3 - 指し手を自動入力できる
+  ---
+  duration_ms: 2.117114
+  type: 'test'
+  ...
+# Subtest: Snapshotを生成できる
+ok 4 - Snapshotを生成できる
+  ---
+  duration_ms: 1.455144
+  type: 'test'
+  ...
+# Subtest: 元KIF指し手を保持できる
+ok 5 - 元KIF指し手を保持できる
+  ---
+  duration_ms: 1.529886
+  type: 'test'
+  ...
+# Subtest: FACTを自動入力しない
+ok 6 - FACTを自動入力しない
+  ---
+  duration_ms: 1.665893
+  type: 'test'
+  ...
+# Subtest: INTERPRETATIONを自動入力しない
+ok 7 - INTERPRETATIONを自動入力しない
+  ---
+  duration_ms: 1.266078
+  type: 'test'
+  ...
+# Subtest: HYPOTHESISを自動入力しない
+ok 8 - HYPOTHESISを自動入力しない
+  ---
+  duration_ms: 1.292391
+  type: 'test'
+  ...
+# Subtest: 感情を自動入力しない
+ok 9 - 感情を自動入力しない
+  ---
+  duration_ms: 1.352444
+  type: 'test'
+  ...
+# Subtest: 判断Patternを自動入力しない
+ok 10 - 判断Patternを自動入力しない
+  ---
+  duration_ms: 2.067986
+  type: 'test'
+  ...
+# Subtest: 学びを自動入力しない
+ok 11 - 学びを自動入力しない
+  ---
+  duration_ms: 1.014633
+  type: 'test'
+  ...
+# Subtest: 0手目を拒否できる
+ok 12 - 0手目を拒否できる
+  ---
+  duration_ms: 1.165812
+  type: 'test'
+  ...
+# Subtest: 同一手数の重複を検出できる
+ok 13 - 同一手数の重複を検出できる
+  ---
+  duration_ms: 0.581265
+  type: 'test'
+  ...
+# Subtest: 5件登録済みの場合は拒否できる
+ok 14 - 5件登録済みの場合は拒否できる
+  ---
+  duration_ms: 0.771029
+  type: 'test'
+  ...
+# Subtest: 空Cardは上限件数へ数えない
+ok 15 - 空Cardは上限件数へ数えない
+  ---
+  duration_ms: 1.299561
+  type: 'test'
+  ...
+# Subtest: Replay未開始を拒否できる
+ok 16 - Replay未開始を拒否できる
+  ---
+  duration_ms: 0.192006
+  type: 'test'
+  ...
+# Subtest: Form棋譜とのSource不一致を拒否できる
+ok 17 - Form棋譜とのSource不一致を拒否できる
+  ---
+  duration_ms: 1.390284
+  type: 'test'
+  ...
+# Subtest: Warning付き局面を追加できる
+ok 18 - Warning付き局面を追加できる
+  ---
+  duration_ms: 0.784325
+  type: 'test'
+  ...
+# Subtest: WarningをSnapshotへ引き継ぐ
+ok 19 - WarningをSnapshotへ引き継ぐ
+  ---
+  duration_ms: 0.885306
+  type: 'test'
+  ...
+# Subtest: 追加操作だけではRepositoryへ保存されない
+ok 20 - 追加操作だけではRepositoryへ保存されない
+  ---
+  duration_ms: 1.391874
+  type: 'test'
+  ...
+# Subtest: 既存入力配列を直接変更しない
+ok 21 - 既存入力配列を直接変更しない
+  ---
+  duration_ms: 2.151225
+  type: 'test'
+  ...
+# Subtest: Candidateは不変Objectである
+ok 22 - Candidateは不変Objectである
+  ---
+  duration_ms: 1.037984
+  type: 'test'
+  ...
+# Subtest: 追加結果は未保存状態を明示する
+ok 23 - 追加結果は未保存状態を明示する
+  ---
+  duration_ms: 2.477001
+  type: 'test'
+  ...
+# Subtest: AnalyzeGameは0手目を含む全解析plyの軽量Evaluation Timelineを返す
+ok 24 - AnalyzeGameは0手目を含む全解析plyの軽量Evaluation Timelineを返す
+  ---
+  duration_ms: 7.618546
+  type: 'test'
+  ...
+# Subtest: Best EvaluationとActual Evaluationは同じ本人視点でDifferenceへ接続される
+ok 25 - Best EvaluationとActual Evaluationは同じ本人視点でDifferenceへ接続される
+  ---
+  duration_ms: 2.083301
+  type: 'test'
+  ...
+# Subtest: 初回解析でMetadata・Settings・AnalyzedAtを保持する
+ok 26 - 初回解析でMetadata・Settings・AnalyzedAtを保持する
+  ---
+  duration_ms: 7.530261
+  type: 'test'
+  ...
+# Subtest: 本人が指した手だけをDelta対象にする
+ok 27 - 本人が指した手だけをDelta対象にする
+  ---
+  duration_ms: 2.832508
+  type: 'test'
+  ...
+# Subtest: Candidate Ranking結果は5件以下
+ok 28 - Candidate Ranking結果は5件以下
+  ---
+  duration_ms: 2.53315
+  type: 'test'
+  ...
+# Subtest: CancelはEngineへ伝播する
+ok 29 - CancelはEngineへ伝播する
+  ---
+  duration_ms: 0.208857
+  type: 'test'
+  ...
+# Subtest: 歩を移動できる
+ok 30 - 歩を移動できる
+  ---
+  duration_ms: 2.177084
+  type: 'test'
+  ...
+# Subtest: 一手適用後は手番を交代する
+ok 31 - 一手適用後は手番を交代する
+  ---
+  duration_ms: 0.426848
+  type: 'test'
+  ...
+# Subtest: 飛車を移動できる
+ok 32 - 飛車を移動できる
+  ---
+  duration_ms: 0.521291
+  type: 'test'
+  ...
+# Subtest: 角を移動できる
+ok 33 - 角を移動できる
+  ---
+  duration_ms: 0.361558
+  type: 'test'
+  ...
+# Subtest: 香を移動できる
+ok 34 - 香を移動できる
+  ---
+  duration_ms: 0.288824
+  type: 'test'
+  ...
+# Subtest: 桂を移動できる
+ok 35 - 桂を移動できる
+  ---
+  duration_ms: 0.214444
+  type: 'test'
+  ...
+# Subtest: 銀を移動できる
+ok 36 - 銀を移動できる
+  ---
+  duration_ms: 0.184217
+  type: 'test'
+  ...
+# Subtest: 金を移動できる
+ok 37 - 金を移動できる
+  ---
+  duration_ms: 0.16026
+  type: 'test'
+  ...
+# Subtest: 玉を移動できる
+ok 38 - 玉を移動できる
+  ---
+  duration_ms: 0.436023
+  type: 'test'
+  ...
+# Subtest: 駒を取れる
+ok 39 - 駒を取れる
+  ---
+  duration_ms: 0.573923
+  type: 'test'
+  ...
+# Subtest: 取った駒を持ち駒へ追加できる
+ok 40 - 取った駒を持ち駒へ追加できる
+  ---
+  duration_ms: 0.332134
+  type: 'test'
+  ...
+# Subtest: 成駒を取ると元の駒として持ち駒へ追加する
+ok 41 - 成駒を取ると元の駒として持ち駒へ追加する
+  ---
+  duration_ms: 0.169808
+  type: 'test'
+  ...
+# Subtest: 持ち駒を打てる
+ok 42 - 持ち駒を打てる
+  ---
+  duration_ms: 0.14471
+  type: 'test'
+  ...
+# Subtest: 駒打ち後に持ち駒が減る
+ok 43 - 駒打ち後に持ち駒が減る
+  ---
+  duration_ms: 0.082103
+  type: 'test'
+  ...
+# Subtest: 駒を成れる
+ok 44 - 駒を成れる
+  ---
+  duration_ms: 0.154595
+  type: 'test'
+  ...
+# Subtest: 不成を維持できる
+ok 45 - 不成を維持できる
+  ---
+  duration_ms: 0.090959
+  type: 'test'
+  ...
+# Subtest: 同の指し手を適用できる
+ok 46 - 同の指し手を適用できる
+  ---
+  duration_ms: 0.124356
+  type: 'test'
+  ...
+# Subtest: 移動元に駒がない場合は拒否する
+ok 47 - 移動元に駒がない場合は拒否する
+  ---
+  duration_ms: 0.458007
+  type: 'test'
+  ...
+# Subtest: 持ち駒にない駒打ちを拒否する
+ok 48 - 持ち駒にない駒打ちを拒否する
+  ---
+  duration_ms: 0.154147
+  type: 'test'
+  ...
+# Subtest: 駒があるSquareへの駒打ちを拒否する
+ok 49 - 駒があるSquareへの駒打ちを拒否する
+  ---
+  duration_ms: 0.12033
+  type: 'test'
+  ...
+# Subtest: 不正な移動先を拒否する
+ok 50 - 不正な移動先を拒否する
+  ---
+  duration_ms: 0.127062
+  type: 'test'
+  ...
+# Subtest: 自分の駒を取る移動を拒否する
+ok 51 - 自分の駒を取る移動を拒否する
+  ---
+  duration_ms: 0.11371
+  type: 'test'
+  ...
+# Subtest: 成れない駒の成りを拒否する
+ok 52 - 成れない駒の成りを拒否する
+  ---
+  duration_ms: 0.104088
+  type: 'test'
+  ...
+# Subtest: 成りZone外の成りを拒否する
+ok 53 - 成りZone外の成りを拒否する
+  ---
+  duration_ms: 0.091138
+  type: 'test'
+  ...
+# Subtest: 不正な不成表記を拒否する
+ok 54 - 不正な不成表記を拒否する
+  ---
+  duration_ms: 0.081973
+  type: 'test'
+  ...
+# Subtest: 先手後手の手番矛盾を拒否する
+ok 55 - 先手後手の手番矛盾を拒否する
+  ---
+  duration_ms: 0.199251
+  type: 'test'
+  ...
+# Subtest: 前のPositionを変更しない
+ok 56 - 前のPositionを変更しない
+  ---
+  duration_ms: 0.191174
+  type: 'test'
+  ...
+# Subtest: 元Square省略時に一意候補を解決する
+ok 57 - 元Square省略時に一意候補を解決する
+  ---
+  duration_ms: 0.258562
+  type: 'test'
+  ...
+# Subtest: 曖昧な元Squareを推測で決めず拒否する
+ok 58 - 曖昧な元Squareを推測で決めず拒否する
+  ---
+  duration_ms: 0.182131
+  type: 'test'
+  ...
+# Subtest: 右表記で候補を一意に絞る
+ok 59 - 右表記で候補を一意に絞る
+  ---
+  duration_ms: 0.960711
+  type: 'test'
+  ...
+# Subtest: 左表記で候補を一意に絞る
+ok 60 - 左表記で候補を一意に絞る
+  ---
+  duration_ms: 0.221077
+  type: 'test'
+  ...
+# Subtest: 滑走駒の途中に駒がある場合は拒否する
+ok 61 - 滑走駒の途中に駒がある場合は拒否する
+  ---
+  duration_ms: 0.132934
+  type: 'test'
+  ...
+# Subtest: Last MoveにSource KIF Moveを保持する
+ok 62 - Last MoveにSource KIF Moveを保持する
+  ---
+  duration_ms: 0.194928
+  type: 'test'
+  ...
+# Subtest: clear blunder: Best +280 vs Actual -410をBad検出
+ok 63 - clear blunder: Best +280 vs Actual -410をBad検出
+  ---
+  duration_ms: 1.049088
+  type: 'test'
+  ...
+# Subtest: quiet blunder: Material即時損がなくても探索評価差-160ならBad検出
+ok 64 - quiet blunder: Material即時損がなくても探索評価差-160ならBad検出
+  ---
+  duration_ms: 0.226277
+  type: 'test'
+  ...
+# Subtest: tactical loss: 優勢から明確な劣勢への遷移を優先する
+ok 65 - tactical loss: 優勢から明確な劣勢への遷移を優先する
+  ---
+  duration_ms: 0.164379
+  type: 'test'
+  ...
+# Subtest: mate miss: Mate FoundからCPへ落ちた場合は巨大CP化せずBad最優先級
+ok 66 - mate miss: Mate FoundからCPへ落ちた場合は巨大CP化せずBad最優先級
+  ---
+  duration_ms: 0.152058
+  type: 'test'
+  ...
+# Subtest: winning -> equalをBad検出
+ok 67 - winning -> equalをBad検出
+  ---
+  duration_ms: 0.176383
+  type: 'test'
+  ...
+# Subtest: winning -> losingをBad検出
+ok 68 - winning -> losingをBad検出
+  ---
+  duration_ms: 0.154818
+  type: 'test'
+  ...
+# Subtest: Best vs Actual差をlegacy deltaより優先し、閾値の単純引下げに依存しない
+ok 69 - Best vs Actual差をlegacy deltaより優先し、閾値の単純引下げに依存しない
+  ---
+  duration_ms: 0.285368
+  type: 'test'
+  ...
+# Subtest: good: 劣勢でもEngine最善候補と一致し評価を維持した受けをGoodへ
+ok 70 - good: 劣勢でもEngine最善候補と一致し評価を維持した受けをGoodへ
+  ---
+  duration_ms: 0.197458
+  type: 'test'
+  ...
+# Subtest: no false forced 5: 基準を満たすBadが2件なら2件だけ
+ok 71 - no false forced 5: 基準を満たすBadが2件なら2件だけ
+  ---
+  duration_ms: 0.54261
+  type: 'test'
+  ...
+# Subtest: 初期局面は40枚の駒を表示する
+ok 72 - 初期局面は40枚の駒を表示する
+  ---
+  duration_ms: 6.840863
+  type: 'test'
+  ...
+# Subtest: 駒SVGは全駒で共通の五角形外形を使う
+ok 73 - 駒SVGは全駒で共通の五角形外形を使う
+  ---
+  duration_ms: 0.276783
+  type: 'test'
+  ...
+# Subtest: 成桂・成香・成銀は2文字専用Classで巨大化を防ぐ
+ok 74 - 成桂・成香・成銀は2文字専用Classで巨大化を防ぐ
+  ---
+  duration_ms: 0.164657
+  type: 'test'
+  ...
+# Subtest: 成駒は専用Classと赤文字Presentationで区別する
+ok 75 - 成駒は専用Classと赤文字Presentationで区別する
+  ---
+  duration_ms: 0.358021
+  type: 'test'
+  ...
+# Subtest: 後手駒は向きを表すClassを持つ
+ok 76 - 後手駒は向きを表すClassを持つ
+  ---
+  duration_ms: 0.104707
+  type: 'test'
+  ...
+# Subtest: 盤面反転で駒方向も反転する
+ok 77 - 盤面反転で駒方向も反転する
+  ---
+  duration_ms: 1.421081
+  type: 'test'
+  ...
+# Subtest: 盤上駒はownerと駒名を含むaccessible nameを持つ
+ok 78 - 盤上駒はownerと駒名を含むaccessible nameを持つ
+  ---
+  duration_ms: 2.184176
+  type: 'test'
+  ...
+# Subtest: Graphicsは外部画像Asset URLへ依存しない
+ok 79 - Graphicsは外部画像Asset URLへ依存しない
+  ---
+  duration_ms: 0.242425
+  type: 'test'
+  ...
+# Subtest: Markdown文字列をClipboardへCopyする
+ok 80 - Markdown文字列をClipboardへCopyする
+  ---
+  duration_ms: 0.748951
+  type: 'test'
+  ...
+# Subtest: Clipboard APIがない場合は理由付きErrorを返す
+ok 81 - Clipboard APIがない場合は理由付きErrorを返す
+  ---
+  duration_ms: 1.42019
+  type: 'test'
+  ...
+# Subtest: Clipboard書込失敗を専用Errorへ変換する
+ok 82 - Clipboard書込失敗を専用Errorへ変換する
+  ---
+  duration_ms: 0.198507
+  type: 'test'
+  ...
+# Subtest: TextをBrowser Download境界へ渡せる
+ok 83 - TextをBrowser Download境界へ渡せる
+  ---
+  duration_ms: 1.182683
+  type: 'test'
+  ...
+# Subtest: Browser FileのTextを読める
+ok 84 - Browser FileのTextを読める
+  ---
+  duration_ms: 0.278828
+  type: 'test'
+  ...
+# Subtest: 一覧Cardに詳細・編集・削除の操作境界を描画する
+ok 85 - 一覧Cardに詳細・編集・削除の操作境界を描画する
+  ---
+  duration_ms: 0.846668
+  type: 'test'
+  ...
+# Subtest: 保存済み本文をHTML Escapeして詳細表示する
+ok 86 - 保存済み本文をHTML Escapeして詳細表示する
+  ---
+  duration_ms: 1.354751
+  type: 'test'
+  ...
+# Subtest: 詳細画面に二種類のMarkdown出力境界を描画する
+ok 87 - 詳細画面に二種類のMarkdown出力境界を描画する
+  ---
+  duration_ms: 0.263249
+  type: 'test'
+  ...
+# Subtest: 振り返り途中ではObservation Card Buttonを無効化し不足項目を表示する
+ok 88 - 振り返り途中ではObservation Card Buttonを無効化し不足項目を表示する
+  ---
+  duration_ms: 0.218717
+  type: 'test'
+  ...
+# Subtest: この局面を重要局面へ追加Buttonを表示する
+ok 89 - この局面を重要局面へ追加Buttonを表示する
+  ---
+  duration_ms: 1.37093
+  type: 'test'
+  ...
+# Subtest: 追加Buttonの無効理由表示を持つ
+ok 90 - 追加Buttonの無効理由表示を持つ
+  ---
+  duration_ms: 0.177388
+  type: 'test'
+  ...
+# Subtest: Button操作だけでは保存されない説明がある
+ok 91 - Button操作だけでは保存されない説明がある
+  ---
+  duration_ms: 0.881885
+  type: 'test'
+  ...
+# Subtest: FACTを自動生成しない説明がある
+ok 92 - FACTを自動生成しない説明がある
+  ---
+  duration_ms: 0.28327
+  type: 'test'
+  ...
+# Subtest: Replay接続Controllerをmainへ接続する
+ok 93 - Replay接続Controllerをmainへ接続する
+  ---
+  duration_ms: 0.105271
+  type: 'test'
+  ...
+# Subtest: 追加Application Serviceをmainへ接続する
+ok 94 - 追加Application Serviceをmainへ接続する
+  ---
+  duration_ms: 0.089411
+  type: 'test'
+  ...
+# Subtest: 保存済み詳細から編集状態へ移す境界がある
+ok 95 - 保存済み詳細から編集状態へ移す境界がある
+  ---
+  duration_ms: 0.067565
+  type: 'test'
+  ...
+# Subtest: KeyPosition FormへReplay Reference Fieldを持つ
+ok 96 - KeyPosition FormへReplay Reference Fieldを持つ
+  ---
+  duration_ms: 0.058991
+  type: 'test'
+  ...
+# Subtest: 現在指し手入力欄を持つ
+ok 97 - 現在指し手入力欄を持つ
+  ---
+  duration_ms: 0.208123
+  type: 'test'
+  ...
+# Subtest: Snapshot表示Detailsを持つ
+ok 98 - Snapshot表示Detailsを持つ
+  ---
+  duration_ms: 0.255647
+  type: 'test'
+  ...
+# Subtest: 小型盤面Previewを持つ
+ok 99 - 小型盤面Previewを持つ
+  ---
+  duration_ms: 0.395417
+  type: 'test'
+  ...
+# Subtest: 持ち駒Previewを持つ
+ok 100 - 持ち駒Previewを持つ
+  ---
+  duration_ms: 0.10068
+  type: 'test'
+  ...
+# Subtest: 判断Patternと学びの入力欄を持つ
+ok 101 - 判断Patternと学びの入力欄を持つ
+  ---
+  duration_ms: 0.058203
+  type: 'test'
+  ...
+# Subtest: 追加成功時に未保存を明示する
+ok 102 - 追加成功時に未保存を明示する
+  ---
+  duration_ms: 0.043899
+  type: 'test'
+  ...
+# Subtest: 重複時に既存項目へFocusする
+ok 103 - 重複時に既存項目へFocusする
+  ---
+  duration_ms: 0.045939
+  type: 'test'
+  ...
+# Subtest: 5件上限の事前無効化を持つ
+ok 104 - 5件上限の事前無効化を持つ
+  ---
+  duration_ms: 0.129639
+  type: 'test'
+  ...
+# Subtest: WarningとErrorのroleを分離する
+ok 105 - WarningとErrorのroleを分離する
+  ---
+  duration_ms: 0.102495
+  type: 'test'
+  ...
+# Subtest: Snapshot Squareのaria-labelを生成する
+ok 106 - Snapshot Squareのaria-labelを生成する
+  ---
+  duration_ms: 0.041989
+  type: 'test'
+  ...
+# Subtest: Smartphone Layoutを持つ
+ok 107 - Smartphone Layoutを持つ
+  ---
+  duration_ms: 0.073712
+  type: 'test'
+  ...
+# Subtest: 色だけでなくBorderで最終移動を示す
+ok 108 - 色だけでなくBorderで最終移動を示す
+  ---
+  duration_ms: 0.052652
+  type: 'test'
+  ...
+# Subtest: Browser ClipboardからKIF Textを読み取れる
+ok 109 - Browser ClipboardからKIF Textを読み取れる
+  ---
+  duration_ms: 0.670012
+  type: 'test'
+  ...
+# Subtest: Clipboard APIがない場合は手動Pasteへ誘導するErrorを返す
+ok 110 - Clipboard APIがない場合は手動Pasteへ誘導するErrorを返す
+  ---
+  duration_ms: 1.350879
+  type: 'test'
+  ...
+# Subtest: Clipboard権限拒否を低レベルErrorのまま返さない
+ok 111 - Clipboard権限拒否を低レベルErrorのまま返さない
+  ---
+  duration_ms: 0.288395
+  type: 'test'
+  ...
+# Subtest: Browser画面にKIF File選択がある
+ok 112 - Browser画面にKIF File選択がある
+  ---
+  duration_ms: 1.138537
+  type: 'test'
+  ...
+# Subtest: Browser画面にDrag & Drop領域がある
+ok 113 - Browser画面にDrag & Drop領域がある
+  ---
+  duration_ms: 0.223369
+  type: 'test'
+  ...
+# Subtest: Import Previewに正式確認項目がある
+ok 114 - Import Previewに正式確認項目がある
+  ---
+  duration_ms: 0.121435
+  type: 'test'
+  ...
+# Subtest: Import Previewに自分の手番選択がある
+ok 115 - Import Previewに自分の手番選択がある
+  ---
+  duration_ms: 0.119803
+  type: 'test'
+  ...
+# Subtest: Import Previewに反映と中止Buttonがある
+ok 116 - Import Previewに反映と中止Buttonがある
+  ---
+  duration_ms: 0.164624
+  type: 'test'
+  ...
+# Subtest: File選択はImport Controllerへ接続される
+ok 117 - File選択はImport Controllerへ接続される
+  ---
+  duration_ms: 0.318965
+  type: 'test'
+  ...
+# Subtest: Import反映後に未保存であることを表示する
+ok 118 - Import反映後に未保存であることを表示する
+  ---
+  duration_ms: 0.179157
+  type: 'test'
+  ...
+# Subtest: Import失敗時にFormを変更する処理がない
+ok 119 - Import失敗時にFormを変更する処理がない
+  ---
+  duration_ms: 1.229322
+  type: 'test'
+  ...
+# Subtest: 既存Markdown ExportとObservation Card操作を維持する
+ok 120 - 既存Markdown ExportとObservation Card操作を維持する
+  ---
+  duration_ms: 0.283639
+  type: 'test'
+  ...
+# Subtest: KIF Import UIはMobile表示へ対応する
+ok 121 - KIF Import UIはMobile表示へ対応する
+  ---
+  duration_ms: 0.565445
+  type: 'test'
+  ...
+# Subtest: スマホ向けKIF貼り付け欄がある
+ok 122 - スマホ向けKIF貼り付け欄がある
+  ---
+  duration_ms: 0.152554
+  type: 'test'
+  ...
+# Subtest: 貼り付けKIFはImport ControllerのPreview経路へ接続される
+ok 123 - 貼り付けKIFはImport ControllerのPreview経路へ接続される
+  ---
+  duration_ms: 0.206844
+  type: 'test'
+  ...
+# Subtest: スマホ貼り付け欄はMobileで十分な高さと16px文字を確保する
+ok 124 - スマホ貼り付け欄はMobileで十分な高さと16px文字を確保する
+  ---
+  duration_ms: 0.096052
+  type: 'test'
+  ...
+# Subtest: KIF入力Clearと読み込みやり直しの操作を分離する
+ok 125 - KIF入力Clearと読み込みやり直しの操作を分離する
+  ---
+  duration_ms: 0.086494
+  type: 'test'
+  ...
+# Subtest: KIF操作Buttonはスマートフォンで48px Touch Targetを持つ
+ok 126 - KIF操作Buttonはスマートフォンで48px Touch Targetを持つ
+  ---
+  duration_ms: 0.078627
+  type: 'test'
+  ...
+# Subtest: Markdown ArtifactをPreviewしCopy・Downloadを有効化する
+ok 127 - Markdown ArtifactをPreviewしCopy・Downloadを有効化する
+  ---
+  duration_ms: 1.07579
+  type: 'test'
+  ...
+# Subtest: PreviewをClearすると誤操作できない状態へ戻す
+ok 128 - PreviewをClearすると誤操作できない状態へ戻す
+  ---
+  duration_ms: 0.252268
+  type: 'test'
+  ...
+# Subtest: Phase5 Browser画面に入力Form・Library・Markdown出力Panelがある
+ok 129 - Phase5 Browser画面に入力Form・Library・Markdown出力Panelがある
+  ---
+  duration_ms: 1.940708
+  type: 'test'
+  ...
+# Subtest: FACT・INTERPRETATION・HYPOTHESISの案内を分離表示する
+ok 130 - FACT・INTERPRETATION・HYPOTHESISの案内を分離表示する
+  ---
+  duration_ms: 0.237871
+  type: 'test'
+  ...
+# Subtest: Backup・Restore・Browser削除の操作境界を持つ
+ok 131 - Backup・Restore・Browser削除の操作境界を持つ
+  ---
+  duration_ms: 0.157728
+  type: 'test'
+  ...
+# Subtest: 保存済み対局から詳細・編集・削除へ進む説明がある
+ok 132 - 保存済み対局から詳細・編集・削除へ進む説明がある
+  ---
+  duration_ms: 0.251976
+  type: 'test'
+  ...
+# Subtest: Obsidianと次局用Observation Cardの成果物案内がある
+ok 133 - Obsidianと次局用Observation Cardの成果物案内がある
+  ---
+  duration_ms: 0.208618
+  type: 'test'
+  ...
+# Subtest: 棋譜再現盤に必要なBrowser Elementを保持する
+ok 134 - 棋譜再現盤に必要なBrowser Elementを保持する
+  ---
+  duration_ms: 1.070889
+  type: 'test'
+  ...
+# Subtest: Navigation Buttonに明確な日本語Labelを表示する
+ok 135 - Navigation Buttonに明確な日本語Labelを表示する
+  ---
+  duration_ms: 0.200516
+  type: 'test'
+  ...
+# Subtest: Rangeと数値入力の二つのJump手段を残す
+ok 136 - Rangeと数値入力の二つのJump手段を残す
+  ---
+  duration_ms: 0.147909
+  type: 'test'
+  ...
+# Subtest: Replay UIをApplication ServiceとControllerへ接続する
+ok 137 - Replay UIをApplication ServiceとControllerへ接続する
+  ---
+  duration_ms: 0.10218
+  type: 'test'
+  ...
+# Subtest: KIF Import後と保存済みGameReviewからReplayを読み込む
+ok 138 - KIF Import後と保存済みGameReviewからReplayを読み込む
+  ---
+  duration_ms: 0.228574
+  type: 'test'
+  ...
+# Subtest: Keyboard Navigationは入力Elementを除外する
+ok 139 - Keyboard Navigationは入力Elementを除外する
+  ---
+  duration_ms: 0.142922
+  type: 'test'
+  ...
+# Subtest: Smartphone幅で盤面と棋譜一覧を縦配置する
+ok 140 - Smartphone幅で盤面と棋譜一覧を縦配置する
+  ---
+  duration_ms: 0.128831
+  type: 'test'
+  ...
+# Subtest: 最終移動強調は色だけでなく線種とBorderを使用する
+ok 141 - 最終移動強調は色だけでなく線種とBorderを使用する
+  ---
+  duration_ms: 0.099323
+  type: 'test'
+  ...
+# Subtest: 現在手追従にscrollIntoViewを使わずReplayScrollPolicyを使う
+ok 142 - 現在手追従にscrollIntoViewを使わずReplayScrollPolicyを使う
+  ---
+  duration_ms: 0.999718
+  type: 'test'
+  ...
+# Subtest: ReplayScrollPolicyはwindow scrollを変更しない
+ok 143 - ReplayScrollPolicyはwindow scrollを変更しない
+  ---
+  duration_ms: 0.222382
+  type: 'test'
+  ...
+# Subtest: Move List JumpもPage全体を移動させない
+ok 144 - Move List JumpもPage全体を移動させない
+  ---
+  duration_ms: 0.26696
+  type: 'test'
+  ...
+# Subtest: Navigation Buttonは48px以上のTouch Targetを持つ
+ok 145 - Navigation Buttonは48px以上のTouch Targetを持つ
+  ---
+  duration_ms: 0.287017
+  type: 'test'
+  ...
+# Subtest: 390px相当ではNavigationをWrapし盤面直下で5操作を維持する
+ok 146 - 390px相当ではNavigationをWrapし盤面直下で5操作を維持する
+  ---
+  duration_ms: 0.454841
+  type: 'test'
+  ...
+# Subtest: 重要局面追加成功FeedbackはReplayからFocusを奪わない
+ok 147 - 重要局面追加成功FeedbackはReplayからFocusを奪わない
+  ---
+  duration_ms: 0.263797
+  type: 'test'
+  ...
+# Subtest: 重複局面FocusはpreventScrollで二重Scrollを避ける
+ok 148 - 重複局面FocusはpreventScrollで二重Scrollを避ける
+  ---
+  duration_ms: 0.142349
+  type: 'test'
+  ...
+# Subtest: Engine Candidateも手動Replayも同じKeyPosition candidateへ変換される
+ok 149 - Engine Candidateも手動Replayも同じKeyPosition candidateへ変換される
+  ---
+  duration_ms: 9.13776
+  type: 'test'
+  ...
+# Subtest: Candidate由来でも同一手数Duplicate Ruleを回避しない
+ok 150 - Candidate由来でも同一手数Duplicate Ruleを回避しない
+  ---
+  duration_ms: 2.690072
+  type: 'test'
+  ...
+# Subtest: Candidate由来でも5件上限を回避しない
+ok 151 - Candidate由来でも5件上限を回避しない
+  ---
+  duration_ms: 1.635273
+  type: 'test'
+  ...
+# Subtest: Engine Candidate plyを既存Replayへ渡すとCurrent Move・Highlight・盤面が一致する
+ok 152 - Engine Candidate plyを既存Replayへ渡すとCurrent Move・Highlight・盤面が一致する
+  ---
+  duration_ms: 5.664491
+  type: 'test'
+  ...
+# Subtest: Candidate移動後のReplay Position Snapshotは同じplyと実戦手を保持する
+ok 153 - Candidate移動後のReplay Position Snapshotは同じplyと実戦手を保持する
+  ---
+  duration_ms: 2.920527
+  type: 'test'
+  ...
+# Subtest: 削除成功時はRepositoryとBrowser保存Dataの両方から消す
+ok 154 - 削除成功時はRepositoryとBrowser保存Dataの両方から消す
+  ---
+  duration_ms: 3.483109
+  type: 'test'
+  ...
+# Subtest: 存在しないReviewはRepository Revisionを変更せずNOT_FOUNDを返す
+ok 155 - 存在しないReviewはRepository Revisionを変更せずNOT_FOUNDを返す
+  ---
+  duration_ms: 1.069933
+  type: 'test'
+  ...
+# Subtest: Browser保存失敗時は削除前のRepository全体へRollbackする
+ok 156 - Browser保存失敗時は削除前のRepository全体へRollbackする
+  ---
+  duration_ms: 1.200544
+  type: 'test'
+  ...
+# Subtest: STEP3にEngine解析・進捗・Cancel・候補領域がある
+ok 157 - STEP3にEngine解析・進捗・Cancel・候補領域がある
+  ---
+  duration_ms: 0.856727
+  type: 'test'
+  ...
+# Subtest: Engine候補は自動登録せず明示ButtonでKeyPositionへ接続
+ok 158 - Engine候補は自動登録せず明示ButtonでKeyPositionへ接続
+  ---
+  duration_ms: 0.195632
+  type: 'test'
+  ...
+# Subtest: Engineなしでも手動Flowを維持する説明がある
+ok 159 - Engineなしでも手動Flowを維持する説明がある
+  ---
+  duration_ms: 0.177206
+  type: 'test'
+  ...
+# Subtest: FACT・INTERPRETATION・HYPOTHESISの短い記入例がPlaceholderにある
+ok 160 - FACT・INTERPRETATION・HYPOTHESISの短い記入例がPlaceholderにある
+  ---
+  duration_ms: 0.293613
+  type: 'test'
+  ...
+# Subtest: 例文はvalueではなくplaceholderで保存Dataへ混ぜない
+ok 161 - 例文はvalueではなくplaceholderで保存Dataへ混ぜない
+  ---
+  duration_ms: 0.249464
+  type: 'test'
+  ...
+# Subtest: 最大悪化を上位候補へする
+ok 162 - 最大悪化を上位候補へする
+  ---
+  duration_ms: 1.561924
+  type: 'test'
+  ...
+# Subtest: 近接局面重複を抑制する
+ok 163 - 近接局面重複を抑制する
+  ---
+  duration_ms: 0.31767
+  type: 'test'
+  ...
+# Subtest: 候補は最大5件
+ok 164 - 候補は最大5件
+  ---
+  duration_ms: 0.319668
+  type: 'test'
+  ...
+# Subtest: Best Move一致かつ維持した局面を良かった可能性へ
+ok 165 - Best Move一致かつ維持した局面を良かった可能性へ
+  ---
+  duration_ms: 0.169058
+  type: 'test'
+  ...
+# Subtest: 大幅悪化はMAJOR_DROPOFF
+ok 166 - 大幅悪化はMAJOR_DROPOFF
+  ---
+  duration_ms: 0.156268
+  type: 'test'
+  ...
+# Subtest: Mate発生を最上位級に扱う
+ok 167 - Mate発生を最上位級に扱う
+  ---
+  duration_ms: 0.121298
+  type: 'test'
+  ...
+# Subtest: Evaluation Graphはall plyを保持し本人視点CP/Mate/Unknownを分離する
+ok 168 - Evaluation Graphはall plyを保持し本人視点CP/Mate/Unknownを分離する
+  ---
+  duration_ms: 0.939293
+  type: 'test'
+  ...
+# Subtest: Evaluation GraphはGood/Bad/KeyPosition markerを同一plyへ重ねられる
+ok 169 - Evaluation GraphはGood/Bad/KeyPosition markerを同一plyへ重ねられる
+  ---
+  duration_ms: 0.293836
+  type: 'test'
+  ...
+# Subtest: Evaluation Graph ViewはCandidate→ReplayとKeyPosition→STEP4用data属性を出す
+ok 170 - Evaluation Graph ViewはCandidate→ReplayとKeyPosition→STEP4用data属性を出す
+  ---
+  duration_ms: 0.753826
+  type: 'test'
+  ...
+# Subtest: Evaluation Graphは0手目の手動KeyPositionもMarker化できる
+ok 171 - Evaluation Graphは0手目の手動KeyPositionもMarker化できる
+  ---
+  duration_ms: 0.322971
+  type: 'test'
+  ...
+# Subtest: Mate/Unknownを跨いでCP線を直結しない
+ok 172 - Mate/Unknownを跨いでCP線を直結しない
+  ---
+  duration_ms: 0.378146
+  type: 'test'
+  ...
+# Subtest: Engine initialization errorを上位へ伝播する
+ok 173 - Engine initialization errorを上位へ伝播する
+  ---
+  duration_ms: 5.326638
+  type: 'test'
+  ...
+# Subtest: Engine analysis errorを上位へ伝播する
+ok 174 - Engine analysis errorを上位へ伝播する
+  ---
+  duration_ms: 1.595266
+  type: 'test'
+  ...
+# Subtest: Engine未設定BrowserではENGINE_NOT_FOUNDとなり既存機能へ影響を与えない
+ok 175 - Engine未設定BrowserではENGINE_NOT_FOUNDとなり既存機能へ影響を与えない
+  ---
+  duration_ms: 0.33876
+  type: 'test'
+  ...
+# Subtest: 再解析は古い解析結果を破壊しない
+ok 176 - 再解析は古い解析結果を破壊しない
+  ---
+  duration_ms: 0.631129
+  type: 'test'
+  ...
+# Subtest: Engine解析履歴はGameReviewとは別Storageへ保存復元する
+ok 177 - Engine解析履歴はGameReviewとは別Storageへ保存復元する
+  ---
+  duration_ms: 0.524587
+  type: 'test'
+  ...
+# Subtest: Ver.1.7は7 STEPを維持しEngine PanelをSTEP3へ置く
+ok 178 - Ver.1.7は7 STEPを維持しEngine PanelをSTEP3へ置く
+  ---
+  duration_ms: 0.692509
+  type: 'test'
+  ...
+# Subtest: Engine UIは解析状態・進捗・中止・Candidate操作を持つ
+ok 179 - Engine UIは解析状態・進捗・中止・Candidate操作を持つ
+  ---
+  duration_ms: 0.192507
+  type: 'test'
+  ...
+# Subtest: Candidate Jumpだけは既存Replayへjumpした後にBoard scrollを要求する
+ok 180 - Candidate Jumpだけは既存Replayへjumpした後にBoard scrollを要求する
+  ---
+  duration_ms: 0.326798
+  type: 'test'
+  ...
+# Subtest: Candidate追加は既存KeyPosition追加Flowへ合流する
+ok 181 - Candidate追加は既存KeyPosition追加Flowへ合流する
+  ---
+  duration_ms: 0.171911
+  type: 'test'
+  ...
+# Subtest: Engineなしでも手動Flowが説明される
+ok 182 - Engineなしでも手動Flowが説明される
+  ---
+  duration_ms: 0.105869
+  type: 'test'
+  ...
+# Subtest: STEP3 Engine PanelはReplay Boardより前に配置する
+ok 183 - STEP3 Engine PanelはReplay Boardより前に配置する
+  ---
+  duration_ms: 0.626576
+  type: 'test'
+  ...
+# Subtest: 盤面反転はReplay Navigation内に配置する
+ok 184 - 盤面反転はReplay Navigation内に配置する
+  ---
+  duration_ms: 0.431426
+  type: 'test'
+  ...
+# Subtest: 390px前後でReplay NavigationはWrap可能で横scrollを要求しない
+ok 185 - 390px前後でReplay NavigationはWrap可能で横scrollを要求しない
+  ---
+  duration_ms: 0.28124
+  type: 'test'
+  ...
+# Subtest: Engine UIはINITIALIZING/CANCELLING/COMPLETED状態を明示できる
+ok 186 - Engine UIはINITIALIZING/CANCELLING/COMPLETED状態を明示できる
+  ---
+  duration_ms: 0.181528
+  type: 'test'
+  ...
+# Subtest: Worker start/message/result
+ok 187 - Worker start/message/result
+  ---
+  duration_ms: 34.435389
+  type: 'test'
+  ...
+# Subtest: Worker terminate後にrestartできる
+ok 188 - Worker terminate後にrestartできる
+  ---
+  duration_ms: 83.928361
+  type: 'test'
+  ...
+# Subtest: Worker cancel/disposeは待機中Promiseをcancelする
+ok 189 - Worker cancel/disposeは待機中Promiseをcancelする
+  ---
+  duration_ms: 2.486851
+  type: 'test'
+  ...
+# Subtest: 先手手番のSIDE_TO_MOVE評価を先手本人視点へ維持
+ok 190 - 先手手番のSIDE_TO_MOVE評価を先手本人視点へ維持
+  ---
+  duration_ms: 0.881478
+  type: 'test'
+  ...
+# Subtest: 後手手番のSIDE_TO_MOVE評価を先手本人視点へ反転
+ok 191 - 後手手番のSIDE_TO_MOVE評価を先手本人視点へ反転
+  ---
+  duration_ms: 0.123269
+  type: 'test'
+  ...
+# Subtest: 先手視点評価を後手本人視点へ反転
+ok 192 - 先手視点評価を後手本人視点へ反転
+  ---
+  duration_ms: 0.136048
+  type: 'test'
+  ...
+# Subtest: 負評価を正しくNormalizeする
+ok 193 - 負評価を正しくNormalizeする
+  ---
+  duration_ms: 0.090004
+  type: 'test'
+  ...
+# Subtest: Mate評価も視点反転する
+ok 194 - Mate評価も視点反転する
+  ---
+  duration_ms: 0.103174
+  type: 'test'
+  ...
+# Subtest: CP改善Delta
+ok 195 - CP改善Delta
+  ---
+  duration_ms: 0.177921
+  type: 'test'
+  ...
+# Subtest: CP悪化Delta
+ok 196 - CP悪化Delta
+  ---
+  duration_ms: 0.12861
+  type: 'test'
+  ...
+# Subtest: 変化なしDelta
+ok 197 - 変化なしDelta
+  ---
+  duration_ms: 0.182015
+  type: 'test'
+  ...
+# Subtest: Mate transitionは巨大CPへ変換しない
+ok 198 - Mate transitionは巨大CPへ変換しない
+  ---
+  duration_ms: 0.257173
+  type: 'test'
+  ...
+# Subtest: 詰み逃れを別Transitionとして扱う
+ok 199 - 詰み逃れを別Transitionとして扱う
+  ---
+  duration_ms: 0.283525
+  type: 'test'
+  ...
+# Subtest: Replay盤は81升を持つ
+ok 200 - Replay盤は81升を持つ
+  ---
+  duration_ms: 5.045312
+  type: 'test'
+  ...
+# Subtest: 9列9行を同一fractionで固定するCSSを持つ
+ok 201 - 9列9行を同一fractionで固定するCSSを持つ
+  ---
+  duration_ms: 0.336671
+  type: 'test'
+  ...
+# Subtest: Empty SquareとPiece Squareは同じreplay-square classを使う
+ok 202 - Empty SquareとPiece Squareは同じreplay-square classを使う
+  ---
+  duration_ms: 0.091915
+  type: 'test'
+  ...
+# Subtest: 駒はSquare直下のSize決定要素ではなくPiece Container内へ入る
+ok 203 - 駒はSquare直下のSize決定要素ではなくPiece Container内へ入る
+  ---
+  duration_ms: 0.171708
+  type: 'test'
+  ...
+# Subtest: Squareは内容のはみ出しをLayoutへ反映しない
+ok 204 - Squareは内容のはみ出しをLayoutへ反映しない
+  ---
+  duration_ms: 0.244561
+  type: 'test'
+  ...
+# Subtest: 成駒局面と盤面反転でも81升構造を維持する
+ok 205 - 成駒局面と盤面反転でも81升構造を維持する
+  ---
+  duration_ms: 2.072389
+  type: 'test'
+  ...
+# Subtest: SnapshotもReplayと同じPiece componentを使う
+ok 206 - SnapshotもReplayと同じPiece componentを使う
+  ---
+  duration_ms: 0.204367
+  type: 'test'
+  ...
+# Subtest: 一局の振り返りSnapshotを作成できる
+ok 207 - 一局の振り返りSnapshotを作成できる
+  ---
+  duration_ms: 1.967159
+  type: 'test'
+  ...
+# Subtest: 重要局面は手数順へ並べる
+ok 208 - 重要局面は手数順へ並べる
+  ---
+  duration_ms: 0.394729
+  type: 'test'
+  ...
+# Subtest: 重要局面が3件未満なら次局準備未完了とする
+ok 209 - 重要局面が3件未満なら次局準備未完了とする
+  ---
+  duration_ms: 0.31618
+  type: 'test'
+  ...
+# Subtest: Observation Themeがなければ次局準備未完了とする
+ok 210 - Observation Themeがなければ次局準備未完了とする
+  ---
+  duration_ms: 0.584407
+  type: 'test'
+  ...
+# Subtest: 実行Ruleがなければ次局準備未完了とする
+ok 211 - 実行Ruleがなければ次局準備未完了とする
+  ---
+  duration_ms: 0.267162
+  type: 'test'
+  ...
+# Subtest: 重要局面は5件を超えて登録できない
+ok 212 - 重要局面は5件を超えて登録できない
+  ---
+  duration_ms: 0.760551
+  type: 'test'
+  ...
+# Subtest: 実行Ruleは3件を超えて登録できない
+ok 213 - 実行Ruleは3件を超えて登録できない
+  ---
+  duration_ms: 0.594883
+  type: 'test'
+  ...
+# Subtest: 事実・解釈・仮説のいずれかを空にできない
+ok 214 - 事実・解釈・仮説のいずれかを空にできない
+  ---
+  duration_ms: 0.375365
+  type: 'test'
+  ...
+# Subtest: SaveGameReviewは新規と更新を区別し変更不能Snapshotを返す
+ok 215 - SaveGameReviewは新規と更新を区別し変更不能Snapshotを返す
+  ---
+  duration_ms: 3.801624
+  type: 'test'
+  ...
+# Subtest: SaveGameReviewはDomain Entity以外を拒否する
+ok 216 - SaveGameReviewはDomain Entity以外を拒否する
+  ---
+  duration_ms: 0.355606
+  type: 'test'
+  ...
+# Subtest: GetGameReviewで保存済みReviewを取得できる
+ok 217 - GetGameReviewで保存済みReviewを取得できる
+  ---
+  duration_ms: 0.68098
+  type: 'test'
+  ...
+# Subtest: GetGameReviewは存在しないIDをApplication Errorにする
+ok 218 - GetGameReviewは存在しないIDをApplication Errorにする
+  ---
+  duration_ms: 0.186574
+  type: 'test'
+  ...
+# Subtest: ListGameReviewsは空と全件を区別する
+ok 219 - ListGameReviewsは空と全件を区別する
+  ---
+  duration_ms: 0.446744
+  type: 'test'
+  ...
+# Subtest: DeleteGameReviewは削除と未存在を区別する
+ok 220 - DeleteGameReviewは削除と未存在を区別する
+  ---
+  duration_ms: 0.240817
+  type: 'test'
+  ...
+# Subtest: Repository ErrorをApplication Errorへ変換する
+ok 221 - Repository ErrorをApplication Errorへ変換する
+  ---
+  duration_ms: 0.283366
+  type: 'test'
+  ...
+# Subtest: 保存済みSnapshotを同じReview IDの編集Form Dataへ変換する
+ok 222 - 保存済みSnapshotを同じReview IDの編集Form Dataへ変換する
+  ---
+  duration_ms: 2.896551
+  type: 'test'
+  ...
+# Subtest: 編集Form Dataを外部から変更できない
+ok 223 - 編集Form Dataを外部から変更できない
+  ---
+  duration_ms: 0.695169
+  type: 'test'
+  ...
+# Subtest: Form InputをGameReview Domain Entityへ変換できる
+ok 224 - Form InputをGameReview Domain Entityへ変換できる
+  ---
+  duration_ms: 2.752802
+  type: 'test'
+  ...
+# Subtest: 空の重要局面Cardは保存対象から除外する
+ok 225 - 空の重要局面Cardは保存対象から除外する
+  ---
+  duration_ms: 0.526633
+  type: 'test'
+  ...
+# Subtest: 一部だけ入力された重要局面はDomain Ruleで拒否する
+ok 226 - 一部だけ入力された重要局面はDomain Ruleで拒否する
+  ---
+  duration_ms: 0.77311
+  type: 'test'
+  ...
+# Subtest: FACT・INTERPRETATION・HYPOTHESISを別Fieldのまま保持する
+ok 227 - FACT・INTERPRETATION・HYPOTHESISを別Fieldのまま保持する
+  ---
+  duration_ms: 0.478603
+  type: 'test'
+  ...
+# Subtest: 重要局面6件は既存Domain Ruleで拒否する
+ok 228 - 重要局面6件は既存Domain Ruleで拒否する
+  ---
+  duration_ms: 0.308071
+  type: 'test'
+  ...
+# Subtest: 空の実行Ruleは除外し3件以内で保持する
+ok 229 - 空の実行Ruleは除外し3件以内で保持する
+  ---
+  duration_ms: 0.36797
+  type: 'test'
+  ...
+# Subtest: 保存済みGameReviewを対局日時の新しい順へ表示整形する
+ok 230 - 保存済みGameReviewを対局日時の新しい順へ表示整形する
+  ---
+  duration_ms: 20.590348
+  type: 'test'
+  ...
+# Subtest: 空一覧はEMPTY表示Modelになる
+ok 231 - 空一覧はEMPTY表示Modelになる
+  ---
+  duration_ms: 0.131847
+  type: 'test'
+  ...
+# Subtest: 詳細表示ModelはFACT・INTERPRETATION・HYPOTHESISを欠落させない
+ok 232 - 詳細表示ModelはFACT・INTERPRETATION・HYPOTHESISを欠落させない
+  ---
+  duration_ms: 0.584819
+  type: 'test'
+  ...
+# Subtest: GameReview全項目をObsidian向けMarkdownへ変換する
+ok 233 - GameReview全項目をObsidian向けMarkdownへ変換する
+  ---
+  duration_ms: 15.981101
+  type: 'test'
+  ...
+# Subtest: 棋譜内に三連Backtickがあっても壊れないFenceを使う
+ok 234 - 棋譜内に三連Backtickがあっても壊れないFenceを使う
+  ---
+  duration_ms: 0.511762
+  type: 'test'
+  ...
+# Subtest: File名に使用できない文字を安全な文字へ変換する
+ok 235 - File名に使用できない文字を安全な文字へ変換する
+  ---
+  duration_ms: 0.50738
+  type: 'test'
+  ...
+# Subtest: SnapshotなしKeyPositionを持つ旧GameReviewを読める
+ok 236 - SnapshotなしKeyPositionを持つ旧GameReviewを読める
+  ---
+  duration_ms: 1.990011
+  type: 'test'
+  ...
+# Subtest: Snapshot付きKeyPositionをGameReviewへ保持できる
+ok 237 - Snapshot付きKeyPositionをGameReviewへ保持できる
+  ---
+  duration_ms: 9.957863
+  type: 'test'
+  ...
+# Subtest: Snapshot付きKeyPositionを保存できる
+ok 238 - Snapshot付きKeyPositionを保存できる
+  ---
+  duration_ms: 5.452908
+  type: 'test'
+  ...
+# Subtest: Snapshot付きKeyPositionをPersistent JSONへ出力できる
+ok 239 - Snapshot付きKeyPositionをPersistent JSONへ出力できる
+  ---
+  duration_ms: 5.612594
+  type: 'test'
+  ...
+# Subtest: Snapshot付きKeyPositionを再読込できる
+ok 240 - Snapshot付きKeyPositionを再読込できる
+  ---
+  duration_ms: 4.044376
+  type: 'test'
+  ...
+# Subtest: Backup Restore後もSnapshotを維持できる
+ok 241 - Backup Restore後もSnapshotを維持できる
+  ---
+  duration_ms: 11.284409
+  type: 'test'
+  ...
+# Subtest: Atomic Restoreを維持できる
+ok 242 - Atomic Restoreを維持できる
+  ---
+  duration_ms: 2.517911
+  type: 'test'
+  ...
+# Subtest: 不正Snapshotで現在の全GameReviewを失わない
+ok 243 - 不正Snapshotで現在の全GameReviewを失わない
+  ---
+  duration_ms: 0.353599
+  type: 'test'
+  ...
+# Subtest: 旧Schema Version 1を維持する
+ok 244 - 旧Schema Version 1を維持する
+  ---
+  duration_ms: 2.636009
+  type: 'test'
+  ...
+# Subtest: Markdown Exportに既存情報が欠落しない
+ok 245 - Markdown Exportに既存情報が欠落しない
+  ---
+  duration_ms: 15.008541
+  type: 'test'
+  ...
+# Subtest: Observation Cardを維持できる
+ok 246 - Observation Cardを維持できる
+  ---
+  duration_ms: 1.38468
+  type: 'test'
+  ...
+# Subtest: 重要局面3〜5件Ruleを維持できる
+ok 247 - 重要局面3〜5件Ruleを維持できる
+  ---
+  duration_ms: 1.058235
+  type: 'test'
+  ...
+# Subtest: 重要局面6件Ruleを維持できる
+ok 248 - 重要局面6件Ruleを維持できる
+  ---
+  duration_ms: 0.961481
+  type: 'test'
+  ...
+# Subtest: Snapshotなし旧DataをJSON Restoreできる
+ok 249 - Snapshotなし旧DataをJSON Restoreできる
+  ---
+  duration_ms: 0.439378
+  type: 'test'
+  ...
+# Subtest: Version付きSnapshotへ全GameReview DataをExportできる
+ok 250 - Version付きSnapshotへ全GameReview DataをExportできる
+  ---
+  duration_ms: 3.625266
+  type: 'test'
+  ...
+# Subtest: SnapshotからRepository全体を復元できる
+ok 251 - SnapshotからRepository全体を復元できる
+  ---
+  duration_ms: 1.103879
+  type: 'test'
+  ...
+# Subtest: 壊れたJSONを拒否する
+ok 252 - 壊れたJSONを拒否する
+  ---
+  duration_ms: 0.647671
+  type: 'test'
+  ...
+# Subtest: Application ID不一致を拒否する
+ok 253 - Application ID不一致を拒否する
+  ---
+  duration_ms: 0.431303
+  type: 'test'
+  ...
+# Subtest: 未対応Schema Versionを拒否する
+ok 254 - 未対応Schema Versionを拒否する
+  ---
+  duration_ms: 0.479429
+  type: 'test'
+  ...
+# Subtest: GameReview ID重複を拒否する
+ok 255 - GameReview ID重複を拒否する
+  ---
+  duration_ms: 0.562653
+  type: 'test'
+  ...
+# Subtest: Domain Rule違反Dataを拒否する
+ok 256 - Domain Rule違反Dataを拒否する
+  ---
+  duration_ms: 0.681919
+  type: 'test'
+  ...
+# Subtest: KeyPosition ID重複を不整合として拒否する
+ok 257 - KeyPosition ID重複を不整合として拒否する
+  ---
+  duration_ms: 0.368902
+  type: 'test'
+  ...
+# Subtest: 必須項目不足を拒否する
+ok 258 - 必須項目不足を拒否する
+  ---
+  duration_ms: 0.773353
+  type: 'test'
+  ...
+# Subtest: 復元失敗時に現在DataとRevisionを保持する
+ok 259 - 復元失敗時に現在DataとRevisionを保持する
+  ---
+  duration_ms: 1.512035
+  type: 'test'
+  ...
+# Subtest: KIFだけで対局を保存できる
+ok 260 - KIFだけで対局を保存できる
+  ---
+  duration_ms: 2.256714
+  type: 'test'
+  ...
+# Subtest: 重要局面0件でも棋譜保存できる
+ok 261 - 重要局面0件でも棋譜保存できる
+  ---
+  duration_ms: 0.68346
+  type: 'test'
+  ...
+# Subtest: Observation Themeなしでも棋譜保存できる
+ok 262 - Observation Themeなしでも棋譜保存できる
+  ---
+  duration_ms: 0.33222
+  type: 'test'
+  ...
+# Subtest: 実行Ruleなしでも棋譜保存できる
+ok 263 - 実行Ruleなしでも棋譜保存できる
+  ---
+  duration_ms: 0.480851
+  type: 'test'
+  ...
+# Subtest: 対局情報の自由メモだけでは振り返り中へ進めない
+ok 264 - 対局情報の自由メモだけでは振り返り中へ進めない
+  ---
+  duration_ms: 2.910212
+  type: 'test'
+  ...
+# Subtest: 棋譜保存後にRepositoryから再読込できる
+ok 265 - 棋譜保存後にRepositoryから再読込できる
+  ---
+  duration_ms: 0.36228
+  type: 'test'
+  ...
+# Subtest: 棋譜保存時に作成日時と更新日時を記録する
+ok 266 - 棋譜保存時に作成日時と更新日時を記録する
+  ---
+  duration_ms: 0.634646
+  type: 'test'
+  ...
+# Subtest: 保存した棋譜は既存Replay Serviceで再現できる
+ok 267 - 保存した棋譜は既存Replay Serviceで再現できる
+  ---
+  duration_ms: 7.773457
+  type: 'test'
+  ...
+# Subtest: 取扱説明書をHeaderから開ける
+ok 268 - 取扱説明書をHeaderから開ける
+  ---
+  duration_ms: 1.677602
+  type: 'test'
+  ...
+# Subtest: 主要Help Sectionが揃っている
+ok 269 - 主要Help Sectionが揃っている
+  ---
+  duration_ms: 0.239953
+  type: 'test'
+  ...
+# Subtest: 各主要StepからContext Helpへ移動できる
+ok 270 - 各主要StepからContext Helpへ移動できる
+  ---
+  duration_ms: 0.156983
+  type: 'test'
+  ...
+# Subtest: 390px前後のSmartphone Layout Ruleを持つ
+ok 271 - 390px前後のSmartphone Layout Ruleを持つ
+  ---
+  duration_ms: 0.165344
+  type: 'test'
+  ...
+# Subtest: Ver1.3.3相当のStatusなしBackupを復元できる
+ok 272 - Ver1.3.3相当のStatusなしBackupを復元できる
+  ---
+  duration_ms: 3.176286
+  type: 'test'
+  ...
+# Subtest: 新しいLifecycle DataもschemaVersion 1 Backupへ含まれる
+ok 273 - 新しいLifecycle DataもschemaVersion 1 Backupへ含まれる
+  ---
+  duration_ms: 0.451642
+  type: 'test'
+  ...
+# Subtest: InMemory Repositoryへ新規保存できる
+ok 274 - InMemory Repositoryへ新規保存できる
+  ---
+  duration_ms: 2.476627
+  type: 'test'
+  ...
+# Subtest: 既存GameReviewを同じIDで更新保存できる
+ok 275 - 既存GameReviewを同じIDで更新保存できる
+  ---
+  duration_ms: 0.875708
+  type: 'test'
+  ...
+# Subtest: IDによる取得は存在しない場合nullを返す
+ok 276 - IDによる取得は存在しない場合nullを返す
+  ---
+  duration_ms: 0.144585
+  type: 'test'
+  ...
+# Subtest: 全件一覧を取得できる
+ok 277 - 全件一覧を取得できる
+  ---
+  duration_ms: 1.194438
+  type: 'test'
+  ...
+# Subtest: GameReviewを削除できる
+ok 278 - GameReviewを削除できる
+  ---
+  duration_ms: 0.731073
+  type: 'test'
+  ...
+# Subtest: Repository Revisionは成功した変更ごとに更新する
+ok 279 - Repository Revisionは成功した変更ごとに更新する
+  ---
+  duration_ms: 0.413782
+  type: 'test'
+  ...
+# Subtest: 保存元・取得結果・一覧からRepository内部Dataを変更できない
+ok 280 - 保存元・取得結果・一覧からRepository内部Dataを変更できない
+  ---
+  duration_ms: 0.674943
+  type: 'test'
+  ...
+# Subtest: replaceAllは全件検証後に一括置換しRevisionを復元する
+ok 281 - replaceAllは全件検証後に一括置換しRevisionを復元する
+  ---
+  duration_ms: 1.1211
+  type: 'test'
+  ...
+# Subtest: replaceAllの重複ID Errorでは現在Dataを保持する
+ok 282 - replaceAllの重複ID Errorでは現在Dataを保持する
+  ---
+  duration_ms: 0.686617
+  type: 'test'
+  ...
+# Subtest: 主要Browser UI Labelを日本語で表示する
+ok 283 - 主要Browser UI Labelを日本語で表示する
+  ---
+  duration_ms: 0.891403
+  type: 'test'
+  ...
+# Subtest: 主要aria-labelを日本語中心に維持する
+ok 284 - 主要aria-labelを日本語中心に維持する
+  ---
+  duration_ms: 0.286202
+  type: 'test'
+  ...
+# Subtest: Presentation文言は日本語化し内部Domain名は維持する
+ok 285 - Presentation文言は日本語化し内部Domain名は維持する
+  ---
+  duration_ms: 0.145748
+  type: 'test'
+  ...
+# Subtest: 利用者向け主要操作に旧英語UI文言を残さない
+ok 286 - 利用者向け主要操作に旧英語UI文言を残さない
+  ---
+  duration_ms: 0.254414
+  type: 'test'
+  ...
+# Subtest: KIF Import相当の未保存Formから重要局面を追加できる
+ok 287 - KIF Import相当の未保存Formから重要局面を追加できる
+  ---
+  duration_ms: 9.953912
+  type: 'test'
+  ...
+# Subtest: 任意手数Jump後の局面を追加できる
+ok 288 - 任意手数Jump後の局面を追加できる
+  ---
+  duration_ms: 3.321611
+  type: 'test'
+  ...
+# Subtest: 前へ戻った局面を追加できる
+ok 289 - 前へ戻った局面を追加できる
+  ---
+  duration_ms: 2.183916
+  type: 'test'
+  ...
+# Subtest: 盤面反転中でも正しいSnapshotを追加できる
+ok 290 - 盤面反転中でも正しいSnapshotを追加できる
+  ---
+  duration_ms: 5.142343
+  type: 'test'
+  ...
+# Subtest: 成駒を含むSnapshotを保存できる
+ok 291 - 成駒を含むSnapshotを保存できる
+  ---
+  duration_ms: 2.239283
+  type: 'test'
+  ...
+# Subtest: 持ち駒を含むSnapshotを保存できる
+ok 292 - 持ち駒を含むSnapshotを保存できる
+  ---
+  duration_ms: 1.931886
+  type: 'test'
+  ...
+# Subtest: 3件の候補を完成させGameReviewとして保存できる
+ok 293 - 3件の候補を完成させGameReviewとして保存できる
+  ---
+  duration_ms: 9.994948
+  type: 'test'
+  ...
+# Subtest: 保存後にSnapshotを再読込できる
+ok 294 - 保存後にSnapshotを再読込できる
+  ---
+  duration_ms: 5.401898
+  type: 'test'
+  ...
+# Subtest: Warning付き局面を方針どおり候補化できる
+ok 295 - Warning付き局面を方針どおり候補化できる
+  ---
+  duration_ms: 1.96536
+  type: 'test'
+  ...
+# Subtest: Replay失敗手数以降へJumpできない
+ok 296 - Replay失敗手数以降へJumpできない
+  ---
+  duration_ms: 1.572372
+  type: 'test'
+  ...
+# Subtest: 追加後もReplay Stateを変更しない
+ok 297 - 追加後もReplay Stateを変更しない
+  ---
+  duration_ms: 1.364113
+  type: 'test'
+  ...
+# Subtest: 200回のSnapshot生成でもHistoryを再構築しない
+ok 298 - 200回のSnapshot生成でもHistoryを再構築しない
+  ---
+  duration_ms: 46.885218
+  type: 'test'
+  ...
+# Subtest: KeyPositionとSnapshotを接続できる
+ok 299 - KeyPositionとSnapshotを接続できる
+  ---
+  duration_ms: 5.65139
+  type: 'test'
+  ...
+# Subtest: Snapshotなしの既存KeyPositionを扱える
+ok 300 - Snapshotなしの既存KeyPositionを扱える
+  ---
+  duration_ms: 1.895585
+  type: 'test'
+  ...
+# Subtest: Source Game IDを保持できる
+ok 301 - Source Game IDを保持できる
+  ---
+  duration_ms: 1.293282
+  type: 'test'
+  ...
+# Subtest: Source KIF Fingerprintを保持できる
+ok 302 - Source KIF Fingerprintを保持できる
+  ---
+  duration_ms: 1.636122
+  type: 'test'
+  ...
+# Subtest: Source KIF Moveを保持できる
+ok 303 - Source KIF Moveを保持できる
+  ---
+  duration_ms: 0.882518
+  type: 'test'
+  ...
+# Subtest: Snapshot Versionを保持できる
+ok 304 - Snapshot Versionを保持できる
+  ---
+  duration_ms: 0.82415
+  type: 'test'
+  ...
+# Subtest: Replay Warningなしを保持できる
+ok 305 - Replay Warningなしを保持できる
+  ---
+  duration_ms: 3.28436
+  type: 'test'
+  ...
+# Subtest: 同じSourceと一致判定できる
+ok 306 - 同じSourceと一致判定できる
+  ---
+  duration_ms: 2.435402
+  type: 'test'
+  ...
+# Subtest: 異なるGame IDを不一致判定できる
+ok 307 - 異なるGame IDを不一致判定できる
+  ---
+  duration_ms: 1.633655
+  type: 'test'
+  ...
+# Subtest: 異なるKIFを不一致判定できる
+ok 308 - 異なるKIFを不一致判定できる
+  ---
+  duration_ms: 1.595428
+  type: 'test'
+  ...
+# Subtest: JSON SnapshotからReferenceを復元できる
+ok 309 - JSON SnapshotからReferenceを復元できる
+  ---
+  duration_ms: 2.365148
+  type: 'test'
+  ...
+# Subtest: 不正Referenceを拒否できる
+ok 310 - 不正Referenceを拒否できる
+  ---
+  duration_ms: 1.158237
+  type: 'test'
+  ...
+# Subtest: KeyPosition手数とSnapshot手数の不一致を拒否する
+ok 311 - KeyPosition手数とSnapshot手数の不一致を拒否する
+  ---
+  duration_ms: 0.937336
+  type: 'test'
+  ...
+# Subtest: 旧Dataに新しい任意Fieldがなくても復元できる
+ok 312 - 旧Dataに新しい任意Fieldがなくても復元できる
+  ---
+  duration_ms: 0.098913
+  type: 'test'
+  ...
+# Subtest: 現在手数を表示できる
+ok 313 - 現在手数を表示できる
+  ---
+  duration_ms: 10.931836
+  type: 'test'
+  ...
+# Subtest: 現在指し手を表示できる
+ok 314 - 現在指し手を表示できる
+  ---
+  duration_ms: 2.359147
+  type: 'test'
+  ...
+# Subtest: 直前指し手を表示できる
+ok 315 - 直前指し手を表示できる
+  ---
+  duration_ms: 1.975889
+  type: 'test'
+  ...
+# Subtest: Snapshotありの盤面Preview Dataを生成できる
+ok 316 - Snapshotありの盤面Preview Dataを生成できる
+  ---
+  duration_ms: 4.150296
+  type: 'test'
+  ...
+# Subtest: 持ち駒表示Dataを生成できる
+ok 317 - 持ち駒表示Dataを生成できる
+  ---
+  duration_ms: 2.496453
+  type: 'test'
+  ...
+# Subtest: 成駒表示Dataを生成できる
+ok 318 - 成駒表示Dataを生成できる
+  ---
+  duration_ms: 1.627235
+  type: 'test'
+  ...
+# Subtest: 最終移動元を強調できる
+ok 319 - 最終移動元を強調できる
+  ---
+  duration_ms: 1.533986
+  type: 'test'
+  ...
+# Subtest: 最終移動先を強調できる
+ok 320 - 最終移動先を強調できる
+  ---
+  duration_ms: 2.461674
+  type: 'test'
+  ...
+# Subtest: Warningを表示できる
+ok 321 - Warningを表示できる
+  ---
+  duration_ms: 2.341581
+  type: 'test'
+  ...
+# Subtest: 盤面反転で表示順だけを変更する
+ok 322 - 盤面反転で表示順だけを変更する
+  ---
+  duration_ms: 2.98573
+  type: 'test'
+  ...
+# Subtest: 盤面反転しても内部Snapshotを変更しない
+ok 323 - 盤面反転しても内部Snapshotを変更しない
+  ---
+  duration_ms: 2.884441
+  type: 'test'
+  ...
+# Subtest: 駒のaria-labelを生成できる
+ok 324 - 駒のaria-labelを生成できる
+  ---
+  duration_ms: 1.383655
+  type: 'test'
+  ...
+# Subtest: Snapshot Versionを表示できる
+ok 325 - Snapshot Versionを表示できる
+  ---
+  duration_ms: 1.210471
+  type: 'test'
+  ...
+# Subtest: File未選択を拒否する
+ok 326 - File未選択を拒否する
+  ---
+  duration_ms: 1.163297
+  type: 'test'
+  ...
+# Subtest: 空Fileを拒否する
+ok 327 - 空Fileを拒否する
+  ---
+  duration_ms: 1.183575
+  type: 'test'
+  ...
+# Subtest: KIFではない拡張子を拒否する
+ok 328 - KIFではない拡張子を拒否する
+  ---
+  duration_ms: 0.411562
+  type: 'test'
+  ...
+# Subtest: KIFではない内容を拒否する
+ok 329 - KIFではない内容を拒否する
+  ---
+  duration_ms: 0.695553
+  type: 'test'
+  ...
+# Subtest: 極端に大きいFileを拒否する
+ok 330 - 極端に大きいFileを拒否する
+  ---
+  duration_ms: 0.196925
+  type: 'test'
+  ...
+# Subtest: File Reader Errorを専用Errorへ変換する
+ok 331 - File Reader Errorを専用Errorへ変換する
+  ---
+  duration_ms: 0.170678
+  type: 'test'
+  ...
+# Subtest: UTF-8の.kifuを読み取れる
+ok 332 - UTF-8の.kifuを読み取れる
+  ---
+  duration_ms: 0.596453
+  type: 'test'
+  ...
+# Subtest: Shift_JISの.kifを読み取れる
+ok 333 - Shift_JISの.kifを読み取れる
+  ---
+  duration_ms: 0.306145
+  type: 'test'
+  ...
+# Subtest: UTF-8内容の.kifはWarning付きで読み取る
+ok 334 - UTF-8内容の.kifはWarning付きで読み取る
+  ---
+  duration_ms: 0.70512
+  type: 'test'
+  ...
+# Subtest: 読めないEncodingを拒否する
+ok 335 - 読めないEncodingを拒否する
+  ---
+  duration_ms: 0.536425
+  type: 'test'
+  ...
+# Subtest: File ReaderからParserへ接続できる
+ok 336 - File ReaderからParserへ接続できる
+  ---
+  duration_ms: 5.367049
+  type: 'test'
+  ...
+# Subtest: Import Previewを作成できる
+ok 337 - Import Previewを作成できる
+  ---
+  duration_ms: 2.003332
+  type: 'test'
+  ...
+# Subtest: PreviewにParser Warningを保持する
+ok 338 - PreviewにParser Warningを保持する
+  ---
+  duration_ms: 0.649657
+  type: 'test'
+  ...
+# Subtest: Previewに読み込んだ棋譜の概要を作成する
+ok 339 - Previewに読み込んだ棋譜の概要を作成する
+  ---
+  duration_ms: 0.823586
+  type: 'test'
+  ...
+# Subtest: ぴよ将棋CompatibilityをGeneric Parserの外側で識別する
+ok 340 - ぴよ将棋CompatibilityをGeneric Parserの外側で識別する
+  ---
+  duration_ms: 0.715553
+  type: 'test'
+  ...
+# Subtest: Generic KIFをぴよ将棋専用扱いしない
+ok 341 - Generic KIFをぴよ将棋専用扱いしない
+  ---
+  duration_ms: 0.662715
+  type: 'test'
+  ...
+# Subtest: File選択でPreviewを準備できる
+ok 342 - File選択でPreviewを準備できる
+  ---
+  duration_ms: 3.837377
+  type: 'test'
+  ...
+# Subtest: Import中止時にFormを変更しない
+ok 343 - Import中止時にFormを変更しない
+  ---
+  duration_ms: 1.084144
+  type: 'test'
+  ...
+# Subtest: Import失敗時に現在Formを保持する
+ok 344 - Import失敗時に現在Formを保持する
+  ---
+  duration_ms: 0.934528
+  type: 'test'
+  ...
+# Subtest: Preview確認後にFormへ反映できる
+ok 345 - Preview確認後にFormへ反映できる
+  ---
+  duration_ms: 1.405918
+  type: 'test'
+  ...
+# Subtest: Form反映後は同じPreviewを再適用できない
+ok 346 - Form反映後は同じPreviewを再適用できない
+  ---
+  duration_ms: 0.911213
+  type: 'test'
+  ...
+# Subtest: Import成功だけではRepositoryへ保存されない
+ok 347 - Import成功だけではRepositoryへ保存されない
+  ---
+  duration_ms: 0.806317
+  type: 'test'
+  ...
+# Subtest: Previewがない状態の中止はNO_PREVIEWを返す
+ok 348 - Previewがない状態の中止はNO_PREVIEWを返す
+  ---
+  duration_ms: 0.20135
+  type: 'test'
+  ...
+# Subtest: 貼り付けKIF TextからPreviewを準備できる
+ok 349 - 貼り付けKIF TextからPreviewを準備できる
+  ---
+  duration_ms: 0.521462
+  type: 'test'
+  ...
+# Subtest: 貼り付けKIFもPreview確認後にFormへ反映できる
+ok 350 - 貼り付けKIFもPreview確認後にFormへ反映できる
+  ---
+  duration_ms: 0.86089
+  type: 'test'
+  ...
+# Subtest: 空の貼り付けKIFは現在Formを変更せず拒否する
+ok 351 - 空の貼り付けKIFは現在Formを変更せず拒否する
+  ---
+  duration_ms: 0.437195
+  type: 'test'
+  ...
+# Subtest: KIF入力Clearは一時入力とPreviewだけを破棄する
+ok 352 - KIF入力Clearは一時入力とPreviewだけを破棄する
+  ---
+  duration_ms: 1.744016
+  type: 'test'
+  ...
+# Subtest: 読み込みやり直しはPreviewだけを破棄してKIF入力を保持する
+ok 353 - 読み込みやり直しはPreviewだけを破棄してKIF入力を保持する
+  ---
+  duration_ms: 0.390369
+  type: 'test'
+  ...
+# Subtest: KIF ClearはRepository・LocalStorage・Clipboardへ副作用を持たない
+ok 354 - KIF ClearはRepository・LocalStorage・Clipboardへ副作用を持たない
+  ---
+  duration_ms: 1.201063
+  type: 'test'
+  ...
+# Subtest: Preview後に入力へ戻り別KIFを再Previewできる責務境界を保つ
+ok 355 - Preview後に入力へ戻り別KIFを再Previewできる責務境界を保つ
+  ---
+  duration_ms: 0.264079
+  type: 'test'
+  ...
+# Subtest: Import結果を先手Formへ反映できる
+ok 356 - Import結果を先手Formへ反映できる
+  ---
+  duration_ms: 3.144567
+  type: 'test'
+  ...
+# Subtest: Import結果を後手Formへ反映できる
+ok 357 - Import結果を後手Formへ反映できる
+  ---
+  duration_ms: 0.968237
+  type: 'test'
+  ...
+# Subtest: 対局日時と持ち時間を既存Form形式へ変換する
+ok 358 - 対局日時と持ち時間を既存Form形式へ変換する
+  ---
+  duration_ms: 0.404111
+  type: 'test'
+  ...
+# Subtest: 元のKIF TextをFormへ反映する
+ok 359 - 元のKIF TextをFormへ反映する
+  ---
+  duration_ms: 0.454898
+  type: 'test'
+  ...
+# Subtest: KIFから対局の物語を自動生成しない
+ok 360 - KIFから対局の物語を自動生成しない
+  ---
+  duration_ms: 0.2759
+  type: 'test'
+  ...
+# Subtest: FACT・INTERPRETATION・HYPOTHESISを変更しない
+ok 361 - FACT・INTERPRETATION・HYPOTHESISを変更しない
+  ---
+  duration_ms: 1.440327
+  type: 'test'
+  ...
+# Subtest: 判断Pattern・Observation Theme・実行Ruleを変更しない
+ok 362 - 判断Pattern・Observation Theme・実行Ruleを変更しない
+  ---
+  duration_ms: 0.949496
+  type: 'test'
+  ...
+# Subtest: 取得した基本情報を人間のMemoと分離して追記する
+ok 363 - 取得した基本情報を人間のMemoと分離して追記する
+  ---
+  duration_ms: 0.950627
+  type: 'test'
+  ...
+# Subtest: 再Import時はKIF基本情報Blockを重複させない
+ok 364 - 再Import時はKIF基本情報Blockを重複させない
+  ---
+  duration_ms: 0.676209
+  type: 'test'
+  ...
+# Subtest: Form Mapperの結果は変更不能である
+ok 365 - Form Mapperの結果は変更不能である
+  ---
+  duration_ms: 0.811933
+  type: 'test'
+  ...
+# Subtest: Form確認後にGameReviewとして保存できる
+ok 366 - Form確認後にGameReviewとして保存できる
+  ---
+  duration_ms: 5.675997
+  type: 'test'
+  ...
+# Subtest: 保存後にLocalStorageへ反映される
+ok 367 - 保存後にLocalStorageへ反映される
+  ---
+  duration_ms: 0.977506
+  type: 'test'
+  ...
+# Subtest: Importした棋譜が一覧・詳細に表示される
+ok 368 - Importした棋譜が一覧・詳細に表示される
+  ---
+  duration_ms: 19.436983
+  type: 'test'
+  ...
+# Subtest: Markdown ExportにImportした棋譜が欠落しない
+ok 369 - Markdown ExportにImportした棋譜が欠落しない
+  ---
+  duration_ms: 2.577818
+  type: 'test'
+  ...
+# Subtest: Observation Cardの既存動作を壊さない
+ok 370 - Observation Cardの既存動作を壊さない
+  ---
+  duration_ms: 1.949987
+  type: 'test'
+  ...
+# Subtest: Domain Constructorを通すため不正な振り返りは保存拒否される
+ok 371 - Domain Constructorを通すため不正な振り返りは保存拒否される
+  ---
+  duration_ms: 0.623383
+  type: 'test'
+  ...
+# Subtest: BrowserFileAdapterの既存Text読込Contractを維持する
+ok 372 - BrowserFileAdapterの既存Text読込Contractを維持する
+  ---
+  duration_ms: 0.382271
+  type: 'test'
+  ...
+# Subtest: 通常指し手を正規化できる
+ok 373 - 通常指し手を正規化できる
+  ---
+  duration_ms: 1.495899
+  type: 'test'
+  ...
+# Subtest: Ver.1.1 ParserのmoveNumber Contractを使用する
+ok 374 - Ver.1.1 ParserのmoveNumber Contractを使用する
+  ---
+  duration_ms: 0.276193
+  type: 'test'
+  ...
+# Subtest: 互換入力としてnumberも読み取れる
+ok 375 - 互換入力としてnumberも読み取れる
+  ---
+  duration_ms: 0.225876
+  type: 'test'
+  ...
+# Subtest: 奇数手を先手として正規化する
+ok 376 - 奇数手を先手として正規化する
+  ---
+  duration_ms: 1.069948
+  type: 'test'
+  ...
+# Subtest: 偶数手を後手として正規化する
+ok 377 - 偶数手を後手として正規化する
+  ---
+  duration_ms: 0.220049
+  type: 'test'
+  ...
+# Subtest: 同を直前移動先へ正規化できる
+ok 378 - 同を直前移動先へ正規化できる
+  ---
+  duration_ms: 0.127465
+  type: 'test'
+  ...
+# Subtest: 同の参照先がない場合は拒否する
+ok 379 - 同の参照先がない場合は拒否する
+  ---
+  duration_ms: 0.607036
+  type: 'test'
+  ...
+# Subtest: 成を正規化できる
+ok 380 - 成を正規化できる
+  ---
+  duration_ms: 0.164383
+  type: 'test'
+  ...
+# Subtest: 不成を正規化できる
+ok 381 - 不成を正規化できる
+  ---
+  duration_ms: 0.272953
+  type: 'test'
+  ...
+# Subtest: 打を正規化できる
+ok 382 - 打を正規化できる
+  ---
+  duration_ms: 0.329952
+  type: 'test'
+  ...
+# Subtest: 元Squareを取得できる
+ok 383 - 元Squareを取得できる
+  ---
+  duration_ms: 0.136141
+  type: 'test'
+  ...
+# Subtest: 龍と竜を同じ内部Piece Typeへ変換する
+ok 384 - 龍と竜を同じ内部Piece Typeへ変換する
+  ---
+  duration_ms: 0.11576
+  type: 'test'
+  ...
+# Subtest: 馬・成銀・成桂・成香・とを成駒として正規化する
+ok 385 - 馬・成銀・成桂・成香・とを成駒として正規化する
+  ---
+  duration_ms: 0.097183
+  type: 'test'
+  ...
+# Subtest: 右左直寄引上行を補助表記として保持する
+ok 386 - 右左直寄引上行を補助表記として保持する
+  ---
+  duration_ms: 1.094092
+  type: 'test'
+  ...
+# Subtest: 複数方向表記の順序を保持する
+ok 387 - 複数方向表記の順序を保持する
+  ---
+  duration_ms: 0.395285
+  type: 'test'
+  ...
+# Subtest: 全角Spaceを除去して同を解析する
+ok 388 - 全角Spaceを除去して同を解析する
+  ---
+  duration_ms: 0.084512
+  type: 'test'
+  ...
+# Subtest: 不正な移動先を拒否する
+ok 389 - 不正な移動先を拒否する
+  ---
+  duration_ms: 0.091928
+  type: 'test'
+  ...
+# Subtest: 不正な駒名を拒否する
+ok 390 - 不正な駒名を拒否する
+  ---
+  duration_ms: 0.062155
+  type: 'test'
+  ...
+# Subtest: 未知の補助表記を推測で処理しない
+ok 391 - 未知の補助表記を推測で処理しない
+  ---
+  duration_ms: 0.073872
+  type: 'test'
+  ...
+# Subtest: 打と元Squareの併記を拒否する
+ok 392 - 打と元Squareの併記を拒否する
+  ---
+  duration_ms: 0.06907
+  type: 'test'
+  ...
+# Subtest: 成駒を打つ表記を拒否する
+ok 393 - 成駒を打つ表記を拒否する
+  ---
+  duration_ms: 0.147838
+  type: 'test'
+  ...
+# Subtest: すでに成っている駒への不成表記を拒否する
+ok 394 - すでに成っている駒への不成表記を拒否する
+  ---
+  duration_ms: 0.094026
+  type: 'test'
+  ...
+# Subtest: 終局表記を指し手と分離できる
+ok 395 - 終局表記を指し手と分離できる
+  ---
+  duration_ms: 0.048821
+  type: 'test'
+  ...
+# Subtest: Ver.1.2未対応の入表記を明示的に拒否する
+ok 396 - Ver.1.2未対応の入表記を明示的に拒否する
+  ---
+  duration_ms: 0.05852
+  type: 'test'
+  ...
+# Subtest: Source KIF Moveを保持する
+ok 397 - Source KIF Moveを保持する
+  ---
+  duration_ms: 0.089047
+  type: 'test'
+  ...
+# Subtest: 正常なKIFを解析できる
+ok 398 - 正常なKIFを解析できる
+  ---
+  duration_ms: 5.492718
+  type: 'test'
+  ...
+# Subtest: Headerから先手・後手を取得できる
+ok 399 - Headerから先手・後手を取得できる
+  ---
+  duration_ms: 0.698074
+  type: 'test'
+  ...
+# Subtest: 日本語曜日を含む開始日時を変換できる
+ok 400 - 日本語曜日を含む開始日時を変換できる
+  ---
+  duration_ms: 0.3817
+  type: 'test'
+  ...
+# Subtest: 棋戦・場所・手合割・持ち時間・消費時間を取得できる
+ok 401 - 棋戦・場所・手合割・持ち時間・消費時間を取得できる
+  ---
+  duration_ms: 0.578303
+  type: 'test'
+  ...
+# Subtest: 投了から結果と終局理由を取得できる
+ok 402 - 投了から結果と終局理由を取得できる
+  ---
+  duration_ms: 0.388438
+  type: 'test'
+  ...
+# Subtest: 総手数は終局表記を除く指し手数として取得する
+ok 403 - 総手数は終局表記を除く指し手数として取得する
+  ---
+  duration_ms: 0.331195
+  type: 'test'
+  ...
+# Subtest: 指し手一覧と消費時間を取得できる
+ok 404 - 指し手一覧と消費時間を取得できる
+  ---
+  duration_ms: 0.494511
+  type: 'test'
+  ...
+# Subtest: 元のKIF Textを改行を含めて保持する
+ok 405 - 元のKIF Textを改行を含めて保持する
+  ---
+  duration_ms: 0.400645
+  type: 'test'
+  ...
+# Subtest: 指し手一覧Headerが省略されたKIFを解析できる
+ok 406 - 指し手一覧Headerが省略されたKIFを解析できる
+  ---
+  duration_ms: 1.24479
+  type: 'test'
+  ...
+# Subtest: 時間切れ終局を解析できる
+ok 407 - 時間切れ終局を解析できる
+  ---
+  duration_ms: 0.842265
+  type: 'test'
+  ...
+# Subtest: Headerが少ないKIFをWarning付きで解析できる
+ok 408 - Headerが少ないKIFをWarning付きで解析できる
+  ---
+  duration_ms: 0.389586
+  type: 'test'
+  ...
+# Subtest: 未対応手合割をWarningとして保持する
+ok 409 - 未対応手合割をWarningとして保持する
+  ---
+  duration_ms: 0.642101
+  type: 'test'
+  ...
+# Subtest: 未対応Headerを推測せずWarningと元値で保持する
+ok 410 - 未対応Headerを推測せずWarningと元値で保持する
+  ---
+  duration_ms: 0.351626
+  type: 'test'
+  ...
+# Subtest: ぴよ将棋の評価Commentを指し手一覧へ混ぜない
+ok 411 - ぴよ将棋の評価Commentを指し手一覧へ混ぜない
+  ---
+  duration_ms: 0.542688
+  type: 'test'
+  ...
+# Subtest: 公開されているぴよ将棋Sample構造を解析できる
+ok 412 - 公開されているぴよ将棋Sample構造を解析できる
+  ---
+  duration_ms: 1.104706
+  type: 'test'
+  ...
+# Subtest: KIF Import DTOは変更不能である
+ok 413 - KIF Import DTOは変更不能である
+  ---
+  duration_ms: 0.733073
+  type: 'test'
+  ...
+# Subtest: 空Textを拒否する
+ok 414 - 空Textを拒否する
+  ---
+  duration_ms: 0.280976
+  type: 'test'
+  ...
+# Subtest: 壊れたHeaderを拒否する
+ok 415 - 壊れたHeaderを拒否する
+  ---
+  duration_ms: 0.269358
+  type: 'test'
+  ...
+# Subtest: 棋譜なしを拒否する
+ok 416 - 棋譜なしを拒否する
+  ---
+  duration_ms: 0.210254
+  type: 'test'
+  ...
+# Subtest: 不正な指し手表記を拒否する
+ok 417 - 不正な指し手表記を拒否する
+  ---
+  duration_ms: 0.35904
+  type: 'test'
+  ...
+# Subtest: 同じ手数の重複を拒否する
+ok 418 - 同じ手数の重複を拒否する
+  ---
+  duration_ms: 0.229498
+  type: 'test'
+  ...
+# Subtest: 手数の飛びを拒否する
+ok 419 - 手数の飛びを拒否する
+  ---
+  duration_ms: 0.199377
+  type: 'test'
+  ...
+# Subtest: 終局行の総手数矛盾を拒否する
+ok 420 - 終局行の総手数矛盾を拒否する
+  ---
+  duration_ms: 0.31021
+  type: 'test'
+  ...
+# Subtest: 終局側と勝者の矛盾を拒否する
+ok 421 - 終局側と勝者の矛盾を拒否する
+  ---
+  duration_ms: 0.256436
+  type: 'test'
+  ...
+# Subtest: 終局表記の後に指し手があるKIFを拒否する
+ok 422 - 終局表記の後に指し手があるKIFを拒否する
+  ---
+  duration_ms: 0.260631
+  type: 'test'
+  ...
+# Subtest: 貼り付けたKIF Textを既存File Readerへ渡せるFile-like Objectへ変換できる
+ok 423 - 貼り付けたKIF Textを既存File Readerへ渡せるFile-like Objectへ変換できる
+  ---
+  duration_ms: 1.083542
+  type: 'test'
+  ...
+# Subtest: 貼り付けSource名を指定できる
+ok 424 - 貼り付けSource名を指定できる
+  ---
+  duration_ms: 1.234838
+  type: 'test'
+  ...
+# Subtest: 空の貼り付けTextを拒否する
+ok 425 - 空の貼り付けTextを拒否する
+  ---
+  duration_ms: 0.636228
+  type: 'test'
+  ...
+# Subtest: 生成したFile-like Objectは外側からPropertyを書き換えられない
+ok 426 - 生成したFile-like Objectは外側からPropertyを書き換えられない
+  ---
+  duration_ms: 0.166529
+  type: 'test'
+  ...
+# Subtest: LocalStorage Adapterで文字列を保存できる
+ok 427 - LocalStorage Adapterで文字列を保存できる
+  ---
+  duration_ms: 1.404281
+  type: 'test'
+  ...
+# Subtest: LocalStorage Adapterで保存文字列を読込できる
+ok 428 - LocalStorage Adapterで保存文字列を読込できる
+  ---
+  duration_ms: 0.813424
+  type: 'test'
+  ...
+# Subtest: LocalStorage Adapterで保存Dataを削除できる
+ok 429 - LocalStorage Adapterで保存Dataを削除できる
+  ---
+  duration_ms: 0.298342
+  type: 'test'
+  ...
+# Subtest: LocalStorageが利用できない場合は理由付きErrorを返す
+ok 430 - LocalStorageが利用できない場合は理由付きErrorを返す
+  ---
+  duration_ms: 0.807823
+  type: 'test'
+  ...
+# Subtest: LocalStorage保存失敗でも現在Domain Dataを保持する
+ok 431 - LocalStorage保存失敗でも現在Domain Dataを保持する
+  ---
+  duration_ms: 2.823597
+  type: 'test'
+  ...
+# Subtest: Persistence Coordinatorで現在DataをBrowserへ保存できる
+ok 432 - Persistence Coordinatorで現在DataをBrowserへ保存できる
+  ---
+  duration_ms: 0.896572
+  type: 'test'
+  ...
+# Subtest: Browser保存Dataから別Repositoryへ復元できる
+ok 433 - Browser保存Dataから別Repositoryへ復元できる
+  ---
+  duration_ms: 1.011031
+  type: 'test'
+  ...
+# Subtest: Browser保存Dataがない場合はEMPTYを返す
+ok 434 - Browser保存Dataがない場合はEMPTYを返す
+  ---
+  duration_ms: 0.891496
+  type: 'test'
+  ...
+# Subtest: Backup JSONを作成できる
+ok 435 - Backup JSONを作成できる
+  ---
+  duration_ms: 0.783739
+  type: 'test'
+  ...
+# Subtest: Backup JSONから復元できる
+ok 436 - Backup JSONから復元できる
+  ---
+  duration_ms: 0.981622
+  type: 'test'
+  ...
+# Subtest: 壊れたBackup復元は現在Dataを変更しない
+ok 437 - 壊れたBackup復元は現在Dataを変更しない
+  ---
+  duration_ms: 0.505681
+  type: 'test'
+  ...
+# Subtest: Controller境界からBrowser保存Dataを削除できる
+ok 438 - Controller境界からBrowser保存Dataを削除できる
+  ---
+  duration_ms: 0.430826
+  type: 'test'
+  ...
+# Subtest: 保存済みReview IDから振り返りMarkdownを作成する
+ok 439 - 保存済みReview IDから振り返りMarkdownを作成する
+  ---
+  duration_ms: 16.378499
+  type: 'test'
+  ...
+# Subtest: 保存済みReview IDからObservation Cardを作成する
+ok 440 - 保存済みReview IDからObservation Cardを作成する
+  ---
+  duration_ms: 0.891098
+  type: 'test'
+  ...
+# Subtest: 存在しないReview IDは既存GetGameReview Errorを維持する
+ok 441 - 存在しないReview IDは既存GetGameReview Errorを維持する
+  ---
+  duration_ms: 0.626725
+  type: 'test'
+  ...
+# Subtest: Controllerから二種類のMarkdownを作成する
+ok 442 - Controllerから二種類のMarkdownを作成する
+  ---
+  duration_ms: 0.86273
+  type: 'test'
+  ...
+# Subtest: Preview済みArtifactをClipboardへCopyする
+ok 443 - Preview済みArtifactをClipboardへCopyする
+  ---
+  duration_ms: 0.287644
+  type: 'test'
+  ...
+# Subtest: Preview済みArtifactをMarkdown MIMEでDownloadする
+ok 444 - Preview済みArtifactをMarkdown MIMEでDownloadする
+  ---
+  duration_ms: 0.205284
+  type: 'test'
+  ...
+# Subtest: 次局用Observation Cardに兆候・Theme・Rule・再発確認を出力する
+ok 445 - 次局用Observation Cardに兆候・Theme・Rule・再発確認を出力する
+  ---
+  duration_ms: 20.539859
+  type: 'test'
+  ...
+# Subtest: Observation CardはFACTを根拠として別Sectionへ保持する
+ok 446 - Observation CardはFACTを根拠として別Sectionへ保持する
+  ---
+  duration_ms: 0.639146
+  type: 'test'
+  ...
+# Subtest: 次局接続条件を満たさないReviewからObservation Cardを作成しない
+ok 447 - 次局接続条件を満たさないReviewからObservation Cardを作成しない
+  ---
+  duration_ms: 0.980452
+  type: 'test'
+  ...
+# Subtest: Phase1で公開済みのReflection Error Codeをすべて維持する
+ok 448 - Phase1で公開済みのReflection Error Codeをすべて維持する
+  ---
+  duration_ms: 1.429183
+  type: 'test'
+  ...
+# Subtest: 全主要駒種が同一viewBoxのオリジナルSVGで描画される
+ok 449 - 全主要駒種が同一viewBoxのオリジナルSVGで描画される
+  ---
+  duration_ms: 1.147787
+  type: 'test'
+  ...
+# Subtest: 成桂・成香・成銀は縦積みTextで固定幅内の視認性を確保する
+ok 450 - 成桂・成香・成銀は縦積みTextで固定幅内の視認性を確保する
+  ---
+  duration_ms: 0.2583
+  type: 'test'
+  ...
+# Subtest: 外周線はVer.1.6より抑制したstrokeで、外部Font Fileを同梱しない
+ok 451 - 外周線はVer.1.6より抑制したstrokeで、外部Font Fileを同梱しない
+  ---
+  duration_ms: 0.206675
+  type: 'test'
+  ...
+# Subtest: 後手向き・Board Flip用rotation classを保持する
+ok 452 - 後手向き・Board Flip用rotation classを保持する
+  ---
+  duration_ms: 0.220866
+  type: 'test'
+  ...
+# Subtest: 歩は共通の五角形SVG外形に収まる
+ok 453 - 歩は共通の五角形SVG外形に収まる
+  ---
+  duration_ms: 1.31548
+  type: 'test'
+  ...
+# Subtest: 馬は共通の五角形SVG外形に収まる
+ok 454 - 馬は共通の五角形SVG外形に収まる
+  ---
+  duration_ms: 0.275215
+  type: 'test'
+  ...
+# Subtest: 龍は共通の五角形SVG外形に収まる
+ok 455 - 龍は共通の五角形SVG外形に収まる
+  ---
+  duration_ms: 0.21035
+  type: 'test'
+  ...
+# Subtest: 成桂は共通の五角形SVG外形に収まる
+ok 456 - 成桂は共通の五角形SVG外形に収まる
+  ---
+  duration_ms: 0.101112
+  type: 'test'
+  ...
+# Subtest: 成香は共通の五角形SVG外形に収まる
+ok 457 - 成香は共通の五角形SVG外形に収まる
+  ---
+  duration_ms: 0.149226
+  type: 'test'
+  ...
+# Subtest: 成銀は共通の五角形SVG外形に収まる
+ok 458 - 成銀は共通の五角形SVG外形に収まる
+  ---
+  duration_ms: 0.076116
+  type: 'test'
+  ...
+# Subtest: 1文字駒も2文字駒も固定Piece Containerへ入る
+ok 459 - 1文字駒も2文字駒も固定Piece Containerへ入る
+  ---
+  duration_ms: 0.261872
+  type: 'test'
+  ...
+# Subtest: 成桂・成香・成銀はSquareを拡張せずPiece内部でFontを調整する
+ok 460 - 成桂・成香・成銀はSquareを拡張せずPiece内部でFontを調整する
+  ---
+  duration_ms: 0.206058
+  type: 'test'
+  ...
+# Subtest: 成駒はPromotion Classと文字で区別し2文字成駒は縦積みする
+ok 461 - 成駒はPromotion Classと文字で区別し2文字成駒は縦積みする
+  ---
+  duration_ms: 0.367195
+  type: 'test'
+  ...
+# Subtest: 後手方向はrotation classで表現しaccessible nameはSquare側に残す
+ok 462 - 後手方向はrotation classで表現しaccessible nameはSquare側に残す
+  ---
+  duration_ms: 0.674297
+  type: 'test'
+  ...
+# Subtest: 初期局面を0手目として保持する
+ok 463 - 初期局面を0手目として保持する
+  ---
+  duration_ms: 6.437755
+  type: 'test'
+  ...
+# Subtest: 指し手数+1件のPositionを生成する
+ok 464 - 指し手数+1件のPositionを生成する
+  ---
+  duration_ms: 1.238274
+  type: 'test'
+  ...
+# Subtest: 任意手数のPositionを取得できる
+ok 465 - 任意手数のPositionを取得できる
+  ---
+  duration_ms: 0.883949
+  type: 'test'
+  ...
+# Subtest: 前のPositionを変更しない
+ok 466 - 前のPositionを変更しない
+  ---
+  duration_ms: 1.445137
+  type: 'test'
+  ...
+# Subtest: 同の指し手をPosition Historyで適用できる
+ok 467 - 同の指し手をPosition Historyで適用できる
+  ---
+  duration_ms: 1.293817
+  type: 'test'
+  ...
+# Subtest: 駒打ちをPosition Historyで適用できる
+ok 468 - 駒打ちをPosition Historyで適用できる
+  ---
+  duration_ms: 0.61283
+  type: 'test'
+  ...
+# Subtest: 終局表記を指し手とは別に保持する
+ok 469 - 終局表記を指し手とは別に保持する
+  ---
+  duration_ms: 1.62633
+  type: 'test'
+  ...
+# Subtest: 全局面再現可能な場合FULLを返す
+ok 470 - 全局面再現可能な場合FULLを返す
+  ---
+  duration_ms: 2.115206
+  type: 'test'
+  ...
+# Subtest: Replay失敗手数を取得できる
+ok 471 - Replay失敗手数を取得できる
+  ---
+  duration_ms: 0.788254
+  type: 'test'
+  ...
+# Subtest: 途中失敗でも正常なPositionを保持する
+ok 472 - 途中失敗でも正常なPositionを保持する
+  ---
+  duration_ms: 0.794405
+  type: 'test'
+  ...
+# Subtest: 未対応手合割はReplay拒否となる
+ok 473 - 未対応手合割はReplay拒否となる
+  ---
+  duration_ms: 0.434941
+  type: 'test'
+  ...
+# Subtest: 手合割HeaderなしはReplay拒否となる
+ok 474 - 手合割HeaderなしはReplay拒否となる
+  ---
+  duration_ms: 0.196499
+  type: 'test'
+  ...
+# Subtest: Jump範囲外は明示的に拒否する
+ok 475 - Jump範囲外は明示的に拒否する
+  ---
+  duration_ms: 1.208676
+  type: 'test'
+  ...
+# Subtest: 手数重複をBuilder境界でも拒否する
+ok 476 - 手数重複をBuilder境界でも拒否する
+  ---
+  duration_ms: 0.390581
+  type: 'test'
+  ...
+# Subtest: 手数の飛びをBuilder境界でも拒否する
+ok 477 - 手数の飛びをBuilder境界でも拒否する
+  ---
+  duration_ms: 0.47883
+  type: 'test'
+  ...
+# Subtest: KIF Parser WarningをHistoryへ保持する
+ok 478 - KIF Parser WarningをHistoryへ保持する
+  ---
+  duration_ms: 0.247131
+  type: 'test'
+  ...
+# Subtest: 300手級のPosition Historyを実用時間内で生成する
+ok 479 - 300手級のPosition Historyを実用時間内で生成する
+  ---
+  duration_ms: 5.661398
+  type: 'test'
+  ...
+# Subtest: KIF→Position History→ReflectionLocal fallback Evaluation→Normalization→Candidate Rankingを通す
+ok 480 - KIF→Position History→ReflectionLocal fallback Evaluation→Normalization→Candidate Rankingを通す
+  ---
+  duration_ms: 637.060598
+  type: 'test'
+  ...
+# Subtest: 短い棋譜で合理的候補が3件未満なら水増ししない
+ok 481 - 短い棋譜で合理的候補が3件未満なら水増ししない
+  ---
+  duration_ms: 594.853196
+  type: 'test'
+  ...
+# Subtest: Real Local EngineをinitializeしてREADY相当のUSI metadataを取得できる
+ok 482 - Real Local EngineをinitializeしてREADY相当のUSI metadataを取得できる
+  ---
+  duration_ms: 47.628542
+  type: 'test'
+  ...
+# Subtest: Real Local EngineへPositionを渡し評価値・bestmove・MultiPVを受信する
+ok 483 - Real Local EngineへPositionを渡し評価値・bestmove・MultiPVを受信する
+  ---
+  duration_ms: 157.760121
+  type: 'test'
+  ...
+# Subtest: Real Local EngineのstopはWorker内Searchへ伝播しbestmoveで終了する
+ok 484 - Real Local EngineのstopはWorker内Searchへ伝播しbestmoveで終了する
+  ---
+  duration_ms: 152.098959
+  type: 'test'
+  ...
+# Subtest: Real Local Engine Workerが存在しない場合はEngine crashとして失敗する
+ok 485 - Real Local Engine Workerが存在しない場合はEngine crashとして失敗する
+  ---
+  duration_ms: 39.197545
+  type: 'test'
+  ...
+# Subtest: ReflectionLocal fallback E2E / short KIF
+ok 486 - ReflectionLocal fallback E2E / short KIF
+  ---
+  duration_ms: 418.78612
+  type: 'test'
+  ...
+# Subtest: ReflectionLocal fallback E2E / normal KIF
+ok 487 - ReflectionLocal fallback E2E / normal KIF
+  ---
+  duration_ms: 448.383998
+  type: 'test'
+  ...
+# Subtest: ReflectionLocal fallback E2E / long KIF uses smartphone safety cap
+ok 488 - ReflectionLocal fallback E2E / long KIF uses smartphone safety cap
+  ---
+  duration_ms: 1206.334843
+  type: 'test'
+  ...
+# Subtest: ReflectionLocal fallback Evaluation Sanity: 初期局面は有限CPとして返る
+ok 489 - ReflectionLocal fallback Evaluation Sanity: 初期局面は有限CPとして返る
+  ---
+  duration_ms: 126.878722
+  type: 'test'
+  ...
+# Subtest: ReflectionLocal fallback Evaluation Sanity: 明確な駒得/駒損でside-to-move視点の符号が反転する
+ok 490 - ReflectionLocal fallback Evaluation Sanity: 明確な駒得/駒損でside-to-move視点の符号が反転する
+  ---
+  duration_ms: 74.372368
+  type: 'test'
+  ...
+# Subtest: ReflectionLocal fallback Evaluation Sanity: 詰み局面はCPへ潰さずmateとして返る
+ok 491 - ReflectionLocal fallback Evaluation Sanity: 詰み局面はCPへ潰さずmateとして返る
+  ---
+  duration_ms: 39.544725
+  type: 'test'
+  ...
+# Subtest: 棋譜保存と振り返り完了は別Intentである
+ok 492 - 棋譜保存と振り返り完了は別Intentである
+  ---
+  duration_ms: 0.575593
+  type: 'test'
+  ...
+# Subtest: 振り返り途中保存では既存完成条件を要求しない
+ok 493 - 振り返り途中保存では既存完成条件を要求しない
+  ---
+  duration_ms: 2.138489
+  type: 'test'
+  ...
+# Subtest: 重要局面3件未満では振り返り完了できない
+ok 494 - 重要局面3件未満では振り返り完了できない
+  ---
+  duration_ms: 0.310036
+  type: 'test'
+  ...
+# Subtest: Observation Themeなしでは振り返り完了できない
+ok 495 - Observation Themeなしでは振り返り完了できない
+  ---
+  duration_ms: 0.281692
+  type: 'test'
+  ...
+# Subtest: 実行Ruleなしでは振り返り完了できない
+ok 496 - 実行Ruleなしでは振り返り完了できない
+  ---
+  duration_ms: 4.158614
+  type: 'test'
+  ...
+# Subtest: 重要局面3〜5件・Theme1件・Rule1〜3件で完了できる
+ok 497 - 重要局面3〜5件・Theme1件・Rule1〜3件で完了できる
+  ---
+  duration_ms: 1.488674
+  type: 'test'
+  ...
+# Subtest: KIF Import DTOからPosition Historyを作成できる
+ok 498 - KIF Import DTOからPosition Historyを作成できる
+  ---
+  duration_ms: 5.350512
+  type: 'test'
+  ...
+# Subtest: Import後に初期局面を表示できる
+ok 499 - Import後に初期局面を表示できる
+  ---
+  duration_ms: 1.46653
+  type: 'test'
+  ...
+# Subtest: 全指し手を最後まで再現できる
+ok 500 - 全指し手を最後まで再現できる
+  ---
+  duration_ms: 0.965321
+  type: 'test'
+  ...
+# Subtest: 前へ戻った後に再び次へ進める
+ok 501 - 前へ戻った後に再び次へ進める
+  ---
+  duration_ms: 1.238714
+  type: 'test'
+  ...
+# Subtest: 任意手数Jump後のPositionがHistoryと一致する
+ok 502 - 任意手数Jump後のPositionがHistoryと一致する
+  ---
+  duration_ms: 0.577001
+  type: 'test'
+  ...
+# Subtest: Replay操作だけではRepositoryへ保存されない
+ok 503 - Replay操作だけではRepositoryへ保存されない
+  ---
+  duration_ms: 0.641682
+  type: 'test'
+  ...
+# Subtest: 保存済みGameReviewの棋譜Textから再現できる
+ok 504 - 保存済みGameReviewの棋譜Textから再現できる
+  ---
+  duration_ms: 2.340936
+  type: 'test'
+  ...
+# Subtest: 保存後にSnapshotから再読込してReplayできる
+ok 505 - 保存後にSnapshotから再読込してReplayできる
+  ---
+  duration_ms: 2.163638
+  type: 'test'
+  ...
+# Subtest: Replay後も保存前のGameReview Stateを維持する
+ok 506 - Replay後も保存前のGameReview Stateを維持する
+  ---
+  duration_ms: 2.081763
+  type: 'test'
+  ...
+# Subtest: 途中Replay失敗でも保存済みGameReviewを変更しない
+ok 507 - 途中Replay失敗でも保存済みGameReviewを変更しない
+  ---
+  duration_ms: 1.035583
+  type: 'test'
+  ...
+# Subtest: Markdown Exportに棋譜が欠落しない
+ok 508 - Markdown Exportに棋譜が欠落しない
+  ---
+  duration_ms: 13.599714
+  type: 'test'
+  ...
+# Subtest: Observation Cardの既存動作を壊さない
+ok 509 - Observation Cardの既存動作を壊さない
+  ---
+  duration_ms: 0.600544
+  type: 'test'
+  ...
+# Subtest: ReplayでFACT・INTERPRETATION・HYPOTHESISを自動変更しない
+ok 510 - ReplayでFACT・INTERPRETATION・HYPOTHESISを自動変更しない
+  ---
+  duration_ms: 0.626754
+  type: 'test'
+  ...
+# Subtest: ReplayでObservation Themeと実行Ruleを自動変更しない
+ok 511 - ReplayでObservation Themeと実行Ruleを自動変更しない
+  ---
+  duration_ms: 0.438308
+  type: 'test'
+  ...
+# Subtest: KIF Parser Warning付きでも再現可能な局面を保持する
+ok 512 - KIF Parser Warning付きでも再現可能な局面を保持する
+  ---
+  duration_ms: 0.294288
+  type: 'test'
+  ...
+# Subtest: 現在手数を保持できる
+ok 513 - 現在手数を保持できる
+  ---
+  duration_ms: 7.518907
+  type: 'test'
+  ...
+# Subtest: 現在の指し手を保持できる
+ok 514 - 現在の指し手を保持できる
+  ---
+  duration_ms: 2.220714
+  type: 'test'
+  ...
+# Subtest: 直前の指し手を保持できる
+ok 515 - 直前の指し手を保持できる
+  ---
+  duration_ms: 1.413839
+  type: 'test'
+  ...
+# Subtest: 元KIF指し手の原文行を保持できる
+ok 516 - 元KIF指し手の原文行を保持できる
+  ---
+  duration_ms: 1.643689
+  type: 'test'
+  ...
+# Subtest: Board Stateを保持できる
+ok 517 - Board Stateを保持できる
+  ---
+  duration_ms: 0.871726
+  type: 'test'
+  ...
+# Subtest: 先手持ち駒を保持できる
+ok 518 - 先手持ち駒を保持できる
+  ---
+  duration_ms: 1.070922
+  type: 'test'
+  ...
+# Subtest: 後手持ち駒を保持できる
+ok 519 - 後手持ち駒を保持できる
+  ---
+  duration_ms: 1.748463
+  type: 'test'
+  ...
+# Subtest: Side to Moveを保持できる
+ok 520 - Side to Moveを保持できる
+  ---
+  duration_ms: 1.759203
+  type: 'test'
+  ...
+# Subtest: 最終移動元を保持できる
+ok 521 - 最終移動元を保持できる
+  ---
+  duration_ms: 2.112239
+  type: 'test'
+  ...
+# Subtest: 最終移動先を保持できる
+ok 522 - 最終移動先を保持できる
+  ---
+  duration_ms: 1.185728
+  type: 'test'
+  ...
+# Subtest: 直前局面を保持できる
+ok 523 - 直前局面を保持できる
+  ---
+  duration_ms: 0.878825
+  type: 'test'
+  ...
+# Subtest: 現在局面と直前局面は別Dataである
+ok 524 - 現在局面と直前局面は別Dataである
+  ---
+  duration_ms: 2.707033
+  type: 'test'
+  ...
+# Subtest: Snapshot Versionを保持できる
+ok 525 - Snapshot Versionを保持できる
+  ---
+  duration_ms: 0.793631
+  type: 'test'
+  ...
+# Subtest: 終局情報を保持できる
+ok 526 - 終局情報を保持できる
+  ---
+  duration_ms: 0.567523
+  type: 'test'
+  ...
+# Subtest: 盤面反転状態を参照しない
+ok 527 - 盤面反転状態を参照しない
+  ---
+  duration_ms: 1.898133
+  type: 'test'
+  ...
+# Subtest: 不変Objectとして扱える
+ok 528 - 不変Objectとして扱える
+  ---
+  duration_ms: 0.972139
+  type: 'test'
+  ...
+# Subtest: Board Snapshotを安全なCopyとして保持する
+ok 529 - Board Snapshotを安全なCopyとして保持する
+  ---
+  duration_ms: 2.181155
+  type: 'test'
+  ...
+# Subtest: JSONへ変換できる
+ok 530 - JSONへ変換できる
+  ---
+  duration_ms: 1.141056
+  type: 'test'
+  ...
+# Subtest: JSONから復元できる
+ok 531 - JSONから復元できる
+  ---
+  duration_ms: 1.929349
+  type: 'test'
+  ...
+# Subtest: Objectから復元できる
+ok 532 - Objectから復元できる
+  ---
+  duration_ms: 1.646993
+  type: 'test'
+  ...
+# Subtest: 0手目Snapshotを拒否する
+ok 533 - 0手目Snapshotを拒否する
+  ---
+  duration_ms: 1.148946
+  type: 'test'
+  ...
+# Subtest: 不正Snapshot Versionを拒否する
+ok 534 - 不正Snapshot Versionを拒否する
+  ---
+  duration_ms: 1.320239
+  type: 'test'
+  ...
+# Subtest: 不正Board Stateを拒否する
+ok 535 - 不正Board Stateを拒否する
+  ---
+  duration_ms: 0.312621
+  type: 'test'
+  ...
+# Subtest: 同じSquareの重複を拒否する
+ok 536 - 同じSquareの重複を拒否する
+  ---
+  duration_ms: 0.13589
+  type: 'test'
+  ...
+# Subtest: 不正Hand Stateを拒否する
+ok 537 - 不正Hand Stateを拒否する
+  ---
+  duration_ms: 0.233031
+  type: 'test'
+  ...
+# Subtest: 不正Side to Moveを拒否する
+ok 538 - 不正Side to Moveを拒否する
+  ---
+  duration_ms: 1.360343
+  type: 'test'
+  ...
+# Subtest: 不正Last Moveを拒否する
+ok 539 - 不正Last Moveを拒否する
+  ---
+  duration_ms: 1.477789
+  type: 'test'
+  ...
+# Subtest: 元KIF指し手がないSnapshotを拒否する
+ok 540 - 元KIF指し手がないSnapshotを拒否する
+  ---
+  duration_ms: 1.080197
+  type: 'test'
+  ...
+# Subtest: Replay Warningを保持できる
+ok 541 - Replay Warningを保持できる
+  ---
+  duration_ms: 1.037853
+  type: 'test'
+  ...
+# Subtest: 現在手TargetはMove List Container内だけを要求する
+ok 542 - 現在手TargetはMove List Container内だけを要求する
+  ---
+  duration_ms: 1.902525
+  type: 'test'
+  ...
+# Subtest: 現在手がContainer内に見えていればScrollしない
+ok 543 - 現在手がContainer内に見えていればScrollしない
+  ---
+  duration_ms: 0.215915
+  type: 'test'
+  ...
+# Subtest: 現在手がContainer下端より外ならContainer scrollTopだけを増やす
+ok 544 - 現在手がContainer下端より外ならContainer scrollTopだけを増やす
+  ---
+  duration_ms: 0.358669
+  type: 'test'
+  ...
+# Subtest: 現在手がContainer上端より外ならContainer scrollTopだけを減らす
+ok 545 - 現在手がContainer上端より外ならContainer scrollTopだけを減らす
+  ---
+  duration_ms: 0.118649
+  type: 'test'
+  ...
+# Subtest: 次へ相当の追従はPage Scroll要求を生成しない
+ok 546 - 次へ相当の追従はPage Scroll要求を生成しない
+  ---
+  duration_ms: 0.162553
+  type: 'test'
+  ...
+# Subtest: 前へ相当の追従はPage Scroll要求を生成しない
+ok 547 - 前へ相当の追従はPage Scroll要求を生成しない
+  ---
+  duration_ms: 0.944174
+  type: 'test'
+  ...
+# Subtest: 最初へ相当の追従でもContainer外へのScroll要求を出さない
+ok 548 - 最初へ相当の追従でもContainer外へのScroll要求を出さない
+  ---
+  duration_ms: 0.274485
+  type: 'test'
+  ...
+# Subtest: 最後へ相当の追従でもContainer外へのScroll要求を出さない
+ok 549 - 最後へ相当の追従でもContainer外へのScroll要求を出さない
+  ---
+  duration_ms: 0.106879
+  type: 'test'
+  ...
+# Subtest: Keyboard Navigation相当も同じContainer Policyを再利用できる
+ok 550 - Keyboard Navigation相当も同じContainer Policyを再利用できる
+  ---
+  duration_ms: 0.244968
+  type: 'test'
+  ...
+# Subtest: Scroll Containerが無い場合も例外化せずData変更を要求しない
+ok 551 - Scroll Containerが無い場合も例外化せずData変更を要求しない
+  ---
+  duration_ms: 0.466299
+  type: 'test'
+  ...
+# Subtest: Current Move Itemが無い場合も例外化せずData変更を要求しない
+ok 552 - Current Move Itemが無い場合も例外化せずData変更を要求しない
+  ---
+  duration_ms: 0.192384
+  type: 'test'
+  ...
+# Subtest: 日時とSuffixから追跡可能なReview IDを生成する
+ok 553 - 日時とSuffixから追跡可能なReview IDを生成する
+  ---
+  duration_ms: 0.949156
+  type: 'test'
+  ...
+# Subtest: 生成されたReview IDは毎回新しいSuffixを利用できる
+ok 554 - 生成されたReview IDは毎回新しいSuffixを利用できる
+  ---
+  duration_ms: 0.414656
+  type: 'test'
+  ...
+# Subtest: 保存済み対局Summaryは対局日を日付だけへ整形する
+ok 555 - 保存済み対局Summaryは対局日を日付だけへ整形する
+  ---
+  duration_ms: 20.188897
+  type: 'test'
+  ...
+# Subtest: 戦型はKIF Import Metadataから読み取りDomain追加を要求しない
+ok 556 - 戦型はKIF Import Metadataから読み取りDomain追加を要求しない
+  ---
+  duration_ms: 0.49019
+  type: 'test'
+  ...
+# Subtest: 旧保存DataでもRaw KIFから戦型だけを読み取れる
+ok 557 - 旧保存DataでもRaw KIFから戦型だけを読み取れる
+  ---
+  duration_ms: 1.158214
+  type: 'test'
+  ...
+# Subtest: 戦型不明は未設定とする
+ok 558 - 戦型不明は未設定とする
+  ---
+  duration_ms: 0.552687
+  type: 'test'
+  ...
+# Subtest: 振り返り未入力でもRaw KIF HeaderをstoryExcerptへ表示しない
+ok 559 - 振り返り未入力でもRaw KIF HeaderをstoryExcerptへ表示しない
+  ---
+  duration_ms: 0.518161
+  type: 'test'
+  ...
+# Subtest: Browser Cardは対局日Label・戦型・相手・勝敗・手数・Statusを表示する
+ok 560 - Browser Cardは対局日Label・戦型・相手・勝敗・手数・Statusを表示する
+  ---
+  duration_ms: 0.417125
+  type: 'test'
+  ...
+# Subtest: Browser CardはRaw kifuTextを直接描画しない
+ok 561 - Browser CardはRaw kifuTextを直接描画しない
+  ---
+  duration_ms: 0.414523
+  type: 'test'
+  ...
+# Subtest: 一覧はReplay Positionを生成せずKIF行から手数を要約する
+ok 562 - 一覧はReplay Positionを生成せずKIF行から手数を要約する
+  ---
+  duration_ms: 0.74793
+  type: 'test'
+  ...
+# Subtest: 保存済み対局一覧に状態と保存更新日時を出す
+ok 563 - 保存済み対局一覧に状態と保存更新日時を出す
+  ---
+  duration_ms: 13.859653
+  type: 'test'
+  ...
+# Subtest: 旧SnapshotのStatus欠落時は内容から状態を推定する
+ok 564 - 旧SnapshotのStatus欠落時は内容から状態を推定する
+  ---
+  duration_ms: 0.572869
+  type: 'test'
+  ...
+# Subtest: 詳細Viewerは棋譜・重要局面・振り返り・次局接続を返す
+ok 565 - 詳細Viewerは棋譜・重要局面・振り返り・次局接続を返す
+  ---
+  duration_ms: 0.700415
+  type: 'test'
+  ...
+# Subtest: Valid Engine AdapterはPortとして受理する
+ok 566 - Valid Engine AdapterはPortとして受理する
+  ---
+  duration_ms: 0.823267
+  type: 'test'
+  ...
+# Subtest: Missing Adapterを拒否する
+ok 567 - Missing Adapterを拒否する
+  ---
+  duration_ms: 0.350784
+  type: 'test'
+  ...
+# Subtest: 不足MethodのあるAdapterを拒否する
+ok 568 - 不足MethodのあるAdapterを拒否する
+  ---
+  duration_ms: 0.207073
+  type: 'test'
+  ...
+# Subtest: 平手初期局面を生成できる
+ok 569 - 平手初期局面を生成できる
+  ---
+  duration_ms: 3.559822
+  type: 'test'
+  ...
+# Subtest: 盤面は81Squareを保持する
+ok 570 - 盤面は81Squareを保持する
+  ---
+  duration_ms: 0.631628
+  type: 'test'
+  ...
+# Subtest: 平手初期局面は40駒を配置する
+ok 571 - 平手初期局面は40駒を配置する
+  ---
+  duration_ms: 0.156243
+  type: 'test'
+  ...
+# Subtest: 先手玉を5九へ配置する
+ok 572 - 先手玉を5九へ配置する
+  ---
+  duration_ms: 0.188676
+  type: 'test'
+  ...
+# Subtest: 後手王を5一へ配置する
+ok 573 - 後手王を5一へ配置する
+  ---
+  duration_ms: 0.181396
+  type: 'test'
+  ...
+# Subtest: 先手飛車を2八へ配置する
+ok 574 - 先手飛車を2八へ配置する
+  ---
+  duration_ms: 0.144388
+  type: 'test'
+  ...
+# Subtest: 後手飛車を8二へ配置する
+ok 575 - 後手飛車を8二へ配置する
+  ---
+  duration_ms: 0.257359
+  type: 'test'
+  ...
+# Subtest: 先手角を8八へ配置する
+ok 576 - 先手角を8八へ配置する
+  ---
+  duration_ms: 0.159466
+  type: 'test'
+  ...
+# Subtest: 後手角を2二へ配置する
+ok 577 - 後手角を2二へ配置する
+  ---
+  duration_ms: 0.305757
+  type: 'test'
+  ...
+# Subtest: 先手と後手の歩を各9枚配置する
+ok 578 - 先手と後手の歩を各9枚配置する
+  ---
+  duration_ms: 0.614409
+  type: 'test'
+  ...
+# Subtest: 初期持ち駒は空である
+ok 579 - 初期持ち駒は空である
+  ---
+  duration_ms: 0.246032
+  type: 'test'
+  ...
+# Subtest: 初期手番は先手である
+ok 580 - 初期手番は先手である
+  ---
+  duration_ms: 0.115991
+  type: 'test'
+  ...
+# Subtest: 空きSquareはnullを返す
+ok 581 - 空きSquareはnullを返す
+  ---
+  duration_ms: 0.103216
+  type: 'test'
+  ...
+# Subtest: PositionとHandsをfreezeする
+ok 582 - PositionとHandsをfreezeする
+  ---
+  duration_ms: 0.099533
+  type: 'test'
+  ...
+# Subtest: Board変更は新しいObjectを返し元Boardを変えない
+ok 583 - Board変更は新しいObjectを返し元Boardを変えない
+  ---
+  duration_ms: 0.814552
+  type: 'test'
+  ...
+# Subtest: 成駒表示と内部Piece Typeを分離する
+ok 584 - 成駒表示と内部Piece Typeを分離する
+  ---
+  duration_ms: 0.152599
+  type: 'test'
+  ...
+# Subtest: 成駒を取ったときに元の駒へ戻せるPiece表現を持つ
+ok 585 - 成駒を取ったときに元の駒へ戻せるPiece表現を持つ
+  ---
+  duration_ms: 0.11438
+  type: 'test'
+  ...
+# Subtest: 未対応手合割を平手として暗黙再現しない
+ok 586 - 未対応手合割を平手として暗黙再現しない
+  ---
+  duration_ms: 0.346631
+  type: 'test'
+  ...
+# Subtest: 手合割Headerなしを明示的に拒否する
+ok 587 - 手合割Headerなしを明示的に拒否する
+  ---
+  duration_ms: 0.085229
+  type: 'test'
+  ...
+# Subtest: KIF Historyを読み込むと初期局面へ移動する
+ok 588 - KIF Historyを読み込むと初期局面へ移動する
+  ---
+  duration_ms: 5.457044
+  type: 'test'
+  ...
+# Subtest: 最初へ移動できる
+ok 589 - 最初へ移動できる
+  ---
+  duration_ms: 1.170616
+  type: 'test'
+  ...
+# Subtest: 前へ移動できる
+ok 590 - 前へ移動できる
+  ---
+  duration_ms: 0.982592
+  type: 'test'
+  ...
+# Subtest: 次へ移動できる
+ok 591 - 次へ移動できる
+  ---
+  duration_ms: 1.195967
+  type: 'test'
+  ...
+# Subtest: 最後へ移動できる
+ok 592 - 最後へ移動できる
+  ---
+  duration_ms: 0.626518
+  type: 'test'
+  ...
+# Subtest: 任意手数へJumpできる
+ok 593 - 任意手数へJumpできる
+  ---
+  duration_ms: 0.508068
+  type: 'test'
+  ...
+# Subtest: 範囲外Jumpを拒否できる
+ok 594 - 範囲外Jumpを拒否できる
+  ---
+  duration_ms: 1.596003
+  type: 'test'
+  ...
+# Subtest: 小数Jumpを拒否できる
+ok 595 - 小数Jumpを拒否できる
+  ---
+  duration_ms: 0.744352
+  type: 'test'
+  ...
+# Subtest: 初期局面では前へ進めない
+ok 596 - 初期局面では前へ進めない
+  ---
+  duration_ms: 1.061659
+  type: 'test'
+  ...
+# Subtest: 最終局面では次へ進めない
+ok 597 - 最終局面では次へ進めない
+  ---
+  duration_ms: 0.910887
+  type: 'test'
+  ...
+# Subtest: 盤面反転状態を切り替えられる
+ok 598 - 盤面反転状態を切り替えられる
+  ---
+  duration_ms: 0.960147
+  type: 'test'
+  ...
+# Subtest: 新しいHistory読込時は反転を解除する
+ok 599 - 新しいHistory読込時は反転を解除する
+  ---
+  duration_ms: 0.97684
+  type: 'test'
+  ...
+# Subtest: 現在指し手と直前指し手を取得できる
+ok 600 - 現在指し手と直前指し手を取得できる
+  ---
+  duration_ms: 0.745144
+  type: 'test'
+  ...
+# Subtest: 直前Positionと現在Positionを取得できる
+ok 601 - 直前Positionと現在Positionを取得できる
+  ---
+  duration_ms: 0.537475
+  type: 'test'
+  ...
+# Subtest: Replay未読込の操作を拒否する
+ok 602 - Replay未読込の操作を拒否する
+  ---
+  duration_ms: 0.178795
+  type: 'test'
+  ...
+# Subtest: Replay操作はHistoryのPositionを変更しない
+ok 603 - Replay操作はHistoryのPositionを変更しない
+  ---
+  duration_ms: 0.695982
+  type: 'test'
+  ...
+# Subtest: KIF Textを読み込み初期局面を描画する
+ok 604 - KIF Textを読み込み初期局面を描画する
+  ---
+  duration_ms: 8.689678
+  type: 'test'
+  ...
+# Subtest: Ver.1.1 KifParserへObject引数で接続する
+ok 605 - Ver.1.1 KifParserへObject引数で接続する
+  ---
+  duration_ms: 2.039832
+  type: 'test'
+  ...
+# Subtest: 次へ操作をViewへ反映する
+ok 606 - 次へ操作をViewへ反映する
+  ---
+  duration_ms: 2.718555
+  type: 'test'
+  ...
+# Subtest: 前へ操作をViewへ反映する
+ok 607 - 前へ操作をViewへ反映する
+  ---
+  duration_ms: 1.386101
+  type: 'test'
+  ...
+# Subtest: 最後へ操作をViewへ反映する
+ok 608 - 最後へ操作をViewへ反映する
+  ---
+  duration_ms: 1.418314
+  type: 'test'
+  ...
+# Subtest: 最初へ操作をViewへ反映する
+ok 609 - 最初へ操作をViewへ反映する
+  ---
+  duration_ms: 1.548113
+  type: 'test'
+  ...
+# Subtest: JumpをViewへ反映する
+ok 610 - JumpをViewへ反映する
+  ---
+  duration_ms: 1.653927
+  type: 'test'
+  ...
+# Subtest: 範囲外Jumpは利用者向けErrorへ変換する
+ok 611 - 範囲外Jumpは利用者向けErrorへ変換する
+  ---
+  duration_ms: 1.839374
+  type: 'test'
+  ...
+# Subtest: 盤面反転をViewへ反映する
+ok 612 - 盤面反転をViewへ反映する
+  ---
+  duration_ms: 1.616877
+  type: 'test'
+  ...
+# Subtest: 未対応手合割をReplay拒否として表示する
+ok 613 - 未対応手合割をReplay拒否として表示する
+  ---
+  duration_ms: 0.942016
+  type: 'test'
+  ...
+# Subtest: 手合割HeaderなしをReplay拒否として表示する
+ok 614 - 手合割HeaderなしをReplay拒否として表示する
+  ---
+  duration_ms: 0.449924
+  type: 'test'
+  ...
+# Subtest: 途中失敗でも再現可能範囲を描画する
+ok 615 - 途中失敗でも再現可能範囲を描画する
+  ---
+  duration_ms: 0.887966
+  type: 'test'
+  ...
+# Subtest: 棋譜Textなしは空盤を出さず理由を表示する
+ok 616 - 棋譜Textなしは空盤を出さず理由を表示する
+  ---
+  duration_ms: 0.200429
+  type: 'test'
+  ...
+# Subtest: Parser Errorを低レベルErrorと利用者Messageへ分離する
+ok 617 - Parser Errorを低レベルErrorと利用者Messageへ分離する
+  ---
+  duration_ms: 0.4668
+  type: 'test'
+  ...
+# Subtest: Replay Navigation ControllerはPage Scrollを要求しない
+ok 618 - Replay Navigation ControllerはPage Scrollを要求しない
+  ---
+  duration_ms: 1.928876
+  type: 'test'
+  ...
+# Subtest: Replay Navigation ErrorでもPage Scrollや保存を要求しない
+ok 619 - Replay Navigation ErrorでもPage Scrollや保存を要求しない
+  ---
+  duration_ms: 1.374866
+  type: 'test'
+  ...
+# Subtest: Positionを81Squareの盤面表示Dataへ変換できる
+ok 620 - Positionを81Squareの盤面表示Dataへ変換できる
+  ---
+  duration_ms: 9.901373
+  type: 'test'
+  ...
+# Subtest: 標準表示は9一から開始する
+ok 621 - 標準表示は9一から開始する
+  ---
+  duration_ms: 2.03329
+  type: 'test'
+  ...
+# Subtest: 後手駒を標準表示で回転表示する
+ok 622 - 後手駒を標準表示で回転表示する
+  ---
+  duration_ms: 3.709814
+  type: 'test'
+  ...
+# Subtest: 成駒を表示できる
+ok 623 - 成駒を表示できる
+  ---
+  duration_ms: 1.38646
+  type: 'test'
+  ...
+# Subtest: 持ち駒枚数を表示できる
+ok 624 - 持ち駒枚数を表示できる
+  ---
+  duration_ms: 1.093421
+  type: 'test'
+  ...
+# Subtest: 現在手を強調するDataを作成できる
+ok 625 - 現在手を強調するDataを作成できる
+  ---
+  duration_ms: 3.750925
+  type: 'test'
+  ...
+# Subtest: Button有効無効状態を作成できる
+ok 626 - Button有効無効状態を作成できる
+  ---
+  duration_ms: 1.39859
+  type: 'test'
+  ...
+# Subtest: 現在手数・現在指し手・直前指し手を表示できる
+ok 627 - 現在手数・現在指し手・直前指し手を表示できる
+  ---
+  duration_ms: 1.331849
+  type: 'test'
+  ...
+# Subtest: 先手後手の手番表示を作成できる
+ok 628 - 先手後手の手番表示を作成できる
+  ---
+  duration_ms: 2.168224
+  type: 'test'
+  ...
+# Subtest: 最終移動元と移動先を表示Dataへ含める
+ok 629 - 最終移動元と移動先を表示Dataへ含める
+  ---
+  duration_ms: 1.344004
+  type: 'test'
+  ...
+# Subtest: 盤面反転で表示順だけを変える
+ok 630 - 盤面反転で表示順だけを変える
+  ---
+  duration_ms: 1.125366
+  type: 'test'
+  ...
+# Subtest: 反転後は先手駒を回転表示する
+ok 631 - 反転後は先手駒を回転表示する
+  ---
+  duration_ms: 1.138904
+  type: 'test'
+  ...
+# Subtest: Parser Warningを表示Dataへ保持する
+ok 632 - Parser Warningを表示Dataへ保持する
+  ---
+  duration_ms: 0.791871
+  type: 'test'
+  ...
+# Subtest: 途中Replay失敗をWarning表示Dataへ保持する
+ok 633 - 途中Replay失敗をWarning表示Dataへ保持する
+  ---
+  duration_ms: 1.063764
+  type: 'test'
+  ...
+# Subtest: Ver.1.3接続用のBoard・Hand・Source KIF Moveを取得できる
+ok 634 - Ver.1.3接続用のBoard・Hand・Source KIF Moveを取得できる
+  ---
+  duration_ms: 1.416514
+  type: 'test'
+  ...
+# Subtest: Current Move IDを安定したDOM IDとして生成できる
+ok 635 - Current Move IDを安定したDOM IDとして生成できる
+  ---
+  duration_ms: 1.078959
+  type: 'test'
+  ...
+# Subtest: Current Move HighlightとMove List Scroll Targetを同じ手数へ向ける
+ok 636 - Current Move HighlightとMove List Scroll Targetを同じ手数へ向ける
+  ---
+  duration_ms: 0.98025
+  type: 'test'
+  ...
+# Subtest: Move List Scroll TargetはPage Scrollを要求しない
+ok 637 - Move List Scroll TargetはPage Scrollを要求しない
+  ---
+  duration_ms: 1.559711
+  type: 'test'
+  ...
+# Subtest: 盤面反転してもMove List Scroll Targetは変化しない
+ok 638 - 盤面反転してもMove List Scroll Targetは変化しない
+  ---
+  duration_ms: 1.30114
+  type: 'test'
+  ...
+# Subtest: Step定義は7段階で責務名を保持する
+ok 639 - Step定義は7段階で責務名を保持する
+  ---
+  duration_ms: 1.535547
+  type: 'test'
+  ...
+# Subtest: STEP1からSTEP2へ移動できる
+ok 640 - STEP1からSTEP2へ移動できる
+  ---
+  duration_ms: 5.790307
+  type: 'test'
+  ...
+# Subtest: STEP2からSTEP3へ移動できる
+ok 641 - STEP2からSTEP3へ移動できる
+  ---
+  duration_ms: 0.262551
+  type: 'test'
+  ...
+# Subtest: 前のStepへ戻れる
+ok 642 - 前のStepへ戻れる
+  ---
+  duration_ms: 0.38472
+  type: 'test'
+  ...
+# Subtest: Step移動はDOM表示だけを変えForm Dataを持たない
+ok 643 - Step移動はDOM表示だけを変えForm Dataを持たない
+  ---
+  duration_ms: 0.188247
+  type: 'test'
+  ...
+# Subtest: 現在Stepをaria-labelで読み上げられる
+ok 644 - 現在Stepをaria-labelで読み上げられる
+  ---
+  duration_ms: 0.516522
+  type: 'test'
+  ...
+# Subtest: 有効な入力をDomainへ変換しRepositoryとBrowserへ保存する
+ok 645 - 有効な入力をDomainへ変換しRepositoryとBrowserへ保存する
+  ---
+  duration_ms: 4.011026
+  type: 'test'
+  ...
+# Subtest: 同じReview IDを送信すると更新として保存する
+ok 646 - 同じReview IDを送信すると更新として保存する
+  ---
+  duration_ms: 1.251675
+  type: 'test'
+  ...
+# Subtest: Domain Rule違反の入力はRepositoryを変更せずREJECTEDを返す
+ok 647 - Domain Rule違反の入力はRepositoryを変更せずREJECTEDを返す
+  ---
+  duration_ms: 0.450576
+  type: 'test'
+  ...
+# Subtest: Browser保存失敗時もRepositoryのDomain Dataを保持する
+ok 648 - Browser保存失敗時もRepositoryのDomain Dataを保持する
+  ---
+  duration_ms: 0.641852
+  type: 'test'
+  ...
+# Subtest: 次局接続条件を満たさない振り返りも保存し不足項目を返す
+ok 649 - 次局接続条件を満たさない振り返りも保存し不足項目を返す
+  ---
+  duration_ms: 1.23936
+  type: 'test'
+  ...
+# Subtest: USI AdapterはProtocolをAdapter内で処理しEngine非依存Resultを返す
+ok 650 - USI AdapterはProtocolをAdapter内で処理しEngine非依存Resultを返す
+  ---
+  duration_ms: 3.420457
+  type: 'test'
+  ...
+# Subtest: CancelはUSI stopへ閉じ込める
+ok 651 - CancelはUSI stopへ閉じ込める
+  ---
+  duration_ms: 0.335981
+  type: 'test'
+  ...
+# Subtest: 平手初期局面を標準SFENへ変換する
+ok 652 - 平手初期局面を標準SFENへ変換する
+  ---
+  duration_ms: 2.148977
+  type: 'test'
+  ...
+# Subtest: 通常指し手をUSI Moveへ変換する
+ok 653 - 通常指し手をUSI Moveへ変換する
+  ---
+  duration_ms: 0.516493
+  type: 'test'
+  ...
+# Subtest: 成りをUSI Moveへ変換する
+ok 654 - 成りをUSI Moveへ変換する
+  ---
+  duration_ms: 0.161494
+  type: 'test'
+  ...
+# Subtest: 駒打ちをUSI Moveへ変換する
+ok 655 - 駒打ちをUSI Moveへ変換する
+  ---
+  duration_ms: 0.098834
+  type: 'test'
+  ...
+# Subtest: USI formal handshake: usi/usiok/isready/readyok/usinewgame
+ok 656 - USI formal handshake: usi/usiok/isready/readyok/usinewgame
+  ---
+  duration_ms: 1.90711
+  type: 'test'
+  ...
+# Subtest: USI setoptionはEngineがadvertiseしたThreads/Hash/MultiPVだけ適用する
+ok 657 - USI setoptionはEngineがadvertiseしたThreads/Hash/MultiPVだけ適用する
+  ---
+  duration_ms: 2.314323
+  type: 'test'
+  ...
+# Subtest: USI info parserはtoken順序へ過度依存せずcp/mate/pv/depth/nodes/timeを読む
+ok 658 - USI info parserはtoken順序へ過度依存せずcp/mate/pv/depth/nodes/timeを読む
+  ---
+  duration_ms: 0.308863
+  type: 'test'
+  ...
+# Subtest: USI cancelはstop、disposeはquitを送る
+ok 659 - USI cancelはstop、disposeはquitを送る
+  ---
+  duration_ms: 0.316523
+  type: 'test'
+  ...
+# Subtest: Worker transport timeoutはTIMEOUTとして返す
+ok 660 - Worker transport timeoutはTIMEOUTとして返す
+  ---
+  duration_ms: 6.448469
+  type: 'test'
+  ...
+# Subtest: Worker structured engine-errorはENGINE_CRASHとして待機中USIをrejectする
+ok 661 - Worker structured engine-errorはENGINE_CRASHとして待機中USIをrejectする
+  ---
+  duration_ms: 0.680005
+  type: 'test'
+  ...
+# Subtest: Ver.1.8 CandidateはGood最大5 + Bad最大5
+ok 662 - Ver.1.8 CandidateはGood最大5 + Bad最大5
+  ---
+  duration_ms: 2.982109
+  type: 'test'
+  ...
+# Subtest: 合理的Candidateが不足する場合は5件へ水増ししない
+ok 663 - 合理的Candidateが不足する場合は5件へ水増ししない
+  ---
+  duration_ms: 0.199804
+  type: 'test'
+  ...
+# Subtest: 近接する同Group Candidateを重複抑制する
+ok 664 - 近接する同Group Candidateを重複抑制する
+  ---
+  duration_ms: 0.204949
+  type: 'test'
+  ...
+# Subtest: Mate lossはCP巨大値へ変換せずBad Candidateとして優先する
+ok 665 - Mate lossはCP巨大値へ変換せずBad Candidateとして優先する
+  ---
+  duration_ms: 0.651376
+  type: 'test'
+  ...
+# Subtest: Bad CandidateはBest/Actual/PV比較Dataを保持する
+ok 666 - Bad CandidateはBest/Actual/PV比較Dataを保持する
+  ---
+  duration_ms: 0.599289
+  type: 'test'
+  ...
+# Subtest: 添付ぴよ将棋KIFを同梱SampleとしてShift_JIS読込・Parser登録できる
+ok 667 - 添付ぴよ将棋KIFを同梱SampleとしてShift_JIS読込・Parser登録できる
+  ---
+  duration_ms: 4.489359
+  type: 'test'
+  ...
+# Subtest: YaneuraOu WASM Componentは公開Release/Commitを固定する
+ok 668 - YaneuraOu WASM Componentは公開Release/Commitを固定する
+  ---
+  duration_ms: 0.10924
+  type: 'test'
+  ...
+# Subtest: manifest unavailable時はReflectionLocalEngineを明示Fallbackとして解決する
+ok 669 - manifest unavailable時はReflectionLocalEngineを明示Fallbackとして解決する
+  ---
+  duration_ms: 0.45085
+  type: 'test'
+  ...
+# Subtest: verified manifest時はYaneuraOuWasm primary + Local fallbackを構成する
+ok 670 - verified manifest時はYaneuraOuWasm primary + Local fallbackを構成する
+  ---
+  duration_ms: 0.753027
+  type: 'test'
+  ...
+# Subtest: Candidate JumpだけPage Scroll例外で通常Replay Scroll Policyは維持
+ok 671 - Candidate JumpだけPage Scroll例外で通常Replay Scroll Policyは維持
+  ---
+  duration_ms: 0.668476
+  type: 'test'
+  ...
+# Subtest: 390px前後のCandidate/Board Scroll用responsive ruleを保持する
+ok 672 - 390px前後のCandidate/Board Scroll用responsive ruleを保持する
+  ---
+  duration_ms: 0.462597
+  type: 'test'
+  ...
+# Subtest: Thread必須manifestでもcross-origin isolationなしならReal WASMを選ばずLocal fallback
+ok 673 - Thread必須manifestでもcross-origin isolationなしならReal WASMを選ばずLocal fallback
+  ---
+  duration_ms: 0.273159
+  type: 'test'
+  ...
+# Subtest: available=trueでもBuild/Hash metadata不足ならReal WASMを選ばない
+ok 674 - available=trueでもBuild/Hash metadata不足ならReal WASMを選ばない
+  ---
+  duration_ms: 0.165531
+  type: 'test'
+  ...
+# Subtest: Ver.1.8.3 package is explicitly a NOT-FORMAL Build Bridge candidate
+ok 675 - Ver.1.8.3 package is explicitly a NOT-FORMAL Build Bridge candidate
+  ---
+  duration_ms: 1.630407
+  type: 'test'
+  ...
+# Subtest: GitHub Actions pins official YaneuraOu V9.00 commit
+ok 676 - GitHub Actions pins official YaneuraOu V9.00 commit
+  ---
+  duration_ms: 0.303516
+  type: 'test'
+  ...
+# Subtest: GitHub Actions pins Emscripten 4.0.15 and verifies official release mapping
+ok 677 - GitHub Actions pins Emscripten 4.0.15 and verifies official release mapping
+  ---
+  duration_ms: 0.186086
+  type: 'test'
+  ...
+# Subtest: Build Bridge records runner and compiler provenance
+ok 678 - Build Bridge records runner and compiler provenance
+  ---
+  duration_ms: 0.278233
+  type: 'test'
+  ...
+# Subtest: Build command is pinned to MATERIAL_LEVEL=1 / WASM / em++
+ok 679 - Build command is pinned to MATERIAL_LEVEL=1 / WASM / em++
+  ---
+  duration_ms: 0.218813
+  type: 'test'
+  ...
+# Subtest: Build refuses commit mismatch and dirty upstream source
+ok 680 - Build refuses commit mismatch and dirty upstream source
+  ---
+  duration_ms: 0.232165
+  type: 'test'
+  ...
+# Subtest: Build verifies official wasm_pre bridge instead of bypassing it
+ok 681 - Build verifies official wasm_pre bridge instead of bypassing it
+  ---
+  duration_ms: 0.195269
+  type: 'test'
+  ...
+# Subtest: Generated pthread worker filename is discovered from actual output
+ok 682 - Generated pthread worker filename is discovered from actual output
+  ---
+  duration_ms: 0.152816
+  type: 'test'
+  ...
+# Subtest: Actual JS WASM Worker each receive SHA-256
+ok 683 - Actual JS WASM Worker each receive SHA-256
+  ---
+  duration_ms: 0.295542
+  type: 'test'
+  ...
+# Subtest: Build Metadata contains requested traceability fields without pretending unmeasured values
+ok 684 - Build Metadata contains requested traceability fields without pretending unmeasured values
+  ---
+  duration_ms: 0.823671
+  type: 'test'
+  ...
+# Subtest: Manifest is fail-closed before build and hash-bound after build
+ok 685 - Manifest is fail-closed before build and hash-bound after build
+  ---
+  duration_ms: 0.225955
+  type: 'test'
+  ...
+# Subtest: Artifact gate requires measured metadata as well as files and hashes
+ok 686 - Artifact gate requires measured metadata as well as files and hashes
+  ---
+  duration_ms: 0.104742
+  type: 'test'
+  ...
+# Subtest: Formal gate requires Real protocol, analysis, candidate and navigation evidence
+ok 687 - Formal gate requires Real protocol, analysis, candidate and navigation evidence
+  ---
+  duration_ms: 0.995662
+  type: 'test'
+  ...
+# Subtest: Corresponding Source evidence is packaged from the exact checkout
+ok 688 - Corresponding Source evidence is packaged from the exact checkout
+  ---
+  duration_ms: 0.479424
+  type: 'test'
+  ...
+# Subtest: Build artifact integration verifies before claiming runtime readiness
+ok 689 - Build artifact integration verifies before claiming runtime readiness
+  ---
+  duration_ms: 0.118064
+  type: 'test'
+  ...
+# Subtest: Existing application LICENSE is unchanged against Ver.1.8 integration baseline
+ok 690 - Existing application LICENSE is unchanged against Ver.1.8 integration baseline
+  ---
+  duration_ms: 2.831596
+  type: 'test'
+  ...
+# Subtest: Real USI and application E2E evidence are separate and hash-bound
+ok 691 - Real USI and application E2E evidence are separate and hash-bound
+  ---
+  duration_ms: 0.139511
+  type: 'test'
+  ...
+# Subtest: Real USI verifier exercises handshake, cp/mate, MultiPV and stop
+ok 692 - Real USI verifier exercises handshake, cp/mate, MultiPV and stop
+  ---
+  duration_ms: 0.15972
+  type: 'test'
+  ...
+# Subtest: Real application E2E requires Sample KIF full-ply reflection flow
+ok 693 - Real application E2E requires Sample KIF full-ply reflection flow
+  ---
+  duration_ms: 0.128044
+  type: 'test'
+  ...
+# Subtest: CI keeps Real evidence artifact even when a Real gate fails
+ok 694 - CI keeps Real evidence artifact even when a Real gate fails
+  ---
+  duration_ms: 0.125007
+  type: 'test'
+  ...
+# Subtest: Legacy manifest finalizer cannot bypass measured Build Metadata
+ok 695 - Legacy manifest finalizer cannot bypass measured Build Metadata
+  ---
+  duration_ms: 0.123781
+  type: 'test'
+  ...
+# Subtest: WASM bootstrapはofficial wasm_pre.jsのmessage bridgeを利用する
+ok 696 - WASM bootstrapはofficial wasm_pre.jsのmessage bridgeを利用する
+  ---
+  duration_ms: 0.605112
+  type: 'test'
+  ...
+# Subtest: WASM bootstrapはofficial bridge欠落を黙ってdirect ccall fallbackしない
+ok 697 - WASM bootstrapはofficial bridge欠落を黙ってdirect ccall fallbackしない
+  ---
+  duration_ms: 0.110546
+  type: 'test'
+  ...
+1..697
+# tests 697
+# suites 0
+# pass 697
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3904.264015

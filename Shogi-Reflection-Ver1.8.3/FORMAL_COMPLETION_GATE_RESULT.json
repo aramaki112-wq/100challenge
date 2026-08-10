@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 2,
+  "checkedAt": "2026-08-10T15:25:27.576Z",
+  "gate": "VER_1_8_3_FORMAL_COMPLETION",
+  "passed": false,
+  "checks": [
+    {
+      "name": "Real YaneuraOu artifact gate",
+      "ok": false,
+      "detail": "}"
+    },
+    {
+      "name": "Official Source fixed commit",
+      "ok": true,
+      "detail": "a5ee2786c0030edc7d4a1cdfe94b04dffec55493"
+    },
+    {
+      "name": "Fixed Emscripten SDK",
+      "ok": true,
+      "detail": "4.0.15/b412b6307e541b93dd93f01b61181e15c17302ec"
+    },
+    {
+      "name": "Measured compiler metadata",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "name": "MATERIAL WASM profile",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Real YaneuraOu USI passed",
+      "ok": false,
+      "detail": "passed=false"
+    },
+    {
+      "name": "Real USI matches current WASM",
+      "ok": false,
+      "detail": "usi=null, current=null"
+    },
+    {
+      "name": "Real USI usi",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI usiok",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI isready",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI readyok",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI usinewgame",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI position",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI go",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI info",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI cp",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI mate",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI pv",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI multipv",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI depth",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI nodes",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI time",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI bestmove",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI stop",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI quit",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI evaluationSanityInitial",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI evaluationSanityMaterialGain",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI evaluationSanityMaterialLoss",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI evaluationSanityAdvantage",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI evaluationSanityDisadvantage",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real USI evaluationSanityMate",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real YaneuraOu application E2E passed",
+      "ok": false,
+      "detail": "passed=false"
+    },
+    {
+      "name": "Real application E2E matches current WASM",
+      "ok": false,
+      "detail": "e2e=null, current=null"
+    },
+    {
+      "name": "Real application E2E realEngineMetadata",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E sampleKif",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E fullPly",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E evaluationGraph",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E goodCandidate",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E badCandidate",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E bestEvaluation",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E actualEvaluation",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E difference",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E pv",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E candidateJump",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E boardScroll",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E keyPosition",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E graphMarker",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E graphToStep4",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E fact",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E interpretation",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E hypothesis",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E cancel",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real application E2E reanalysis",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "License gate completed",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "No unknown-rights asset bundled",
+      "ok": true,
+      "detail": "false"
+    },
+    {
+      "name": "Distribution readiness separated",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Corresponding Source plan",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Third-party notices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Automated test evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Browser test evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Static verification evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Visual verification evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Source of Truth audit",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Completion report",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "failures": [
+    "Real YaneuraOu artifact gate: }",
+    "Measured compiler metadata",
+    "Real YaneuraOu USI passed: passed=false",
+    "Real USI matches current WASM: usi=null, current=null",
+    "Real USI usi: false",
+    "Real USI usiok: false",
+    "Real USI isready: false",
+    "Real USI readyok: false",
+    "Real USI usinewgame: false",
+    "Real USI position: false",
+    "Real USI go: false",
+    "Real USI info: false",
+    "Real USI cp: false",
+    "Real USI mate: false",
+    "Real USI pv: false",
+    "Real USI multipv: false",
+    "Real USI depth: false",
+    "Real USI nodes: false",
+    "Real USI time: false",
+    "Real USI bestmove: false",
+    "Real USI stop: false",
+    "Real USI quit: false",
+    "Real USI evaluationSanityInitial: false",
+    "Real USI evaluationSanityMaterialGain: false",
+    "Real USI evaluationSanityMaterialLoss: false",
+    "Real USI evaluationSanityAdvantage: false",
+    "Real USI evaluationSanityDisadvantage: false",
+    "Real USI evaluationSanityMate: false",
+    "Real YaneuraOu application E2E passed: passed=false",
+    "Real application E2E matches current WASM: e2e=null, current=null",
+    "Real application E2E realEngineMetadata: false",
+    "Real application E2E sampleKif: false",
+    "Real application E2E fullPly: false",
+    "Real application E2E evaluationGraph: false",
+    "Real application E2E goodCandidate: false",
+    "Real application E2E badCandidate: false",
+    "Real application E2E bestEvaluation: false",
+    "Real application E2E actualEvaluation: false",
+    "Real application E2E difference: false",
+    "Real application E2E pv: false",
+    "Real application E2E candidateJump: false",
+    "Real application E2E boardScroll: false",
+    "Real application E2E keyPosition: false",
+    "Real application E2E graphMarker: false",
+    "Real application E2E graphToStep4: false",
+    "Real application E2E fact: false",
+    "Real application E2E interpretation: false",
+    "Real application E2E hypothesis: false",
+    "Real application E2E cancel: false",
+    "Real application E2E reanalysis: false"
+  ],
+  "verdict": "NOT_FORMAL"
+}

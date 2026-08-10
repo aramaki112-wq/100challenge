@@ -1,0 +1,31 @@
+Shogi Reflection Ver.1.8.3 Real YaneuraOu USI Verification
+========================================================
+Status: NOT_RUN_REAL_WASM_ASSET_UNAVAILABLE
+Passed: false
+WASM SHA-256: NOT AVAILABLE
+Reason: manifest.available=False; metadata.measured=False. A measured official-source Build Bridge artifact is required before Real USI evidence can be produced.
+
+[FAIL] usi
+[FAIL] usiok
+[FAIL] isready
+[FAIL] readyok
+[FAIL] usinewgame
+[FAIL] position
+[FAIL] go
+[FAIL] info
+[FAIL] cp
+[FAIL] mate
+[FAIL] pv
+[FAIL] multipv
+[FAIL] depth
+[FAIL] nodes
+[FAIL] time
+[FAIL] bestmove
+[FAIL] stop
+[FAIL] quit
+[FAIL] evaluationSanityInitial
+[FAIL] evaluationSanityMaterialGain
+[FAIL] evaluationSanityMaterialLoss
+[FAIL] evaluationSanityAdvantage
+[FAIL] evaluationSanityDisadvantage
+[FAIL] evaluationSanityMate

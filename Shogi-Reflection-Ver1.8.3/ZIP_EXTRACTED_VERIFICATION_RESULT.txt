@@ -1,0 +1,31 @@
+Shogi Reflection Ver.1.8.3 NOT-FORMAL Candidate ZIP Extracted Verification
+===========================================================================
+Date: 2026-08-10
+Artifact under test: Shogi-Reflection-Ver1.8.3-NOT-FORMAL-YaneuraOu-WASM-Build-Bridge-provisional.zip
+Provisional ZIP SHA-256: 795b385919663fabbba6eb152223170b560c46c282427d01820dd44c83333ce6
+Test source: extracted files only
+
+ZIP compressed-data integrity: PASS
+Automated Test: 697 / 697 PASS
+Static Verification: 143 / 143 PASS / Missing Import 0
+Browser 390x844: 154 / 154 PASS
+Visual 390x844: 24 / 24 PASS
+ReflectionLocal Fallback Browser: 16 / 16 PASS
+
+Real YaneuraOu Artifact Gate: FAIL AS DESIGNED
+- manifest.available=false
+- Build Metadata measured=false
+- JS/WASM/Worker measured artifacts unavailable
+
+Real YaneuraOu USI: NOT RUN / exit 2 AS DESIGNED
+Real YaneuraOu Application E2E: NOT RUN / exit 2 AS DESIGNED
+Formal Completion Gate: NOT_FORMAL AS DESIGNED
+
+Physical iPhone: NOT TESTED
+Real YaneuraOu Battery/Thermal/Performance: NOT MEASURED
+
+Verification execution note:
+The first aggregate extracted-ZIP command exceeded the surrounding execution time budget after the non-Real suites had already completed. The Real fail-closed gates were then executed individually and produced the expected NOT-RUN/NOT-FORMAL evidence above. This was a verification-harness execution split, not an application failure.
+
+Conclusion:
+The extracted NOT-FORMAL candidate is internally consistent for all non-Real paths and correctly refuses Real/Formal completion. This is not evidence that Real YaneuraOu WASM ran.

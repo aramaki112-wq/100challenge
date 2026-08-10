@@ -1,0 +1,3 @@
+# Intentionally pinned to the verifier version used while authoring Ver.1.8.3.
+# This is not selected merely because it is newest.
+playwright==1.57.0

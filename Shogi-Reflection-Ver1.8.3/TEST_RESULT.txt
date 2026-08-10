@@ -1,0 +1,10 @@
+Shogi Reflection Ver.1.8.3 Automated Test Result
+================================================
+Date: 2026-08-10T15:25:20Z
+Command: node --test
+Tests: 697
+Passed: 697
+Failed: 0
+Cancelled: 0
+Skipped: 0
+Full TAP log: build-record/node-test.tap

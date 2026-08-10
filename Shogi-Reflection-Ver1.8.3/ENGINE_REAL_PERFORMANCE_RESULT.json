@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "status": "NOT_MEASURED_REAL_WASM_ASSET_UNAVAILABLE",
+  "wasmSha256": null,
+  "measurements": {},
+  "reason": "manifest.available=False; metadata.measured=False. Run the official-source Build Bridge and integrate its measured artifact first."
+}
