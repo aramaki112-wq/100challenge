@@ -20,3 +20,9 @@ test("WASM bootstrapはEmscripten pthread self-workerをUSI wrapperへ誤接続�
   assert.match(source, /self\.name\.startsWith\("em-pthread"\)/);
   assert.match(source, /if \(isEmscriptenPthreadWorker\) \{[\s\S]*self\.importScripts\(GLUE_URL\);[\s\S]*return;/);
 });
+
+
+test("WASM bootstrapはruntime directory内のgenerated glueを同一directoryから読む", () => {
+  assert.match(source, /const GLUE_URL = "\.\/yaneuraou\.js"/);
+  assert.doesNotMatch(source, /locateFile\(/);
+});

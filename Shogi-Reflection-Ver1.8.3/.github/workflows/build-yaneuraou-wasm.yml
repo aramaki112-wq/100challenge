@@ -16,6 +16,7 @@ on:
       - "real_yaneuraou_usi_verify.py"
       - "real_yaneuraou_browser_verify.py"
       - "requirements-real-engine.txt"
+      - "ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
 
 permissions:
   contents: read

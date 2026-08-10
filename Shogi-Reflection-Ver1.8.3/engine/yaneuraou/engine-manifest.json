@@ -12,7 +12,7 @@
   "materialLevel": 1,
   "emscriptenVersion": null,
   "buildId": null,
-  "workerUrl": "./YaneuraOuWasmWorkerBootstrap.js",
+  "workerUrl": "./engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js",
   "jsUrl": "./engine/yaneuraou/yaneuraou.js",
   "wasmUrl": "./engine/yaneuraou/yaneuraou.wasm",
   "pthreadWorkerUrl": null,

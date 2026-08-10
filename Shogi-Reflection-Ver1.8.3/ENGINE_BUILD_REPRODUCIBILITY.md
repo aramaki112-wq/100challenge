@@ -102,3 +102,7 @@ A successful compiler stage alone never changes Formal Completion to PASS.
 Build Artifactの存在だけでは正式Evidenceにならない。`REAL_YANEURAOU_USI_RESULT.json`と`REAL_YANEURAOU_E2E_RESULT.json`はそれぞれ`wasmSha256`を持ち、Formal Completion Gateは現在配置されているWASMの実SHA-256と両方が一致することを要求する。これにより別BuildのUSI結果や古いBrowser結果を流用できない。
 
 CIのPlaywright verifierは`requirements-real-engine.txt`で1.57.0を固定する。これは「最新だから」ではなく、Ver.1.8.3 Build Bridge作成時の検証Harness versionを固定するためである。Browser version自体はReal run結果へ実測記録する。
+
+### Runtime directory invariant added after Run #4
+
+For the pinned Emscripten 4.0.15 pthread build, `engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js`, `yaneuraou.js`, and `yaneuraou.wasm` must be co-located. The manifest Worker URL and Build Metadata SHA-256 bind that runtime layout. This avoids patching generated upstream glue or distributing a second untracked WASM alias.

@@ -1,6 +1,9 @@
 /*
  * Classic Worker bootstrap for the official-source Emscripten YaneuraOu build.
- * Expected runtime assets:
+ * Source template for the runtime bootstrap copied by the Build Bridge to:
+ *   ./engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js
+ *
+ * The runtime bootstrap is intentionally co-located with:
  *   ./engine/yaneuraou/yaneuraou.js
  *   ./engine/yaneuraou/yaneuraou.wasm
  *
@@ -24,8 +27,10 @@
  * available after the asset/hash gate succeeds.
  */
 (() => {
-  const GLUE_URL = "./engine/yaneuraou/yaneuraou.js";
-  const ASSET_BASE = "./engine/yaneuraou/";
+  // Emscripten derives both the main WASM URL and pthread self-worker URL
+  // from WorkerGlobalScope.location. Therefore this bootstrap must execute
+  // from the same directory as yaneuraou.js/yaneuraou.wasm.
+  const GLUE_URL = "./yaneuraou.js";
 
   // Emscripten 4.0.15 pthreads reuse the current Worker script URL.
   // Spawned pthread Workers therefore execute this bootstrap too, with the
@@ -87,11 +92,7 @@
     }
 
     Promise.resolve(factory({
-      printErr: (line) => emit(`info string ${String(line ?? "")}`),
-      locateFile(path) {
-        const fileName = String(path).split("/").pop();
-        return `${ASSET_BASE}${fileName}`;
-      }
+      printErr: (line) => emit(`info string ${String(line ?? "")}`)
     })).then((instance) => {
       if (
         typeof instance?.addMessageListener !== "function" ||

@@ -12,7 +12,8 @@ const engineDir = path.resolve(getArg("--engine-dir", path.join(root, "engine", 
 const readMaybe = (file) => { try { return fs.readFileSync(path.join(recordDir,file),"utf8").trim(); } catch { return null; } };
 const firstLine = (value) => value ? value.split(/\r?\n/)[0].trim() : null;
 const sha = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-const bootstrapFile = path.join(root, "YaneuraOuWasmWorkerBootstrap.js");
+const bootstrapRelative = path.join("engine", "yaneuraou", "YaneuraOuWasmWorkerBootstrap.js");
+const bootstrapFile = path.join(root, bootstrapRelative);
 
 const constants = {
   engineName: "YaneuraOu", engineVersion: "V9.00", release: "V9.00",
@@ -54,13 +55,13 @@ let metadata = {
   workerSha256: null,
   pthreadWorkerPackaging: built ? readMaybe("pthread-worker-packaging.txt") : "MAIN_JS_SELF_WORKER_EXPECTED_FOR_EMSCRIPTEN_4_0_15",
   generatedPthreadWorkerCount: built ? Number(readMaybe("generated-pthread-worker-count.txt")) : null,
-  workerBootstrapFile: "YaneuraOuWasmWorkerBootstrap.js",
+  workerBootstrapFile: bootstrapRelative.replaceAll(path.sep, "/"),
   workerBootstrapSha256: null,
   measured: built,
   notes: built ? [
     "Emscripten 4.0.15 does not emit a separate pthread .worker.js; pthread Workers reuse the generated main JavaScript as their Worker script.",
     "workerFile/workerSha256 are null by design because no separate generated pthread worker artifact exists.",
-    "YaneuraOuWasmWorkerBootstrap.js is the application-level classic Worker boundary and is hashed separately.",
+    "The application-level classic Worker bootstrap is copied into engine/yaneuraou so Emscripten resolves yaneuraou.wasm and pthread self-workers from the measured runtime directory.",
     "Thread/memory values are the pinned upstream WASM Makefile settings used for this build; they are not iPhone optimization claims.",
     "Formal Completion requires separate Real Browser/USI/E2E and distribution/license evidence."
   ] : [
@@ -102,7 +103,7 @@ Object.assign(manifest, {
   pthreadWorkerPackaging: metadata.pthreadWorkerPackaging,
   pthreadWorkerUrl: null,
   generatedPthreadWorkerCount: metadata.generatedPthreadWorkerCount,
-  workerUrl: "./YaneuraOuWasmWorkerBootstrap.js",
+  workerUrl: "./engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js",
   workerBootstrapSha256: metadata.workerBootstrapSha256,
   jsSha256: metadata.jsSha256,
   wasmSha256: metadata.wasmSha256,

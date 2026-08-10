@@ -135,10 +135,10 @@ base_url = f"http://127.0.0.1:{server.server_port}"
 MATE_SFEN = "l6nl/6k2/+P3p2p1/1B1p1Pp1p/1p7/7nP/3P1SP1L/2+p3GK1/L6+r1 b B2G2S5Prgs2np 0"
 
 js_suite = r"""
-async ({mateSfen}) => {
+async ({mateSfen, workerUrl}) => {
   const lines = [];
   const errors = [];
-  const worker = new Worker('./YaneuraOuWasmWorkerBootstrap.js', {type: 'classic'});
+  const worker = new Worker(workerUrl, {type: 'classic'});
 
   const asLine = (data) => {
     if (data && typeof data === 'object' && data.type === 'engine-error') {
@@ -298,7 +298,7 @@ try:
             raise RuntimeError("crossOriginIsolated is false under the verification server")
         if page.evaluate("typeof SharedArrayBuffer === 'function'") is not True:
             raise RuntimeError("SharedArrayBuffer is unavailable under the verification server")
-        suite = page.evaluate(js_suite, {"mateSfen": MATE_SFEN})
+        suite = page.evaluate(js_suite, {"mateSfen": MATE_SFEN, "workerUrl": manifest.get("workerUrl")})
         browser.close()
         checks.update({name: bool(value) for name, value in suite.get("checks", {}).items() if name in checks})
         observations = {

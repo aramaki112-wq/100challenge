@@ -76,9 +76,14 @@ printf '%s\n' "${#GENERATED_PTHREAD_WORKERS[@]}" > "$RECORD_DIR/generated-pthrea
 printf '%s\n' "$PTHREAD_WORKER_PACKAGING" > "$RECORD_DIR/pthread-worker-packaging.txt"
 [[ ${#GENERATED_PTHREAD_WORKERS[@]} -eq 0 ]] || fail "pinned Emscripten 4.0.15 should not emit a separate pthread .worker.js; found ${#GENERATED_PTHREAD_WORKERS[@]}"
 
-rm -f "$OUT_DIR"/yaneuraou.js "$OUT_DIR"/yaneuraou.wasm "$OUT_DIR"/yaneuraou*.worker.js
+rm -f "$OUT_DIR"/yaneuraou.js "$OUT_DIR"/yaneuraou.wasm "$OUT_DIR"/yaneuraou*.worker.js "$OUT_DIR"/YaneuraOuWasmWorkerBootstrap.js
 cp "$JS_SOURCE" "$OUT_DIR/$(basename "$JS_SOURCE")"
 cp "$WASM_SOURCE" "$OUT_DIR/$(basename "$WASM_SOURCE")"
+# Emscripten 4.0.15 resolves the WASM and pthread self-worker base from
+# WorkerGlobalScope.location. Keep the application bootstrap in the same
+# runtime directory as the generated JS/WASM instead of relying on locateFile.
+cp "$ROOT/YaneuraOuWasmWorkerBootstrap.js" "$OUT_DIR/YaneuraOuWasmWorkerBootstrap.js"
+printf '%s\n' "engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js" > "$RECORD_DIR/runtime-worker-bootstrap-path.txt"
 printf '%s\n' "$BUILD_COMMAND" > "$RECORD_DIR/build-command.txt"
 
 bash "$ROOT/scripts/hash-engine-assets.sh" "$OUT_DIR"
@@ -98,7 +103,7 @@ JS: $(basename "$JS_SOURCE")
 WASM: $(basename "$WASM_SOURCE")
 Pthread worker packaging: $PTHREAD_WORKER_PACKAGING
 Separate generated pthread worker file: NONE (expected for Emscripten 4.0.15)
-Application Worker bootstrap: YaneuraOuWasmWorkerBootstrap.js
+Application Worker bootstrap: engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js
 Metadata: ENGINE_BUILD_METADATA.json
 Hashes: ENGINE_ASSET_SHA256SUMS.txt
 

@@ -17,6 +17,7 @@ on:
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py"
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py"
       - "Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt"
+      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
 
 permissions:
   contents: read

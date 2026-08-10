@@ -39,7 +39,7 @@
   "workerSha256": null,
   "pthreadWorkerPackaging": "MAIN_JS_SELF_WORKER_EXPECTED_FOR_EMSCRIPTEN_4_0_15",
   "generatedPthreadWorkerCount": null,
-  "workerBootstrapFile": "YaneuraOuWasmWorkerBootstrap.js",
+  "workerBootstrapFile": "engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js",
   "workerBootstrapSha256": null,
   "measured": false,
   "notes": [

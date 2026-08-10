@@ -189,3 +189,7 @@ Build Artifact検証後、CIはPlaywright 1.57.0を意図的に固定し、既�
 ### Formal Gate placement clarification
 
 GitHub ActionsはReal USI/E2EまでをBuild Artifactに対して強制し、Formal Completion Gateは診断として実行してResultを保存する。Jobの成功条件にはFinal Formalを含めない。理由は、Final Formal CompletionにはBuild ArtifactをShogi Reflectionへ統合した後のSource of Truth Audit、Completion Report、正式候補ZIP作成、別Folder展開後再検証まで必要だからである。Real runtime PASSと正式配布物完成を同一Stepへ短絡しない。
+
+## Run #4 runtime base-path finding
+
+Run #4 proved the Real verifier reached the built artifact, but Emscripten requested `yaneuraou.wasm` relative to the outer Worker URL. Because the outer bootstrap had been at the application root, the request returned HTML rather than WASM. Run #5 co-locates the runtime bootstrap with `yaneuraou.js` and `yaneuraou.wasm`; generated upstream assets remain unmodified and the runtime bootstrap copy remains hash-bound.

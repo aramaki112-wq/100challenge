@@ -139,3 +139,21 @@ test("Legacy manifest finalizer cannot bypass measured Build Metadata",()=>{
   assert.doesNotMatch(s,/available:\s*true/);
   assert.doesNotMatch(s,/yaneuraou\.worker\.js/);
 });
+
+
+test("Runtime bootstrap is co-located with generated JS/WASM so Emscripten Worker location resolves WASM correctly",()=>{
+  const build=read("scripts/build-yaneuraou-wasm.sh");
+  const meta=read("scripts/update-engine-build-metadata.mjs");
+  const bootstrap=read("YaneuraOuWasmWorkerBootstrap.js");
+  assert.match(build,/cp "\$ROOT\/YaneuraOuWasmWorkerBootstrap\.js" "\$OUT_DIR\/YaneuraOuWasmWorkerBootstrap\.js"/);
+  assert.match(meta,/engine.*yaneuraou.*YaneuraOuWasmWorkerBootstrap\.js/s);
+  assert.match(meta,/workerUrl: "\.\/engine\/yaneuraou\/YaneuraOuWasmWorkerBootstrap\.js"/);
+  assert.match(bootstrap,/const GLUE_URL = "\.\/yaneuraou\.js"/);
+  assert.doesNotMatch(bootstrap,/locateFile\(/);
+});
+
+test("Real USI verifier launches the hash-bound manifest worker URL",()=>{
+  const s=read("real_yaneuraou_usi_verify.py");
+  assert.match(s,/workerUrl.*manifest\.get\("workerUrl"\)/s);
+  assert.match(s,/new Worker\(workerUrl,/);
+});
