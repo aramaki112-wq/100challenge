@@ -1,0 +1,17 @@
+{
+  "name": "shogi-reflection-interlude",
+  "version": "1.8.2",
+  "private": true,
+  "type": "module",
+  "description": "Shogi Reflection Ver.1.8.2 integration candidate: Evaluation Graph, Best-vs-Actual review flow, verified YaneuraOu WASM boundary, and explicit formal-completion gates",
+  "scripts": {
+    "test": "node --test",
+    "check": "node verify.mjs",
+    "test:real-yaneuraou-artifact": "node scripts/real-yaneuraou-artifact-gate.mjs",
+    "test:formal-gate": "node scripts/formal-completion-gate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

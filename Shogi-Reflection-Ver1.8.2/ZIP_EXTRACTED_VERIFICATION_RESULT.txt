@@ -1,0 +1,29 @@
+Shogi Reflection Ver.1.8.2 Candidate ZIP Extracted Verification
+================================================================
+Date: 2026-08-09
+Artifact under test: Shogi-Reflection-Ver1.8.2-NOT-FORMAL-Integration-Candidate-provisional.zip
+Test source: extracted files only
+
+ZIP extraction: PASS
+Automated Test: 676 / 676 PASS
+Static Verification: 115 checks PASS / Failed 0 / Missing Import 0
+Browser 390x844: 154 / 154 PASS
+Visual 390x844: 24 / 24 PASS
+Fallback Engine Browser: 16 / 16 PASS
+Performance verifier: PASS (environment-specific values only)
+
+Real YaneuraOu Artifact Gate: FAIL (expected hard gate)
+- manifest.available=false
+- yaneuraou.js missing
+- yaneuraou.wasm missing
+- yaneuraou.worker.js missing
+- Emscripten build/hash evidence missing
+
+Real YaneuraOu Browser E2E: NOT RUN / exit 2 (expected hard gate)
+Formal Completion Gate: FAIL (expected because Real artifact/E2E are absent)
+
+Physical iPhone: NOT TESTED
+Battery/Thermal: NOT MEASURED
+
+Conclusion:
+The extracted candidate is internally consistent for all non-Real paths and correctly refuses formal completion. This result is not evidence that Real YaneuraOu WASM ran.

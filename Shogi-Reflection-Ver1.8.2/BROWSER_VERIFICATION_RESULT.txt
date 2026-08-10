@@ -1,0 +1,262 @@
+Shogi Reflection Ver.1.8 Browser Verification
+==============================================
+Viewport main: 390x844
+Checks: 154
+Passed: 154
+Failed: 0
+Browser: Chromium via Playwright
+Automation: yes
+
+[PASS] Ver1.8 title | 将棋振り返りアプリ Ver.1.8｜Local Real Engine・License Gate
+[PASS] Initial Step1
+[PASS] Seven Step menu
+[PASS] Current Step aria-label
+[PASS] Help header button
+[PASS] KIF paste touch target
+[PASS] KIF paste 16px on smartphone
+[PASS] Help view opens
+[PASS] Help explains backup
+[PASS] Help explains Replay
+[PASS] Help returns to workflow
+[PASS] Sample KIF Preview | 棋譜読み込み確認
+
+読み込み内容を確認
+ファイル名
+piyo_20260617_170236.kif
+文字コード
+shift_jis
+対局日時
+2026-06-17T16:48:48
+先手
+Lv18 ピヨ行(R1040)
+後手
+プレイヤー(R711)
+棋戦
+ぴよ将棋 R対局
+場所
+取得できませんでした
+手合割
+平手
+持
+[PASS] Paste Preview
+[PASS] Preview not saved
+[PASS] Retry hides Preview
+[PASS] Retry preserves paste
+[PASS] Retry different KIF
+[PASS] Clear empties temporary KIF
+[PASS] Clear does not save/delete
+[PASS] Clipboard Preview
+[PASS] File Preview
+[PASS] Drag Drop Preview
+[PASS] Apply moves to Step2
+[PASS] Sente name mapped
+[PASS] Gote name mapped
+[PASS] Game remains unsaved after apply
+[PASS] Game-only save opens Viewer
+[PASS] Game-only status visible
+[PASS] Saved list game date label | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Saved list opening | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Saved list raw KIF hidden | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Saved list opponent | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Saved list result | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Saved list move count | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Saved list analysis status separate | 棋譜のみ
+対局日：2026/08/02
+対戦相手：後手花子
+自分の側：先手
+勝敗：勝ち
+戦型：四間飛車
+手数：5手
+重要局面 0件・実行Rule 0件
+解析状態：未解析
+保存：2026/08/09 22:03　更新：2026/08/09 22:03
+振り返りを開く
+対局を削除
+[PASS] Game-only persisted
+[PASS] Zero key positions persisted
+[PASS] Lifecycle timestamps persisted
+[PASS] Sente/Gote persisted
+[PASS] Saved detail opens
+[PASS] Incomplete markdown disabled
+[PASS] Saved Replay opens Step3
+[PASS] Board has 81 squares
+[PASS] Board initial piece count 40
+[PASS] Piece is SVG
+[PASS] Board accessible names
+[PASS] Board grid has one square width | {'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}
+[PASS] Board grid has one square height | {'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}
+[PASS] Board grid is square | {'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}
+[PASS] Replay Next touch target
+[PASS] Polished piece outline | M50 5 C52 5 53.5 5.6 55.1 6.6 L81.2 21 C83.5 22.2 84.8 24.2 85.1 26.7 L93.2 99.2 C93.6 102.5 91.3 104.5 88.1 104.5 H11.9 C8.7 104.5 6.4 102.5 6.8 99.2 L14.9 26.7 C15.2 24.2 16.5 22.2 18.8 21 L44.9 6.6 C46.5 5.6 48 5 50 5 Z
+[PASS] Next navigation
+[PASS] Next keeps Page scroll
+[PASS] Previous navigation
+[PASS] Previous keeps Page scroll
+[PASS] Current Move highlight
+[PASS] Horse promoted SVG
+[PASS] Horse text
+[PASS] Promoted move keeps grid width | ({'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}, {'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37})
+[PASS] Promoted move keeps grid height | ({'gridWidth': 334, 'gridHeight': 334, 'widths': [37], 'heights': [37]}, {'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37})
+[PASS] Fixed grid injected 成桂 | {'label': '成桂', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 成香 | {'label': '成香', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 成銀 | {'label': '成銀', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 馬 | {'label': '馬', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Fixed grid injected 龍 | {'label': '龍', 'gridWidth': 334, 'gridHeight': 334, 'squareWidth': 37, 'squareHeight': 37, 'contained': True}
+[PASS] Board flip
+[PASS] Flip keeps Page scroll
+[PASS] Promoted piece browser render 成桂
+[PASS] Promoted piece browser render 成香
+[PASS] Promoted piece browser render 成銀
+[PASS] Promoted piece browser render 馬
+[PASS] Promoted piece browser render 龍
+[PASS] Two-character promoted pieces use compact class
+[PASS] Engine Panel is inside Step3
+[PASS] Engine Analyze button touch target
+[PASS] Engine analysis status accessible
+[PASS] Engine status completed
+[PASS] Engine verification is labeled Mock
+[PASS] Engine candidate displayed
+[PASS] Good candidate max five | 1
+[PASS] Bad candidate max five | 1
+[PASS] Engine candidate aggregate max ten | 2
+[PASS] Engine candidate Replay button
+[PASS] Engine candidate KeyPosition button
+[PASS] Analysis progress text recorded
+[PASS] Evaluation Graph rendered
+[PASS] Evaluation Graph has all-ply points
+[PASS] Evaluation Graph has Candidate marker
+[PASS] Evaluation Graph Candidate -> Replay
+[PASS] Candidate to Replay stays Step3
+[PASS] Candidate Replay Current Ply
+[PASS] Candidate Replay Current Move
+[PASS] Candidate Replay Move highlight
+[PASS] Candidate Jump intentionally scrolls toward Board | (1569, 3869)
+[PASS] Candidate Jump Board visible | {'top': 356.8125, 'bottom': 840.40625, 'height': 483.59375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 3869}
+[PASS] Candidate Jump Board not hidden by sticky header | {'top': 356.8125, 'bottom': 840.40625, 'height': 483.59375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 3869}
+[PASS] Candidate Replay Board Position | {'squares': 81, 'pieces': 40, 'boardLabel': '将棋盤 1手目 後手番'}
+[PASS] Candidate add keeps Page scroll | (3869, 3869)
+[PASS] Candidate to KeyPosition
+[PASS] Candidate KeyPosition move number
+[PASS] Candidate duplicate rejected
+[PASS] Candidate duplicate message
+[PASS] Evaluation Graph KeyPosition marker appears
+[PASS] Graph KeyPosition -> STEP4 exact Card
+[PASS] STEP4 contains candidate-added normal KeyPosition
+[PASS] FACT example placeholder
+[PASS] INTERPRETATION example placeholder
+[PASS] HYPOTHESIS example placeholder
+[PASS] Engine candidate removal returns manual flow clean
+[PASS] Analysis Cancel enabled
+[PASS] Analysis Cancel status
+[PASS] Three replay KeyPositions
+[PASS] Snapshot boards rendered | 3
+[PASS] Snapshot board has 81 squares
+[PASS] Snapshot fixed grid geometry | {'width': 262, 'height': 262, 'sw': [29], 'sh': [29]}
+[PASS] Step navigation keeps entered data
+[PASS] Draft status persisted
+[PASS] Draft resumes with KeyPositions
+[PASS] Final report includes reflection
+[PASS] Completion status persisted
+[PASS] Completion keeps 3-5 rule
+[PASS] Observation Theme persisted
+[PASS] Execution Rule persisted
+[PASS] Viewer shows complete status
+[PASS] Viewer keeps Analysis Status separate
+[PASS] Completed Markdown enabled
+[PASS] Completed Observation Card enabled
+[PASS] Markdown Export works
+[PASS] Observation Card works
+[PASS] Backup JSON downloaded
+[PASS] Saved review Delete requires/uses separate operation
+[PASS] Backup Restore
+[PASS] KIF Clear never deletes saved review
+[PASS] Long game candidate aggregate max ten | 10
+[PASS] Long game Good max five | 5
+[PASS] Long game Bad max five | 5
+[PASS] Long Replay first 10 next
+[PASS] Long first 10 next page scroll stable
+[PASS] Long Replay 50 next
+[PASS] Long Next page scroll stable | (9323, 9323)
+[PASS] Move list internal scroll follows
+[PASS] Move highlight after long next
+[PASS] Move List Jump
+[PASS] Move List Jump page scroll stable | (9323, 9323)
+[PASS] Long Replay 10 previous
+[PASS] Long Previous page scroll stable
+[PASS] Long First
+[PASS] Long First page scroll stable
+[PASS] Long Last
+[PASS] Long Last page scroll stable
+[PASS] Keyboard Replay
+[PASS] Keyboard page scroll stable
+[PASS] Long Replay KeyPosition add
+[PASS] No browser page errors
+
+Browser logs:
+(none)

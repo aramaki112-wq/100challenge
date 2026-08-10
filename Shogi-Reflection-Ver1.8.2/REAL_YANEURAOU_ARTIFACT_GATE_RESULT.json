@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-09T13:03:43.867Z",
+  "gate": "REAL_YANEURAOU_ARTIFACT",
+  "passed": false,
+  "facts": [
+    "manifest.available=false"
+  ],
+  "failures": [
+    "manifest.available is not true: Real YaneuraOu build is not enabled.",
+    "emscriptenVersion is missing.",
+    "JS/WASM SHA-256 metadata is missing.",
+    "yaneuraou.js is missing.",
+    "yaneuraou.wasm is missing.",
+    "yaneuraou.worker.js is missing."
+  ]
+}

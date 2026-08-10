@@ -1,0 +1,13 @@
+Shogi Reflection Ver.1.8 Fallback Engine Performance Measurement
+============================================================
+Environment: Chromium headless / Playwright / 390x844 / ReflectionLocal Blob Web Worker
+YaneuraOu WASM performance: NOT MEASURED
+Engine initialization: 5.90 ms
+Short 5-ply game analysis + candidate generation: 1281.60 ms
+Cancel UI-to-CANCELLED response: 56.90 ms
+Worker used: True
+Main-page JS heap before/after standalone init: 10000000 / 10000000 bytes
+Worker heap: NOT DIRECTLY MEASURED
+Physical iPhone: NOT TESTED
+Battery/Thermal: NOT MEASURED
+These measurements are environment-specific and are not claims of device-wide performance.

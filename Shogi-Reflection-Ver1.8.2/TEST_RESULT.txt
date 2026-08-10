@@ -1,0 +1,113 @@
+Shogi Reflection Ver.1.8.2 Automated Test Result
+================================================
+Date: 2026-08-09
+Command: npm test
+Tests: 676
+Passed: 676
+Failed: 0
+Cancelled: 0
+Skipped: 0
+
+Key Ver.1.8.2 additions:
+- Best Evaluation vs Actual Evaluation bad-move cases
+- all-ply Evaluation Graph / CP / Mate / Unknown
+- Good / Bad / KeyPosition markers
+- Graph -> Replay / STEP4 data targets
+- official wasm_pre.js message bridge contract
+- browser Real WASM capability fail-closed gate
+
+Full node:test tail:
+andidateが不足する場合は5件へ水増ししない
+ok 663 - 合理的Candidateが不足する場合は5件へ水増ししない
+  ---
+  duration_ms: 0.15408
+  type: 'test'
+  ...
+# Subtest: 近接する同Group Candidateを重複抑制する
+ok 664 - 近接する同Group Candidateを重複抑制する
+  ---
+  duration_ms: 0.2143
+  type: 'test'
+  ...
+# Subtest: Mate lossはCP巨大値へ変換せずBad Candidateとして優先する
+ok 665 - Mate lossはCP巨大値へ変換せずBad Candidateとして優先する
+  ---
+  duration_ms: 0.150204
+  type: 'test'
+  ...
+# Subtest: Bad CandidateはBest/Actual/PV比較Dataを保持する
+ok 666 - Bad CandidateはBest/Actual/PV比較Dataを保持する
+  ---
+  duration_ms: 0.514146
+  type: 'test'
+  ...
+# Subtest: 添付ぴよ将棋KIFを同梱SampleとしてShift_JIS読込・Parser登録できる
+ok 667 - 添付ぴよ将棋KIFを同梱SampleとしてShift_JIS読込・Parser登録できる
+  ---
+  duration_ms: 4.177685
+  type: 'test'
+  ...
+# Subtest: YaneuraOu WASM Componentは公開Release/Commitを固定する
+ok 668 - YaneuraOu WASM Componentは公開Release/Commitを固定する
+  ---
+  duration_ms: 0.093269
+  type: 'test'
+  ...
+# Subtest: manifest unavailable時はReflectionLocalEngineを明示Fallbackとして解決する
+ok 669 - manifest unavailable時はReflectionLocalEngineを明示Fallbackとして解決する
+  ---
+  duration_ms: 0.51661
+  type: 'test'
+  ...
+# Subtest: verified manifest時はYaneuraOuWasm primary + Local fallbackを構成する
+ok 670 - verified manifest時はYaneuraOuWasm primary + Local fallbackを構成する
+  ---
+  duration_ms: 0.589288
+  type: 'test'
+  ...
+# Subtest: Candidate JumpだけPage Scroll例外で通常Replay Scroll Policyは維持
+ok 671 - Candidate JumpだけPage Scroll例外で通常Replay Scroll Policyは維持
+  ---
+  duration_ms: 0.942755
+  type: 'test'
+  ...
+# Subtest: 390px前後のCandidate/Board Scroll用responsive ruleを保持する
+ok 672 - 390px前後のCandidate/Board Scroll用responsive ruleを保持する
+  ---
+  duration_ms: 0.345835
+  type: 'test'
+  ...
+# Subtest: Thread必須manifestでもcross-origin isolationなしならReal WASMを選ばずLocal fallback
+ok 673 - Thread必須manifestでもcross-origin isolationなしならReal WASMを選ばずLocal fallback
+  ---
+  duration_ms: 0.221591
+  type: 'test'
+  ...
+# Subtest: available=trueでもBuild/Hash metadata不足ならReal WASMを選ばない
+ok 674 - available=trueでもBuild/Hash metadata不足ならReal WASMを選ばない
+  ---
+  duration_ms: 0.178156
+  type: 'test'
+  ...
+# Subtest: WASM bootstrapはofficial wasm_pre.jsのmessage bridgeを利用する
+ok 675 - WASM bootstrapはofficial wasm_pre.jsのmessage bridgeを利用する
+  ---
+  duration_ms: 0.648827
+  type: 'test'
+  ...
+# Subtest: WASM bootstrapはofficial bridge欠落を黙ってdirect ccall fallbackしない
+ok 676 - WASM bootstrapはofficial bridge欠落を黙ってdirect ccall fallbackしない
+  ---
+  duration_ms: 0.122032
+  type: 'test'
+  ...
+1..676
+# tests 676
+# suites 0
+# pass 676
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3377.458612
+

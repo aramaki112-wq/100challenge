@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-09T13:03:43.871Z",
+  "gate": "VER_1_8_FORMAL_COMPLETION",
+  "passed": false,
+  "checks": [
+    {
+      "name": "Real YaneuraOu artifact gate",
+      "ok": false,
+      "detail": "}"
+    },
+    {
+      "name": "Real YaneuraOu E2E passed",
+      "ok": false,
+      "detail": "passed=false"
+    },
+    {
+      "name": "Real YaneuraOu E2E matches current WASM",
+      "ok": false,
+      "detail": "e2e=null, current=null"
+    },
+    {
+      "name": "Real E2E usi",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E usiok",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E isready",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E readyok",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E position",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E go",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E cp",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E mate",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E pv",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E depth",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E nodes",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E time",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E bestmove",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E stop",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E quit",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E sampleKif",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E evaluationGraph",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E badCandidate",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "Real E2E graphToStep4",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "name": "License gate completed",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "No unknown-rights asset bundled",
+      "ok": true,
+      "detail": "false"
+    },
+    {
+      "name": "Personal-use bundling decision recorded",
+      "ok": true,
+      "detail": "READY_FOR_APP_WITH_LOCAL_FALLBACK; REAL_YANEURAOU_COMPONENT_NOT_BUILT"
+    },
+    {
+      "name": "Pinned release",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "MATERIAL_LEVEL=1",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "failures": [
+    "Real YaneuraOu artifact gate: }",
+    "Real YaneuraOu E2E passed: passed=false",
+    "Real YaneuraOu E2E matches current WASM: e2e=null, current=null",
+    "Real E2E usi: false",
+    "Real E2E usiok: false",
+    "Real E2E isready: false",
+    "Real E2E readyok: false",
+    "Real E2E position: false",
+    "Real E2E go: false",
+    "Real E2E cp: false",
+    "Real E2E mate: false",
+    "Real E2E pv: false",
+    "Real E2E depth: false",
+    "Real E2E nodes: false",
+    "Real E2E time: false",
+    "Real E2E bestmove: false",
+    "Real E2E stop: false",
+    "Real E2E quit: false",
+    "Real E2E sampleKif: false",
+    "Real E2E evaluationGraph: false",
+    "Real E2E badCandidate: false",
+    "Real E2E graphToStep4: false"
+  ]
+}

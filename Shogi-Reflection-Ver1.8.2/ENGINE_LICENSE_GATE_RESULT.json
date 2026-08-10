@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-09T00:00:00.000Z",
+  "completed": true,
+  "unknownRightsAssetBundled": false,
+  "yaneuraOuBinaryBundled": false,
+  "materialThirdPartyWeightBundled": false,
+  "personalUseReadiness": "READY_FOR_APP_WITH_LOCAL_FALLBACK; REAL_YANEURAOU_COMPONENT_NOT_BUILT",
+  "publicDistributionReadiness": "APPLICATION_SHELL_ONLY; REAL_YANEURAOU_BUNDLE_NOT_APPROVED",
+  "commercialDistributionReadiness": "LEGAL_REVIEW_REQUIRED_BEFORE_PUBLIC_DISTRIBUTION",
+  "formalRealEngineBundlingApproved": false,
+  "reason": "No Real YaneuraOu WASM binary is present, so the current artifact contains no unverified GPL binary or third-party evaluation weight. A future binary bundle must satisfy Corresponding Source/notice obligations and the documented legal review gate."
+}

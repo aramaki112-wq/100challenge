@@ -1,0 +1,5 @@
+Shogi Reflection Ver.1.8.2 Real YaneuraOu Browser E2E
+=====================================================
+Status: NOT RUN
+Reason: manifest.available=False; missing assets=['yaneuraou.js', 'yaneuraou.wasm', 'yaneuraou.worker.js']. Build official YaneuraOu V9.00 MATERIAL_LEVEL=1 with Emscripten and finalize hashes first.
+Mock/ReflectionLocal evidence is intentionally not accepted here.
