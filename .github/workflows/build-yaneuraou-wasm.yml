@@ -40,6 +40,13 @@ jobs:
       - name: Checkout Shogi Reflection
         uses: actions/checkout@v4.2.2
 
+      - name: Prepare shell script permissions
+        shell: bash
+        run: |
+          set -euo pipefail
+          find scripts -maxdepth 1 -type f -name "*.sh" -print -exec chmod +x {} \;
+          ls -l scripts/*.sh
+
       - name: Record runner environment
         shell: bash
         run: |
@@ -103,7 +110,7 @@ jobs:
         run: |
           set -euo pipefail
           source "$EMSDK_DIR/emsdk_env.sh"
-          ./scripts/build-yaneuraou-wasm.sh \
+          bash ./scripts/build-yaneuraou-wasm.sh \
             "$YANEURAOU_SOURCE_DIR" \
             "$GITHUB_WORKSPACE/$APP_DIR/engine/yaneuraou" \
             "$GITHUB_WORKSPACE/$APP_DIR/build-record"
@@ -133,9 +140,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ./scripts/verify-yaneuraou-wasm.sh
+          bash ./scripts/verify-yaneuraou-wasm.sh
           node scripts/update-engine-license-gate.mjs --built
-          ./scripts/run-node-tests-with-evidence.sh
+          bash ./scripts/run-node-tests-with-evidence.sh
           npm run check
 
       - name: Install pinned Real Engine browser verifier
