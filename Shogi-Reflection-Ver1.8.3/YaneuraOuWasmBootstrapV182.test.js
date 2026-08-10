@@ -14,3 +14,9 @@ test("WASM bootstrapはofficial bridge欠落を黙ってdirect ccall fallbackし
   assert.match(source, /Official YaneuraOu wasm_pre\.js message bridge/);
   assert.match(source, /quit -> terminate/);
 });
+
+
+test("WASM bootstrapはEmscripten pthread self-workerをUSI wrapperへ誤接続しない", () => {
+  assert.match(source, /self\.name\.startsWith\("em-pthread"\)/);
+  assert.match(source, /if \(isEmscriptenPthreadWorker\) \{[\s\S]*self\.importScripts\(GLUE_URL\);[\s\S]*return;/);
+});

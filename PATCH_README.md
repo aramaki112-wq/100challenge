@@ -1,20 +1,15 @@
-# Shogi Reflection Ver.1.8.3 Build Bridge — Run #2 correction patch
+# Run #3 → Run #4 patch
 
-Apply this patch at the **root of the `100challenge` repository** and overwrite files when asked.
+Apply this ZIP to the **100challenge repository root** and overwrite matching files. Do not delete `Shogi-Reflection-Ver1.8.3`.
 
-This patch corrects two GitHub Actions findings:
+This patch:
 
-1. Run #1: Windows-origin shell scripts were not executable on the Linux runner.
-2. Run #2: the bridge incorrectly required a separate Emscripten pthread `.worker.js` file.
+1. lets Static Verification produce/upload diagnostics without blocking Real USI/E2E collection;
+2. keeps Static Verification mandatory in the final enforcement step;
+3. uploads Static/Syntax/Test/Browser/Visual evidence;
+4. records baseline files missing immediately after GitHub checkout;
+5. adds the Emscripten `em-pthread` self-worker guard to `YaneuraOuWasmWorkerBootstrap.js`;
+6. adds an automated regression test for that guard;
+7. documents Incident 003.
 
-For pinned Emscripten 4.0.15, pthread builds do not generate a separate `.worker.js` artifact. The generated main `yaneuraou.js` is used by Emscripten for pthread worker startup. `YaneuraOuWasmWorkerBootstrap.js` remains Shogi Reflection's outer browser worker bootstrap and is a separate application asset.
-
-The patch intentionally does **not** mark the Formal Completion Gate as passed. A new GitHub Actions run must generate/hash the real JS/WASM assets and complete Real USI / Real E2E evidence.
-
-After overwrite:
-
-1. Review changed files in GitHub Desktop.
-2. Commit (example: `fix: Emscripten 4.0.15 pthread worker packaging`).
-3. Push to `main`.
-4. Wait for `Build pinned YaneuraOu WASM` Run #3.
-5. Inspect/send the Actions result before any manual re-run.
+After overwrite: Commit → Push → wait for `Build pinned YaneuraOu WASM #4`.

@@ -26,6 +26,20 @@
 (() => {
   const GLUE_URL = "./engine/yaneuraou/yaneuraou.js";
   const ASSET_BASE = "./engine/yaneuraou/";
+
+  // Emscripten 4.0.15 pthreads reuse the current Worker script URL.
+  // Spawned pthread Workers therefore execute this bootstrap too, with the
+  // name "em-pthread". In that context, load only the generated glue: its
+  // own Emscripten tail detects the pthread name and starts the pthread
+  // runtime. Installing the application USI wrapper there would consume
+  // Emscripten control messages and create a second main-engine instance.
+  const isEmscriptenPthreadWorker =
+    typeof self?.name === "string" && self.name.startsWith("em-pthread");
+  if (isEmscriptenPthreadWorker) {
+    self.importScripts(GLUE_URL);
+    return;
+  }
+
   const queue = [];
   let moduleInstance = null;
   let failed = null;

@@ -129,7 +129,7 @@ test("CI keeps Real evidence artifact even when a Real gate fails",()=>{
   const y=read(".github/workflows/build-yaneuraou-wasm.yml");
   assert.match(y,/continue-on-error: true/);
   assert.match(y,/Upload Build Bridge artifact[\s\S]*if: always\(\)/);
-  assert.match(y,/Enforce Real runtime gates after evidence upload/);
+  assert.match(y,/Enforce Real runtime(?: and static)? gates after evidence upload/);
 });
 
 test("Legacy manifest finalizer cannot bypass measured Build Metadata",()=>{

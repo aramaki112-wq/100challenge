@@ -11,6 +11,9 @@ on:
       - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh"
       - "Shogi-Reflection-Ver1.8.3/scripts/real-yaneuraou-artifact-gate.mjs"
       - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmBootstrapV182.test.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuBuildBridgeV183.test.js"
+      - "Shogi-Reflection-Ver1.8.3/verify.mjs"
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py"
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py"
       - "Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt"
@@ -48,6 +51,26 @@ jobs:
           set -euo pipefail
           find scripts -maxdepth 1 -type f -name "*.sh" -print -exec chmod +x {} \;
           ls -l scripts/*.sh
+
+      - name: Record CI checkout baseline presence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build-record
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const baseline = JSON.parse(fs.readFileSync('SOURCE_OF_TRUTH_V1_8_INTEGRATION_CANDIDATE_HASHES.json','utf8'));
+          const missing = Object.keys(baseline.files).filter(file => !fs.existsSync(path.join(process.cwd(), file)));
+          const lines = [
+            'Shogi Reflection Ver.1.8.3 CI Checkout Baseline Presence Audit',
+            `baseline_files=${Object.keys(baseline.files).length}`,
+            `missing_before_build=${missing.length}`,
+            ...missing.map(file => `MISSING | ${file}`),
+          ];
+          fs.writeFileSync('build-record/ci-checkout-baseline-audit.txt', lines.join('\n') + '\n');
+          console.log(lines.join('\n'));
+          NODE
 
       - name: Record runner environment
         shell: bash
@@ -138,14 +161,25 @@ jobs:
             cp "$EMSDK_DIR/upstream/emscripten/LICENSE" corresponding-source/Emscripten-LICENSE
           fi
 
-      - name: Verify build artifact and hashes
+      - name: Verify build artifact, hashes and automated tests
         shell: bash
         run: |
           set -euo pipefail
           bash ./scripts/verify-yaneuraou-wasm.sh
           node scripts/update-engine-license-gate.mjs --built
           bash ./scripts/run-node-tests-with-evidence.sh
+
+      - name: Run static verification and preserve diagnostics
+        id: static_verification
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
           npm run check
+          code=$?
+          set -e
+          printf 'static_verification_exit_code=%s\n' "$code" | tee build-record/static-verification-exit.txt
+          exit "$code"
 
       - name: Install pinned Real Engine browser verifier
         shell: bash
@@ -202,6 +236,12 @@ jobs:
             Shogi-Reflection-Ver1.8.3/ENGINE_REAL_PERFORMANCE_RESULT.json
             Shogi-Reflection-Ver1.8.3/FORMAL_COMPLETION_GATE_RESULT.json
             Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_GATE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/STATIC_VERIFICATION_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/SYNTAX_CHECK_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/TEST_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/BROWSER_VERIFICATION_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/VISUAL_VERIFICATION_RESULT.txt
+            Shogi-Reflection-Ver1.8.3/REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt
             Shogi-Reflection-Ver1.8.3/build-record/
             Shogi-Reflection-Ver1.8.3/corresponding-source/
             Shogi-Reflection-Ver1.8.3/scripts/build-yaneuraou-wasm.sh
@@ -222,7 +262,7 @@ jobs:
             Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_AUDIT.md
             Shogi-Reflection-Ver1.8.3/THIRD_PARTY_NOTICES.md
 
-      - name: Enforce Real runtime gates after evidence upload
+      - name: Enforce Real runtime and static gates after evidence upload
         if: always()
         shell: bash
         run: |
@@ -235,6 +275,13 @@ jobs:
               ("REAL_YANEURAOU_E2E_RESULT.json", "Real application E2E"),
           ]
           failed=[]
+          static_path = Path("STATIC_VERIFICATION_RESULT.txt")
+          if not static_path.exists():
+              failed.append("Static Verification: evidence missing")
+          else:
+              static_text = static_path.read_text(encoding="utf-8")
+              if "Failed checks: 0" not in static_text or "Missing imports: 0" not in static_text:
+                  failed.append("Static Verification: non-zero failure or missing-import count; inspect uploaded STATIC_VERIFICATION_RESULT.txt")
           for file,label in required:
               path=Path(file)
               if not path.exists():
@@ -245,5 +292,5 @@ jobs:
                   failed.append(f"{label}: {data.get('status') or data.get('verdict') or 'failed'}")
           if failed:
               raise SystemExit("Real gate failure(s): " + " | ".join(failed))
-          print("Real USI and Real application E2E passed. Final Formal Completion remains a separate integration/report/ZIP-reverification gate.")
+          print("Real USI, Real application E2E, Static Verification and Missing Import gates passed. Final Formal Completion remains a separate integration/report/ZIP-reverification gate.")
           PY
