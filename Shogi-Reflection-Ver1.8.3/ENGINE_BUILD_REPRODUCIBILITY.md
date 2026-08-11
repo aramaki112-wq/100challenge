@@ -141,3 +141,11 @@ Run #7 proved that the pinned V9.00 commit can be compiled with the upstream-com
 A deeper inspection of that successfully built WASM found no `usi_command` export even though pinned `wasm_pre.js` calls `ccall("usi_command", ...)`. The exact pinned source places its legacy Emscripten wrapper under `#if 0`, while the active USI API is now `USIEngine::usi_cmdexec(const std::string&)` and `loop()` deliberately does not block under Emscripten.
 
 Run #8 therefore keeps the exact official commit as immutable base but applies the explicitly reviewed patch `patches/yaneuraou-v9.00-wasm-usi-bridge.patch`. The patch hash, exact modified-file set, full diff, actual WASM export list and Corresponding Source are all mandatory evidence. This is a source modification and is no longer described as an unmodified upstream build.
+
+## Run #8 evidence-format incident / Run #9 correction
+
+Run #8 did not reach compilation because the exact reviewed-patch comparison was sensitive to Git's automatically selected abbreviation width for blob object IDs. The reviewed patch used 7 hexadecimal characters on its `index` lines while the GitHub Actions runner emitted 8-character unique prefixes for the same blobs. The patch hunks and modified-file set were otherwise identical.
+
+Run #9 fixes the evidence representation explicitly with `git diff --binary --abbrev=7` before the existing byte-for-byte `cmp` against the reviewed patch. Patch SHA-256, `git apply --check`, modified-file allowlist, `git diff --check`, preserved applied diff, and Corresponding Source evidence remain mandatory. This changes only Git diff presentation; it does not change YaneuraOu engine source, the reviewed patch, compiler settings, MATERIAL settings, or Real Engine gates.
+
+See `ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md`.

@@ -97,6 +97,7 @@ check("Build Bridge pins Emscripten 3.1.43 mapping", workflow.includes("EMSDK_VE
 check("Build Bridge records runner provenance", workflow.includes("ImageOS") && workflow.includes("ImageVersion") && workflow.includes("runner-environment.txt"));
 check("Build Bridge packages Corresponding Source evidence", workflow.includes("package-yaneuraou-corresponding-source.sh") && exists("scripts/package-yaneuraou-corresponding-source.sh") && exists("patches/yaneuraou-v9.00-wasm-usi-bridge.patch"));
 check("Build Bridge records explicit YaneuraOu source modification", read("scripts/build-yaneuraou-wasm.sh").includes("source-modified-files.txt") && read("scripts/build-yaneuraou-wasm.sh").includes("usi-command-export.txt") && read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("modified-source Corresponding Source"));
+check("Build Bridge canonicalizes reviewed patch diff abbreviation", read("scripts/build-yaneuraou-wasm.sh").includes("diff --binary --abbrev=7") && exists("ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md"));
 check("Build Bridge runs separated Real USI and application E2E", workflow.includes("real_yaneuraou_usi_verify.py") && workflow.includes("real_yaneuraou_browser_verify.py"));
 check("Build Bridge uploads evidence even when Real gate fails", workflow.includes("if: always()") && /Enforce Real runtime(?: and static)? gates after evidence upload/.test(workflow));
 check("Build metadata does not fabricate measured values", buildMetadata.measured === false

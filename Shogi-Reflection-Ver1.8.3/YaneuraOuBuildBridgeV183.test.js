@@ -236,3 +236,13 @@ test("Run 7 disabled-export incident is documented and source modification is no
   assert.match(d,/unmodified upstream source build|sourceModified=true/i);
   assert.match(d,/LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION/);
 });
+
+test("Run 8 patch comparison canonicalizes Git abbreviated blob IDs without weakening exact diff review",()=>{
+  const build=read("scripts/build-yaneuraou-wasm.sh");
+  const incident=read("ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md");
+  assert.match(build,/git -C "\$SOURCE_ROOT" diff --binary --abbrev=7/);
+  assert.match(build,/cmp -s "\$SOURCE_PATCH" "\$RECORD_DIR\/yaneuraou-source-modifications\.patch"/);
+  assert.match(incident,/e77eb04\.\.f3566d0/);
+  assert.match(incident,/e77eb043\.\.f3566d02/);
+  assert.match(incident,/formatting difference in Git's abbreviated object IDs/i);
+});

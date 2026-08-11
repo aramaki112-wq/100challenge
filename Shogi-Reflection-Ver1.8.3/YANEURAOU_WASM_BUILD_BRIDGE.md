@@ -140,3 +140,9 @@ Browser UI
 ```
 
 This is still **NOT FORMAL** until Real USI and Real application E2E pass for the measured patched WASM hash.
+
+## Run #9: deterministic reviewed-diff representation
+
+The source patch remains byte-for-byte unchanged. Run #8 showed that Git's automatically chosen abbreviated blob IDs can differ across environments even when the applied source hunks are identical. Run #9 therefore emits the post-apply review diff with `git diff --binary --abbrev=7`, matching the reviewed patch's representation before the existing `cmp` gate.
+
+This is an evidence-format correction only. It does not bypass patch verification and does not assert Real Engine success.

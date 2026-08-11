@@ -66,7 +66,7 @@ EXPECTED_MODIFIED_SOURCE_FILES=(
 )
 [[ "${MODIFIED_SOURCE_FILES[*]}" == "${EXPECTED_MODIFIED_SOURCE_FILES[*]}" ]] || fail "unexpected YaneuraOu source modification set: ${MODIFIED_SOURCE_FILES[*]}"
 printf '%s\n' "${MODIFIED_SOURCE_FILES[@]}" > "$RECORD_DIR/source-modified-files.txt"
-git -C "$SOURCE_ROOT" diff --binary > "$RECORD_DIR/yaneuraou-source-modifications.patch"
+git -C "$SOURCE_ROOT" diff --binary --abbrev=7 > "$RECORD_DIR/yaneuraou-source-modifications.patch"
 git -C "$SOURCE_ROOT" status --porcelain=v1 > "$RECORD_DIR/yaneuraou-source-status-after-patch.txt"
 [[ -s "$RECORD_DIR/yaneuraou-source-status-after-patch.txt" ]] || fail "documented source patch did not modify the checkout"
 cmp -s "$SOURCE_PATCH" "$RECORD_DIR/yaneuraou-source-modifications.patch" || fail "applied YaneuraOu source diff does not exactly match the reviewed patch"
