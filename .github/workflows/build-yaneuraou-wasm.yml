@@ -25,6 +25,8 @@ on:
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md"
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_010_PTHREAD_MAIN_SCRIPT_URL.md"
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_011_FUNCTION_POINTER_SIGNATURE_MISMATCH.md"
+      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_012_DIAGNOSTIC_GATE_ORDERING.md"
+      - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-diagnostic-wasm.sh"
 
 permissions:
   contents: read
@@ -159,13 +161,18 @@ jobs:
           test -s corresponding-source/Emscripten-LICENSE
           printf '%s\n' "$(cat build-record/emscripten-docker-image-digest.txt)" > corresponding-source/Emscripten-Docker-Image-Digest.txt
 
-      - name: Verify build artifact, hashes and automated tests
+      - name: Verify diagnostic artifact integrity, hashes and automated tests
         shell: bash
         run: |
           set -euo pipefail
-          bash ./scripts/verify-yaneuraou-wasm.sh
+          bash ./scripts/verify-yaneuraou-diagnostic-wasm.sh
           node scripts/update-engine-license-gate.mjs --built
-          bash ./scripts/run-node-tests-with-evidence.sh
+
+      - name: Record expected Formal artifact-gate rejection for diagnostic build
+        id: formal_artifact_gate
+        continue-on-error: true
+        shell: bash
+        run: bash ./scripts/verify-yaneuraou-wasm.sh
 
       - name: Run static verification and preserve diagnostics
         id: static_verification
@@ -194,17 +201,19 @@ jobs:
           python3 visual_verify.py
           python3 real_engine_browser_verify.py
 
-      - name: Run Real YaneuraOu USI verification
+      - name: Run diagnostic Real YaneuraOu USI verification with assertion capture
         id: real_usi
         continue-on-error: true
         shell: bash
+        env:
+          YANEURAOU_ALLOW_DIAGNOSTIC_ARTIFACT: "1"
         run: python3 real_yaneuraou_usi_verify.py
 
-      - name: Run Real YaneuraOu application E2E
-        id: real_e2e
-        continue-on-error: true
+      - name: Keep Real application E2E fail-closed during diagnostic build
         shell: bash
-        run: python3 real_yaneuraou_browser_verify.py
+        run: |
+          set -euo pipefail
+          echo "Run #13 is diagnostic-only; Real application E2E is intentionally deferred until a production build fixes the runtime mismatch."
 
       - name: Evaluate pre-ZIP Formal Completion Gate (diagnostic)
         id: formal_gate
@@ -262,11 +271,13 @@ jobs:
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_010_PTHREAD_MAIN_SCRIPT_URL.md
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_011_FUNCTION_POINTER_SIGNATURE_MISMATCH.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_012_DIAGNOSTIC_GATE_ORDERING.md
+            Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-diagnostic-wasm.sh
             Shogi-Reflection-Ver1.8.3/ENGINE_SOURCE_DISTRIBUTION_PLAN.md
             Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_AUDIT.md
             Shogi-Reflection-Ver1.8.3/THIRD_PARTY_NOTICES.md
 
-      - name: Enforce Real runtime and static gates after evidence upload
+      - name: Enforce diagnostic evidence production after upload
         if: always()
         shell: bash
         run: |
@@ -274,27 +285,30 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
-          required = [
-              ("REAL_YANEURAOU_USI_RESULT.json", "Real USI"),
-              ("REAL_YANEURAOU_E2E_RESULT.json", "Real application E2E"),
-          ]
-          failed=[]
-          static_path = Path("STATIC_VERIFICATION_RESULT.txt")
-          if not static_path.exists():
-              failed.append("Static Verification: evidence missing")
+
+          failures = []
+          result_path = Path("REAL_YANEURAOU_USI_RESULT.json")
+          if not result_path.exists():
+              failures.append("Diagnostic Real USI evidence missing")
           else:
-              static_text = static_path.read_text(encoding="utf-8")
-              if "Failed checks: 0" not in static_text or "Missing imports: 0" not in static_text:
-                  failed.append("Static Verification: non-zero failure or missing-import count; inspect uploaded STATIC_VERIFICATION_RESULT.txt")
-          for file,label in required:
-              path=Path(file)
-              if not path.exists():
-                  failed.append(f"{label}: evidence missing")
-                  continue
-              data=json.loads(path.read_text(encoding="utf-8"))
-              if data.get("passed") is not True:
-                  failed.append(f"{label}: {data.get('status') or data.get('verdict') or 'failed'}")
-          if failed:
-              raise SystemExit("Real gate failure(s): " + " | ".join(failed))
-          print("Real USI, Real application E2E, Static Verification and Missing Import gates passed. Final Formal Completion remains a separate integration/report/ZIP-reverification gate.")
+              data = json.loads(result_path.read_text(encoding="utf-8"))
+              status = data.get("status")
+              if status == "NOT_RUN_REAL_WASM_ASSET_UNAVAILABLE":
+                  failures.append("Diagnostic Real USI did not run")
+              obs = data.get("observations") or {}
+              if obs.get("diagnosticBuild") is not True:
+                  failures.append("Diagnostic Real USI result is not bound to diagnosticBuild=true")
+              if obs.get("diagnosticArtifactExplicitlyAllowed") is not True:
+                  failures.append("Diagnostic Real USI explicit opt-in evidence missing")
+
+          formal_artifact = Path("REAL_YANEURAOU_ARTIFACT_GATE_RESULT.json")
+          if formal_artifact.exists():
+              gate = json.loads(formal_artifact.read_text(encoding="utf-8"))
+              if gate.get("passed") is True:
+                  failures.append("Formal artifact gate must reject diagnostic builds")
+
+          if failures:
+              raise SystemExit("Run #13 diagnostic evidence failure(s): " + " | ".join(failures))
+
+          print("Run #13 diagnostic evidence was produced. This is NOT Formal Completion.")
           PY

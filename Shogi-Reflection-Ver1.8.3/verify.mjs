@@ -99,7 +99,7 @@ check("Build Bridge packages Corresponding Source evidence", workflow.includes("
 check("Build Bridge records explicit YaneuraOu source modification", read("scripts/build-yaneuraou-wasm.sh").includes("source-modified-files.txt") && read("scripts/build-yaneuraou-wasm.sh").includes("usi-command-export.txt") && read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("modified-source Corresponding Source"));
 check("Build Bridge canonicalizes reviewed patch diff abbreviation", read("scripts/build-yaneuraou-wasm.sh").includes("diff --binary --abbrev=7") && exists("ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md"));
 check("Build Bridge runs separated Real USI and application E2E", workflow.includes("real_yaneuraou_usi_verify.py") && workflow.includes("real_yaneuraou_browser_verify.py"));
-check("Build Bridge uploads evidence even when Real gate fails", workflow.includes("if: always()") && /Enforce Real runtime(?: and static)? gates after evidence upload/.test(workflow));
+check("Build Bridge uploads evidence even when Real/diagnostic gate finishes", workflow.includes("if: always()") && /Enforce (?:Real runtime(?: and static)? gates|diagnostic evidence production) after upload/.test(workflow));
 check("Build metadata does not fabricate measured values", buildMetadata.measured === false
   ? (buildMetadata.jsSha256 === null && buildMetadata.wasmSha256 === null && buildMetadata.workerSha256 === null && buildMetadata.workerBootstrapSha256 === null)
   : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerBootstrapSha256 && buildMetadata.workerSha256 && buildMetadata.workerFile && buildMetadata.pthreadWorkerPackaging === "SEPARATE_PTHREAD_WORKER" && buildMetadata.generatedPthreadWorkerCount === 1));

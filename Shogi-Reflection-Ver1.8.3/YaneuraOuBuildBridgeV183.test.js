@@ -159,7 +159,32 @@ test("CI keeps Real evidence artifact even when a Real gate fails",()=>{
   const y=read(".github/workflows/build-yaneuraou-wasm.yml");
   assert.match(y,/continue-on-error: true/);
   assert.match(y,/Upload Build Bridge artifact[\s\S]*if: always\(\)/);
-  assert.match(y,/Enforce Real runtime(?: and static)? gates after evidence upload/);
+  assert.match(y,/Enforce (?:Real runtime(?: and static)? gates|diagnostic evidence production) after upload/);
+});
+
+
+test("Run 13 diagnostic flow bypasses only the Formal artifact gate and still hash-verifies the diagnostic artifact",()=>{
+  const y=read(".github/workflows/build-yaneuraou-wasm.yml");
+  const verify=read("scripts/verify-yaneuraou-diagnostic-wasm.sh");
+  const usi=read("real_yaneuraou_usi_verify.py");
+  assert.match(y,/Verify diagnostic artifact integrity, hashes and automated tests/);
+  assert.match(y,/YANEURAOU_ALLOW_DIAGNOSTIC_ARTIFACT:\s*"1"/);
+  assert.match(y,/Record expected Formal artifact-gate rejection for diagnostic build/);
+  assert.match(verify,/diagnosticBuild must be true/);
+  assert.match(verify,/metadata SHA mismatch/);
+  assert.match(verify,/manifest SHA mismatch/);
+  assert.match(usi,/allow_diagnostic = os\.environ\.get\("YANEURAOU_ALLOW_DIAGNOSTIC_ARTIFACT"\) == "1"/);
+  assert.match(usi,/diagnostic_build = metadata\.get\("diagnosticBuild"\) is True/);
+});
+
+test("Run 13 Real USI verifier preserves browser console and page-error diagnostics",()=>{
+  const s=read("real_yaneuraou_usi_verify.py");
+  assert.match(s,/browser_console = \[\]/);
+  assert.match(s,/page_errors = \[\]/);
+  assert.match(s,/page\.on\("console"/);
+  assert.match(s,/page\.on\("pageerror"/);
+  assert.match(s,/"browserConsole": browser_console/);
+  assert.match(s,/"pageErrors": page_errors/);
 });
 
 test("Legacy manifest finalizer cannot bypass measured Build Metadata",()=>{

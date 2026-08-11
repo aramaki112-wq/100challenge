@@ -66,10 +66,15 @@ actual_names = {
     "workerBootstrap": metadata.get("workerBootstrapFile"),
 }
 
-if manifest.get("available") is not True or metadata.get("measured") is not True:
+allow_diagnostic = os.environ.get("YANEURAOU_ALLOW_DIAGNOSTIC_ARTIFACT") == "1"
+diagnostic_build = metadata.get("diagnosticBuild") is True
+artifact_runtime_allowed = metadata.get("measured") is True or (allow_diagnostic and diagnostic_build)
+
+if manifest.get("available") is not True or artifact_runtime_allowed is not True:
     reason = (
-        f"manifest.available={manifest.get('available')}; metadata.measured={metadata.get('measured')}. "
-        "A measured official-source Build Bridge artifact is required before Real USI evidence can be produced."
+        f"manifest.available={manifest.get('available')}; metadata.measured={metadata.get('measured')}; "
+        f"metadata.diagnosticBuild={diagnostic_build}; allowDiagnostic={allow_diagnostic}. "
+        "A measured formal artifact, or an explicitly allowed diagnostic artifact, is required before Real USI evidence can be produced."
     )
     write_result(passed=False, status="NOT_RUN_REAL_WASM_ASSET_UNAVAILABLE", wasm_sha256=None, checks=checks, reason=reason)
     print(reason)
@@ -294,6 +299,14 @@ try:
             launch_kwargs["args"] = ["--no-sandbox"]
         browser = p.chromium.launch(**launch_kwargs)
         page = browser.new_page(viewport={"width": 390, "height": 844})
+        browser_console = []
+        page_errors = []
+        page.on("console", lambda msg: browser_console.append({
+            "type": msg.type,
+            "text": msg.text,
+            "location": msg.location,
+        }))
+        page.on("pageerror", lambda exc: page_errors.append(str(exc)))
         page.goto(base_url + "/index.html", wait_until="load")
         if page.evaluate("crossOriginIsolated === true") is not True:
             raise RuntimeError("crossOriginIsolated is false under the verification server")
@@ -314,6 +327,10 @@ try:
             "engineErrors": suite.get("errors", []),
             "failure": suite.get("failure"),
             "tail": suite.get("tail", []),
+            "diagnosticBuild": diagnostic_build,
+            "diagnosticArtifactExplicitlyAllowed": allow_diagnostic,
+            "browserConsole": browser_console[-200:],
+            "pageErrors": page_errors[-100:],
         }
 finally:
     server.shutdown()

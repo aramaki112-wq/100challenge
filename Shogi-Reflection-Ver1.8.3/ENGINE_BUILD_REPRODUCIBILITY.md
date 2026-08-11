@@ -178,3 +178,23 @@ Run #12 is intentionally diagnostic and sets `EMCC_CFLAGS=-sASSERTIONS=2 -g3 -Wc
 `ENGINE_BUILD_METADATA.json` records `diagnosticBuild=true`, and the Formal Completion Gate
 must reject that artifact even if protocol checks improve. The fixed upstream commit and the
 documented two-file `usi_command` bridge patch remain unchanged.
+
+## Run #13 diagnostic gate ordering correction
+
+Run #12 proved the diagnostic compiler configuration could be built and hashed, but the
+workflow invoked the Formal Real Artifact Gate before the diagnostic browser verifier.
+Because diagnostic artifacts are intentionally marked `diagnosticBuild=true` and
+`metadata.measured=false`, that Formal gate correctly rejected the artifact and prevented
+the intended runtime assertion capture.
+
+Run #13 therefore adds a separate diagnostic artifact-integrity gate. It validates the
+built JS/WASM/pthread worker/bootstrap SHA-256 values and the measured `usi_command`
+export without granting Formal readiness. The ordinary Formal artifact gate remains
+unchanged and is still expected to reject the diagnostic artifact.
+
+The Real USI verifier accepts the diagnostic artifact only under the explicit CI opt-in
+`YANEURAOU_ALLOW_DIAGNOSTIC_ARTIFACT=1` and only when Build Metadata says
+`diagnosticBuild=true`. Browser console and page-error evidence are captured into the Real
+USI result so the measured pthread `function signature mismatch` can be diagnosed rather
+than guessed.
+
