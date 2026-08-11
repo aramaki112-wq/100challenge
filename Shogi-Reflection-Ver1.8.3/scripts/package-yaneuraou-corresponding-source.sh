@@ -16,7 +16,7 @@ fail(){ echo "ERROR: $*" >&2; exit 1; }
 mkdir -p "$OUT_DIR" "$RECORD_DIR"
 
 git -C "$SOURCE_ROOT" diff --check
-git -C "$SOURCE_ROOT" diff --binary > "$OUT_DIR/YaneuraOu-ShogiReflection-WASM-USI-Bridge.patch"
+git -C "$SOURCE_ROOT" diff --binary --abbrev=7 > "$OUT_DIR/YaneuraOu-ShogiReflection-WASM-USI-Bridge.patch"
 cmp -s "$PATCH_FILE" "$OUT_DIR/YaneuraOu-ShogiReflection-WASM-USI-Bridge.patch" || fail "working-tree source modifications differ from reviewed patch"
 cp "$PATCH_FILE" "$OUT_DIR/yaneuraou-v9.00-wasm-usi-bridge.patch"
 sha256sum "$OUT_DIR/yaneuraou-v9.00-wasm-usi-bridge.patch" | tee "$RECORD_DIR/corresponding-source-patch-sha256.txt"

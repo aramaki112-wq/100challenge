@@ -246,3 +246,12 @@ test("Run 8 patch comparison canonicalizes Git abbreviated blob IDs without weak
   assert.match(incident,/e77eb043\.\.f3566d02/);
   assert.match(incident,/formatting difference in Git's abbreviated object IDs/i);
 });
+
+test("Run 9 Corresponding Source packaging uses the same deterministic reviewed-patch diff representation",()=>{
+  const pack=read("scripts/package-yaneuraou-corresponding-source.sh");
+  const incident=read("ENGINE_BUILD_INCIDENT_009_CORRESPONDING_SOURCE_DIFF_ABBREVIATION.md");
+  assert.match(pack,/git -C "\$SOURCE_ROOT" diff --binary --abbrev=7/);
+  assert.match(pack,/cmp -s "\$PATCH_FILE" "\$OUT_DIR\/YaneuraOu-ShogiReflection-WASM-USI-Bridge\.patch"/);
+  assert.match(incident,/Corresponding Source packaging/i);
+  assert.match(incident,/byte-for-byte/i);
+});

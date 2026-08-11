@@ -149,3 +149,8 @@ Run #8 did not reach compilation because the exact reviewed-patch comparison was
 Run #9 fixes the evidence representation explicitly with `git diff --binary --abbrev=7` before the existing byte-for-byte `cmp` against the reviewed patch. Patch SHA-256, `git apply --check`, modified-file allowlist, `git diff --check`, preserved applied diff, and Corresponding Source evidence remain mandatory. This changes only Git diff presentation; it does not change YaneuraOu engine source, the reviewed patch, compiler settings, MATERIAL settings, or Real Engine gates.
 
 See `ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md`.
+
+
+## Run #9 corresponding-source evidence serialization
+
+Run #9 measured a successful build-stage source-diff comparison, then the Corresponding Source packager reproduced the same reviewed source changes with a different default Git object-ID abbreviation width. The packager now uses `git diff --binary --abbrev=7`, matching the build-stage evidence and reviewed patch. The exact `cmp` gate remains fail-closed; no source or engine behavior is changed by this correction.
