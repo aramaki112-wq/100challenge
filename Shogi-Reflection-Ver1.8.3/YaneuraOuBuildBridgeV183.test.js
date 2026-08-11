@@ -179,6 +179,8 @@ test("Runtime bootstrap is co-located with generated JS/WASM so Emscripten Worke
   assert.match(meta,/engine.*yaneuraou.*YaneuraOuWasmWorkerBootstrap\.js/s);
   assert.match(meta,/workerUrl: "\.\/engine\/yaneuraou\/YaneuraOuWasmWorkerBootstrap\.js"/);
   assert.match(bootstrap,/const GLUE_URL = "\.\/yaneuraou\.material\.js"/);
+  assert.match(bootstrap,/const MAIN_SCRIPT_URL = new URL\(GLUE_URL, self\.location\.href\)\.href/);
+  assert.match(bootstrap,/mainScriptUrlOrBlob:\s*MAIN_SCRIPT_URL/);
   assert.doesNotMatch(bootstrap,/locateFile\(/);
 });
 
@@ -254,4 +256,12 @@ test("Run 9 Corresponding Source packaging uses the same deterministic reviewed-
   assert.match(pack,/cmp -s "\$PATCH_FILE" "\$OUT_DIR\/YaneuraOu-ShogiReflection-WASM-USI-Bridge\.patch"/);
   assert.match(incident,/Corresponding Source packaging/i);
   assert.match(incident,/byte-for-byte/i);
+});
+
+
+test("Outer Worker supplies Emscripten mainScriptUrlOrBlob so nested pthread workers can reload the modularized glue",()=>{
+  const bootstrap=read("YaneuraOuWasmWorkerBootstrap.js");
+  assert.match(bootstrap,/mainScriptUrlOrBlob:\s*MAIN_SCRIPT_URL/);
+  assert.match(bootstrap,/new URL\(GLUE_URL, self\.location\.href\)\.href/);
+  assert.doesNotMatch(bootstrap,/mainScriptUrlOrBlob:\s*(?:undefined|null)/);
 });

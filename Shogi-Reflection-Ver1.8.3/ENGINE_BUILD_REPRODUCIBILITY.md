@@ -154,3 +154,15 @@ See `ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md`.
 ## Run #9 corresponding-source evidence serialization
 
 Run #9 measured a successful build-stage source-diff comparison, then the Corresponding Source packager reproduced the same reviewed source changes with a different default Git object-ID abbreviation width. The packager now uses `git diff --binary --abbrev=7`, matching the build-stage evidence and reviewed patch. The exact `cmp` gate remains fail-closed; no source or engine behavior is changed by this correction.
+
+
+## Run #10 pthread main-script URL incident
+
+Run #10 proved the real pinned WASM artifact and `usi_command` export, but the
+nested Emscripten pthread worker could not reload the modularized main glue
+because the outer Worker did not supply `Module.mainScriptUrlOrBlob`.
+
+The runtime bootstrap now computes the absolute generated-glue URL from
+`self.location.href` and passes it as `mainScriptUrlOrBlob`. This changes only
+the browser runtime bootstrap; it does not modify YaneuraOu search/evaluation
+source or the recorded two-file WASM USI source bridge.

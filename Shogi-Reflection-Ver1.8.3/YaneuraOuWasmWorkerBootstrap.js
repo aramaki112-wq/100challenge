@@ -11,6 +11,11 @@
  */
 (() => {
   const GLUE_URL = "./yaneuraou.material.js";
+  // Emscripten pthread workers must be told how to reload the modularized
+  // main JS file. When the glue is imported by this outer Worker,
+  // document.currentScript / __filename are unavailable, so Emscripten 3.1.43
+  // cannot infer Module.mainScriptUrlOrBlob by itself.
+  const MAIN_SCRIPT_URL = new URL(GLUE_URL, self.location.href).href;
   const queue = [];
   let moduleInstance = null;
   let failed = null;
@@ -48,6 +53,7 @@
       throw new Error("Official Emscripten factory YaneuraOu_Material was not found.");
     }
     Promise.resolve(factory({
+      mainScriptUrlOrBlob: MAIN_SCRIPT_URL,
       printErr: (line) => emit(`info string ${String(line ?? "")}`)
     })).then((instance) => {
       if (typeof instance?.addMessageListener !== "function" || typeof instance?.postMessage !== "function") {
