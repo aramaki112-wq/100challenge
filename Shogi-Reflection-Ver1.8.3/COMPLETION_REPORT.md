@@ -137,3 +137,9 @@ ReflectionLocal or Mock results cannot satisfy these items.
 ## 11. Naming rule
 
 Until all hard gates pass, no package may be named as the formal `Shogi-Reflection-Ver1.8.3.zip`. Run #6 work remains a NOT-FORMAL Build Bridge candidate.
+
+## Run #6 evidence and Run #7 status — 2026-08-11
+
+Run #6 did not reach a Real Artifact Gate. The pinned upstream 3.1.43 packaging path ended with `file not found: .../yaneuraou.material.js`, leaving Real USI and Real Application E2E as NOT_RUN because no accepted WASM asset existed.
+
+Run #7 is prepared to retry with the exact upstream Emscripten Docker image and deterministic split clean/build execution. This report does **not** claim Run #7 success in advance. Formal Completion remains blocked until measured Real artifacts, Real USI, Real E2E, license/source-distribution evidence, and final ZIP re-verification pass.

@@ -117,3 +117,19 @@ This document describes the prepared build contract only. Run #6 must still meas
 - Formal Completion Gate and unpacked-ZIP re-verification.
 
 Until those checks pass, status remains **NOT FORMAL**.
+
+## Run #6 → Run #7 reproducibility correction (2026-08-11)
+
+Run #6 reached the pinned Emscripten 3.1.43 build path but the upstream `script/wasm_build.js material` wrapper ended at a missing `yaneuraou.material.js` check. The wrapper's child `make` error was not propagated as primary evidence, so the exact lower-level cause remains unproven.
+
+Run #7 keeps the source commit and official material configuration fixed but improves observability:
+
+- build inside `emscripten/emsdk:3.1.43`, matching the pinned upstream workflow;
+- record Docker image ID and RepoDigest;
+- execute `make clean` separately;
+- execute deterministic `make -j2 tournament` with the same official MATERIAL edition/export/memory values;
+- preserve the real `make` exit code;
+- require JS, generated pthread worker.js, and WASM before metadata/hashing;
+- do not modify YaneuraOu source or Makefile.
+
+Run #7 remains NOT-FORMAL until the CI run produces measured artifacts and Real USI/E2E evidence.

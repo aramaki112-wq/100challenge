@@ -41,12 +41,17 @@ let metadata = {
     workflowSha: process.env.GITHUB_SHA ?? null
   } : null,
   emsdkRepositoryCommit: built ? readMaybe("emsdk-repository-commit.txt") : null,
+  emscriptenDockerImage: built ? readMaybe("emscripten-docker-image.txt") : "emscripten/emsdk:3.1.43",
+  emscriptenDockerImageId: built ? readMaybe("emscripten-docker-image-id.txt") : null,
+  emscriptenDockerImageDigest: built ? readMaybe("emscripten-docker-image-digest.txt") : null,
+  upstreamBuildCommand: built ? readMaybe("upstream-build-command.txt") : "node script/wasm_build.js material",
+  bridgeAdaptation: built ? "split_clean_and_tournament_and_capture_make_exit_status" : "planned_after_run6_upstream_packager_output_missing",
   emccVersion: built ? firstLine(readMaybe("emcc-version.txt")) : null,
   emppVersion: built ? firstLine(readMaybe("empp-version.txt")) : null,
   llvmVersion: built ? firstLine(readMaybe("llvm-version.txt")) : null,
   nodeVersion: built ? readMaybe("node-version.txt") : null,
   pythonVersion: built ? readMaybe("python-version.txt") : null,
-  buildCommand: built ? readMaybe("build-command.txt") : "node script/wasm_build.js material",
+  buildCommand: built ? readMaybe("build-command.txt") : "make clean && make -j2 tournament ... official material settings",
   jsFile: null,
   wasmFile: null,
   workerFile: null,
@@ -60,13 +65,16 @@ let metadata = {
   measured: built,
   notes: built ? [
     "Pinned YaneuraOu V9.00 source itself uses Emscripten 3.1.43 in its official WASM workflow.",
-    "The official material profile is executed via script/wasm_build.js material and emits JS, separate pthread worker.js, and WASM.",
+    "The pinned upstream workflow selects Docker image emscripten/emsdk:3.1.43; the measured image id and repo digest are recorded.",
+    "Run #6 showed the upstream wasm_build.js wrapper can report only a later file-not-found because it resolves the child make callback without propagating the child error; Run #7 preserves the official material settings but splits clean/build and captures make exit status.",
+    "The deterministic bridge emits JS, separate pthread worker.js, and WASM using the pinned source Makefile and material settings.",
     "The material profile fixes MATERIAL_LEVEL=1, EM_EXPORT_NAME=YaneuraOu_Material and EM_INITIAL_MEMORY_SIZE=92274688.",
     "Thread/memory values are upstream build settings, not smartphone optimization claims.",
     "Formal Completion requires separate Real Browser/USI/E2E and distribution/license evidence."
   ] : [
     "No compiler/build was executed in the current sandbox; measured build fields remain null.",
-    "Pinned upstream WASM workflow selects Emscripten 3.1.43 and the official material profile expects a separate worker.js.",
+    "Pinned upstream WASM workflow selects Docker image emscripten/emsdk:3.1.43 and the official material profile expects a separate worker.js.",
+    "Run #7 will record the pulled Docker image id/digest and use a deterministic split clean/build invocation with the same official material settings.",
     "Run the GitHub Actions Build Bridge to replace this file with measured artifact metadata."
   ]
 };

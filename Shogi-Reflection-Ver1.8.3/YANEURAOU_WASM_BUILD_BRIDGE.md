@@ -109,3 +109,11 @@ The existing application LICENSE is not silently changed.
 Run #6 is only a successful Real-engine step if the generated 3.1.43 asset set loads and the Real verifier records the required USI protocol/analysis evidence. If it still fails, the artifact and failure logs are preserved and the next decision is based on that evidence.
 
 Formal Completion remains fail-closed until all user-specified Formal Gate items, license/source-distribution gates, and final ZIP re-verification pass.
+
+## Run #7: deterministic official-setting Docker bridge
+
+The pinned upstream workflow identifies `emscripten/emsdk:3.1.43` as its WASM toolchain. Run #7 therefore uses that exact image tag and records the actual pulled image ID/RepoDigest at build time.
+
+The bridge no longer relies on the upstream JavaScript wrapper to report the underlying `make` status. It preserves the same MATERIAL build settings while separating `clean` and `tournament`, capturing the real exit code, and accepting no artifact until JS + pthread worker.js + WASM all exist and hash successfully.
+
+This is an execution/traceability adaptation only. The pinned YaneuraOu source tree and Makefile are not patched.

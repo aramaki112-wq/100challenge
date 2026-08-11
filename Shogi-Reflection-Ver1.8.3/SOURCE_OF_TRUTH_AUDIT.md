@@ -123,3 +123,16 @@ No baseline application domain/storage/replay/graph implementation file is inten
 ## 9. Audit conclusion
 
 Ver.1.8.3 remains a narrowly scoped **NOT-FORMAL YaneuraOu WASM Build Bridge candidate**. Run #6 may advance the project only if the new exact asset set is measured and the Real USI/E2E gates pass for the same WASM hash. Build success alone is insufficient.
+
+## Run #7 delta audit
+
+Run #7 changes are confined to the Build Bridge/evidence layer. Domain Model, Repository, LocalStorage, Backup/Restore, KIF, Replay, KeyPosition, Evaluation Graph, Candidate flow and Reflection flow are unchanged.
+
+Build-layer delta:
+- exact upstream Emscripten Docker image path adopted (`emscripten/emsdk:3.1.43`);
+- Docker image ID/RepoDigest evidence added;
+- clean/build split for deterministic execution and real make-exit capture;
+- Run #6 missing-output incident documented;
+- no YaneuraOu source/Makefile modification.
+
+Formal status: NOT-FORMAL pending Run #7 measured evidence.

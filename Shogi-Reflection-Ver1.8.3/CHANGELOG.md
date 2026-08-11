@@ -99,3 +99,9 @@ Ver.1.7以前の履歴はSource of Truth ZIP内のBaseline CHANGELOGとSHA-256 m
 - HostingをLocal/Desktop/GitHub Pages/iPhone Safari/Installed Appで分離記録。
 - Existing Application LICENSEは変更なし。
 - 現環境ではReal Build未実行のためFormal CompletionはNOT-FORMALを維持。
+
+### Ver.1.8.3 Build Bridge Run #7 candidate
+- Recorded Run #6 upstream packager missing-output incident without assigning an unproven compiler cause.
+- Switched build execution to the exact upstream `emscripten/emsdk:3.1.43` Docker image and added image ID/RepoDigest evidence.
+- Preserved official MATERIAL settings while splitting `make clean` and `make -j2 tournament` so the actual make exit status is observable.
+- Formal status remains NOT-FORMAL until Real artifact/USI/E2E gates pass.

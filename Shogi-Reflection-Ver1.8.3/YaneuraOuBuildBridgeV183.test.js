@@ -22,18 +22,29 @@ test("GitHub Actions pins upstream-compatible Emscripten 3.1.43 and verifies off
   assert.match(y,/EMSDK_VERSION: 3\.1\.43/); assert.match(y,/bf3c159888633d232c0507f4c76cc156a43c32dc/); assert.match(y,/emscripten-releases-tags\.json/);
 });
 
+test("Run 7 pins the same Emscripten Docker image used by upstream and records immutable image evidence",()=>{
+  const y=read(".github/workflows/build-yaneuraou-wasm.yml"), s=read("scripts/build-yaneuraou-wasm.sh");
+  assert.match(y,/EMSDK_DOCKER_IMAGE: emscripten\/emsdk:3\.1\.43/);
+  assert.match(s,/docker pull "\$EMSDK_DOCKER_IMAGE"/);
+  assert.match(s,/emscripten-docker-image-id\.txt/);
+  assert.match(s,/emscripten-docker-image-digest\.txt/);
+});
+
 test("Build Bridge records runner and compiler provenance",()=>{
   const y=read(".github/workflows/build-yaneuraou-wasm.yml"), s=read("scripts/build-yaneuraou-wasm.sh");
   for(const token of ["ImageOS","ImageVersion","/etc/os-release","node --version","python3 --version"]) assert.ok(y.includes(token));
   for(const token of ["emcc --version","em++ --version","em++ -v","llvm-version.txt"]) assert.ok(s.includes(token));
 });
 
-test("Build command uses pinned source tree's official material WASM profile",()=>{
+test("Build bridge preserves pinned official material settings while using deterministic split clean/build",()=>{
   const s=read("scripts/build-yaneuraou-wasm.sh");
-  assert.match(s,/BUILD_COMMAND="node script\/wasm_build\.js \${OFFICIAL_PROFILE}"/);
-  assert.match(s,/YaneuraOu_Material/);
+  assert.match(s,/UPSTREAM_BUILD_COMMAND="node script\/wasm_build\.js material"/);
+  assert.match(s,/BRIDGE_BUILD_COMMAND="make clean && make -j2 tournament/);
+  assert.match(s,/YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL/);
+  assert.match(s,/EM_EXPORT_NAME=YaneuraOu_Material/);
   assert.match(s,/MATERIAL_LEVEL=1 EM_INITIAL_MEMORY_SIZE=92274688/);
-  assert.match(s,/emscripten\/emsdk:3\.1\.43/);
+  assert.match(s,/EMSDK_DOCKER_IMAGE=.*emscripten\/emsdk:3\.1\.43/);
+  assert.match(s,/yaneuraou-make-exit-code\.txt/);
 });
 
 test("Build refuses commit mismatch and dirty upstream source",()=>{
@@ -61,13 +72,13 @@ test("Actual JS WASM generated pthread Worker and application bootstrap each rec
 
 test("Build Metadata contains requested traceability fields without pretending unmeasured values",()=>{
   const m=json("ENGINE_BUILD_METADATA.json");
-  for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","pthreadWorkerPackaging","generatedPthreadWorkerCount","workerBootstrapFile","workerBootstrapSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
+  for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emscriptenDockerImage","emscriptenDockerImageId","emscriptenDockerImageDigest","upstreamBuildCommand","bridgeAdaptation","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","pthreadWorkerPackaging","generatedPthreadWorkerCount","workerBootstrapFile","workerBootstrapSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
   if (m.measured === false) {
     assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null); assert.equal(m.workerBootstrapSha256,null);
   } else {
     assert.equal(m.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerBootstrapSha256);
     assert.equal(m.pthreadWorkerPackaging,"SEPARATE_PTHREAD_WORKER"); assert.equal(m.generatedPthreadWorkerCount,1); assert.ok(m.workerFile); assert.ok(m.workerSha256);
-    assert.ok(m.emccVersion); assert.ok(m.emppVersion); assert.ok(m.llvmVersion);
+    assert.ok(m.emccVersion); assert.ok(m.emppVersion); assert.ok(m.llvmVersion); assert.ok(m.emscriptenDockerImageId); assert.ok(m.emscriptenDockerImageDigest);
   }
 });
 
@@ -158,4 +169,13 @@ test("Real USI verifier launches the hash-bound manifest worker URL",()=>{
   const s=read("real_yaneuraou_usi_verify.py");
   assert.match(s,/workerUrl.*manifest\.get\("workerUrl"\)/s);
   assert.match(s,/new Worker\(workerUrl,/);
+});
+
+
+test("Run 6 missing-output incident is documented without claiming an unproven compiler cause",()=>{
+  const d=read("ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md");
+  assert.match(d,/file not found/);
+  assert.match(d,/lower-level.*not proven/i);
+  assert.match(d,/make clean/i);
+  assert.match(d,/not an engine-source modification/i);
 });

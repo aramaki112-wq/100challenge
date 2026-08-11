@@ -18,6 +18,7 @@ on:
       - "requirements-real-engine.txt"
       - "ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
       - "ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md"
+      - "ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md"
 
 permissions:
   contents: read
@@ -29,6 +30,7 @@ env:
   EMSDK_REPOSITORY: https://github.com/emscripten-core/emsdk.git
   EMSDK_REPOSITORY_COMMIT: e26beb67ef18a37d71d522d8b7096b20a4d3d0f9
   EMSDK_VERSION: 3.1.43
+  EMSDK_DOCKER_IMAGE: emscripten/emsdk:3.1.43
   EXPECTED_EMSCRIPTEN_RELEASE_COMMIT: bf3c159888633d232c0507f4c76cc156a43c32dc
   MATERIAL_LEVEL: "1"
 
@@ -89,7 +91,7 @@ jobs:
           node --version | tee build-record/host-node-version.txt
           python3 --version | tee build-record/host-python-version.txt
 
-      - name: Install fixed Emscripten SDK
+      - name: Verify pinned Emscripten mapping and Docker toolchain availability
         shell: bash
         run: |
           set -euo pipefail
@@ -99,7 +101,7 @@ jobs:
           ACTUAL_EMSDK_REPO_COMMIT="$(git -C "$EMSDK_DIR" rev-parse HEAD)"
           test "$ACTUAL_EMSDK_REPO_COMMIT" = "$EMSDK_REPOSITORY_COMMIT"
           printf '%s\n' "$ACTUAL_EMSDK_REPO_COMMIT" | tee build-record/emsdk-repository-commit.txt
-          python3 - "$EMSDK_DIR/emscripten-releases-tags.json" <<'PY'
+          python3 - "$EMSDK_DIR/emscripten-releases-tags.json" <<'PYMAP'
           import json, os, sys
           p=sys.argv[1]
           data=json.load(open(p, encoding='utf-8'))
@@ -111,9 +113,8 @@ jobs:
           print(f"actualEmscriptenReleaseCommit={actual}")
           if actual != expected:
               raise SystemExit(f"Emscripten release mapping mismatch: {actual} != {expected}")
-          PY
-          "$EMSDK_DIR/emsdk" install "$EMSDK_VERSION"
-          "$EMSDK_DIR/emsdk" activate "$EMSDK_VERSION"
+          PYMAP
+          docker --version | tee build-record/docker-version.txt
           echo "EMSDK_DIR=$EMSDK_DIR" >> "$GITHUB_ENV"
 
       - name: Clone and verify pinned YaneuraOu source
@@ -134,7 +135,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          source "$EMSDK_DIR/emsdk_env.sh"
           bash ./scripts/build-yaneuraou-wasm.sh "$YANEURAOU_SOURCE_DIR" "$GITHUB_WORKSPACE/engine/yaneuraou" "$GITHUB_WORKSPACE/build-record"
 
       - name: Package corresponding-source evidence
@@ -150,7 +150,10 @@ jobs:
           cp "$YANEURAOU_SOURCE_DIR/script/wasm_build.js" corresponding-source/YaneuraOu-script-wasm_build.js
           cp "$YANEURAOU_SOURCE_DIR/.github/workflows/make-wasm.yml" corresponding-source/YaneuraOu-upstream-make-wasm.yml
           if [ -f "$YANEURAOU_SOURCE_DIR/LICENSE" ]; then cp "$YANEURAOU_SOURCE_DIR/LICENSE" corresponding-source/YaneuraOu-LICENSE; fi
-          if [ -f "$EMSDK_DIR/upstream/emscripten/LICENSE" ]; then cp "$EMSDK_DIR/upstream/emscripten/LICENSE" corresponding-source/Emscripten-LICENSE; fi
+          if [ -f "$EMSDK_DIR/LICENSE" ]; then cp "$EMSDK_DIR/LICENSE" corresponding-source/emsdk-LICENSE; fi
+          docker run --rm "$EMSDK_DOCKER_IMAGE" sh -lc 'test -f /emsdk/upstream/emscripten/LICENSE && cat /emsdk/upstream/emscripten/LICENSE' > corresponding-source/Emscripten-LICENSE
+          test -s corresponding-source/Emscripten-LICENSE
+          printf '%s\n' "$(cat build-record/emscripten-docker-image-digest.txt)" > corresponding-source/Emscripten-Docker-Image-Digest.txt
 
       - name: Verify build artifact, hashes and automated tests
         shell: bash
@@ -245,6 +248,7 @@ jobs:
             real_yaneuraou_browser_verify.py
             requirements-real-engine.txt
             ENGINE_BUILD_REPRODUCIBILITY.md
+            ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md
             YANEURAOU_WASM_BUILD_BRIDGE.md
             ENGINE_BUILD_INCIDENT_002_PTHREAD_WORKER_PACKAGING.md
             ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md
