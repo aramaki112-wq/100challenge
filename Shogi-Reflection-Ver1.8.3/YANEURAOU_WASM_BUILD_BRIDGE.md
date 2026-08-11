@@ -1,7 +1,7 @@
-# YANEURAOU_WASM_BUILD_BRIDGE — Ver.1.8.3 Run #6 Candidate
+# YANEURAOU_WASM_BUILD_BRIDGE — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
-Status: **NOT FORMAL — upstream WASM toolchain alignment prepared, Real Run #6 pending**
+Status: **NOT FORMAL — upstream-compatible toolchain proven in Run #7; documented V9.00 WASM USI source bridge prepared for Real Run #8**
 
 ## 1. Purpose
 
@@ -117,3 +117,26 @@ The pinned upstream workflow identifies `emscripten/emsdk:3.1.43` as its WASM to
 The bridge no longer relies on the upstream JavaScript wrapper to report the underlying `make` status. It preserves the same MATERIAL build settings while separating `clean` and `tournament`, capturing the real exit code, and accepting no artifact until JS + pthread worker.js + WASM all exist and hash successfully.
 
 This is an execution/traceability adaptation only. The pinned YaneuraOu source tree and Makefile are not patched.
+
+## Run #8: explicit V9.00 WASM USI source bridge
+
+Run #7 produced the real MATERIAL JS / pthread worker / WASM with make exit `0`. Direct WASM export inspection then showed that `usi_command` is absent even though the pinned `wasm_pre.js` invokes that symbol. The pinned V9.00 source contains a legacy wrapper under a disabled `#if 0` region and the active Emscripten `USIEngine::loop()` returns instead of blocking for stdin.
+
+Run #8 does not change the pinned commit. It applies one hash-bound two-file patch after verifying a pristine checkout, then requires the resulting WASM itself to expose `usi_command` before any Real USI test can start. The patch and a deterministic modified-source archive are retained as Corresponding Source evidence.
+
+Architecture remains:
+
+```text
+Browser UI
+ -> Engine Application Service
+ -> ShogiEnginePort
+ -> YaneuraOuWasmAdapter
+ -> BrowserWorkerUsiTransport
+ -> YaneuraOuWasmWorkerBootstrap
+ -> upstream wasm_pre.js queue
+ -> documented usi_command bridge patch
+ -> current USIEngine::usi_cmdexec
+ -> YaneuraOu MATERIAL engine
+```
+
+This is still **NOT FORMAL** until Real USI and Real application E2E pass for the measured patched WASM hash.

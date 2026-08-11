@@ -1,0 +1,49 @@
+Shogi Reflection Ver.1.8.3 — Run #8 Patch Verification
+=======================================================
+Status: PATCH READY FOR GITHUB ACTIONS RUN #8 — NOT FORMAL
+Date: 2026-08-11
+
+Run #7 measured facts used for this patch:
+- exact pinned YaneuraOu V9.00 commit build reached make exit code 0
+- upstream-compatible emscripten/emsdk:3.1.43 generated material JS + pthread worker.js + WASM
+- measured Run #7 WASM SHA-256: bf0d40fa29d2d132923ab80f08109842bc6add0ae63cb0a86ea247076e915844
+- direct WebAssembly export inspection: 27 exports, no usi_command / _usi_command
+- pinned wasm_pre.js requires ccall("usi_command", ...)
+
+Run #8 prepared correction:
+- keep official commit a5ee2786c0030edc7d4a1cdfe94b04dffec55493 as immutable base
+- keep upstream-compatible emscripten/emsdk:3.1.43
+- apply explicit two-file Emscripten-only source bridge patch
+- patch: patches/yaneuraou-v9.00-wasm-usi-bridge.patch
+- patch SHA-256: bb79c5297f6b3e06e4dd67187aafb4f8ab18657e837f087ae7cbab15fdc27f07
+- allowed modified source files only:
+  source/engine/yaneuraou-engine/yaneuraou-search.cpp
+  source/usi.h
+- reject build unless generated WASM physically exports usi_command or _usi_command
+- package pristine upstream source + exact patch + deterministic modified Corresponding Source
+
+Local clean-patch preflight (no Real YaneuraOu binary bundled):
+- Automated Test: 708 / 708 PASS
+- Static Verification: 145 / 145 PASS
+- Missing Import: 0
+- Browser Test: 154 / 154 PASS
+- Visual Test: 24 / 24 PASS
+- ReflectionLocal Fallback: 16 / 16 PASS
+- GitHub Actions YAML parse: 2 / 2 PASS
+- Shell syntax: build + corresponding-source scripts PASS
+- Source patch apply/check against Run #7 exact corresponding-source snapshot: PASS
+- Applied diff exact-match to reviewed patch: PASS
+- Pre-build Real Artifact Gate: fail-closed by design; schema 4 evidence written without crashing
+
+Not claimed:
+- Run #8 patched Real build success
+- Real usi / usiok success
+- Real isready / readyok success
+- Real search / cp / mate / PV / bestmove success
+- Real Cancel / Re-analysis success
+- Real Sample KIF full-ply E2E success
+- Physical iPhone success
+- Public/commercial distribution readiness
+- Formal Completion
+
+Formal status: NOT_FORMAL until GitHub Actions Run #8 produces and verifies those measurements.

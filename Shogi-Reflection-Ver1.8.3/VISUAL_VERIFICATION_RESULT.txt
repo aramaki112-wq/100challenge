@@ -23,8 +23,8 @@ Failed: 0
 [PASS] Candidate Group Screenshot
 [PASS] Board width within 390px
 [PASS] Candidate Jump Screenshot
-[PASS] Candidate Jump Board visible | {'top': 213.8125, 'bottom': 697.40625, 'viewport': 844, 'navBottom': 182.09375}
-[PASS] Candidate Jump Board clears Header | {'top': 213.8125, 'bottom': 697.40625, 'viewport': 844, 'navBottom': 182.09375}
+[PASS] Candidate Jump Board visible | {'top': 207.8125, 'bottom': 691.40625, 'viewport': 844, 'navBottom': 182.09375}
+[PASS] Candidate Jump Board clears Header | {'top': 207.8125, 'bottom': 691.40625, 'viewport': 844, 'navBottom': 182.09375}
 [PASS] Candidate Jump Current Move highlight
 [PASS] Graph KeyPosition marker visible
 [PASS] Graph -> STEP4 exact KeyPosition card | 1

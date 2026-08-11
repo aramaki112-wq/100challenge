@@ -63,7 +63,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Saved list opening | 棋譜のみ
@@ -75,7 +75,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Saved list raw KIF hidden | 棋譜のみ
@@ -87,7 +87,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Saved list opponent | 棋譜のみ
@@ -99,7 +99,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Saved list result | 棋譜のみ
@@ -111,7 +111,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Saved list move count | 棋譜のみ
@@ -123,7 +123,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Saved list analysis status separate | 棋譜のみ
@@ -135,7 +135,7 @@ Lv18 ピヨ行(R1040)
 手数：5手
 重要局面 0件・実行Rule 0件
 解析状態：未解析
-保存：2026/08/11 00:19　更新：2026/08/11 00:19
+保存：2026/08/11 18:41　更新：2026/08/11 18:41
 振り返りを開く
 対局を削除
 [PASS] Game-only persisted
@@ -196,11 +196,11 @@ Lv18 ピヨ行(R1040)
 [PASS] Candidate Replay Current Ply
 [PASS] Candidate Replay Current Move
 [PASS] Candidate Replay Move highlight
-[PASS] Candidate Jump intentionally scrolls toward Board | (1569, 3940)
-[PASS] Candidate Jump Board visible | {'top': 285.8125, 'bottom': 769.40625, 'height': 483.59375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 3940}
-[PASS] Candidate Jump Board not hidden by sticky header | {'top': 285.8125, 'bottom': 769.40625, 'height': 483.59375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 3940}
+[PASS] Candidate Jump intentionally scrolls toward Board | (1567, 3869)
+[PASS] Candidate Jump Board visible | {'top': 378.8125, 'bottom': 862.40625, 'height': 483.59375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 3847}
+[PASS] Candidate Jump Board not hidden by sticky header | {'top': 378.8125, 'bottom': 862.40625, 'height': 483.59375, 'viewport': 844, 'navBottom': 182.09375, 'scrollY': 3847}
 [PASS] Candidate Replay Board Position | {'squares': 81, 'pieces': 40, 'boardLabel': '将棋盤 1手目 後手番'}
-[PASS] Candidate add keeps Page scroll | (3954, 3954)
+[PASS] Candidate add keeps Page scroll | (3869, 3869)
 [PASS] Candidate to KeyPosition
 [PASS] Candidate KeyPosition move number
 [PASS] Candidate duplicate rejected

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "status": "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT",
   "engineName": "YaneuraOu",
   "engineVersion": "V9.00",
@@ -25,6 +25,16 @@
   "buildPlatform": null,
   "githubActionsRunner": null,
   "emsdkRepositoryCommit": null,
+  "emscriptenDockerImage": "emscripten/emsdk:3.1.43",
+  "emscriptenDockerImageId": null,
+  "emscriptenDockerImageDigest": null,
+  "upstreamBuildCommand": "node script/wasm_build.js material",
+  "bridgeAdaptation": "planned_documented_v900_wasm_usi_bridge",
+  "sourceModified": false,
+  "sourcePatchFile": "patches/yaneuraou-v9.00-wasm-usi-bridge.patch",
+  "sourcePatchSha256": null,
+  "modifiedSourceFiles": [],
+  "wasmUsiCommandExport": null,
   "emccVersion": null,
   "emppVersion": null,
   "llvmVersion": null,
@@ -43,14 +53,9 @@
   "workerBootstrapSha256": null,
   "measured": false,
   "notes": [
-    "Run #6 used the pinned upstream wasm_build.js material wrapper but produced no accepted JS/WASM/worker artifact.",
-    "The wrapper does not propagate the child make error before its later file-existence check, so the lower-level cause was not proven.",
-    "Run #7 will use the exact upstream Emscripten Docker image and the same material Makefile settings while splitting clean/build and capturing the make exit code.",
-    "No Run #7 Real build, Real USI or Real application E2E result is claimed by this placeholder."
-  ],
-  "emscriptenDockerImage": "emscripten/emsdk:3.1.43",
-  "emscriptenDockerImageId": null,
-  "emscriptenDockerImageDigest": null,
-  "upstreamBuildCommand": "node script/wasm_build.js material",
-  "bridgeAdaptation": "planned_after_run6_upstream_packager_output_missing"
+    "No compiler/build was executed in the current sandbox; measured build fields remain null.",
+    "Pinned upstream WASM workflow selects Docker image emscripten/emsdk:3.1.43 and the official material profile expects a separate worker.js.",
+    "Run #8 will record the pulled Docker image id/digest, apply the hash-bound minimal WASM USI bridge patch, build with the same official material settings, and reject any WASM that lacks usi_command.",
+    "Run the GitHub Actions Build Bridge to replace this file with measured artifact metadata."
+  ]
 }

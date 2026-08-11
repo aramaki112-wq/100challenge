@@ -26,9 +26,9 @@ Failed: 0
 [PASS] No page errors
 
 Measured performance (this Chromium run; not a device guarantee)
-- Engine initialization: 9.60 ms
-- Short 5-ply game analysis + candidate generation: 1451.90 ms
-- Cancel UI-to-CANCELLED response: 54.30 ms
+- Engine initialization: 6.50 ms
+- Short 5-ply game analysis + candidate generation: 1321.40 ms
+- Cancel UI-to-CANCELLED response: 57.00 ms
 - Worker used: True
 - Main-page JS heap before/after standalone init: 10000000 / 10000000 bytes (Worker heap not included; availability is browser-dependent)
 

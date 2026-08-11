@@ -29,7 +29,7 @@ const constants = {
 };
 
 let metadata = {
-  schemaVersion: 2,
+  schemaVersion: 3,
   status: built ? "BUILT_AWAITING_REAL_BROWSER_USI_E2E_AND_LICENSE_FORMAL_GATE" : "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT",
   ...constants,
   buildDate: built ? new Date().toISOString() : null,
@@ -45,7 +45,12 @@ let metadata = {
   emscriptenDockerImageId: built ? readMaybe("emscripten-docker-image-id.txt") : null,
   emscriptenDockerImageDigest: built ? readMaybe("emscripten-docker-image-digest.txt") : null,
   upstreamBuildCommand: built ? readMaybe("upstream-build-command.txt") : "node script/wasm_build.js material",
-  bridgeAdaptation: built ? "split_clean_and_tournament_and_capture_make_exit_status" : "planned_after_run6_upstream_packager_output_missing",
+  bridgeAdaptation: built ? "split_clean_tournament_capture_make_exit_and_apply_documented_wasm_usi_bridge" : "planned_documented_v900_wasm_usi_bridge",
+  sourceModified: built,
+  sourcePatchFile: built ? readMaybe("source-patch-file.txt") : "patches/yaneuraou-v9.00-wasm-usi-bridge.patch",
+  sourcePatchSha256: built ? readMaybe("source-patch-sha256.txt") : null,
+  modifiedSourceFiles: built ? (readMaybe("source-modified-files.txt") ?? "").split(/\r?\n/).filter(Boolean) : [],
+  wasmUsiCommandExport: built ? readMaybe("usi-command-export.txt") : null,
   emccVersion: built ? firstLine(readMaybe("emcc-version.txt")) : null,
   emppVersion: built ? firstLine(readMaybe("empp-version.txt")) : null,
   llvmVersion: built ? firstLine(readMaybe("llvm-version.txt")) : null,
@@ -66,15 +71,16 @@ let metadata = {
   notes: built ? [
     "Pinned YaneuraOu V9.00 source itself uses Emscripten 3.1.43 in its official WASM workflow.",
     "The pinned upstream workflow selects Docker image emscripten/emsdk:3.1.43; the measured image id and repo digest are recorded.",
-    "Run #6 showed the upstream wasm_build.js wrapper can report only a later file-not-found because it resolves the child make callback without propagating the child error; Run #7 preserves the official material settings but splits clean/build and captures make exit status.",
-    "The deterministic bridge emits JS, separate pthread worker.js, and WASM using the pinned source Makefile and material settings.",
+    "Run #7 proved the pinned source + upstream-compatible toolchain can emit the MATERIAL JS/worker/WASM set with make exit 0.",
+    "Run #7 artifact inspection also proved that the produced WASM lacks the usi_command export expected by upstream wasm_pre.js because the pinned source's legacy wrapper is disabled; Run #8 applies a documented minimal two-file source patch and records its hash/diff.",
+    "The deterministic bridge emits JS, separate pthread worker.js, and WASM using the pinned source Makefile and material settings, then requires a measured usi_command WebAssembly export before accepting the artifact.",
     "The material profile fixes MATERIAL_LEVEL=1, EM_EXPORT_NAME=YaneuraOu_Material and EM_INITIAL_MEMORY_SIZE=92274688.",
     "Thread/memory values are upstream build settings, not smartphone optimization claims.",
     "Formal Completion requires separate Real Browser/USI/E2E and distribution/license evidence."
   ] : [
     "No compiler/build was executed in the current sandbox; measured build fields remain null.",
     "Pinned upstream WASM workflow selects Docker image emscripten/emsdk:3.1.43 and the official material profile expects a separate worker.js.",
-    "Run #7 will record the pulled Docker image id/digest and use a deterministic split clean/build invocation with the same official material settings.",
+    "Run #8 will record the pulled Docker image id/digest, apply the hash-bound minimal WASM USI bridge patch, build with the same official material settings, and reject any WASM that lacks usi_command.",
     "Run the GitHub Actions Build Bridge to replace this file with measured artifact metadata."
   ]
 };
@@ -87,6 +93,10 @@ if (built) {
   for (const f of [js,wasm,worker,bootstrapFile]) if (!fs.existsSync(f)) throw new Error(`built metadata asset missing: ${f}`);
   if (generatedWorkers.length !== 1 || generatedWorkers[0] !== workerName) throw new Error(`Emscripten 3.1.43 expected exactly one recorded pthread worker; found ${generatedWorkers.join(",")}`);
   if (readMaybe("yaneuraou-source-commit.txt") !== constants.commit) throw new Error("recorded source commit mismatch");
+  if (metadata.sourceModified !== true) throw new Error("accepted Run #8 build must record the documented YaneuraOu source modification");
+  if (metadata.sourcePatchFile !== "patches/yaneuraou-v9.00-wasm-usi-bridge.patch" || !metadata.sourcePatchSha256) throw new Error("source patch evidence is incomplete");
+  if (JSON.stringify(metadata.modifiedSourceFiles) !== JSON.stringify(["source/engine/yaneuraou-engine/yaneuraou-search.cpp","source/usi.h"])) throw new Error(`unexpected modified source files: ${metadata.modifiedSourceFiles.join(",")}`);
+  if (!metadata.wasmUsiCommandExport || !["usi_command","_usi_command"].includes(metadata.wasmUsiCommandExport)) throw new Error(`measured usi_command export missing: ${metadata.wasmUsiCommandExport}`);
   if (metadata.pthreadWorkerPackaging !== "SEPARATE_PTHREAD_WORKER") throw new Error(`unexpected pthread worker packaging: ${metadata.pthreadWorkerPackaging}`);
   if (metadata.generatedPthreadWorkerCount !== 1) throw new Error(`unexpected generated pthread worker count: ${metadata.generatedPthreadWorkerCount}`);
   metadata.jsFile=jsName;
@@ -123,6 +133,11 @@ Object.assign(manifest, {
   wasmSha256: metadata.wasmSha256,
   workerSha256: metadata.workerSha256,
   buildMetadataUrl: "./ENGINE_BUILD_METADATA.json",
+  sourceModified: metadata.sourceModified,
+  sourcePatchFile: metadata.sourcePatchFile,
+  sourcePatchSha256: metadata.sourcePatchSha256,
+  modifiedSourceFiles: metadata.modifiedSourceFiles,
+  wasmUsiCommandExport: metadata.wasmUsiCommandExport,
   upstreamInitialMemoryBytesMaterialLevel1: constants.initialMemory,
   note: built ? "Official pinned-source material profile JS/worker.js/WASM build and hashes are present. Formal Completion and public distribution remain separate gates." : "Distribution-safe manifest. available=true only after the official-source Build Bridge generates and hashes real assets."
 });

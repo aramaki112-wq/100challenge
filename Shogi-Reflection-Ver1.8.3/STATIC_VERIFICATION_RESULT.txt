@@ -2,15 +2,15 @@ Shogi Reflection Ver.1.8.3 Static Verification
 Date: 2026-08-10
 Source of Truth: user-supplied Shogi-Reflection-Ver1.8.2-NOT-FORMAL-Integration-Candidate(1).zip
 
-Files: 384
+Files: 407
 Baseline files: 347
-Hash-identical Baseline files: 288
-Modified Baseline files: 59
-Added files: 37
+Hash-identical Baseline files: 287
+Modified Baseline files: 60
+Added files: 60
 Deleted Baseline files: 0
 Syntax checked: 211
 Missing imports: 0
-Passed checks: 143
+Passed checks: 145
 Failed checks: 0
 
 Modified Baseline files:
@@ -61,6 +61,7 @@ Modified Baseline files:
 - Ver18FormalRequirements.test.js
 - YaneuraOuWasmWorkerBootstrap.js
 - ZIP_EXTRACTED_VERIFICATION_RESULT.txt
+- __pycache__/browser_verify.cpython-313.pyc
 - browser_verify.py
 - challenge.md
 - engine/yaneuraou/engine-manifest.json
@@ -79,6 +80,13 @@ Added files:
 - AnalyzeGameEvaluationTimelineV182.test.js
 - BadMoveDetectionV182.test.js
 - ENGINE_ASSET_SHA256SUMS.txt
+- ENGINE_BUILD_INCIDENT_001_SHELL_PERMISSION.md
+- ENGINE_BUILD_INCIDENT_002_PTHREAD_WORKER_PACKAGING.md
+- ENGINE_BUILD_INCIDENT_003_STATIC_VERIFICATION_BLOCKED_REAL_EVIDENCE.md
+- ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md
+- ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md
+- ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md
+- ENGINE_BUILD_INCIDENT_007_V900_WASM_USI_EXPORT_DISABLED.md
 - ENGINE_BUILD_METADATA.json
 - ENGINE_BUILD_RESULT.txt
 - ENGINE_EVALUATION_GRAPH_DESIGN.md
@@ -90,6 +98,9 @@ Added files:
 - EngineEvaluationGraphV182.test.js
 - EngineEvaluationGraphView.js
 - FORMAL_COMPLETION_GATE_RESULT.json
+- PATCH_RUN6_README.md
+- PATCH_RUN7_README.md
+- PATCH_RUN8_README.md
 - REAL_YANEURAOU_ARTIFACT_GATE_RESULT.json
 - REAL_YANEURAOU_BROWSER_E2E_RESULT.txt
 - REAL_YANEURAOU_E2E_RESULT.json
@@ -97,16 +108,29 @@ Added files:
 - SOURCE_OF_TRUTH_V1_8_INTEGRATION_CANDIDATE_HASHES.json
 - VISUAL_EVALUATION_GRAPH_V182.png
 - VISUAL_GRAPH_TO_STEP4_V182.png
+- Ver.1.1µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.2µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.3.1µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.3.2µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.3.3µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.3µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.4.1µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.4µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.6µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.7µôìΣ╜£µëïΘáåµ¢╕.md
+- Ver.1.8µôìΣ╜£µëïΘáåµ¢╕.md
 - YANEURAOU_WASM_BUILD_BRIDGE.md
 - YaneuraOuBuildBridgeV183.test.js
 - YaneuraOuWasmBootstrapV182.test.js
 - build-record/node-test.tap
+- patches/yaneuraou-v9.00-wasm-usi-bridge.patch
 - real_yaneuraou_browser_verify.py
 - real_yaneuraou_usi_verify.py
 - requirements-real-engine.txt
 - scripts/formal-completion-gate.mjs
 - scripts/hash-engine-assets.sh
 - scripts/integrate-yaneuraou-build-artifact.sh
+- scripts/package-yaneuraou-corresponding-source.sh
 - scripts/real-yaneuraou-artifact-gate.mjs
 - scripts/run-node-tests-with-evidence.sh
 - scripts/update-engine-build-metadata.mjs
@@ -120,6 +144,7 @@ PASS | User-supplied Ver.1.8 Integration Candidate file count | 347/347
 PASS | No Baseline files deleted
 PASS | Application LICENSE hash preserved | f80358715ec38c12618abead454a81ecd7dc1a8cf4e64e1f498d749a5697988c
 PASS | All JavaScript syntax | 211
+PASS | Corresponding Source evidence excluded from application import graph | 0
 PASS | Missing Import = 0
 PASS | Required file: AnalyzeGame.js
 PASS | Required file: ShogiEnginePort.js
@@ -202,9 +227,10 @@ PASS | Formal completion gate script
 PASS | Real USI verifier script
 PASS | Real application E2E verifier script
 PASS | Build Bridge pins YaneuraOu V9.00 commit
-PASS | Build Bridge pins Emscripten 4.0.15 mapping
+PASS | Build Bridge pins Emscripten 3.1.43 mapping
 PASS | Build Bridge records runner provenance
 PASS | Build Bridge packages Corresponding Source evidence
+PASS | Build Bridge records explicit YaneuraOu source modification
 PASS | Build Bridge runs separated Real USI and application E2E
 PASS | Build Bridge uploads evidence even when Real gate fails
 PASS | Build metadata does not fabricate measured values

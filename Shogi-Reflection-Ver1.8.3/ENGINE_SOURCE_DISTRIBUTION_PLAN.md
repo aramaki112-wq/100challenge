@@ -1,11 +1,11 @@
-# ENGINE_SOURCE_DISTRIBUTION_PLAN — Ver.1.8.3 Run #6 Candidate
+# ENGINE_SOURCE_DISTRIBUTION_PLAN — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
 Status: engineering source-delivery plan; **NOT a legal conclusion**
 
-## Current Run #6 patch
+## Current Run #8 patch
 
-The patch does not contain a newly accepted Real YaneuraOu binary. Run #6 GitHub Actions is designed to produce a fresh asset set from the exact pinned official source using the pinned source tree's own MATERIAL WASM profile.
+The patch does not contain a newly accepted Real YaneuraOu binary. Run #8 keeps the exact official V9.00 commit as the immutable base, applies the documented hash-bound two-file WASM USI bridge patch, and builds the MATERIAL WASM profile with the upstream-compatible Emscripten 3.1.43 toolchain. Both pristine and modified Corresponding Source are retained by CI.
 
 ## Exact source identity
 
@@ -87,3 +87,20 @@ A moving branch URL alone is not accepted as the project's traceability record.
 This engineering plan does not decide whether first-party JavaScript/Worker integration and a GPL engine binary constitute aggregation or a combined/derivative work. WASM, Worker or JavaScript messaging boundaries do not automatically decide that legal question.
 
 **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** of a package conveying the Real YaneuraOu engine unless the distribution obligations and combined-work characterization have been conclusively resolved.
+
+## Run #8 modified-source Corresponding Source plan
+
+Run #8 changes the previous “no local YaneuraOu source modifications” assumption. The fixed official commit remains the base, but an accepted Real WASM will include the documented two-file WASM USI bridge patch.
+
+CI must retain together:
+
+- pristine upstream archive: `YaneuraOu-a5ee2786c0030edc7d4a1cdfe94b04dffec55493.tar.gz`;
+- reviewed patch: `yaneuraou-v9.00-wasm-usi-bridge.patch`;
+- actual applied diff: `YaneuraOu-ShogiReflection-WASM-USI-Bridge.patch`;
+- deterministic modified-source archive: `YaneuraOu-a5ee2786c0030edc7d4a1cdfe94b04dffec55493-ShogiReflection-WASM-USI-Bridge.tar.gz`;
+- patch and archive SHA-256 records;
+- `SOURCE_MODIFICATION_MANIFEST.txt`;
+- fixed build script, toolchain version/image digest, build command and compiler evidence;
+- YaneuraOu README / `Copying.txt` and applicable Emscripten notices.
+
+The modified-source archive, not only the pristine repository URL, is the source snapshot intended to correspond to a conveyed patched WASM. Public/commercial distribution remains blocked pending final license/legal review and complete runtime evidence.

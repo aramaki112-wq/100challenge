@@ -35,5 +35,10 @@
   "workerBootstrapSha256": null,
   "jsFile": null,
   "wasmFile": null,
-  "workerFile": null
+  "workerFile": null,
+  "sourceModified": false,
+  "sourcePatchFile": "patches/yaneuraou-v9.00-wasm-usi-bridge.patch",
+  "sourcePatchSha256": null,
+  "modifiedSourceFiles": [],
+  "wasmUsiCommandExport": null
 }

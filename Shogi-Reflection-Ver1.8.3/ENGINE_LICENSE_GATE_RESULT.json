@@ -1,12 +1,17 @@
 {
-  "schemaVersion": 2,
-  "checkedAt": "2026-08-10T15:20:45.104Z",
+  "schemaVersion": 3,
+  "checkedAt": "2026-08-11T09:37:03.743Z",
   "completed": true,
   "unknownRightsAssetBundled": false,
   "yaneuraOuBinaryBundled": false,
+  "yaneuraOuSourceModified": false,
+  "sourceModificationDocumented": true,
   "materialThirdPartyWeightBundled": false,
   "correspondingSourceArchiveIncluded": false,
+  "correspondingSourceArchiveType": null,
   "correspondingSourceArchiveSha256": null,
+  "pristineUpstreamArchiveSha256": null,
+  "sourcePatchSha256": null,
   "exactSourceCommitRecorded": true,
   "reproducibleBuildScriptsIncluded": true,
   "existingApplicationLicenseChanged": false,
@@ -14,5 +19,5 @@
   "publicDistributionReadiness": "APPLICATION_SHELL_ONLY; REAL_YANEURAOU_BUNDLE_NOT_APPROVED",
   "commercialDistributionReadiness": "LEGAL_REVIEW_REQUIRED_BEFORE_PUBLIC_DISTRIBUTION",
   "formalRealEngineBundlingApproved": false,
-  "reason": "No Real YaneuraOu WASM binary is present. A future binary artifact must include exact-source/build evidence and pass the documented distribution/legal review gate."
+  "reason": "No accepted Real YaneuraOu WASM binary is present. A future patched binary artifact must include exact-source/patch/build evidence and pass runtime and documented distribution/legal review gates."
 }

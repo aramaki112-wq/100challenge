@@ -11,6 +11,9 @@ MATERIAL_LEVEL="${MATERIAL_LEVEL:-1}"
 EMSDK_DOCKER_IMAGE="${EMSDK_DOCKER_IMAGE:-emscripten/emsdk:3.1.43}"
 PTHREAD_WORKER_PACKAGING="SEPARATE_PTHREAD_WORKER"
 UPSTREAM_BUILD_COMMAND="node script/wasm_build.js material"
+SOURCE_PATCH_RELATIVE="patches/yaneuraou-v9.00-wasm-usi-bridge.patch"
+SOURCE_PATCH="$ROOT/$SOURCE_PATCH_RELATIVE"
+BRIDGE_ADAPTATION="split_clean_tournament_capture_make_exit_and_apply_documented_wasm_usi_bridge"
 # The pinned upstream packager runs `make -jN clean tournament` in one invocation and
 # ignores the child make exit status before checking output files. Run #6 observed the
 # target disappearing after link work. The bridge therefore preserves the exact upstream
@@ -26,7 +29,8 @@ command -v docker >/dev/null || fail "docker is required for the pinned upstream
 mkdir -p "$OUT_DIR" "$RECORD_DIR"
 ACTUAL_COMMIT="$(git -C "$SOURCE_ROOT" rev-parse HEAD)"
 [[ "$ACTUAL_COMMIT" == "$PINNED_COMMIT" ]] || fail "YaneuraOu commit mismatch: $ACTUAL_COMMIT != $PINNED_COMMIT"
-[[ -z "$(git -C "$SOURCE_ROOT" status --porcelain=v1)" ]] || fail "YaneuraOu source checkout has local modifications"
+[[ -z "$(git -C "$SOURCE_ROOT" status --porcelain=v1)" ]] || fail "YaneuraOu source checkout has local modifications before the documented bridge patch"
+[[ -f "$SOURCE_PATCH" ]] || fail "documented YaneuraOu WASM USI bridge patch is missing: $SOURCE_PATCH_RELATIVE"
 
 MAKEFILE="$SOURCE_ROOT/source/Makefile"
 PREJS="$SOURCE_ROOT/source/wasm_pre.js"
@@ -43,6 +47,29 @@ grep -q 'make -j\${cpus} clean tournament' "$OFFICIAL_WASM_BUILD" || fail "upstr
 grep -q '_error, _stdout, _stderr.*resolve' "$OFFICIAL_WASM_BUILD" || fail "upstream child-process handling changed; re-audit the bridge adaptation"
 grep -q 'postMessage' "$PREJS" || fail "official wasm_pre.js message bridge not found"
 grep -q 'usi_command' "$PREJS" || fail "official wasm_pre.js USI command bridge not found"
+
+# The pinned V9.00 source builds WASM, but its only source-level usi_command wrapper is
+# inside a disabled #if 0 block and references a superseded API.  Apply the smallest
+# explicit patch needed to connect current USIEngine::usi_cmdexec to wasm_pre.js while
+# keeping the official commit as the immutable base.  The patch itself is hash-bound and
+# its complete diff is retained for Corresponding Source.
+SOURCE_PATCH_SHA256="$(sha256sum "$SOURCE_PATCH" | awk '{print $1}')"
+printf '%s\n' "$SOURCE_PATCH_RELATIVE" > "$RECORD_DIR/source-patch-file.txt"
+printf '%s\n' "$SOURCE_PATCH_SHA256" > "$RECORD_DIR/source-patch-sha256.txt"
+git -C "$SOURCE_ROOT" apply --check "$SOURCE_PATCH"
+git -C "$SOURCE_ROOT" apply "$SOURCE_PATCH"
+git -C "$SOURCE_ROOT" diff --check
+mapfile -t MODIFIED_SOURCE_FILES < <(git -C "$SOURCE_ROOT" diff --name-only | sort)
+EXPECTED_MODIFIED_SOURCE_FILES=(
+  "source/engine/yaneuraou-engine/yaneuraou-search.cpp"
+  "source/usi.h"
+)
+[[ "${MODIFIED_SOURCE_FILES[*]}" == "${EXPECTED_MODIFIED_SOURCE_FILES[*]}" ]] || fail "unexpected YaneuraOu source modification set: ${MODIFIED_SOURCE_FILES[*]}"
+printf '%s\n' "${MODIFIED_SOURCE_FILES[@]}" > "$RECORD_DIR/source-modified-files.txt"
+git -C "$SOURCE_ROOT" diff --binary > "$RECORD_DIR/yaneuraou-source-modifications.patch"
+git -C "$SOURCE_ROOT" status --porcelain=v1 > "$RECORD_DIR/yaneuraou-source-status-after-patch.txt"
+[[ -s "$RECORD_DIR/yaneuraou-source-status-after-patch.txt" ]] || fail "documented source patch did not modify the checkout"
+cmp -s "$SOURCE_PATCH" "$RECORD_DIR/yaneuraou-source-modifications.patch" || fail "applied YaneuraOu source diff does not exactly match the reviewed patch"
 
 # Pull exactly the image tag used by the pinned upstream workflow, then record the
 # immutable local image id and repo digest observed by this CI run.
@@ -65,7 +92,9 @@ printf '%s\n' "$DOCKER_REPO_DIGEST" > "$RECORD_DIR/emscripten-docker-image-diges
   echo "upstreamWorkflowToolchain=$EMSDK_DOCKER_IMAGE"
   echo "dockerImageId=$DOCKER_IMAGE_ID"
   echo "dockerRepoDigest=$DOCKER_REPO_DIGEST"
-  echo "bridgeAdaptation=split_clean_and_tournament_and_capture_make_exit_status"
+  echo "bridgeAdaptation=$BRIDGE_ADAPTATION"
+  echo "sourcePatch=$SOURCE_PATCH_RELATIVE"
+  echo "sourcePatchSha256=$SOURCE_PATCH_SHA256"
 } | tee "$RECORD_DIR/build-request.txt"
 
 # All compiler/runtime versions are measured inside the build container, not from the host.
@@ -107,6 +136,23 @@ WASM_SOURCE="$LIB_DIR/yaneuraou.material.wasm"
 [[ -s "$WORKER_SOURCE" ]] || fail "official-setting material build did not produce $(basename "$WORKER_SOURCE")"
 [[ -s "$WASM_SOURCE" ]] || fail "official-setting material build did not produce $(basename "$WASM_SOURCE")"
 
+# wasm_pre.js calls ccall("usi_command", ...).  A build is not accepted unless the
+# generated WebAssembly module actually exports that C bridge.
+node - "$WASM_SOURCE" "$RECORD_DIR/wasm-export-list.txt" "$RECORD_DIR/usi-command-export.txt" <<'NODEEXPORT'
+const fs = require('fs');
+const [wasmPath, listPath, evidencePath] = process.argv.slice(2);
+const module = new WebAssembly.Module(fs.readFileSync(wasmPath));
+const names = WebAssembly.Module.exports(module).map((x) => x.name).sort();
+fs.writeFileSync(listPath, names.join('\n') + '\n');
+const actual = names.find((name) => name === 'usi_command' || name === '_usi_command');
+if (!actual) {
+  console.error('ERROR: generated WASM does not export usi_command required by wasm_pre.js');
+  process.exit(1);
+}
+fs.writeFileSync(evidencePath, actual + '\n');
+console.log(`Measured WASM USI command export: ${actual}`);
+NODEEXPORT
+
 mapfile -t GENERATED_PTHREAD_WORKERS < <(find "$LIB_DIR" -maxdepth 1 -type f -name 'yaneuraou.material*.worker.js' -print | sort)
 printf '%s\n' "${#GENERATED_PTHREAD_WORKERS[@]}" > "$RECORD_DIR/generated-pthread-worker-count.txt"
 printf '%s\n' "$PTHREAD_WORKER_PACKAGING" > "$RECORD_DIR/pthread-worker-packaging.txt"
@@ -142,7 +188,7 @@ Toolchain image id: $DOCKER_IMAGE_ID
 Toolchain repo digest: $DOCKER_REPO_DIGEST
 Upstream packaging command: $UPSTREAM_BUILD_COMMAND
 Deterministic bridge command: $BRIDGE_BUILD_COMMAND
-Bridge adaptation: split clean from tournament and capture the real make exit status
+Bridge adaptation: deterministic clean/build + measured make exit + documented V9.00 WASM USI source bridge
 JS: $(basename "$JS_SOURCE")
 WASM: $(basename "$WASM_SOURCE")
 Generated pthread worker: $(basename "$WORKER_SOURCE")
@@ -150,6 +196,12 @@ Pthread worker packaging: $PTHREAD_WORKER_PACKAGING
 Application Worker bootstrap: engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js
 Metadata: ENGINE_BUILD_METADATA.json
 Hashes: ENGINE_ASSET_SHA256SUMS.txt
+Source base: official pinned commit $ACTUAL_COMMIT
+Source modified: YES — documented bridge patch only
+Source patch: $SOURCE_PATCH_RELATIVE
+Source patch SHA-256: $SOURCE_PATCH_SHA256
+Modified source files: ${MODIFIED_SOURCE_FILES[*]}
+Measured WASM USI export: $(cat "$RECORD_DIR/usi-command-export.txt")
 
 This result proves the compiler/build artifact stage only. Formal Completion still requires Real Browser, Real USI, Real Analysis, Real E2E, license/source-distribution gates, and ZIP re-verification.
 EOF2

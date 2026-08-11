@@ -22,7 +22,7 @@ test("GitHub Actions pins upstream-compatible Emscripten 3.1.43 and verifies off
   assert.match(y,/EMSDK_VERSION: 3\.1\.43/); assert.match(y,/bf3c159888633d232c0507f4c76cc156a43c32dc/); assert.match(y,/emscripten-releases-tags\.json/);
 });
 
-test("Run 7 pins the same Emscripten Docker image used by upstream and records immutable image evidence",()=>{
+test("Run 8 keeps the same Emscripten Docker image proven by Run 7 and records immutable image evidence",()=>{
   const y=read(".github/workflows/build-yaneuraou-wasm.yml"), s=read("scripts/build-yaneuraou-wasm.sh");
   assert.match(y,/EMSDK_DOCKER_IMAGE: emscripten\/emsdk:3\.1\.43/);
   assert.match(s,/docker pull "\$EMSDK_DOCKER_IMAGE"/);
@@ -47,8 +47,13 @@ test("Build bridge preserves pinned official material settings while using deter
   assert.match(s,/yaneuraou-make-exit-code\.txt/);
 });
 
-test("Build refuses commit mismatch and dirty upstream source",()=>{
-  const s=read("scripts/build-yaneuraou-wasm.sh"); assert.match(s,/commit mismatch/); assert.match(s,/local modifications/);
+test("Build refuses commit mismatch and requires pristine upstream before applying the reviewed patch",()=>{
+  const s=read("scripts/build-yaneuraou-wasm.sh");
+  assert.match(s,/commit mismatch/);
+  assert.match(s,/local modifications before the documented bridge patch/);
+  assert.match(s,/git -C "\$SOURCE_ROOT" apply --check "\$SOURCE_PATCH"/);
+  assert.match(s,/unexpected YaneuraOu source modification set/);
+  assert.match(s,/cmp -s "\$SOURCE_PATCH" "\$RECORD_DIR\/yaneuraou-source-modifications\.patch"/);
 });
 
 test("Build verifies official wasm_pre bridge instead of bypassing it",()=>{
@@ -72,7 +77,7 @@ test("Actual JS WASM generated pthread Worker and application bootstrap each rec
 
 test("Build Metadata contains requested traceability fields without pretending unmeasured values",()=>{
   const m=json("ENGINE_BUILD_METADATA.json");
-  for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emscriptenDockerImage","emscriptenDockerImageId","emscriptenDockerImageDigest","upstreamBuildCommand","bridgeAdaptation","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","pthreadWorkerPackaging","generatedPthreadWorkerCount","workerBootstrapFile","workerBootstrapSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
+  for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emscriptenDockerImage","emscriptenDockerImageId","emscriptenDockerImageDigest","upstreamBuildCommand","bridgeAdaptation","sourceModified","sourcePatchFile","sourcePatchSha256","modifiedSourceFiles","wasmUsiCommandExport","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","pthreadWorkerPackaging","generatedPthreadWorkerCount","workerBootstrapFile","workerBootstrapSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
   if (m.measured === false) {
     assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null); assert.equal(m.workerBootstrapSha256,null);
   } else {
@@ -102,13 +107,25 @@ test("Artifact gate requires measured metadata, separate pthread packaging, file
   assert.match(s,/workerFile/);
 });
 
+test("Artifact gate treats absent pre-build assets as fail-closed evidence instead of hashing directories",()=>{
+  const s=read("scripts/real-yaneuraou-artifact-gate.mjs");
+  assert.match(s,/isFile\(\)/);
+  assert.match(s,/asset is missing or not a regular file/);
+});
+
 test("Formal gate requires Real protocol, analysis, candidate and navigation evidence",()=>{
   const s=read("scripts/formal-completion-gate.mjs");
   for(const k of ["usiok","readyok","cp","mate","multipv","bestmove","stop","quit","sampleKif","fullPly","goodCandidate","badCandidate","bestEvaluation","actualEvaluation","difference","candidateJump","boardScroll","keyPosition","graphMarker","graphToStep4","fact","interpretation","hypothesis","cancel","reanalysis"]) assert.ok(s.includes(`\"${k}\"`),k);
 });
 
-test("Corresponding Source evidence is packaged from the exact checkout",()=>{
-  const y=read(".github/workflows/build-yaneuraou-wasm.yml"); assert.match(y,/corresponding-source\/YaneuraOu-\$\{YANEURAOU_COMMIT\}\.tar\.gz/); assert.match(y,/corresponding-source-sha256/);
+test("Corresponding Source packages pristine base, reviewed patch and deterministic modified-source snapshot",()=>{
+  const y=read(".github/workflows/build-yaneuraou-wasm.yml");
+  const s=read("scripts/package-yaneuraou-corresponding-source.sh");
+  assert.match(y,/package-yaneuraou-corresponding-source\.sh/);
+  assert.match(s,/YaneuraOu-\$\{PINNED_COMMIT\}\.tar\.gz/);
+  assert.match(s,/ShogiReflection-WASM-USI-Bridge\.tar\.gz/);
+  assert.match(s,/SOURCE_MODIFICATION_MANIFEST\.txt/);
+  assert.match(s,/yaneuraou-v9\.00-wasm-usi-bridge\.patch/);
 });
 
 test("Build artifact integration verifies before claiming runtime readiness",()=>{
@@ -178,4 +195,44 @@ test("Run 6 missing-output incident is documented without claiming an unproven c
   assert.match(d,/lower-level.*not proven/i);
   assert.match(d,/make clean/i);
   assert.match(d,/not an engine-source modification/i);
+});
+
+
+test("Artifact gate distinguishes upstream packaging command from measured deterministic bridge command",()=>{
+  const s=read("scripts/real-yaneuraou-artifact-gate.mjs");
+  assert.match(s,/metadata\.upstreamBuildCommand !== "node script\/wasm_build\.js material"/);
+  assert.match(s,/split_clean_tournament_capture_make_exit_and_apply_documented_wasm_usi_bridge/);
+  assert.match(s,/startsWith\("make clean && make -j2 tournament "/);
+});
+
+
+test("Run 8 source patch is explicit minimal and Emscripten-only",()=>{
+  const patch=read("patches/yaneuraou-v9.00-wasm-usi-bridge.patch");
+  assert.match(patch,/source\/usi\.h/);
+  assert.match(patch,/source\/engine\/yaneuraou-engine\/yaneuraou-search\.cpp/);
+  assert.match(patch,/defined\(__EMSCRIPTEN__\)/);
+  assert.match(patch,/wasm_usi_cmdexec/);
+  assert.match(patch,/EMSCRIPTEN_KEEPALIVE extern "C" int usi_command/);
+  assert.match(patch,/static YaneuraOuEngine engine/);
+  assert.match(patch,/static USIEngine usi/);
+  assert.doesNotMatch(patch,/evaluate\(|search<|MovePicker|EvaluationGraph|GameReview/);
+});
+
+test("Build rejects patched WASM unless usi_command is physically exported",()=>{
+  const build=read("scripts/build-yaneuraou-wasm.sh");
+  const gate=read("scripts/real-yaneuraou-artifact-gate.mjs");
+  assert.match(build,/WebAssembly\.Module\.exports/);
+  assert.match(build,/generated WASM does not export usi_command/);
+  assert.match(build,/usi-command-export\.txt/);
+  assert.match(gate,/Measured WASM export count/);
+  assert.match(gate,/Generated WASM does not export usi_command/);
+});
+
+test("Run 7 disabled-export incident is documented and source modification is not hidden",()=>{
+  const d=read("ENGINE_BUILD_INCIDENT_007_V900_WASM_USI_EXPORT_DISABLED.md");
+  assert.match(d,/make exit code `0`/);
+  assert.match(d,/no `usi_command` \/ `_usi_command` export/);
+  assert.match(d,/#if 0/);
+  assert.match(d,/unmodified upstream source build|sourceModified=true/i);
+  assert.match(d,/LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION/);
 });

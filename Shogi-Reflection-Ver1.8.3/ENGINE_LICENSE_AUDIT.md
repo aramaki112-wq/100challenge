@@ -1,4 +1,4 @@
-# ENGINE_LICENSE_AUDIT — Ver.1.8.3 Run #6 Candidate
+# ENGINE_LICENSE_AUDIT — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
 Status: engineering license/provenance audit; **not legal advice**
@@ -70,3 +70,17 @@ Real YaneuraOu binary bundle: **NOT READY** pending exact accepted binary audit,
 Real YaneuraOu binary bundle: **NOT READY** for the same unresolved compliance reasons; this is not a claim that GPL categorically forbids commercial distribution.
 
 **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** unless those issues are conclusively resolved.
+
+## Run #8 source modification addendum
+
+Run #7 proved a real V9.00 MATERIAL WASM can be generated from the pinned commit with the upstream-compatible Emscripten 3.1.43 Docker toolchain, but the produced module has no `usi_command` export required by the pinned `wasm_pre.js` command queue.
+
+Run #8 therefore adopts a **documented modification** of the YaneuraOu source for the WASM interface only. The immutable upstream identity remains V9.00 / `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`; the additional patch and its hash become part of binary provenance and Corresponding Source evidence.
+
+This strengthens rather than relaxes the distribution gate:
+
+- Personal-use technical testing: may proceed after Real runtime evidence.
+- Public distribution of patched WASM: **NOT READY**.
+- Commercial distribution of patched WASM: **NOT READY**.
+- **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** remains mandatory.
+- Existing Shogi Reflection application `LICENSE` remains unchanged by this patch.

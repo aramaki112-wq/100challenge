@@ -105,3 +105,11 @@ Ver.1.7以前の履歴はSource of Truth ZIP内のBaseline CHANGELOGとSHA-256 m
 - Switched build execution to the exact upstream `emscripten/emsdk:3.1.43` Docker image and added image ID/RepoDigest evidence.
 - Preserved official MATERIAL settings while splitting `make clean` and `make -j2 tournament` so the actual make exit status is observable.
 - Formal status remains NOT-FORMAL until Real artifact/USI/E2E gates pass.
+
+### Ver.1.8.3 Build Bridge Run #8 candidate
+- Run #7 real MATERIAL build succeeded with make exit 0 and generated JS / pthread worker / WASM.
+- Corrected artifact gate to distinguish upstream packaging command from measured deterministic bridge command.
+- Added fail-closed WASM export inspection for `usi_command` required by pinned `wasm_pre.js`.
+- Added explicit two-file YaneuraOu V9.00 WASM USI bridge patch after source audit found the legacy export inside a disabled `#if 0` block.
+- Added patch SHA-256, exact modified-file gate, applied-diff evidence, and deterministic modified-source Corresponding Source archive.
+- Existing Domain/Repository/Storage/Replay/Graph/Reflection architecture and application LICENSE remain unchanged.

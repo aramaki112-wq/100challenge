@@ -11,13 +11,19 @@ const readJson = (name) => { try { return JSON.parse(fs.readFileSync(path.join(r
 const read = (name) => { try { return fs.readFileSync(path.join(root,name),"utf8"); } catch { return ""; } };
 
 try { execFileSync(process.execPath,[path.join(root,"scripts","real-yaneuraou-artifact-gate.mjs")],{cwd:root,stdio:"pipe"}); record("Real YaneuraOu artifact gate",true); }
-catch(error){ record("Real YaneuraOu artifact gate",false,error.stdout?.toString().trim().split("\n").slice(-1)[0]||"failed"); }
+catch(error){
+  const artifactGate=readJson("REAL_YANEURAOU_ARTIFACT_GATE_RESULT.json");
+  const detail=artifactGate?.failures?.slice(0,3).join(" | ") || error.stderr?.toString().trim() || "failed";
+  record("Real YaneuraOu artifact gate",false,detail);
+}
 
 const metadata=readJson("ENGINE_BUILD_METADATA.json")??{};
 record("Official Source fixed commit", metadata.commit === "a5ee2786c0030edc7d4a1cdfe94b04dffec55493", String(metadata.commit??""));
 record("Fixed Emscripten SDK", metadata.emsdkVersion === "3.1.43" && metadata.expectedEmscriptenReleaseCommit === "bf3c159888633d232c0507f4c76cc156a43c32dc", `${metadata.emsdkVersion??""}/${metadata.expectedEmscriptenReleaseCommit??""}`);
 record("Measured compiler metadata", metadata.measured===true && Boolean(metadata.emccVersion&&metadata.emppVersion&&metadata.llvmVersion));
 record("MATERIAL WASM profile", metadata.evaluationModel==="MATERIAL" && metadata.materialLevel===1 && metadata.targetCpu==="WASM" && metadata.threads===true);
+record("Documented YaneuraOu source modification", metadata.sourceModified===true && metadata.sourcePatchFile==="patches/yaneuraou-v9.00-wasm-usi-bridge.patch" && Boolean(metadata.sourcePatchSha256));
+record("Measured WASM USI command export", ["usi_command","_usi_command"].includes(metadata.wasmUsiCommandExport), String(metadata.wasmUsiCommandExport??""));
 
 const wasmPath = metadata.wasmFile ? path.join(root,"engine","yaneuraou",metadata.wasmFile) : null;
 const wasmHash = wasmPath && fs.existsSync(wasmPath) ? crypto.createHash("sha256").update(fs.readFileSync(wasmPath)).digest("hex") : null;
@@ -55,9 +61,10 @@ else {
   if (license.yaneuraOuBinaryBundled === true) {
     record("Corresponding Source archive bundled with Real binary evidence", license.correspondingSourceArchiveIncluded===true && Boolean(license.correspondingSourceArchiveSha256));
     record("Exact source/build evidence recorded", license.exactSourceCommitRecorded===true && license.reproducibleBuildScriptsIncluded===true);
+    record("Patched-source provenance recorded", license.yaneuraOuSourceModified===true && license.sourceModificationDocumented===true && Boolean(license.sourcePatchSha256) && license.sourcePatchSha256===metadata.sourcePatchSha256);
   }
 }
-record("Corresponding Source plan",read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("Exact Commit") && read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("Build Script"));
+record("Corresponding Source plan",read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("Exact Commit") && read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("Build Script") && read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("modified-source Corresponding Source"));
 record("Third-party notices",read("THIRD_PARTY_NOTICES.md").includes("YaneuraOu") && read("THIRD_PARTY_NOTICES.md").includes("Emscripten"));
 record("Automated test evidence",/Failed:\s*0/.test(read("TEST_RESULT.txt")));
 record("Browser test evidence",/Failed:\s*0/.test(read("BROWSER_VERIFICATION_RESULT.txt")));
@@ -66,7 +73,7 @@ record("Visual verification evidence",/Failed:\s*0/.test(read("VISUAL_VERIFICATI
 record("Source of Truth audit",read("SOURCE_OF_TRUTH_AUDIT.md").includes("Ver.1.8.3"));
 record("Completion report",read("COMPLETION_REPORT.md").includes("Ver.1.8.3"));
 
-const result={schemaVersion:2,checkedAt:new Date().toISOString(),gate:"VER_1_8_3_FORMAL_COMPLETION",passed:failures.length===0,checks,failures,verdict:failures.length?"NOT_FORMAL":"FORMAL_GATE_PASSED_PRE_ZIP_REVERIFICATION"};
+const result={schemaVersion:3,checkedAt:new Date().toISOString(),gate:"VER_1_8_3_FORMAL_COMPLETION",passed:failures.length===0,checks,failures,verdict:failures.length?"NOT_FORMAL":"FORMAL_GATE_PASSED_PRE_ZIP_REVERIFICATION"};
 fs.writeFileSync(path.join(root,"FORMAL_COMPLETION_GATE_RESULT.json"),JSON.stringify(result,null,2)+"\n");
 console.log(JSON.stringify(result,null,2));
 if(failures.length) process.exit(1);

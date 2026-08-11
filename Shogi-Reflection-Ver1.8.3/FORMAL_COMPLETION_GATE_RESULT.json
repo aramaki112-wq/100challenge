@@ -1,13 +1,13 @@
 {
-  "schemaVersion": 2,
-  "checkedAt": "2026-08-10T23:57:23.721Z",
+  "schemaVersion": 3,
+  "checkedAt": "2026-08-11T09:42:26.916Z",
   "gate": "VER_1_8_3_FORMAL_COMPLETION",
   "passed": false,
   "checks": [
     {
       "name": "Real YaneuraOu artifact gate",
       "ok": false,
-      "detail": "failed"
+      "detail": "manifest.available is not true: a Real YaneuraOu build is not enabled. | Build metadata is not measured BUILT evidence: NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT | Measured emcc/em++/LLVM version evidence is incomplete."
     },
     {
       "name": "Official Source fixed commit",
@@ -27,6 +27,16 @@
     {
       "name": "MATERIAL WASM profile",
       "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Documented YaneuraOu source modification",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "name": "Measured WASM USI command export",
+      "ok": false,
       "detail": ""
     },
     {
@@ -326,8 +336,10 @@
     }
   ],
   "failures": [
-    "Real YaneuraOu artifact gate: failed",
+    "Real YaneuraOu artifact gate: manifest.available is not true: a Real YaneuraOu build is not enabled. | Build metadata is not measured BUILT evidence: NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT | Measured emcc/em++/LLVM version evidence is incomplete.",
     "Measured compiler metadata",
+    "Documented YaneuraOu source modification",
+    "Measured WASM USI command export",
     "Real YaneuraOu USI passed: passed=false",
     "Real USI matches current WASM: usi=null, current=null",
     "Real USI usi: false",

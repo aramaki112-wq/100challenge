@@ -6,6 +6,8 @@ on:
     paths:
       - ".github/workflows/build-yaneuraou-wasm.yml"
       - "Shogi-Reflection-Ver1.8.3/scripts/build-yaneuraou-wasm.sh"
+      - "Shogi-Reflection-Ver1.8.3/scripts/package-yaneuraou-corresponding-source.sh"
+      - "Shogi-Reflection-Ver1.8.3/patches/yaneuraou-v9.00-wasm-usi-bridge.patch"
       - "Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh"
       - "Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs"
       - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh"
@@ -19,6 +21,7 @@ on:
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md"
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md"
+      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_007_V900_WASM_USI_EXPORT_DISABLED.md"
 
 permissions:
   contents: read
@@ -136,7 +139,7 @@ jobs:
           printf '%s\n' "$ACTUAL_COMMIT" | tee build-record/yaneuraou-source-commit.txt
           echo "YANEURAOU_SOURCE_DIR=$SOURCE_DIR" >> "$GITHUB_ENV"
 
-      - name: Build official-source MATERIAL WASM
+      - name: Build pinned-source MATERIAL WASM with documented WASM USI bridge
         shell: bash
         run: |
           set -euo pipefail
@@ -146,15 +149,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p corresponding-source
-          git -C "$YANEURAOU_SOURCE_DIR" archive --format=tar.gz --output="$GITHUB_WORKSPACE/$APP_DIR/corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" "$YANEURAOU_COMMIT"
-          sha256sum "corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" | tee build-record/corresponding-source-sha256.txt
-          cp "$YANEURAOU_SOURCE_DIR/README.md" corresponding-source/YaneuraOu-README.md
-          cp "$YANEURAOU_SOURCE_DIR/source/Makefile" corresponding-source/YaneuraOu-source-Makefile
-          cp "$YANEURAOU_SOURCE_DIR/source/wasm_pre.js" corresponding-source/YaneuraOu-source-wasm_pre.js
-          cp "$YANEURAOU_SOURCE_DIR/script/wasm_build.js" corresponding-source/YaneuraOu-script-wasm_build.js
-          cp "$YANEURAOU_SOURCE_DIR/.github/workflows/make-wasm.yml" corresponding-source/YaneuraOu-upstream-make-wasm.yml
-          if [ -f "$YANEURAOU_SOURCE_DIR/LICENSE" ]; then cp "$YANEURAOU_SOURCE_DIR/LICENSE" corresponding-source/YaneuraOu-LICENSE; fi
+          bash ./scripts/package-yaneuraou-corresponding-source.sh "$YANEURAOU_SOURCE_DIR" "$PWD/corresponding-source" "$PWD/build-record"
           if [ -f "$EMSDK_DIR/LICENSE" ]; then cp "$EMSDK_DIR/LICENSE" corresponding-source/emsdk-LICENSE; fi
           docker run --rm "$EMSDK_DOCKER_IMAGE" sh -lc 'test -f /emsdk/upstream/emscripten/LICENSE && cat /emsdk/upstream/emscripten/LICENSE' > corresponding-source/Emscripten-LICENSE
           test -s corresponding-source/Emscripten-LICENSE
@@ -244,6 +239,8 @@ jobs:
             Shogi-Reflection-Ver1.8.3/build-record/
             Shogi-Reflection-Ver1.8.3/corresponding-source/
             Shogi-Reflection-Ver1.8.3/scripts/build-yaneuraou-wasm.sh
+            Shogi-Reflection-Ver1.8.3/scripts/package-yaneuraou-corresponding-source.sh
+            Shogi-Reflection-Ver1.8.3/patches/yaneuraou-v9.00-wasm-usi-bridge.patch
             Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh
             Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs
             Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh
@@ -254,6 +251,7 @@ jobs:
             Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_REPRODUCIBILITY.md
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_007_V900_WASM_USI_EXPORT_DISABLED.md
             Shogi-Reflection-Ver1.8.3/YANEURAOU_WASM_BUILD_BRIDGE.md
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_002_PTHREAD_WORKER_PACKAGING.md
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md

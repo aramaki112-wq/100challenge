@@ -136,3 +136,17 @@ Build-layer delta:
 - no YaneuraOu source/Makefile modification.
 
 Formal status: NOT-FORMAL pending Run #7 measured evidence.
+
+## Run #8 delta audit
+
+Run #8 changes only the Engine Build Bridge / third-party source-interface evidence layer. Application Domain Model, Repository, LocalStorage, Backup/Restore, KIF parser/import, Replay, KeyPosition, Evaluation Graph, Candidate flows, Reflection fields and existing application LICENSE are not intentionally changed.
+
+New explicit third-party source modification:
+
+- base: YaneuraOu V9.00 commit `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`;
+- patch: `patches/yaneuraou-v9.00-wasm-usi-bridge.patch`;
+- only allowed modified upstream files: `source/usi.h` and `source/engine/yaneuraou-engine/yaneuraou-search.cpp`;
+- reason: provide the current-API Emscripten USI command/lifetime bridge required by pinned `wasm_pre.js` after Run #7 measured a WASM with no `usi_command` export;
+- provenance: patch SHA-256 + exact diff + modified Corresponding Source archive are required.
+
+Formal status: **NOT-FORMAL pending Run #8 Real build/export/USI/E2E evidence.**

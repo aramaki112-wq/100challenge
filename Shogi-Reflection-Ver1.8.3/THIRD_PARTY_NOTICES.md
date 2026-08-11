@@ -1,13 +1,13 @@
-# THIRD_PARTY_NOTICES — Ver.1.8.3 Run #6 Candidate
+# THIRD_PARTY_NOTICES — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
 Status: provisional engineering notice; final distribution notice requires post-build/license review
 
 ## Current repository/patch status
 
-**Real YaneuraOu binary status in this Run #6 patch: NOT BUNDLED.**
+**Real YaneuraOu binary status in this Run #8 patch: NOT BUNDLED.**
 
-The Run #6 patch itself does **not** bundle a newly generated YaneuraOu binary. GitHub Actions is expected to generate the Real runtime assets from the pinned official source. Run #5 CI artifacts existed as test evidence, but they failed Real runtime verification and are not treated as distributable/Formal engine assets.
+The Run #8 patch itself does **not** bundle a newly accepted YaneuraOu binary. GitHub Actions will build from the pinned official V9.00 commit plus the documented two-file WASM USI bridge patch. Run #7 artifacts are retained as negative/diagnostic evidence and are not treated as distributable/Formal engine assets because the measured WASM lacked the required `usi_command` export.
 
 ## YaneuraOu
 
@@ -48,3 +48,7 @@ GitHub Actions, Node.js, Python, actions/checkout and actions/upload-artifact ar
 Personal testing readiness, public distribution readiness and commercial distribution readiness are intentionally separate decisions.
 
 **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** of a package that conveys Real YaneuraOu generated binaries unless the applicable obligations and combined-distribution architecture have been conclusively reviewed.
+
+## Run #8 YaneuraOu source modification notice
+
+Any YaneuraOu WASM accepted from Run #8 is not represented as an unmodified upstream binary. It is built from YaneuraOu V9.00 commit `a5ee2786c0030edc7d4a1cdfe94b04dffec55493` plus the separately supplied `patches/yaneuraou-v9.00-wasm-usi-bridge.patch`. The patch, modified-source snapshot, build scripts and hashes are retained as provenance/Corresponding Source evidence. Final public-distribution notices remain subject to the License Gate and legal review.

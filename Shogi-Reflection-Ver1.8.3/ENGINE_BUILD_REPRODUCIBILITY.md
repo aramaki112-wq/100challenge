@@ -1,7 +1,7 @@
-# ENGINE_BUILD_REPRODUCIBILITY — Ver.1.8.3 Run #6 Candidate
+# ENGINE_BUILD_REPRODUCIBILITY — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
-Status: **Run #6 bridge prepared; Real 3.1.43 build / Real USI / Real E2E not yet proven**
+Status: **Run #8 documented-source-bridge prepared; patched Real build / Real USI / Real E2E not yet proven**
 
 ## Reproducibility contract
 
@@ -133,3 +133,11 @@ Run #7 keeps the source commit and official material configuration fixed but imp
 - do not modify YaneuraOu source or Makefile.
 
 Run #7 remains NOT-FORMAL until the CI run produces measured artifacts and Real USI/E2E evidence.
+
+## Run #7 evidence → Run #8 source-bridge correction (2026-08-11)
+
+Run #7 proved that the pinned V9.00 commit can be compiled with the upstream-compatible `emscripten/emsdk:3.1.43` image: make exited `0` and JS / pthread worker / WASM were generated. The remaining Run #7 artifact-gate failure was an internal command-comparison bug and is corrected by distinguishing `upstreamBuildCommand` from the deterministic `buildCommand`.
+
+A deeper inspection of that successfully built WASM found no `usi_command` export even though pinned `wasm_pre.js` calls `ccall("usi_command", ...)`. The exact pinned source places its legacy Emscripten wrapper under `#if 0`, while the active USI API is now `USIEngine::usi_cmdexec(const std::string&)` and `loop()` deliberately does not block under Emscripten.
+
+Run #8 therefore keeps the exact official commit as immutable base but applies the explicitly reviewed patch `patches/yaneuraou-v9.00-wasm-usi-bridge.patch`. The patch hash, exact modified-file set, full diff, actual WASM export list and Corresponding Source are all mandatory evidence. This is a source modification and is no longer described as an unmodified upstream build.

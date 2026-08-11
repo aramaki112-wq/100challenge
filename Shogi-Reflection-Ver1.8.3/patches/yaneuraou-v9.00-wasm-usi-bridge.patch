@@ -1,0 +1,87 @@
+diff --git a/source/engine/yaneuraou-engine/yaneuraou-search.cpp b/source/engine/yaneuraou-engine/yaneuraou-search.cpp
+index e77eb04..f3566d0 100644
+--- a/source/engine/yaneuraou-engine/yaneuraou-search.cpp
++++ b/source/engine/yaneuraou-engine/yaneuraou-search.cpp
+@@ -32,6 +32,10 @@
+ #include "../../mate/mate.h"
+ #include "../../tune.h"
+ 
++#if defined(__EMSCRIPTEN__)
++#include <emscripten.h>
++#endif
++
+ namespace YaneuraOu {
+ 
+ using namespace Search;
+@@ -5549,15 +5553,42 @@ bool RootMove::extract_ponder_from_tt(const TranspositionTable& tt,
+ using namespace YaneuraOu;
+ namespace {
+ 
++#if defined(__EMSCRIPTEN__)
++// The pinned V9.00 loop() returns immediately under Emscripten to avoid blocking.
++// Keep the engine/USI objects alive after engine_main() returns and expose a tiny
++// C bridge for the upstream wasm_pre.js command queue.
++USIEngine* wasm_usi_instance = nullptr;
++
++int dispatch_wasm_usi_command(const char* c_cmd) {
++    if (wasm_usi_instance == nullptr || c_cmd == nullptr)
++        return 1;
++
++    // wasm_pre.js treats a non-zero return value as "try later".  A dispatched
++    // command is complete from the bridge's point of view even when the command
++    // itself is "quit"; quit is normally intercepted by wasm_pre.js anyway.
++    (void)wasm_usi_instance->wasm_usi_cmdexec(std::string(c_cmd));
++    return 0;
++}
++#endif
++
+ // 自作のエンジンのentry point
+ void engine_main() {
+ 
++#if defined(__EMSCRIPTEN__)
++    // Emscripten's non-blocking loop returns immediately, so stack lifetime would
++    // otherwise end before JavaScript can send the first USI command.
++    static YaneuraOuEngine engine;
++    static USIEngine usi;
++    usi.set_engine(engine);  // エンジン実装を差し替える。
++    wasm_usi_instance = &usi;
++#else
+ 	// ここで作ったエンジン
+     YaneuraOuEngine engine;
+ 
+     // USIコマンドの応答部
+     USIEngine usi;
+     usi.set_engine(engine);  // エンジン実装を差し替える。
++#endif
+ 
+     // USIコマンドの応答のためのループ
+     usi.loop();
+@@ -5567,4 +5598,11 @@ void engine_main() {
+ static EngineFuncRegister r(engine_main, "YaneuraOuEngine", 0);
+ }
+ 
++#if defined(__EMSCRIPTEN__)
++// Keep/export the exact symbol expected by the pinned source/wasm_pre.js.
++EMSCRIPTEN_KEEPALIVE extern "C" int usi_command(const char* c_cmd) {
++    return dispatch_wasm_usi_command(c_cmd);
++}
++#endif
++
+ #endif // YANEURAOU_ENGINE
+diff --git a/source/usi.h b/source/usi.h
+index f6a8d29..90e2920 100644
+--- a/source/usi.h
++++ b/source/usi.h
+@@ -39,6 +39,12 @@ public:
+ 	// "quit"コマンドが送られてくるまでこのループは抜けない。
+ 	void loop();
+ 
++#if defined(__EMSCRIPTEN__)
++	// Shogi Reflection WASM bridge: dispatch one command without blocking the browser worker.
++	// The normal loop() intentionally does not block under Emscripten.
++	bool wasm_usi_cmdexec(const std::string& cmd) { return usi_cmdexec(cmd); }
++#endif
++
+ 	// --------------------
+ 	// USI関係の記法変換部
+ 	// --------------------

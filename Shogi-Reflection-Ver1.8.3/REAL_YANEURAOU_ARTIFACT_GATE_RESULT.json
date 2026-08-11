@@ -1,16 +1,33 @@
 {
-  "schemaVersion": 2,
-  "checkedAt": "2026-08-10T15:25:27.570Z",
+  "schemaVersion": 4,
+  "checkedAt": "2026-08-11T09:42:26.911Z",
   "gate": "REAL_YANEURAOU_ARTIFACT",
   "passed": false,
-  "facts": [],
+  "facts": [
+    "patches/yaneuraou-v9.00-wasm-usi-bridge.patch sha256=bb79c5297f6b3e06e4dd67187aafb4f8ab18657e837f087ae7cbab15fdc27f07",
+    "Pinned upstream WASM workflow uses Emscripten 3.1.43; official material packaging includes a separate generated pthread worker.js."
+  ],
   "failures": [
     "manifest.available is not true: a Real YaneuraOu build is not enabled.",
     "Build metadata is not measured BUILT evidence: NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT",
     "Measured emcc/em++/LLVM version evidence is incomplete.",
     "Measured build date/platform evidence is incomplete.",
+    "Unexpected deterministic bridge adaptation: planned_documented_v900_wasm_usi_bridge",
+    "Run #8 accepted artifact must record sourceModified=true for the documented WASM USI bridge.",
+    "Unexpected modified source files: []",
+    "Measured wasmUsiCommandExport is missing/invalid: null",
+    "Documented source patch does not match Build Metadata SHA-256.",
+    "Unexpected pthreadWorkerPackaging: SEPARATE_PTHREAD_WORKER_EXPECTED_FOR_EMSCRIPTEN_3_1_43",
+    "Expected exactly one generated pthread .worker.js for Emscripten 3.1.43; got null",
+    "workerFile/workerSha256 are required for the official Emscripten 3.1.43 material build.",
+    "Manifest must bind the generated pthread worker URL/hash.",
     "jsFile is missing from Build Metadata.",
     "wasmFile is missing from Build Metadata.",
-    "workerFile is missing from Build Metadata."
+    "workerFile is missing from Build Metadata.",
+    "JS asset is missing or not a regular file: /mnt/data/run8_preflight_clean/Shogi-Reflection-Ver1.8.3/engine/yaneuraou",
+    "WASM asset is missing or not a regular file: /mnt/data/run8_preflight_clean/Shogi-Reflection-Ver1.8.3/engine/yaneuraou",
+    "Generated pthread Worker asset is missing or not a regular file: /mnt/data/run8_preflight_clean/Shogi-Reflection-Ver1.8.3/engine/yaneuraou",
+    "Application Worker bootstrap asset is missing or not a regular file: /mnt/data/run8_preflight_clean/Shogi-Reflection-Ver1.8.3/engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js",
+    "Expected one measured generated pthread worker; found: "
   ]
 }

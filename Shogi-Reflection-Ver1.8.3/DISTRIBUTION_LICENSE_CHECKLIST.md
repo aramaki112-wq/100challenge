@@ -1,4 +1,4 @@
-# DISTRIBUTION_LICENSE_CHECKLIST — Ver.1.8.3 Run #6 Candidate
+# DISTRIBUTION_LICENSE_CHECKLIST — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
 
@@ -63,3 +63,14 @@ Use this checklist for the exact artifact that will be shipped. Evidence from a 
 Current Real-engine public/commercial distribution status: **NOT READY**.
 
 **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION**
+
+## Run #8 patched-source additions
+
+- [x] Exact official YaneuraOu base commit fixed.
+- [x] Local WASM USI bridge patch stored as a separate file.
+- [x] Modified source file set limited and documented.
+- [ ] CI patch SHA-256 measured and bound to accepted WASM metadata.
+- [ ] Deterministic modified-source Corresponding Source archive generated and hashed.
+- [ ] Real USI/E2E passed for the same patched WASM hash.
+- [ ] Final third-party notices reviewed for the patched binary bundle.
+- [ ] Legal review completed before any public/commercial distribution.

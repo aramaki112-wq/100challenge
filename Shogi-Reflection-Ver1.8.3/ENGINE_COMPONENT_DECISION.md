@@ -1,4 +1,4 @@
-# ENGINE_COMPONENT_DECISION — Ver.1.8.3 Run #6 Candidate
+# ENGINE_COMPONENT_DECISION — Ver.1.8.3 Run #8 Candidate
 
 Date: 2026-08-11
 
@@ -42,3 +42,13 @@ Run #5's 4.0.15 build is retained as historical negative evidence: build/hash/br
 ## Formal policy
 
 Build success, runtime success and distribution permission are three separate decisions. A PASS in one cannot substitute for another.
+
+## Run #8 decision addendum
+
+| Component | Run #8 decision | Reason |
+|---|---|---|
+| YaneuraOu V9.00 exact commit | KEEP AS IMMUTABLE BASE | source identity and reproducibility remain fixed |
+| `patches/yaneuraou-v9.00-wasm-usi-bridge.patch` | ADOPT FOR BUILD-BRIDGE TESTING | Run #7 WASM lacks the command export required by pinned `wasm_pre.js`; patch is limited to two Emscripten/USI bridge files |
+| `emscripten/emsdk:3.1.43` Docker image | ADOPT FOR REPRODUCIBLE BUILD | Run #7 measured image ID/RepoDigest and make exit `0`; matches pinned upstream WASM workflow |
+| generated patched WASM | CONDITIONAL | must expose `usi_command` and pass Real USI/E2E before acceptance |
+| Existing Application LICENSE | UNCHANGED | no silent relicensing |
