@@ -1,66 +1,51 @@
-# Shogi Reflection Ver.1.8.3 Formal Completion Status
+# Shogi Reflection Ver.1.8.3 — FORMAL COMPLETION STATUS
 
-Date: 2026-08-10
-
-## Verdict
+Date: 2026-08-11
+Verdict: **NOT_FORMAL**
 
 **FORMAL COMPLETION NOT ACHIEVED**
 
-Ver.1.8.3 successfully adds the reproducible YaneuraOu WASM Build Bridge and stronger Real Artifact/Formal gates, but this execution environment did not produce a Real YaneuraOu WASM build. No Mock or ReflectionLocal result is substituted.
+## Achieved engineering gates
 
-## Completed in this version
+- YaneuraOu V9.00 exact commit fixed.
+- MATERIAL evaluation only; external NNUE/水匠 weights excluded.
+- GitHub Actions Build Bridge runs and preserves failure evidence.
+- Run #3–#5 proved official-source Real artifact generation/hash path under the prior bridge.
+- Run #5 browser prerequisites reached `crossOriginIsolated=true` and SharedArrayBuffer available.
+- Existing Automated/Static/Browser/Visual/ReflectionLocal regressions remain separated from Real evidence.
+- Corresponding Source / license / distribution readiness are explicit gates.
 
-- GitHub Actions Build Bridge added.
-- YaneuraOu V9.00 exact commit fixed and verified by primary-source audit.
-- MATERIAL_LEVEL=1 fixed; external NNUE/水匠 weight excluded.
-- Emscripten 4.0.15 fixed with official release mapping check.
-- exact compiler/runner provenance capture designed.
-- actual generated worker filename discovery implemented.
-- generated JS/WASM + application Worker bootstrap SHA-256 automation implemented; Emscripten 4.0.15 `MAIN_JS_SELF_WORKER` packaging recorded.
-- measured `ENGINE_BUILD_METADATA.json` generation implemented.
-- Corresponding Source evidence packaging implemented.
-- downloaded Build artifact integration + hash gate implemented.
-- Real Artifact Gate strengthened to require measured Build Metadata.
-- Formal Gate strengthened to require Real USI/evaluation/E2E evidence.
-- Existing Application LICENSE unchanged.
-- Existing Domain/Repository/Storage/Replay/Graph architecture preserved.
+## Run #5 measured failure
 
-## Hard Gate still unmet
+- Historical toolchain: Emscripten 4.0.15.
+- Real USI: FAILED before `usiok`.
+- Repeated runtime error: `RuntimeError: function signature mismatch`.
+- Real application E2E: FAILED and correctly fell back to ReflectionLocal.
 
-- Emscripten build executed successfully in an accessible build runner.
-- measured JS/WASM + application Worker bootstrap hashes and verified `MAIN_JS_SELF_WORKER` packaging from that build.
-- Real Browser load of those exact hashes.
-- Real YaneuraOu initialize and full USI evidence.
-- Real cp/mate/MultiPV/evaluation sanity positions.
-- Real Sample KIF full-ply application E2E.
-- Real Good/Bad Candidate quality evidence.
-- Real Candidate/Graph navigation evidence.
-- Real cancel/re-analysis.
-- production hosting COOP/COEP proof.
-- binary-specific license/notice audit and final public distribution decision.
-- formal candidate ZIP unpack/re-test.
+No fallback result is counted as Real evidence.
 
-## Hosting status
+## Run #6 correction prepared
 
-- Local isolated test server: verifier path exists; Real asset not available here.
-- Desktop browser: Real asset not tested here.
-- GitHub Pages: pthread hosting **NOT PROVEN**; official Pages documentation reviewed did not establish arbitrary COOP/COEP header configuration in this audit.
-- iPhone Safari: **NOT PHYSICALLY TESTED**.
-- Future installed app: separate future verification target.
+The exact pinned YaneuraOu source's own WASM workflow selects Ubuntu 22.04 and `emscripten/emsdk:3.1.43`. Its `script/wasm_build.js material` profile selects MATERIAL_LEVEL=1 / `YaneuraOu_Material` / initial memory 92274688 and expects:
 
-## Artifact naming rule
+- `yaneuraou.material.js`
+- `yaneuraou.material.worker.js`
+- `yaneuraou.material.wasm`
 
-This package must remain explicitly `NOT-FORMAL`. Do not rename it `Shogi-Reflection-Ver1.8.3.zip` until every Formal Gate check and unpacked-ZIP re-verification succeeds.
+Run #6 aligns the Build Bridge to that path and hash-binds all three generated assets plus the first-party outer Worker bootstrap.
 
-## Ver.1.8.3 evidence split
+## Hard gates still unmet
 
-Formal Gate now requires two independent Real result files tied to the same current WASM SHA-256:
+- Run #6 official-profile Build measured success.
+- Run #6 JS / generated worker / WASM hashes and Build Metadata.
+- Real WASM load / YaneuraOu initialize.
+- Real `usi -> usiok`, `isready -> readyok`.
+- Real cp/mate/PV/MultiPV/depth/nodes/time/bestmove/stop/quit.
+- Real Cancel / Re-analysis.
+- Real Sample KIF full-ply Good/Bad/Graph/Replay/STEP4 E2E.
+- exact-artifact license/Corresponding Source distribution decision.
+- Formal candidate ZIP and unpacked ZIP re-verification.
 
-- `REAL_YANEURAOU_USI_RESULT.json` — USI handshake, cp/mate, PV/MultiPV, depth/nodes/time, bestmove, stop/quit, evaluation sanity.
-- `REAL_YANEURAOU_E2E_RESULT.json` — Sample KIF/full-ply, Good/Bad Candidate, Best/Actual/Difference/PV, Candidate/Graph navigation, STEP4 reflection boundary, Cancel/Re-analysis.
+Physical iPhone, battery and thermal remain unverified/unmeasured.
 
-Both are currently `NOT_RUN_REAL_WASM_ASSET_UNAVAILABLE`, which is the correct state for this package. GitHub Actions is prepared to generate Real evidence after the pinned build succeeds, but the final Formal Gate remains separate from CI build success and still requires integration, final audit/report and ZIP re-verification.
-
-## NOT-FORMAL ZIP verification
-
-A separate-folder extraction of the NOT-FORMAL candidate passed all non-Real regression suites (697 Automated / 143 Static / 154 Browser / 24 Visual / 16 fallback) and continued to fail closed on Real Artifact/USI/E2E/Formal gates. This validates packaging consistency only; it does not satisfy the Real YaneuraOu Formal Completion Gate.
+Formal package name **must not** be used until all hard gates pass.

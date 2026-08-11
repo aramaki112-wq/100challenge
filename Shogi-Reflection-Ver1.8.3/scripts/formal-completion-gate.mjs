@@ -15,7 +15,7 @@ catch(error){ record("Real YaneuraOu artifact gate",false,error.stdout?.toString
 
 const metadata=readJson("ENGINE_BUILD_METADATA.json")??{};
 record("Official Source fixed commit", metadata.commit === "a5ee2786c0030edc7d4a1cdfe94b04dffec55493", String(metadata.commit??""));
-record("Fixed Emscripten SDK", metadata.emsdkVersion === "4.0.15" && metadata.expectedEmscriptenReleaseCommit === "b412b6307e541b93dd93f01b61181e15c17302ec", `${metadata.emsdkVersion??""}/${metadata.expectedEmscriptenReleaseCommit??""}`);
+record("Fixed Emscripten SDK", metadata.emsdkVersion === "3.1.43" && metadata.expectedEmscriptenReleaseCommit === "bf3c159888633d232c0507f4c76cc156a43c32dc", `${metadata.emsdkVersion??""}/${metadata.expectedEmscriptenReleaseCommit??""}`);
 record("Measured compiler metadata", metadata.measured===true && Boolean(metadata.emccVersion&&metadata.emppVersion&&metadata.llvmVersion));
 record("MATERIAL WASM profile", metadata.evaluationModel==="MATERIAL" && metadata.materialLevel===1 && metadata.targetCpu==="WASM" && metadata.threads===true);
 

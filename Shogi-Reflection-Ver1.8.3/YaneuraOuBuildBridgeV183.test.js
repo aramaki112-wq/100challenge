@@ -17,9 +17,9 @@ test("GitHub Actions pins official YaneuraOu V9.00 commit",()=>{
   assert.match(y,/a5ee2786c0030edc7d4a1cdfe94b04dffec55493/); assert.match(y,/YANEURAOU_VERSION: V9\.00/);
 });
 
-test("GitHub Actions pins Emscripten 4.0.15 and verifies official release mapping",()=>{
+test("GitHub Actions pins upstream-compatible Emscripten 3.1.43 and verifies official release mapping",()=>{
   const y=read(".github/workflows/build-yaneuraou-wasm.yml");
-  assert.match(y,/EMSDK_VERSION: 4\.0\.15/); assert.match(y,/b412b6307e541b93dd93f01b61181e15c17302ec/); assert.match(y,/emscripten-releases-tags\.json/);
+  assert.match(y,/EMSDK_VERSION: 3\.1\.43/); assert.match(y,/bf3c159888633d232c0507f4c76cc156a43c32dc/); assert.match(y,/emscripten-releases-tags\.json/);
 });
 
 test("Build Bridge records runner and compiler provenance",()=>{
@@ -28,9 +28,12 @@ test("Build Bridge records runner and compiler provenance",()=>{
   for(const token of ["emcc --version","em++ --version","em++ -v","llvm-version.txt"]) assert.ok(s.includes(token));
 });
 
-test("Build command is pinned to MATERIAL_LEVEL=1 / WASM / em++",()=>{
+test("Build command uses pinned source tree's official material WASM profile",()=>{
   const s=read("scripts/build-yaneuraou-wasm.sh");
-  assert.match(s,/TARGET_CPU=WASM/); assert.match(s,/COMPILER=em\+\+/); assert.match(s,/YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL/); assert.match(s,/MATERIAL_LEVEL=\$\{MATERIAL_LEVEL\}/);
+  assert.match(s,/BUILD_COMMAND="node script\/wasm_build\.js \${OFFICIAL_PROFILE}"/);
+  assert.match(s,/YaneuraOu_Material/);
+  assert.match(s,/MATERIAL_LEVEL=1 EM_INITIAL_MEMORY_SIZE=92274688/);
+  assert.match(s,/emscripten\/emsdk:3\.1\.43/);
 });
 
 test("Build refuses commit mismatch and dirty upstream source",()=>{
@@ -41,30 +44,29 @@ test("Build verifies official wasm_pre bridge instead of bypassing it",()=>{
   const s=read("scripts/build-yaneuraou-wasm.sh"); assert.match(s,/wasm_pre\.js/); assert.match(s,/postMessage/); assert.match(s,/usi_command/);
 });
 
-test("Pinned Emscripten 4.0.15 records main-JS pthread packaging and rejects fabricated worker files",()=>{
+test("Pinned upstream Emscripten 3.1.43 records separate pthread worker packaging",()=>{
   const s=read("scripts/build-yaneuraou-wasm.sh");
-  assert.match(s,/find .*yaneuraou\*\.worker\.js/);
-  assert.match(s,/MAIN_JS_SELF_WORKER/);
-  assert.match(s,/should not emit a separate pthread \.worker\.js/);
+  assert.match(s,/yaneuraou\.material\.worker\.js/);
+  assert.match(s,/SEPARATE_PTHREAD_WORKER/);
+  assert.match(s,/exactly one pthread worker/);
 });
 
-test("Actual JS WASM and application Worker bootstrap each receive SHA-256",()=>{
+test("Actual JS WASM generated pthread Worker and application bootstrap each receive SHA-256",()=>{
   const s=read("scripts/hash-engine-assets.sh");
-  assert.ok((s.match(/sha256sum/g)||[]).length>=3);
-  assert.match(s,/yaneuraou\.wasm/);
+  assert.ok((s.match(/sha256sum/g)||[]).length>=4);
+  assert.match(s,/yaneuraou\.material\.wasm/);
   assert.match(s,/YaneuraOuWasmWorkerBootstrap\.js/);
-  assert.match(s,/Emscripten 4\.0\.15 should not emit a separate/);
+  assert.match(s,/Emscripten 3\.1\.43 official material build must have exactly one worker/);
 });
 
 test("Build Metadata contains requested traceability fields without pretending unmeasured values",()=>{
   const m=json("ENGINE_BUILD_METADATA.json");
   for(const k of ["engineName","engineVersion","release","repository","commit","buildDate","buildPlatform","emsdkVersion","emccVersion","emppVersion","llvmVersion","nodeVersion","pythonVersion","compiler","engineType","evaluationModel","materialLevel","targetCpu","threads","pthreadPoolSize","initialMemory","maximumMemory","memoryGrowth","stackSize","buildCommand","jsFile","wasmFile","workerFile","jsSha256","wasmSha256","workerSha256","pthreadWorkerPackaging","generatedPthreadWorkerCount","workerBootstrapFile","workerBootstrapSha256","sourceLicense","buildToolLicense"]) assert.ok(Object.hasOwn(m,k),k);
-  assert.equal(m.workerFile,null); assert.equal(m.workerSha256,null);
   if (m.measured === false) {
     assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null); assert.equal(m.workerBootstrapSha256,null);
   } else {
     assert.equal(m.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerBootstrapSha256);
-    assert.equal(m.pthreadWorkerPackaging,"MAIN_JS_SELF_WORKER"); assert.equal(m.generatedPthreadWorkerCount,0);
+    assert.equal(m.pthreadWorkerPackaging,"SEPARATE_PTHREAD_WORKER"); assert.equal(m.generatedPthreadWorkerCount,1); assert.ok(m.workerFile); assert.ok(m.workerSha256);
     assert.ok(m.emccVersion); assert.ok(m.emppVersion); assert.ok(m.llvmVersion);
   }
 });
@@ -72,21 +74,21 @@ test("Build Metadata contains requested traceability fields without pretending u
 test("Manifest is fail-closed before build and hash-bound after build",()=>{
   const m=json("engine/yaneuraou/engine-manifest.json"), meta=json("ENGINE_BUILD_METADATA.json");
   if (m.available === false) {
-    assert.equal(meta.measured,false); assert.equal(m.pthreadWorkerUrl,null); assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null);
+    assert.equal(meta.measured,false); assert.match(m.pthreadWorkerUrl,/yaneuraou\.material\.worker\.js$/); assert.equal(m.jsSha256,null); assert.equal(m.wasmSha256,null);
   } else {
     assert.equal(meta.measured,true); assert.ok(m.jsSha256); assert.ok(m.wasmSha256); assert.ok(m.workerBootstrapSha256);
-    assert.equal(m.pthreadWorkerUrl,null); assert.equal(m.workerSha256,null);
-    assert.equal(m.pthreadWorkerPackaging,"MAIN_JS_SELF_WORKER"); assert.equal(m.generatedPthreadWorkerCount,0);
+    assert.ok(m.pthreadWorkerUrl); assert.ok(m.workerSha256);
+    assert.equal(m.pthreadWorkerPackaging,"SEPARATE_PTHREAD_WORKER"); assert.equal(m.generatedPthreadWorkerCount,1); assert.ok(m.workerFile); assert.ok(m.workerSha256);
   }
 });
 
-test("Artifact gate requires measured metadata, main-JS pthread packaging, files and hashes",()=>{
+test("Artifact gate requires measured metadata, separate pthread packaging, files and hashes",()=>{
   const s=read("scripts/real-yaneuraou-artifact-gate.mjs");
   assert.match(s,/metadata\.measured !== true/);
   assert.match(s,/Emscripten release commit mapping mismatch/);
-  assert.match(s,/MAIN_JS_SELF_WORKER/);
+  assert.match(s,/SEPARATE_PTHREAD_WORKER/);
   assert.match(s,/workerBootstrapFile/);
-  assert.match(s,/workerFile !== null/);
+  assert.match(s,/workerFile/);
 });
 
 test("Formal gate requires Real protocol, analysis, candidate and navigation evidence",()=>{
@@ -148,7 +150,7 @@ test("Runtime bootstrap is co-located with generated JS/WASM so Emscripten Worke
   assert.match(build,/cp "\$ROOT\/YaneuraOuWasmWorkerBootstrap\.js" "\$OUT_DIR\/YaneuraOuWasmWorkerBootstrap\.js"/);
   assert.match(meta,/engine.*yaneuraou.*YaneuraOuWasmWorkerBootstrap\.js/s);
   assert.match(meta,/workerUrl: "\.\/engine\/yaneuraou\/YaneuraOuWasmWorkerBootstrap\.js"/);
-  assert.match(bootstrap,/const GLUE_URL = "\.\/yaneuraou\.js"/);
+  assert.match(bootstrap,/const GLUE_URL = "\.\/yaneuraou\.material\.js"/);
   assert.doesNotMatch(bootstrap,/locateFile\(/);
 });
 

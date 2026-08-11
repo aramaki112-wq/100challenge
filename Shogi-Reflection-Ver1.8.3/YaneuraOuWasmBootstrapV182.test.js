@@ -12,17 +12,18 @@ test("WASM bootstrapはofficial wasm_pre.jsのmessage bridgeを利用する", ()
 
 test("WASM bootstrapはofficial bridge欠落を黙ってdirect ccall fallbackしない", () => {
   assert.match(source, /Official YaneuraOu wasm_pre\.js message bridge/);
-  assert.match(source, /quit -> terminate/);
+  assert.doesNotMatch(source, /ccall\("usi_command"/);
 });
 
-
-test("WASM bootstrapはEmscripten pthread self-workerをUSI wrapperへ誤接続しない", () => {
-  assert.match(source, /self\.name\.startsWith\("em-pthread"\)/);
-  assert.match(source, /if \(isEmscriptenPthreadWorker\) \{[\s\S]*self\.importScripts\(GLUE_URL\);[\s\S]*return;/);
-});
 
 
 test("WASM bootstrapはruntime directory内のgenerated glueを同一directoryから読む", () => {
-  assert.match(source, /const GLUE_URL = "\.\/yaneuraou\.js"/);
+  assert.match(source, /const GLUE_URL = "\.\/yaneuraou\.material\.js"/);
   assert.doesNotMatch(source, /locateFile\(/);
+});
+
+
+test("WASM bootstrapはofficial material export factoryを使用する", () => {
+  assert.match(source, /self\.YaneuraOu_Material/);
+  assert.doesNotMatch(source, /self\.name\.startsWith\("em-pthread"\)/);
 });

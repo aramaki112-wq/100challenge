@@ -90,14 +90,14 @@ check("Real application E2E verifier script", pkg.scripts?.["test:real-yaneuraou
 const workflow = read(".github/workflows/build-yaneuraou-wasm.yml");
 const buildMetadata = JSON.parse(read("ENGINE_BUILD_METADATA.json"));
 check("Build Bridge pins YaneuraOu V9.00 commit", workflow.includes("a5ee2786c0030edc7d4a1cdfe94b04dffec55493") && workflow.includes("YANEURAOU_VERSION: V9.00"));
-check("Build Bridge pins Emscripten 4.0.15 mapping", workflow.includes("EMSDK_VERSION: 4.0.15") && workflow.includes("b412b6307e541b93dd93f01b61181e15c17302ec"));
+check("Build Bridge pins Emscripten 3.1.43 mapping", workflow.includes("EMSDK_VERSION: 3.1.43") && workflow.includes("bf3c159888633d232c0507f4c76cc156a43c32dc"));
 check("Build Bridge records runner provenance", workflow.includes("ImageOS") && workflow.includes("ImageVersion") && workflow.includes("runner-environment.txt"));
 check("Build Bridge packages Corresponding Source evidence", workflow.includes("git -C \"$YANEURAOU_SOURCE_DIR\" archive") && workflow.includes("corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz") && workflow.includes("corresponding-source-sha256.txt"));
 check("Build Bridge runs separated Real USI and application E2E", workflow.includes("real_yaneuraou_usi_verify.py") && workflow.includes("real_yaneuraou_browser_verify.py"));
 check("Build Bridge uploads evidence even when Real gate fails", workflow.includes("if: always()") && /Enforce Real runtime(?: and static)? gates after evidence upload/.test(workflow));
 check("Build metadata does not fabricate measured values", buildMetadata.measured === false
   ? (buildMetadata.jsSha256 === null && buildMetadata.wasmSha256 === null && buildMetadata.workerSha256 === null && buildMetadata.workerBootstrapSha256 === null)
-  : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerBootstrapSha256 && buildMetadata.workerSha256 === null && buildMetadata.workerFile === null && buildMetadata.pthreadWorkerPackaging === "MAIN_JS_SELF_WORKER" && buildMetadata.generatedPthreadWorkerCount === 0));
+  : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerBootstrapSha256 && buildMetadata.workerSha256 && buildMetadata.workerFile && buildMetadata.pthreadWorkerPackaging === "SEPARATE_PTHREAD_WORKER" && buildMetadata.generatedPthreadWorkerCount === 1));
 check("Current artifact remains NOT-FORMAL without Real build", buildMetadata.measured === true || (buildMetadata.status === "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT" && read("FORMAL_COMPLETION_STATUS.md").includes("FORMAL COMPLETION NOT ACHIEVED")));
 
 const html = read("index.html"), css = read("style.css"), main = read("main.js"), piece = read("ShogiPieceSvg.js");

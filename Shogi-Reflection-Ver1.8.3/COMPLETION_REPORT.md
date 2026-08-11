@@ -1,219 +1,139 @@
-# Shogi Reflection Ver.1.8.3 — Completion Report
+# Shogi Reflection Ver.1.8.3 — Run #6 Candidate Completion Report
 
-Date: 2026-08-10
+Date: 2026-08-11
 Version: **Shogi Reflection Ver.1.8.3 — YaneuraOu WASM Build Bridge**
 Formal Completion Verdict: **NOT_FORMAL**
 
-## 1. Result summary
+## 1. Current position
 
-Ver.1.8.3 implements the reproducible Build Bridge and Real-evidence gates requested for YaneuraOu, while preserving the Ver.1.8.2 application architecture. The current sandbox could not obtain/activate Emscripten or clone GitHub from the container network, so **no Real YaneuraOu WASM was built or executed here**. No Mock or ReflectionLocal result is promoted to Real evidence.
+The Build Bridge has advanced through five real GitHub Actions runs. Run #5 proved that the application can build/hash a Real YaneuraOu WASM artifact, establish the CI browser's cross-origin-isolated pthread prerequisites, and invoke the Real verifiers. However the 4.0.15-built engine crashed before `usiok` with repeated `RuntimeError: function signature mismatch`, and the application correctly fell back to ReflectionLocal.
 
-Accordingly the output remains a **NOT-FORMAL candidate**. The formal filename `Shogi-Reflection-Ver1.8.3.zip` must not be used yet.
+A primary-source re-audit of the **exact pinned YaneuraOu V9.00 commit** found that its own WASM workflow selects Ubuntu 22.04 and `emscripten/emsdk:3.1.43`, while its own `script/wasm_build.js material` profile defines the MATERIAL build and expects JS, a separate pthread Worker, and WASM outputs.
 
-## 2. Implemented
+Run #6 therefore corrects the Build Bridge to that pinned upstream WASM path. This report does **not** claim Run #6 success before GitHub Actions measures it.
 
-- `.github/workflows/build-yaneuraou-wasm.yml`
-- fixed official YaneuraOu V9.00 exact commit gate
-- fixed emsdk/Emscripten 4.0.15 target and official release-mapping verification
-- clean upstream checkout requirement
-- fixed MATERIAL_LEVEL=1 / WASM / em++ build command
-- measured compiler/runner provenance capture
-- Emscripten 4.0.15 pthread packaging detection (`MAIN_JS_SELF_WORKER`, no separate `.worker.js`)
-- generated JS/WASM + application Worker bootstrap SHA-256 automation
-- `ENGINE_BUILD_METADATA.json` measured/unmeasured distinction
-- exact-commit Corresponding Source archive generation by `git archive`
-- Build Artifact integration script + Real Artifact Gate
-- Real USI verifier separated from application E2E
-- Real Application E2E verifier for Sample KIF/full-ply/Good/Bad/Graph/STEP4/Cancel
-- Formal Gate requires both Real result files to match current WASM SHA-256
-- license gate updated to verify source archive/hash when a Real binary is present
-- legacy manifest finalizer made fail-closed; filenames alone cannot enable Real Engine
-- existing Browser/Visual/ReflectionLocal regression suites made portable to managed Playwright Chromium in CI
-- current app LICENSE preserved unchanged
+## 2. Run history relevant to Formal Gate
 
-## 3. Fixed upstream/build target
+- Run #1: build script execute permission failure; no compile.
+- Run #2: compile reached output stage; bridge incorrectly assumed a worker packaging shape for the selected 4.0.15 path.
+- Run #3: Real JS/WASM generated and hash-bound; static gate exposed filename/baseline issues.
+- Run #4: Real verifiers executed; asset placement/URL issue caused WASM path failure.
+- Run #5: build/hash/static/browser prerequisites passed; Real engine then failed before `usiok` with `function signature mismatch`; Real app fell back to ReflectionLocal.
+- Run #6 candidate: align build to the pinned upstream Emscripten 3.1.43 / `script/wasm_build.js material` path and rerun Real USI/E2E.
 
-| Item | Result |
+Historical incident evidence is retained rather than rewritten.
+
+## 3. Run #6 fixed build target
+
+| Item | Run #6 target |
 |---|---|
 | Engine | YaneuraOu |
 | Release | V9.00 |
 | Commit | `a5ee2786c0030edc7d4a1cdfe94b04dffec55493` |
 | Repository | official `yaneurao/YaneuraOu` |
-| Evaluation | MATERIAL |
+| Evaluation | upstream `material` profile |
+| Edition | `YANEURAOU_ENGINE_MATERIAL` |
 | MATERIAL Level | 1 |
+| Export name | `YaneuraOu_Material` |
 | Target CPU | WASM |
 | Compiler | em++ |
-| emsdk target | 4.0.15 |
-| expected Emscripten release commit | `b412b6307e541b93dd93f01b61181e15c17302ec` |
-| Build host design | GitHub Actions `ubuntu-24.04`; exact hosted image recorded at actual run |
-| Docker | not adopted |
+| emsdk target | 3.1.43 |
+| expected Emscripten release commit | `bf3c159888633d232c0507f4c76cc156a43c32dc` |
+| Build host label | GitHub Actions `ubuntu-22.04` |
+| Build entry point | `node script/wasm_build.js material` |
 | External NNUE / 水匠 weight | not adopted |
+| Application LICENSE | unchanged |
 
-Build command:
+Expected upstream material outputs:
 
-```text
-make -j1 normal TARGET_CPU=WASM COMPILER=em++ YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL MATERIAL_LEVEL=1
-```
+- `yaneuraou.material.js`
+- `yaneuraou.material.worker.js`
+- `yaneuraou.material.wasm`
 
-## 4. Upstream WASM profile recorded, not optimized
+The first-party outer application Worker remains:
 
-Pinned upstream Makefile facts used by the Bridge:
+- `engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js`
 
-- pthread: enabled
-- `PTHREAD_POOL_SIZE=32`
-- initial memory: `138,412,032` bytes for selected MATERIAL level
-- maximum memory: `4,294,967,296` bytes
-- memory growth: enabled
-- stack: `67,108,864` bytes
-- pre-js: `wasm_pre.js`
+All four runtime assets must be SHA-256-bound independently.
 
-These are **reproducibility facts, not smartphone optimization claims**.
+## 4. Resource profile
 
-## 5. Measured Real Build fields — current result
+The pinned upstream `material` profile explicitly supplies initial memory `92,274,688` bytes. The pinned Makefile also retains the threaded WASM path and its thread/memory/stack controls. These values are reproducibility inputs only; they are not described as iPhone-optimized, lightweight, fast, battery-efficient or thermally safe.
 
-| Requested item | Current result |
-|---|---|
-| Build Date | NOT MEASURED — build not executed |
-| actual Build OS / runner image | NOT MEASURED |
-| actual emcc Version | NOT MEASURED |
-| actual em++ Version | NOT MEASURED |
-| actual LLVM Version | NOT MEASURED |
-| actual Node Version | NOT MEASURED |
-| actual Python Version | NOT MEASURED |
-| JS filename | NOT GENERATED |
-| WASM filename | NOT GENERATED |
-| Separate generated pthread Worker filename | NOT APPLICABLE for Emscripten 4.0.15; expected count=0 |
-| Application Worker bootstrap | `YaneuraOuWasmWorkerBootstrap.js` (first-party runtime boundary; hash measured after Build Bridge run) |
-| JS SHA-256 | NOT AVAILABLE |
-| WASM SHA-256 | NOT AVAILABLE |
-| Separate pthread Worker SHA-256 | NOT APPLICABLE; field remains null |
-| Application Worker bootstrap SHA-256 | NOT AVAILABLE until corrected CI run |
+## 5. Run #5 measured negative Real evidence
 
-`ENGINE_BUILD_METADATA.json` intentionally keeps these fields null and `measured=false`.
+Run #5 measured:
 
-## 6. Real runtime / USI / Application E2E
+- YaneuraOu commit: `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`
+- Emscripten: 4.0.15 (historical bridge)
+- Real Browser version: Chromium 143.0.7499.4
+- `crossOriginIsolated`: true
+- `SharedArrayBuffer`: true
+- Real USI result: **FAILED_REAL_USI_VERIFICATION**
+- engine error: repeated `RuntimeError: function signature mismatch`
+- `usiok`: not reached
+- Real application E2E: **FAILED_REAL_APPLICATION_E2E**
+- app behavior on Real engine crash: explicit ReflectionLocal fallback
 
-- Real WASM Load: **NOT RUN**
-- Real YaneuraOu Initialize: **NOT RUN**
-- `usi / usiok`: **NOT RUN**
-- `isready / readyok`: **NOT RUN**
-- `usinewgame / position / go / info / bestmove`: **NOT RUN**
-- `score cp`: **NOT RUN**
-- `score mate`: **NOT RUN**
-- depth/nodes/time/PV/MultiPV: **NOT RUN**
-- stop/quit: **NOT RUN**
-- Initial/material gain/material loss/advantage/disadvantage/mate sanity: **NOT RUN**
-- Real Cancel / Re-analysis: **NOT RUN**
-- Real Sample KIF full-ply: **NOT RUN**
-- Real Good Candidate: **NOT RUN**
-- Real Bad Candidate: **NOT RUN**
-- Best Evaluation / Actual Evaluation / Difference / PV: **NOT RUN**
-- Candidate → Replay / Board Scroll / KeyPosition: **NOT RUN**
-- Graph Marker / Graph → STEP4: **NOT RUN**
-- FACT / INTERPRETATION / HYPOTHESIS manual-boundary E2E: **NOT RUN**
+This evidence is why Run #5 is not Formal and why Run #6 changes the toolchain/profile alignment.
 
-Evidence files explicitly record this as `NOT_RUN_REAL_WASM_ASSET_UNAVAILABLE`.
+## 6. Run #6 implementation changes
 
-## 7. Existing application regression
+Run #6 candidate changes only the Engine Build/runtime-asset boundary:
 
-- Automated Test: **697 / 697 PASS**
-- Static Verification: **143 / 143 PASS**, Missing Import **0** at latest pre-report run
-- Browser Verification: **154 / 154 PASS**, 390×844
-- Visual Verification: **24 / 24 PASS**
-- ReflectionLocal Fallback browser verification: **16 / 16 PASS**
-- Board Flip: retained
-- Fixed 9×9 Board Grid / SVG pieces: retained
-- Candidate → Board Scroll: retained
-- Replay Scroll Policy: retained
-- Evaluation Graph / Graph → Replay / Graph → STEP4: retained
-- Backup / Restore / Markdown / Observation Card contracts: unchanged by Ver.1.8.3
+- Emscripten target 4.0.15 -> 3.1.43.
+- runner 24.04 -> 22.04 for upstream-workflow alignment.
+- custom translated Make invocation -> pinned upstream `node script/wasm_build.js material`.
+- generated runtime contract -> exact material JS / separate pthread worker.js / WASM.
+- manifest/metadata/hash gates require the separate generated worker.
+- outer first-party Worker imports `yaneuraou.material.js` / `YaneuraOu_Material`.
+- Corresponding Source evidence also keeps upstream `script/wasm_build.js` and upstream WASM workflow.
 
-### Browser transient observation
+No Domain Model, Repository, LocalStorage, Backup/Restore, KIF, Replay, KeyPosition, Evaluation Graph, Candidate, Reflection or export contract is intentionally changed.
 
-During one regression execution, Candidate→KeyPosition registration moved `scrollY` from 3908 to 3925 (17 px), failing the ≤5 px stability check. The immediate repeat passed 154/154, and the final rerun also passed 154/154. Ver.1.8.3 had not changed the application UI flow, so no speculative UI patch was made. Cause remains unconfirmed; if it recurs, investigate browser scroll anchoring/timing as a separate regression rather than silently weakening the check.
+## 7. Local preflight status for Run #6 patch
 
-## 8. Performance / device
+Before GitHub execution, the Run #6 patch must pass local non-Real verification. Real USI/E2E are intentionally **not** claimed by local placeholder assets. Final counts are recorded in the patch verification report generated after packaging.
 
-Real YaneuraOu performance is **not measured** because no Real artifact exists in this package.
+## 8. Formal Completion status
 
-- WASM/JS/Worker size: not measured
-- deployment download: not measured
-- load/initialize/isready: not measured
-- one position: not measured
-- short/Sample/normal/long KIF: not measured
-- candidate/graph generation: not isolated with Real engine
-- Real cancel response: not measured
-- Real observable memory: not measured
-- Battery: not measured
-- Thermal: not measured
-- Physical iPhone: **NOT TESTED**
+Still **NOT_FORMAL**. Run #6 must prove at minimum:
 
-ReflectionLocal fallback performance exists only as separate fallback evidence and is not used to characterize YaneuraOu.
+1. official exact source checkout;
+2. fixed 3.1.43 toolchain install/mapping;
+3. upstream material build success;
+4. measured JS/worker/WASM hashes;
+5. Real WASM load;
+6. Real `usi / usiok`;
+7. Real `isready / readyok`;
+8. Real cp/mate/PV/depth/nodes/time/bestmove/stop/quit checks;
+9. Real cancel/re-analysis;
+10. Real Sample KIF full-ply application E2E;
+11. Real Good/Bad Candidate and Graph/Replay/STEP4 flow;
+12. existing automated/static/browser/visual/fallback regression suites;
+13. license audit + Corresponding Source plan;
+14. final Source of Truth audit;
+15. Formal candidate ZIP + separate-folder unpacked re-verification.
 
-## 9. Hosting conclusions
+ReflectionLocal or Mock results cannot satisfy these items.
 
-### Local development
-A test server path is implemented that emits COOP/COEP/CORP and verifies `crossOriginIsolated`/`SharedArrayBuffer` before threaded Real WASM execution.
+## 9. Device/hosting status
 
-### Desktop browser
-Harness prepared; Real artifact not executed in this sandbox.
+- CI desktop browser: Run #5 established cross-origin-isolated browser prerequisites, but Real engine runtime failed.
+- GitHub Pages Real pthread deployment: not yet Formal-proven.
+- physical iPhone: **NOT TESTED**.
+- battery/thermal performance: **NOT MEASURED**.
+- smartphone optimization: not part of Run #6 toolchain correction.
 
-### GitHub Pages
-**NOT PROVEN for the pinned pthread build.** Emscripten requires SharedArrayBuffer/cross-origin isolation for pthread browser builds. This audit did not establish an official GitHub Pages mechanism for arbitrary COOP/COEP response headers. No Service Worker shim is silently adopted.
+## 10. License/distribution status
 
-### iPhone Safari
-WebKit documentation supports the relevant cross-origin-isolated threading capability in modern Safari, but **this specific YaneuraOu build/resource profile has not been physically tested on iPhone**.
+- Existing Application LICENSE: unchanged.
+- Personal use of an accepted Real artifact: pending Run #6 Real evidence.
+- Public Real-engine distribution: **NOT READY**.
+- Commercial Real-engine distribution: **NOT READY**.
+- Corresponding Source plan: documented and extended with upstream WASM workflow/build script evidence.
+- **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** unless unresolved obligations/combined-work questions are conclusively settled.
 
-### Future installed app
-Separate future target; browser results are not inherited automatically.
+## 11. Naming rule
 
-## 10. License / distribution
-
-- YaneuraOu source: upstream project states GPLv3 project licensing; exact component obligations must follow the actual conveyed artifact.
-- MATERIAL_LEVEL=1: built-in source path; no external model weight added.
-- Emscripten: build tool/runtime licensing audited separately from YaneuraOu.
-- generated JS glue/Worker: must be audited from actual generated artifact; not assumed rights-free.
-- Existing Application LICENSE: **unchanged**.
-- Corresponding Source plan: exact commit + build scripts/toolchain/options + source archive/hash + notices.
-
-Readiness:
-
-- Personal Use Readiness: **existing app/fallback ready; Real YaneuraOu unavailable in this package**.
-- Public Distribution Readiness for a Real YaneuraOu bundle: **NOT READY**.
-- Commercial Distribution Readiness for a Real YaneuraOu bundle: **NOT READY**.
-- **LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** of a package conveying the Real engine.
-
-No claim is made that GPL forbids selling, that free distribution automatically satisfies GPL, or that WASM/Worker boundaries automatically determine the legal characterization.
-
-## 11. Formal Completion Gate
-
-Current machine result: **NOT_FORMAL**.
-
-The following hard gates remain unresolved because the Real artifact is absent:
-
-1. official-source Emscripten build success;
-2. measured JS/WASM + application Worker bootstrap hashes and `MAIN_JS_SELF_WORKER` packaging evidence;
-3. Real Browser load;
-4. Real USI/evaluation/bestmove/PV/cancel/re-analysis;
-5. Real Sample KIF full-ply application E2E;
-6. Real Good/Bad Candidate and Graph navigation evidence;
-7. binary-specific license/source-distribution review;
-8. final Formal candidate ZIP;
-9. separate-folder ZIP Real re-verification.
-
-## 12. Naming decision
-
-Because Formal Completion is not achieved, the produced package must use an explicit NOT-FORMAL name:
-
-`Shogi-Reflection-Ver1.8.3-NOT-FORMAL-YaneuraOu-WASM-Build-Bridge.zip`
-
-It must **not** be renamed `Shogi-Reflection-Ver1.8.3.zip` until every hard gate passes.
-
-## 13. Future scope retained, not implemented here
-
-- Evaluation Graph: improve 390px smartphone readability, 0-line/advantage zones/rapid swings/markers/tap details while keeping it a navigation map rather than an information-dense dashboard.
-- Long-term analysis: aggregate multiple games/KeyPositions and the user's FACT/INTERPRETATION/HYPOTHESIS/Observation Theme/Rule with Engine reference data to find repeated patterns and form hypotheses. Engine output must not automatically declare the user's weakness.
-
-## 14. NOT-FORMAL ZIP extracted verification
-
-Before final packaging, a provisional NOT-FORMAL ZIP was extracted to a separate folder and tested from extracted files only. Results: Automated 697/697, Static 143/143 with Missing Import 0, Browser 154/154 at 390×844, Visual 24/24, ReflectionLocal fallback 16/16. Real Artifact Gate failed as designed; Real USI/E2E reported Real asset unavailable; Formal Gate remained NOT_FORMAL. The final NOT-FORMAL package is therefore allowed to be distributed as a Build Bridge candidate, but not as a formal Real-Engine completion.
+Until all hard gates pass, no package may be named as the formal `Shogi-Reflection-Ver1.8.3.zip`. Run #6 work remains a NOT-FORMAL Build Bridge candidate.

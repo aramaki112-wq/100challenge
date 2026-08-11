@@ -87,9 +87,9 @@ Ver.1.7以前の履歴はSource of Truth ZIP内のBaseline CHANGELOGとSHA-256 m
 ## Ver.1.8.3 — YaneuraOu WASM Build Bridge
 
 - GitHub Actionsによるofficial YaneuraOu V9.00 exact-commit Build Bridgeを追加。
-- emsdk/Emscripten 4.0.15とofficial release mappingを固定。
-- MATERIAL_LEVEL=1 / TARGET_CPU=WASM / COMPILER=em++を固定。
-- GitHub Actions実測でEmscripten 4.0.15がseparate pthread `.worker.js`を生成しないことを確認し、`MAIN_JS_SELF_WORKER` packagingを記録する方式へ修正。
+- 初期BridgeではEmscripten 4.0.15を固定してReal Buildまで到達したが、Run #5のReal Browserで`RuntimeError: function signature mismatch`を観測。
+- exact pinned Sourceを再監査し、upstream WASM workflowがEmscripten 3.1.43 / Ubuntu 22.04 / `script/wasm_build.js`を使用することを確認。Run #6 Bridgeをこの経路へ修正。
+- upstream `material` profile（MATERIAL_LEVEL=1 / `YaneuraOu_Material` / initial memory 92274688）を直接実行し、`yaneuraou.material.js` / `.worker.js` / `.wasm`を実Assetとして扱う。
 - generated JS/WASMと`YaneuraOuWasmWorkerBootstrap.js`のSHA-256、`ENGINE_BUILD_METADATA.json`生成を追加。
 - exact-commit Corresponding Source evidence archive生成を追加。
 - Real Artifact Gateをmeasured Build Metadata必須へ強化。

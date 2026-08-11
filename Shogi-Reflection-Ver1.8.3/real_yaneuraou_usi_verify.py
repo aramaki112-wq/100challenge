@@ -62,6 +62,7 @@ checks: dict[str, bool] = {name: False for name in PROTOCOL_CHECKS}
 actual_names = {
     "js": metadata.get("jsFile"),
     "wasm": metadata.get("wasmFile"),
+    "worker": metadata.get("workerFile"),
     "workerBootstrap": metadata.get("workerBootstrapFile"),
 }
 
@@ -74,16 +75,16 @@ if manifest.get("available") is not True or metadata.get("measured") is not True
     print(reason)
     raise SystemExit(2)
 
-if metadata.get("pthreadWorkerPackaging") != "MAIN_JS_SELF_WORKER" or metadata.get("generatedPthreadWorkerCount") != 0:
+if metadata.get("pthreadWorkerPackaging") != "SEPARATE_PTHREAD_WORKER" or metadata.get("generatedPthreadWorkerCount") != 1:
     reason = (
-        f"Unexpected pthread packaging for pinned Emscripten 4.0.15: "
+        f"Unexpected pthread packaging for pinned upstream-compatible Emscripten 3.1.43: "
         f"packaging={metadata.get('pthreadWorkerPackaging')}, count={metadata.get('generatedPthreadWorkerCount')}."
     )
     write_result(passed=False, status="NOT_RUN_PTHREAD_PACKAGING_MISMATCH", wasm_sha256=metadata.get("wasmSha256"), checks=checks, reason=reason)
     print(reason)
     raise SystemExit(2)
-if metadata.get("workerFile") is not None or metadata.get("workerSha256") is not None or manifest.get("pthreadWorkerUrl") is not None:
-    reason = "A separate pthread worker asset was fabricated or unexpectedly configured; Emscripten 4.0.15 should reuse the generated main JS."
+if not metadata.get("workerFile") or not metadata.get("workerSha256") or not manifest.get("pthreadWorkerUrl"):
+    reason = "The official Emscripten 3.1.43 material build requires one measured separate pthread worker asset."
     write_result(passed=False, status="NOT_RUN_PTHREAD_PACKAGING_MISMATCH", wasm_sha256=metadata.get("wasmSha256"), checks=checks, reason=reason)
     print(reason)
     raise SystemExit(2)
@@ -99,7 +100,7 @@ if missing_names or missing_files:
     print(reason)
     raise SystemExit(2)
 
-for kind, field in [("js", "jsSha256"), ("wasm", "wasmSha256"), ("workerBootstrap", "workerBootstrapSha256")]:
+for kind, field in [("js", "jsSha256"), ("wasm", "wasmSha256"), ("worker", "workerSha256"), ("workerBootstrap", "workerBootstrapSha256")]:
     name = actual_names[kind]
     actual = sha256(asset_path(kind, name))
     expected_metadata = metadata.get(field)

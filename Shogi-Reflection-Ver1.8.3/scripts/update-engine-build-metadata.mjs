@@ -12,18 +12,18 @@ const engineDir = path.resolve(getArg("--engine-dir", path.join(root, "engine", 
 const readMaybe = (file) => { try { return fs.readFileSync(path.join(recordDir,file),"utf8").trim(); } catch { return null; } };
 const firstLine = (value) => value ? value.split(/\r?\n/)[0].trim() : null;
 const sha = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-const bootstrapRelative = path.join("engine", "yaneuraou", "YaneuraOuWasmWorkerBootstrap.js");
+const bootstrapRelative = path.join("engine", "yaneuraou", "YaneuraOuWasmWorkerBootstrap.js").replaceAll(path.sep,"/");
 const bootstrapFile = path.join(root, bootstrapRelative);
 
 const constants = {
   engineName: "YaneuraOu", engineVersion: "V9.00", release: "V9.00",
   repository: "https://github.com/yaneurao/YaneuraOu",
   commit: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
-  emsdkVersion: "4.0.15",
-  expectedEmscriptenReleaseCommit: "b412b6307e541b93dd93f01b61181e15c17302ec",
+  emsdkVersion: "3.1.43",
+  expectedEmscriptenReleaseCommit: "bf3c159888633d232c0507f4c76cc156a43c32dc",
   compiler: "em++", engineType: "USI / WebAssembly", evaluationModel: "MATERIAL",
   materialLevel: 1, targetCpu: "WASM", threads: true, pthreadPoolSize: 32,
-  initialMemory: 138412032, maximumMemory: 4294967296, memoryGrowth: true, stackSize: 67108864,
+  initialMemory: 92274688, maximumMemory: 4294967296, memoryGrowth: true, stackSize: 67108864,
   sourceLicense: "GPL-3.0 project license statement in pinned upstream README; component-level notices still required",
   buildToolLicense: "Emscripten: MIT OR University of Illinois/NCSA"
 };
@@ -46,44 +46,47 @@ let metadata = {
   llvmVersion: built ? firstLine(readMaybe("llvm-version.txt")) : null,
   nodeVersion: built ? readMaybe("node-version.txt") : null,
   pythonVersion: built ? readMaybe("python-version.txt") : null,
-  buildCommand: built ? readMaybe("build-command.txt") : "make -j1 normal TARGET_CPU=WASM COMPILER=em++ YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL MATERIAL_LEVEL=1",
+  buildCommand: built ? readMaybe("build-command.txt") : "node script/wasm_build.js material",
   jsFile: null,
   wasmFile: null,
   workerFile: null,
   jsSha256: null,
   wasmSha256: null,
   workerSha256: null,
-  pthreadWorkerPackaging: built ? readMaybe("pthread-worker-packaging.txt") : "MAIN_JS_SELF_WORKER_EXPECTED_FOR_EMSCRIPTEN_4_0_15",
+  pthreadWorkerPackaging: built ? readMaybe("pthread-worker-packaging.txt") : "SEPARATE_PTHREAD_WORKER_EXPECTED_FOR_EMSCRIPTEN_3_1_43",
   generatedPthreadWorkerCount: built ? Number(readMaybe("generated-pthread-worker-count.txt")) : null,
-  workerBootstrapFile: bootstrapRelative.replaceAll(path.sep, "/"),
+  workerBootstrapFile: bootstrapRelative,
   workerBootstrapSha256: null,
   measured: built,
   notes: built ? [
-    "Emscripten 4.0.15 does not emit a separate pthread .worker.js; pthread Workers reuse the generated main JavaScript as their Worker script.",
-    "workerFile/workerSha256 are null by design because no separate generated pthread worker artifact exists.",
-    "The application-level classic Worker bootstrap is copied into engine/yaneuraou so Emscripten resolves yaneuraou.wasm and pthread self-workers from the measured runtime directory.",
-    "Thread/memory values are the pinned upstream WASM Makefile settings used for this build; they are not iPhone optimization claims.",
+    "Pinned YaneuraOu V9.00 source itself uses Emscripten 3.1.43 in its official WASM workflow.",
+    "The official material profile is executed via script/wasm_build.js material and emits JS, separate pthread worker.js, and WASM.",
+    "The material profile fixes MATERIAL_LEVEL=1, EM_EXPORT_NAME=YaneuraOu_Material and EM_INITIAL_MEMORY_SIZE=92274688.",
+    "Thread/memory values are upstream build settings, not smartphone optimization claims.",
     "Formal Completion requires separate Real Browser/USI/E2E and distribution/license evidence."
   ] : [
     "No compiler/build was executed in the current sandbox; measured build fields remain null.",
-    "For pinned Emscripten 4.0.15, no separate pthread .worker.js is expected.",
+    "Pinned upstream WASM workflow selects Emscripten 3.1.43 and the official material profile expects a separate worker.js.",
     "Run the GitHub Actions Build Bridge to replace this file with measured artifact metadata."
   ]
 };
 
 if (built) {
-  const js=path.join(engineDir,"yaneuraou.js"), wasm=path.join(engineDir,"yaneuraou.wasm");
-  const generatedWorkers=fs.readdirSync(engineDir).filter(x => /^yaneuraou.*\.worker\.js$/.test(x)).sort();
-  if (!fs.existsSync(js) || !fs.existsSync(wasm)) throw new Error("built metadata requires JS and WASM");
-  if (generatedWorkers.length !== 0) throw new Error(`Emscripten 4.0.15 expected zero separate pthread workers; found ${generatedWorkers.length}`);
-  if (!fs.existsSync(bootstrapFile)) throw new Error("application Worker bootstrap is missing");
+  const jsName=readMaybe("js-file.txt"), wasmName=readMaybe("wasm-file.txt"), workerName=readMaybe("worker-file.txt");
+  if (!jsName || !wasmName || !workerName) throw new Error("build record must contain actual JS/WASM/worker filenames");
+  const js=path.join(engineDir,jsName), wasm=path.join(engineDir,wasmName), worker=path.join(engineDir,workerName);
+  const generatedWorkers=fs.readdirSync(engineDir).filter(x => /^yaneuraou\.material.*\.worker\.js$/.test(x)).sort();
+  for (const f of [js,wasm,worker,bootstrapFile]) if (!fs.existsSync(f)) throw new Error(`built metadata asset missing: ${f}`);
+  if (generatedWorkers.length !== 1 || generatedWorkers[0] !== workerName) throw new Error(`Emscripten 3.1.43 expected exactly one recorded pthread worker; found ${generatedWorkers.join(",")}`);
   if (readMaybe("yaneuraou-source-commit.txt") !== constants.commit) throw new Error("recorded source commit mismatch");
-  if (metadata.pthreadWorkerPackaging !== "MAIN_JS_SELF_WORKER") throw new Error(`unexpected pthread worker packaging: ${metadata.pthreadWorkerPackaging}`);
-  if (metadata.generatedPthreadWorkerCount !== 0) throw new Error(`unexpected generated pthread worker count: ${metadata.generatedPthreadWorkerCount}`);
-  metadata.jsFile=path.basename(js);
-  metadata.wasmFile=path.basename(wasm);
+  if (metadata.pthreadWorkerPackaging !== "SEPARATE_PTHREAD_WORKER") throw new Error(`unexpected pthread worker packaging: ${metadata.pthreadWorkerPackaging}`);
+  if (metadata.generatedPthreadWorkerCount !== 1) throw new Error(`unexpected generated pthread worker count: ${metadata.generatedPthreadWorkerCount}`);
+  metadata.jsFile=jsName;
+  metadata.wasmFile=wasmName;
+  metadata.workerFile=workerName;
   metadata.jsSha256=sha(js);
   metadata.wasmSha256=sha(wasm);
+  metadata.workerSha256=sha(worker);
   metadata.workerBootstrapSha256=sha(bootstrapFile);
 }
 fs.writeFileSync(path.join(root,"ENGINE_BUILD_METADATA.json"), JSON.stringify(metadata,null,2)+"\n");
@@ -98,18 +101,22 @@ Object.assign(manifest, {
   emsdkVersion: constants.emsdkVersion,
   expectedEmscriptenReleaseCommit: constants.expectedEmscriptenReleaseCommit,
   buildId: built ? `YaneuraOu-V9.00-MATERIAL1-${metadata.wasmSha256.slice(0,12)}` : null,
-  jsUrl: built ? `./engine/yaneuraou/${metadata.jsFile}` : "./engine/yaneuraou/yaneuraou.js",
-  wasmUrl: built ? `./engine/yaneuraou/${metadata.wasmFile}` : "./engine/yaneuraou/yaneuraou.wasm",
+  jsFile: metadata.jsFile,
+  wasmFile: metadata.wasmFile,
+  workerFile: metadata.workerFile,
+  jsUrl: built ? `./engine/yaneuraou/${metadata.jsFile}` : "./engine/yaneuraou/yaneuraou.material.js",
+  wasmUrl: built ? `./engine/yaneuraou/${metadata.wasmFile}` : "./engine/yaneuraou/yaneuraou.material.wasm",
   pthreadWorkerPackaging: metadata.pthreadWorkerPackaging,
-  pthreadWorkerUrl: null,
+  pthreadWorkerUrl: built ? `./engine/yaneuraou/${metadata.workerFile}` : "./engine/yaneuraou/yaneuraou.material.worker.js",
   generatedPthreadWorkerCount: metadata.generatedPthreadWorkerCount,
   workerUrl: "./engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js",
   workerBootstrapSha256: metadata.workerBootstrapSha256,
   jsSha256: metadata.jsSha256,
   wasmSha256: metadata.wasmSha256,
-  workerSha256: null,
+  workerSha256: metadata.workerSha256,
   buildMetadataUrl: "./ENGINE_BUILD_METADATA.json",
-  note: built ? "Official-source JS/WASM build/hash evidence is present. Emscripten 4.0.15 uses main-JS self-worker pthread packaging; no separate pthread .worker.js exists. Formal Completion and public distribution remain separate gates." : "Distribution-safe manifest. available=true only after the official-source Build Bridge generates and hashes real assets."
+  upstreamInitialMemoryBytesMaterialLevel1: constants.initialMemory,
+  note: built ? "Official pinned-source material profile JS/worker.js/WASM build and hashes are present. Formal Completion and public distribution remain separate gates." : "Distribution-safe manifest. available=true only after the official-source Build Bridge generates and hashes real assets."
 });
 fs.writeFileSync(manifestPath, JSON.stringify(manifest,null,2)+"\n");
-console.log(JSON.stringify({status:metadata.status, js:metadata.jsFile, wasm:metadata.wasmFile, pthreadWorkerPackaging:metadata.pthreadWorkerPackaging, workerBootstrap:metadata.workerBootstrapFile},null,2));
+console.log(JSON.stringify({status:metadata.status, js:metadata.jsFile, worker:metadata.workerFile, wasm:metadata.wasmFile, pthreadWorkerPackaging:metadata.pthreadWorkerPackaging, workerBootstrap:metadata.workerBootstrapFile},null,2));

@@ -1,0 +1,39 @@
+Shogi Reflection Ver.1.8.3 Run #6 Patch Verification
+====================================================
+Date: 2026-08-11
+Status: PATCH PRE-FLIGHT PASS / REAL RUN #6 NOT YET EXECUTED / NOT FORMAL
+
+Run #5 measured evidence used for decision:
+- Real browser prerequisites reached crossOriginIsolated=true / SharedArrayBuffer=true.
+- Real USI failed before usiok with RuntimeError: function signature mismatch.
+- Application correctly fell back to ReflectionLocal; fallback was not counted as Real evidence.
+
+Run #6 correction:
+- Pinned upstream YaneuraOu commit's own WASM workflow: Ubuntu 22.04 + Emscripten 3.1.43.
+- Official material build entry point: node script/wasm_build.js material.
+- Expected generated runtime set: yaneuraou.material.js / yaneuraou.material.worker.js / yaneuraou.material.wasm.
+- First-party outer Worker remains YaneuraOuWasmWorkerBootstrap.js.
+- Generated JS / worker / WASM / outer Worker are hash-bound separately after build.
+
+Local non-Real preflight:
+- Automated Test: 701 / 701 PASS
+- Static Verification: 143 / 143 PASS
+- Missing Import: 0
+- Browser Regression: 154 / 154 PASS at 390x844
+- Visual Verification: 24 / 24 PASS
+- ReflectionLocal fallback browser verification: 16 / 16 PASS
+- Built-metadata / Real Artifact Gate structural simulation with dummy assets: PASS
+  IMPORTANT: dummy simulation is contract-only and is NOT Real YaneuraOu evidence.
+- Root GitHub Actions YAML parse: PASS
+
+Not yet measured/proven:
+- Emscripten 3.1.43 actual Run #6 build
+- actual Run #6 JS / generated worker / WASM SHA-256
+- Real usi / usiok
+- Real isready / readyok
+- Real evaluation / PV / bestmove / stop / quit
+- Real Sample KIF application E2E
+- physical iPhone / battery / thermal
+- Formal Completion Gate
+
+Formal status: NOT_FORMAL

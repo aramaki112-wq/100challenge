@@ -245,7 +245,7 @@ Build、Real E2E、binary-specific source/notice gateがすべてPASSする。
 
 ### STEP 5 — official SourceとCompilerを固定する
 #### 1. 🎯 このSTEPの目的
-Real YaneuraOuの出所をV9.00 exact commitとEmscripten 4.0.15へ固定し、再現Buildの入口を一意にする。
+Real YaneuraOuの出所をV9.00 exact commitへ固定し、そのpinned Source自身のWASM workflowが選ぶEmscripten 3.1.43 / upstream material profileへBuild入口を合わせる。
 #### 2. 🤔 なぜこの作業をするのか
 Moving branchや`latest`では、同じVersion名でも生成物が変わり、後から原因・License・性能を説明できなくなるため。
 #### 3. 💻 コードを書く
@@ -253,13 +253,13 @@ Moving branchや`latest`では、同じVersion名でも生成物が変わり、�
 #### 4. 💡 設計者のひとこと
 「Version固定」は文字列を置くだけではなく、そのVersionが何を指したか検証するところまでが設計である。
 #### 5. ✅ チェックポイント
-Commit一致、dirty sourceなし、emsdk 4.0.15 mapping一致、emcc/em++/LLVM実測記録。
+Commit一致、dirty sourceなし、upstream WASM workflowの3.1.43選択確認、official release mapping一致、emcc/em++/LLVM実測記録。
 #### 6. ▶ 次へ進む条件
 同じ入力Source/Toolchain/Commandを後から説明できること。
 
 ### STEP 6 — Build ArtifactへTraceabilityを埋め込む
 #### 1. 🎯 このSTEPの目的
-JS/WASMを実生成物として確定し、Emscripten 4.0.15のpthread packaging（main JS self-worker）とApplication Worker BootstrapをSHA-256/Build Metadataへ結び付ける。
+JS / generated pthread worker.js / WASMをupstream material profileの実生成物として確定し、Application Worker Bootstrapとは別にSHA-256/Build Metadataへ結び付ける。
 #### 2. 🤔 なぜこの作業をするのか
 想定File名や推測したCompiler情報では、Real RuntimeがどのBinaryを使ったか証明できないため。
 #### 3. 💻 コードを書く

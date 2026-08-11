@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "checkedAt": "2026-08-10T15:25:27.576Z",
+  "checkedAt": "2026-08-10T23:57:23.721Z",
   "gate": "VER_1_8_3_FORMAL_COMPLETION",
   "passed": false,
   "checks": [
     {
       "name": "Real YaneuraOu artifact gate",
       "ok": false,
-      "detail": "}"
+      "detail": "failed"
     },
     {
       "name": "Official Source fixed commit",
@@ -17,7 +17,7 @@
     {
       "name": "Fixed Emscripten SDK",
       "ok": true,
-      "detail": "4.0.15/b412b6307e541b93dd93f01b61181e15c17302ec"
+      "detail": "3.1.43/bf3c159888633d232c0507f4c76cc156a43c32dc"
     },
     {
       "name": "Measured compiler metadata",
@@ -286,7 +286,7 @@
     },
     {
       "name": "Corresponding Source plan",
-      "ok": true,
+      "ok": false,
       "detail": ""
     },
     {
@@ -326,7 +326,7 @@
     }
   ],
   "failures": [
-    "Real YaneuraOu artifact gate: }",
+    "Real YaneuraOu artifact gate: failed",
     "Measured compiler metadata",
     "Real YaneuraOu USI passed: passed=false",
     "Real USI matches current WASM: usi=null, current=null",
@@ -375,7 +375,8 @@
     "Real application E2E interpretation: false",
     "Real application E2E hypothesis: false",
     "Real application E2E cancel: false",
-    "Real application E2E reanalysis: false"
+    "Real application E2E reanalysis: false",
+    "Corresponding Source plan"
   ],
   "verdict": "NOT_FORMAL"
 }

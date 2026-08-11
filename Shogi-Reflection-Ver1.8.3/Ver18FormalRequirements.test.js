@@ -118,7 +118,7 @@ test("verified manifest時はYaneuraOuWasm primary + Local fallbackを構成す�
     Worker: DummyWorker,
     crossOriginIsolated: true,
     SharedArrayBuffer: class SharedArrayBuffer {},
-    async fetch() { return { ok: true, async json() { return { available: true, workerUrl: "./YaneuraOuWasmWorkerBootstrap.js", engineVersion: "V9.00", commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493", emscriptenVersion: "em++ 4.0.15", jsSha256: "a".repeat(64), wasmSha256: "b".repeat(64), evaluationModel: "MATERIAL", materialLevel: 1, requiresThreads: true, requiresCrossOriginIsolation: true }; } }; }
+    async fetch() { return { ok: true, async json() { return { available: true, workerUrl: "./YaneuraOuWasmWorkerBootstrap.js", engineVersion: "V9.00", commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493", emscriptenVersion: "em++ 3.1.43", jsSha256: "a".repeat(64), wasmSha256: "b".repeat(64), evaluationModel: "MATERIAL", materialLevel: 1, requiresThreads: true, requiresCrossOriginIsolation: true }; } }; }
   });
   assert.ok(engine instanceof FallbackShogiEngineAdapter);
   assert.ok(engine.primary instanceof YaneuraOuWasmAdapter);
@@ -157,7 +157,7 @@ test("Thread必須manifestでもcross-origin isolationなしならReal WASMを�
       workerUrl: "./YaneuraOuWasmWorkerBootstrap.js",
       engineVersion: "V9.00",
       commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
-      emscriptenVersion: "em++ 4.0.15",
+      emscriptenVersion: "em++ 3.1.43",
       jsSha256: "a".repeat(64),
       wasmSha256: "b".repeat(64),
       requiresThreads: true,

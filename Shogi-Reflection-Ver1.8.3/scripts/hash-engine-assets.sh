@@ -4,15 +4,19 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ENGINE_DIR="${1:-$ROOT/engine/yaneuraou}"
 OUT="$ROOT/ENGINE_ASSET_SHA256SUMS.txt"
 BOOTSTRAP="$ENGINE_DIR/YaneuraOuWasmWorkerBootstrap.js"
-[[ -s "$ENGINE_DIR/yaneuraou.js" ]] || { echo "missing yaneuraou.js" >&2; exit 2; }
-[[ -s "$ENGINE_DIR/yaneuraou.wasm" ]] || { echo "missing yaneuraou.wasm" >&2; exit 2; }
-[[ -s "$BOOTSTRAP" ]] || { echo "missing runtime engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js" >&2; exit 2; }
-mapfile -t workers < <(find "$ENGINE_DIR" -maxdepth 1 -type f -name 'yaneuraou*.worker.js' -print | sort)
-[[ ${#workers[@]} -eq 0 ]] || { echo "Emscripten 4.0.15 should not emit a separate yaneuraou*.worker.js; found ${#workers[@]}" >&2; exit 3; }
+JS="$ENGINE_DIR/yaneuraou.material.js"
+WORKER="$ENGINE_DIR/yaneuraou.material.worker.js"
+WASM="$ENGINE_DIR/yaneuraou.material.wasm"
+for f in "$JS" "$WORKER" "$WASM" "$BOOTSTRAP"; do
+  [[ -s "$f" ]] || { echo "missing runtime asset: $f" >&2; exit 2; }
+done
+mapfile -t workers < <(find "$ENGINE_DIR" -maxdepth 1 -type f -name 'yaneuraou.material*.worker.js' -print | sort)
+[[ ${#workers[@]} -eq 1 ]] || { echo "Emscripten 3.1.43 official material build must have exactly one worker.js; found ${#workers[@]}" >&2; exit 3; }
 {
   echo "# SHA-256 generated from actual runtime assets"
-  echo "# Emscripten 4.0.15 pthread packaging: main generated JS is reused by pthread Workers; no separate .worker.js is emitted."
-  sha256sum "$ENGINE_DIR/yaneuraou.js"
-  sha256sum "$ENGINE_DIR/yaneuraou.wasm"
+  echo "# Pinned upstream-compatible toolchain: Emscripten 3.1.43; separate pthread worker expected."
+  sha256sum "$JS"
+  sha256sum "$WORKER"
+  sha256sum "$WASM"
   sha256sum "$BOOTSTRAP"
 } | sed "s#${ROOT}/##g" | tee "$OUT"

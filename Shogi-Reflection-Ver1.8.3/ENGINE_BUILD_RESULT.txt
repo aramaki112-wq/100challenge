@@ -1,21 +1,18 @@
 Shogi Reflection Ver.1.8.3 YaneuraOu WASM Build Result
 ======================================================
-Status: NOT RUN IN CURRENT SANDBOX
-Formal Completion: NOT ACHIEVED
+Status: RUN #6 NOT YET EXECUTED — NOT FORMAL
+Date: 2026-08-11
 
-Reason:
-- Current execution environment has no activated emsdk/emcc/em++ toolchain.
-- External git clone to GitHub was not available from the container during this verification.
-- Therefore no Real YaneuraOu JS/WASM/pthread Worker was generated here.
+Prepared fixed inputs:
+- YaneuraOu V9.00
+- commit a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+- upstream material profile / MATERIAL_LEVEL=1
+- Emscripten 3.1.43
+- expected Emscripten release commit bf3c159888633d232c0507f4c76cc156a43c32dc
+- official profile entry point: node script/wasm_build.js material
+- expected generated JS / worker.js / WASM runtime set
 
-Implemented instead:
-- reproducible GitHub Actions Build Bridge
-- fixed YaneuraOu V9.00 commit gate
-- fixed Emscripten 4.0.15 + release-commit mapping gate
-- actual-output discovery
-- SHA-256 generation
-- measured Build Metadata generation
-- Corresponding Source evidence packaging
-- artifact integration/hash verification scripts
+Reason for Run #6:
+Run #5 compiled under the previous 4.0.15 bridge but Real browser execution failed before usiok with RuntimeError: function signature mismatch. A primary-source re-audit showed that the pinned YaneuraOu commit's own WASM workflow uses Emscripten 3.1.43 and its own script/wasm_build.js material profile. Run #6 aligns the bridge to that pinned upstream path.
 
-This file must be replaced by a BUILD SUCCEEDED result produced by the Build Bridge before Real Engine Formal Gate can pass.
+No Run #6 Real build, Real USI or Real application E2E result is claimed by this placeholder. GitHub Actions must replace this file with measured build evidence.

@@ -120,12 +120,12 @@
 ### Reproducible Build
 - [x] official YaneuraOu V9.00 exact commit固定
 - [x] MATERIAL_LEVEL=1 / TARGET_CPU=WASM / COMPILER=em++固定
-- [x] Emscripten 4.0.15 official release mapping照合
+- [x] pinned upstream WASM workflowのEmscripten 3.1.43選択を確認し、official release mapping照合
 - [x] dirty upstream source拒否
-- [x] Emscripten 4.0.15 main-JS pthread packaging確認（separate `.worker.js`なし）
-- [x] JS/WASM + Application Worker Bootstrap SHA-256自動化
+- [x] upstream `material` profileのseparate generated `yaneuraou.material.worker.js`契約をGate化
+- [x] JS / generated pthread Worker / WASM + Application Worker Bootstrap SHA-256自動化
 - [x] Runner/Image/Compiler/Node/Python provenance設計
-- [ ] Real CI Build実行成功
+- [ ] Run #6 upstream-profile Real CI Build実行成功
 
 ### Real Evidence
 - [x] Real USI verifierをMock E2Eから分離

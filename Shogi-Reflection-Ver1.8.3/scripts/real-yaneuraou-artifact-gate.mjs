@@ -10,11 +10,11 @@ const metadataPath = path.join(root, "ENGINE_BUILD_METADATA.json");
 const expected = {
   commit: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
   engineVersion: "V9.00",
-  emsdkVersion: "4.0.15",
-  emscriptenReleaseCommit: "b412b6307e541b93dd93f01b61181e15c17302ec",
+  emsdkVersion: "3.1.43",
+  emscriptenReleaseCommit: "bf3c159888633d232c0507f4c76cc156a43c32dc",
   evaluationModel: "MATERIAL",
   materialLevel: 1,
-  pthreadWorkerPackaging: "MAIN_JS_SELF_WORKER"
+  pthreadWorkerPackaging: "SEPARATE_PTHREAD_WORKER"
 };
 const failures = [], facts = [];
 const fail = (x) => failures.push(x), fact = (x) => facts.push(x);
@@ -37,16 +37,19 @@ if (metadata.expectedEmscriptenReleaseCommit !== expected.emscriptenReleaseCommi
 if (!metadata.emccVersion || !metadata.emppVersion || !metadata.llvmVersion) fail("Measured emcc/em++/LLVM version evidence is incomplete.");
 if (!metadata.buildDate || !metadata.buildPlatform) fail("Measured build date/platform evidence is incomplete.");
 if (metadata.threads !== true || metadata.targetCpu !== "WASM" || metadata.materialLevel !== 1) fail("Build profile metadata mismatch.");
+if (metadata.initialMemory !== 92274688) fail(`Official material profile initialMemory mismatch: ${metadata.initialMemory}`);
+if (metadata.buildCommand !== "node script/wasm_build.js material") fail(`Official material build command mismatch: ${metadata.buildCommand}`);
 
 if (metadata.pthreadWorkerPackaging !== expected.pthreadWorkerPackaging) fail(`Unexpected pthreadWorkerPackaging: ${metadata.pthreadWorkerPackaging}`);
-if (metadata.generatedPthreadWorkerCount !== 0) fail(`Expected zero generated pthread .worker.js files for Emscripten 4.0.15; got ${metadata.generatedPthreadWorkerCount}`);
-if (metadata.workerFile !== null || metadata.workerSha256 !== null) fail("workerFile/workerSha256 must be null because Emscripten 4.0.15 emits no separate pthread worker file.");
-if (manifest.pthreadWorkerUrl !== null || manifest.workerSha256 !== null) fail("Manifest must not invent a separate pthread worker URL/hash for Emscripten 4.0.15.");
+if (metadata.generatedPthreadWorkerCount !== 1) fail(`Expected exactly one generated pthread .worker.js for Emscripten 3.1.43; got ${metadata.generatedPthreadWorkerCount}`);
+if (!metadata.workerFile || !metadata.workerSha256) fail("workerFile/workerSha256 are required for the official Emscripten 3.1.43 material build.");
+if (!manifest.pthreadWorkerUrl || !manifest.workerSha256) fail("Manifest must bind the generated pthread worker URL/hash.");
 
-for (const key of ["jsFile", "wasmFile", "workerBootstrapFile"]) if (!metadata[key]) fail(`${key} is missing from Build Metadata.`);
+for (const key of ["jsFile", "wasmFile", "workerFile", "workerBootstrapFile"]) if (!metadata[key]) fail(`${key} is missing from Build Metadata.`);
 const assets = [
   [path.join(engineDir, metadata.jsFile ?? ""), metadata.jsSha256, manifest.jsSha256, "JS"],
   [path.join(engineDir, metadata.wasmFile ?? ""), metadata.wasmSha256, manifest.wasmSha256, "WASM"],
+  [path.join(engineDir, metadata.workerFile ?? ""), metadata.workerSha256, manifest.workerSha256, "Generated pthread Worker"],
   [path.join(root, metadata.workerBootstrapFile ?? ""), metadata.workerBootstrapSha256, manifest.workerBootstrapSha256, "Application Worker bootstrap"]
 ];
 for (const [file, metadataHash, manifestHash, label] of assets) {
@@ -57,9 +60,9 @@ for (const [file, metadataHash, manifestHash, label] of assets) {
   if (!manifestHash || actual !== manifestHash) fail(`${path.basename(file)} does not match manifest SHA-256.`);
 }
 
-const generatedWorkers = fs.existsSync(engineDir) ? fs.readdirSync(engineDir).filter((x)=>/^yaneuraou.*\.worker\.js$/.test(x)) : [];
-if (generatedWorkers.length !== 0) fail(`Unexpected separate pthread worker assets present: ${generatedWorkers.join(", ")}`);
-fact("Emscripten 4.0.15 pthread packaging uses the generated main JS as the pthread Worker script; separate .worker.js count=0.");
+const generatedWorkers = fs.existsSync(engineDir) ? fs.readdirSync(engineDir).filter((x)=>/^yaneuraou\.material.*\.worker\.js$/.test(x)) : [];
+if (generatedWorkers.length !== 1 || generatedWorkers[0] !== metadata.workerFile) fail(`Expected one measured generated pthread worker; found: ${generatedWorkers.join(", ")}`);
+fact("Pinned upstream WASM workflow uses Emscripten 3.1.43; official material packaging includes a separate generated pthread worker.js.");
 
 const result = { schemaVersion: 3, checkedAt: new Date().toISOString(), gate: "REAL_YANEURAOU_ARTIFACT", passed: failures.length === 0, facts, failures };
 fs.writeFileSync(path.join(root, "REAL_YANEURAOU_ARTIFACT_GATE_RESULT.json"), JSON.stringify(result, null, 2) + "\n");

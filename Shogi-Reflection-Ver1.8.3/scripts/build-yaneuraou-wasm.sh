@@ -6,10 +6,11 @@ SOURCE_ROOT="${1:-}"
 OUT_DIR="${2:-$ROOT/engine/yaneuraou}"
 RECORD_DIR="${3:-$ROOT/build-record}"
 PINNED_COMMIT="${YANEURAOU_COMMIT:-a5ee2786c0030edc7d4a1cdfe94b04dffec55493}"
-EMSDK_VERSION_EXPECTED="${EMSDK_VERSION:-4.0.15}"
+EMSDK_VERSION_EXPECTED="${EMSDK_VERSION:-3.1.43}"
 MATERIAL_LEVEL="${MATERIAL_LEVEL:-1}"
-BUILD_COMMAND="make -j1 normal TARGET_CPU=WASM COMPILER=em++ YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL MATERIAL_LEVEL=${MATERIAL_LEVEL}"
-PTHREAD_WORKER_PACKAGING="MAIN_JS_SELF_WORKER"
+OFFICIAL_PROFILE="material"
+BUILD_COMMAND="node script/wasm_build.js ${OFFICIAL_PROFILE}"
+PTHREAD_WORKER_PACKAGING="SEPARATE_PTHREAD_WORKER"
 
 fail(){ echo "ERROR: $*" >&2; exit 1; }
 [[ -n "$SOURCE_ROOT" && -d "$SOURCE_ROOT/.git" ]] || fail "pass a local official YaneuraOu git checkout as argument 1"
@@ -17,7 +18,7 @@ command -v git >/dev/null || fail "git is required"
 command -v make >/dev/null || fail "make is required"
 command -v emcc >/dev/null || fail "emcc is required; activate fixed emsdk first"
 command -v em++ >/dev/null || fail "em++ is required; activate fixed emsdk first"
-command -v node >/dev/null || fail "node is required for metadata generation"
+command -v node >/dev/null || fail "node is required"
 
 mkdir -p "$OUT_DIR" "$RECORD_DIR"
 ACTUAL_COMMIT="$(git -C "$SOURCE_ROOT" rev-parse HEAD)"
@@ -26,12 +27,15 @@ ACTUAL_COMMIT="$(git -C "$SOURCE_ROOT" rev-parse HEAD)"
 
 MAKEFILE="$SOURCE_ROOT/source/Makefile"
 PREJS="$SOURCE_ROOT/source/wasm_pre.js"
-[[ -f "$MAKEFILE" && -f "$PREJS" ]] || fail "pinned Makefile/wasm_pre.js missing"
-grep -q 'YANEURAOU_ENGINE_MATERIAL' "$MAKEFILE" || fail "MATERIAL edition not found in Makefile"
-grep -q 'TARGET_CPU.*WASM' "$MAKEFILE" || fail "WASM target not found in Makefile"
-grep -q 'COMPILER.*em++' "$MAKEFILE" || fail "em++ compiler option not found in Makefile"
-grep -q 'PTHREAD_POOL_SIZE' "$MAKEFILE" || fail "pthread pool setting not found in Makefile"
-grep -q 'wasm_pre.js' "$MAKEFILE" || fail "wasm_pre.js integration not found in Makefile"
+OFFICIAL_WASM_BUILD="$SOURCE_ROOT/script/wasm_build.js"
+OFFICIAL_WASM_WORKFLOW="$SOURCE_ROOT/.github/workflows/make-wasm.yml"
+[[ -f "$MAKEFILE" && -f "$PREJS" && -f "$OFFICIAL_WASM_BUILD" && -f "$OFFICIAL_WASM_WORKFLOW" ]] || fail "pinned official WASM build inputs are missing"
+grep -q 'emscripten/emsdk:3.1.43' "$OFFICIAL_WASM_WORKFLOW" || fail "pinned upstream workflow no longer selects emscripten/emsdk:3.1.43"
+grep -q 'name: "material"' "$OFFICIAL_WASM_BUILD" || fail "official material WASM package profile missing"
+grep -q 'YANEURAOU_ENGINE_MATERIAL' "$OFFICIAL_WASM_BUILD" || fail "official material edition missing"
+grep -q 'exportname: "YaneuraOu_Material"' "$OFFICIAL_WASM_BUILD" || fail "official material export name changed"
+grep -q 'MATERIAL_LEVEL=1 EM_INITIAL_MEMORY_SIZE=92274688' "$OFFICIAL_WASM_BUILD" || fail "official material build options changed"
+grep -q '\["js", "worker.js", "wasm"\]' "$OFFICIAL_WASM_BUILD" || fail "official expected WASM asset set changed"
 grep -q 'postMessage' "$PREJS" || fail "official wasm_pre.js message bridge not found"
 grep -q 'usi_command' "$PREJS" || fail "official wasm_pre.js USI command bridge not found"
 
@@ -39,9 +43,12 @@ grep -q 'usi_command' "$PREJS" || fail "official wasm_pre.js USI command bridge 
   echo "yaneuraouCommit=$ACTUAL_COMMIT"
   echo "emsdkVersionRequested=$EMSDK_VERSION_EXPECTED"
   echo "materialLevel=$MATERIAL_LEVEL"
+  echo "officialProfile=$OFFICIAL_PROFILE"
   echo "buildCommand=$BUILD_COMMAND"
   echo "pthreadWorkerPackaging=$PTHREAD_WORKER_PACKAGING"
+  echo "upstreamWorkflowToolchain=emscripten/emsdk:3.1.43"
 } | tee "$RECORD_DIR/build-request.txt"
+
 emcc --version | tee "$RECORD_DIR/emcc-version.txt"
 em++ --version | tee "$RECORD_DIR/empp-version.txt"
 em++ -v 2>&1 | tee "$RECORD_DIR/empp-verbose.txt"
@@ -53,36 +60,38 @@ python3 --version 2>&1 | tee "$RECORD_DIR/python-version.txt" || true
 uname -a | tee "$RECORD_DIR/build-platform.txt"
 printf '%s\n' "$ACTUAL_COMMIT" > "$RECORD_DIR/yaneuraou-source-commit.txt"
 
-pushd "$SOURCE_ROOT/source" >/dev/null
-rm -f yaneuraou.js yaneuraou.wasm yaneuraou.worker.js yaneuraou.*.worker.js
+# Execute the pinned source tree's own official WASM packaging profile.
+rm -rf "$SOURCE_ROOT/build/wasm/material"
+pushd "$SOURCE_ROOT" >/dev/null
 set +e
 bash -o pipefail -c "$BUILD_COMMAND" 2>&1 | tee "$RECORD_DIR/yaneuraou-make.log"
 status=${PIPESTATUS[0]}
 set -e
 popd >/dev/null
-[[ $status -eq 0 ]] || fail "YaneuraOu make failed with exit=$status"
+[[ $status -eq 0 ]] || fail "official YaneuraOu wasm_build.js failed with exit=$status"
 
-JS_SOURCE="$SOURCE_ROOT/source/yaneuraou.js"
-WASM_SOURCE="$SOURCE_ROOT/source/yaneuraou.wasm"
-[[ -s "$JS_SOURCE" ]] || fail "actual build did not produce yaneuraou.js"
-[[ -s "$WASM_SOURCE" ]] || fail "actual build did not produce yaneuraou.wasm"
+LIB_DIR="$SOURCE_ROOT/build/wasm/material/lib"
+JS_SOURCE="$LIB_DIR/yaneuraou.material.js"
+WORKER_SOURCE="$LIB_DIR/yaneuraou.material.worker.js"
+WASM_SOURCE="$LIB_DIR/yaneuraou.material.wasm"
+[[ -s "$JS_SOURCE" ]] || fail "official material build did not produce $(basename "$JS_SOURCE")"
+[[ -s "$WORKER_SOURCE" ]] || fail "official material build did not produce $(basename "$WORKER_SOURCE")"
+[[ -s "$WASM_SOURCE" ]] || fail "official material build did not produce $(basename "$WASM_SOURCE")"
 
-# Emscripten 3.1.68+ removed the separate pthread .worker.js output.
-# With the pinned Emscripten 4.0.15 toolchain, pthread Workers reload the main
-# generated JS as their worker script.  Therefore zero generated *.worker.js
-# files is the expected, measured result and must not be fabricated into a file.
-mapfile -t GENERATED_PTHREAD_WORKERS < <(find "$SOURCE_ROOT/source" -maxdepth 1 -type f -name 'yaneuraou*.worker.js' -print | sort)
+mapfile -t GENERATED_PTHREAD_WORKERS < <(find "$LIB_DIR" -maxdepth 1 -type f -name 'yaneuraou.material*.worker.js' -print | sort)
 printf '%s\n' "${#GENERATED_PTHREAD_WORKERS[@]}" > "$RECORD_DIR/generated-pthread-worker-count.txt"
 printf '%s\n' "$PTHREAD_WORKER_PACKAGING" > "$RECORD_DIR/pthread-worker-packaging.txt"
-[[ ${#GENERATED_PTHREAD_WORKERS[@]} -eq 0 ]] || fail "pinned Emscripten 4.0.15 should not emit a separate pthread .worker.js; found ${#GENERATED_PTHREAD_WORKERS[@]}"
+[[ ${#GENERATED_PTHREAD_WORKERS[@]} -eq 1 ]] || fail "official Emscripten 3.1.43 material build must emit exactly one pthread worker; found ${#GENERATED_PTHREAD_WORKERS[@]}"
 
-rm -f "$OUT_DIR"/yaneuraou.js "$OUT_DIR"/yaneuraou.wasm "$OUT_DIR"/yaneuraou*.worker.js "$OUT_DIR"/YaneuraOuWasmWorkerBootstrap.js
+rm -f "$OUT_DIR"/yaneuraou*.js "$OUT_DIR"/yaneuraou*.wasm "$OUT_DIR"/YaneuraOuWasmWorkerBootstrap.js
 cp "$JS_SOURCE" "$OUT_DIR/$(basename "$JS_SOURCE")"
+cp "$WORKER_SOURCE" "$OUT_DIR/$(basename "$WORKER_SOURCE")"
 cp "$WASM_SOURCE" "$OUT_DIR/$(basename "$WASM_SOURCE")"
-# Emscripten 4.0.15 resolves the WASM and pthread self-worker base from
-# WorkerGlobalScope.location. Keep the application bootstrap in the same
-# runtime directory as the generated JS/WASM instead of relying on locateFile.
 cp "$ROOT/YaneuraOuWasmWorkerBootstrap.js" "$OUT_DIR/YaneuraOuWasmWorkerBootstrap.js"
+
+printf '%s\n' "$(basename "$JS_SOURCE")" > "$RECORD_DIR/js-file.txt"
+printf '%s\n' "$(basename "$WORKER_SOURCE")" > "$RECORD_DIR/worker-file.txt"
+printf '%s\n' "$(basename "$WASM_SOURCE")" > "$RECORD_DIR/wasm-file.txt"
 printf '%s\n' "engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js" > "$RECORD_DIR/runtime-worker-bootstrap-path.txt"
 printf '%s\n' "$BUILD_COMMAND" > "$RECORD_DIR/build-command.txt"
 
@@ -98,11 +107,12 @@ Commit: $ACTUAL_COMMIT
 Evaluation: MATERIAL_LEVEL=$MATERIAL_LEVEL
 Target CPU: WASM
 Compiler: em++
-Build command: $BUILD_COMMAND
+Toolchain: Emscripten $EMSDK_VERSION_EXPECTED (matches pinned upstream WASM workflow)
+Official build command: $BUILD_COMMAND
 JS: $(basename "$JS_SOURCE")
 WASM: $(basename "$WASM_SOURCE")
+Generated pthread worker: $(basename "$WORKER_SOURCE")
 Pthread worker packaging: $PTHREAD_WORKER_PACKAGING
-Separate generated pthread worker file: NONE (expected for Emscripten 4.0.15)
 Application Worker bootstrap: engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js
 Metadata: ENGINE_BUILD_METADATA.json
 Hashes: ENGINE_ASSET_SHA256SUMS.txt

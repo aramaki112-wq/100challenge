@@ -34,7 +34,7 @@ Evaluation Graphは全ply評価を一覧するだけでなく、候補局面と�
 
 ## Ver.1.8.3 — YaneuraOu WASM Build Bridge
 
-Ver.1.8.3は新機能追加ではなく、Real Engineの「出所 → Build → Hash → Runtime Evidence」をつなぐ版である。GitHub Actionsを一次Build Hostとし、YaneuraOu V9.00 exact commit、MATERIAL_LEVEL=1、Emscripten 4.0.15を固定する。生成されたJS/WASMは実File名とSHA-256を記録する。Emscripten 4.0.15ではseparate pthread `.worker.js`は生成されず、main JSをpthread Worker scriptとして再利用するため、そのPackaging Modeと0件の生成Worker数を測定値として記録する。Application側の`YaneuraOuWasmWorkerBootstrap.js`は別途SHA-256を固定し、`ENGINE_BUILD_METADATA.json`とruntime manifestを一致させる。
+Ver.1.8.3は新機能追加ではなく、Real Engineの「出所 → Build → Hash → Runtime Evidence」をつなぐ版である。Run #5ではEmscripten 4.0.15でReal Build/Hashまで到達したが、Real Browserで`function signature mismatch`を観測した。そこでexact pinned YaneuraOu Sourceを再監査し、upstream自身のWASM workflowがEmscripten 3.1.43、Ubuntu 22.04、`node script/wasm_build.js material`を使用することを確認した。Run #6はこのupstream pathへ合わせ、`yaneuraou.material.js`、`yaneuraou.material.worker.js`、`yaneuraou.material.wasm`とApplication側`YaneuraOuWasmWorkerBootstrap.js`を別AssetとしてSHA-256固定する。Compilerを変えた理由は「新しい/古い」ではなく、pinned Source自身のBuild手順との整合である。
 
 Real証拠は二層へ分けた。`real_yaneuraou_usi_verify.py`はUSI handshake、cp/mate、PV、MultiPV、depth/nodes/time、bestmove、stop/quit、評価Sanityを検証する。`real_yaneuraou_browser_verify.py`はSample KIF、全ply、Good/Bad Candidate、Best/Actual/Difference、Graph、Replay、Board Scroll、KeyPosition、STEP4、Cancel/Re-analysisを検証する。Formal Gateは両Evidenceが同一WASM hashへ結び付く場合だけ通る。
 

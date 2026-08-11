@@ -1,108 +1,119 @@
-# ENGINE_BUILD_REPRODUCIBILITY — Ver.1.8.3
+# ENGINE_BUILD_REPRODUCIBILITY — Ver.1.8.3 Run #6 Candidate
 
-Date: 2026-08-10
-Status: **Build Bridge ready; Real build not executed in current sandbox**
+Date: 2026-08-11
+Status: **Run #6 bridge prepared; Real 3.1.43 build / Real USI / Real E2E not yet proven**
 
-## Reproducibility Contract
+## Reproducibility contract
 
-A YaneuraOu WASM asset is accepted only when all of the following can be tied together:
+A YaneuraOu WASM asset is accepted only when all of the following are tied to the same evidence set:
 
-1. official repository;
-2. exact V9.00 commit;
+1. official YaneuraOu repository;
+2. exact V9.00 commit `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`;
 3. clean source checkout;
-4. fixed Emscripten 4.0.15 target and verified official release mapping;
+4. pinned source tree's own WASM workflow/toolchain choice;
 5. actual compiler/runtime versions;
-6. exact Make command;
-7. actual generated JS/WASM filenames and measured pthread Worker packaging mode;
-8. SHA-256 for generated JS/WASM and the application Worker bootstrap;
+6. exact upstream material build profile;
+7. actual generated JS / pthread Worker / WASM filenames;
+8. SHA-256 for every runtime asset and the first-party outer Worker bootstrap;
 9. runner/build environment record;
 10. Corresponding Source evidence archive;
-11. runtime manifest matching those hashes;
-12. Real Browser/USI/E2E evidence matching the same WASM hash.
+11. runtime manifest bound to those hashes;
+12. Real Browser / USI / application E2E evidence bound to the same WASM SHA-256.
 
-## Fixed Inputs
+Compiler success alone never satisfies Formal Completion.
+
+## Fixed inputs for Run #6
 
 | Input | Fixed value |
 |---|---|
 | YaneuraOu release | V9.00 |
 | YaneuraOu commit | `a5ee2786c0030edc7d4a1cdfe94b04dffec55493` |
-| Evaluation | MATERIAL |
+| Evaluation profile | upstream `material` profile |
+| Edition | `YANEURAOU_ENGINE_MATERIAL` |
 | MATERIAL_LEVEL | 1 |
+| Export name | `YaneuraOu_Material` |
 | TARGET_CPU | WASM |
 | COMPILER | em++ |
-| emsdk target | 4.0.15 |
-| expected Emscripten release commit | `b412b6307e541b93dd93f01b61181e15c17302ec` |
-| GitHub runner label | ubuntu-24.04 |
+| Build entry point | `node script/wasm_build.js material` |
+| Emscripten / emsdk target | 3.1.43 |
+| expected Emscripten release commit | `bf3c159888633d232c0507f4c76cc156a43c32dc` |
+| GitHub runner label | ubuntu-22.04 |
+| initial memory from upstream material profile | 92,274,688 bytes |
+| expected generated runtime set | `yaneuraou.material.js`, `yaneuraou.material.worker.js`, `yaneuraou.material.wasm` |
 
-`ubuntu-24.04` is not treated as bit-for-bit immutable. Hosted runner images change; exact ImageOS/ImageVersion, OS release and tool versions are captured at build time.
+The pinned YaneuraOu source tree's own `.github/workflows/make-wasm.yml` uses Ubuntu 22.04 and `emscripten/emsdk:3.1.43`, then invokes `node script/wasm_build.js <edition>`. Its `material` profile fixes `YANEURAOU_ENGINE_MATERIAL`, `YaneuraOu_Material`, `MATERIAL_LEVEL=1`, and `EM_INITIAL_MEMORY_SIZE=92274688`, and expects JS, `worker.js`, and WASM outputs.
 
-## Measured after successful CI build
+## Why Run #5 evidence caused a toolchain correction
 
-`ENGINE_BUILD_METADATA.json` receives the actual:
+Run #5 proved that the previous Emscripten 4.0.15 bridge could compile and hash the engine, but Real Browser startup failed before `usiok` with repeated `RuntimeError: function signature mismatch`. That evidence does **not** prove Emscripten 4.0.15 is inherently incompatible with YaneuraOu; it proves our 4.0.15 build was not a valid Real runtime for this Formal Gate.
 
-- build date;
-- build platform;
-- GitHub Actions run/runner image identifiers;
-- emsdk repository HEAD used as installer;
-- emcc version;
-- em++ version;
-- LLVM version;
-- Node version;
-- Python version;
-- JS/WASM actual filenames;
-- pthread Worker packaging mode and generated pthread Worker count;
-- JS/WASM SHA-256;
-- application Worker bootstrap filename/SHA-256.
+More importantly, re-reading the exact pinned source revealed that its own WASM CI path uses Emscripten 3.1.43 and `script/wasm_build.js`. Therefore Run #6 stops treating 4.0.15 as the build baseline and aligns the bridge to the pinned upstream WASM procedure. This is a correction based on primary-source evidence, not an upgrade because a version is newer.
 
-No null field in the current NOT-BUILT metadata is described as a measured fact.
-
-## Source integrity
-
-The build script requires exact commit match and a clean `git status --porcelain`. The workflow checks out the commit detached. Local patches are therefore **not part of this Ver.1.8.3 bridge**. If a later resource optimization modifies upstream source/Makefile, that becomes a new explicit patch set and must be archived in Corresponding Source evidence.
+Historical Run #1–#5 incident records remain unchanged as evidence of what actually happened.
 
 ## Toolchain integrity
 
-The workflow clones official emsdk and verifies that its release registry maps `4.0.15` to the expected Emscripten release commit before installation. This is stronger than using `latest`, but the emsdk installer repository HEAD is also recorded because the installer itself is not pinned by version in this design.
+The GitHub Actions bridge:
 
-A future hardening option is to pin the emsdk repository commit as well. Do not change compiler release merely because a newer version exists.
+- pins the emsdk installer repository commit used by the bridge;
+- verifies that the official emsdk release registry maps `3.1.43` to `bf3c159888633d232c0507f4c76cc156a43c32dc`;
+- installs/activates 3.1.43;
+- records `emcc --version`, `em++ --version`, LLVM, Node, Python, OS, hosted-runner image data and GitHub run identifiers.
 
-## Commands
+The bridge does not use `latest`.
 
-GitHub Actions is the preferred path. Local reproduction is also possible after an official emsdk 4.0.15 environment is activated:
+## Source integrity
 
-```bash
-./scripts/build-yaneuraou-wasm.sh /path/to/YaneuraOu
-./scripts/verify-yaneuraou-wasm.sh
-```
+The build requires an exact detached checkout of the pinned YaneuraOu commit and an empty `git status --porcelain`. No local YaneuraOu source patch is part of Run #6.
 
-The script uses:
+The Corresponding Source evidence also retains the pinned upstream:
+
+- README;
+- `source/Makefile`;
+- `source/wasm_pre.js`;
+- `script/wasm_build.js`;
+- `.github/workflows/make-wasm.yml`;
+- exact-commit source archive;
+- available license evidence.
+
+## Build command
+
+Run #6 intentionally calls the pinned source's own build wrapper:
 
 ```text
-make -j1 normal TARGET_CPU=WASM COMPILER=em++ YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL MATERIAL_LEVEL=1
+node script/wasm_build.js material
 ```
 
-## Outputs
+That wrapper expands to the upstream material build command and determines the exact output names. The Shogi Reflection bridge copies the resulting runtime assets without rewriting generated Emscripten glue.
 
-Successful build evidence:
+## Expected runtime assets
 
-- `engine/yaneuraou/yaneuraou.js`
-- `engine/yaneuraou/yaneuraou.wasm`
-- no separate generated pthread `.worker.js` under Emscripten 4.0.15 (`MAIN_JS_SELF_WORKER` packaging)
-- `YaneuraOuWasmWorkerBootstrap.js` (application-level Worker boundary)
-- `ENGINE_ASSET_SHA256SUMS.txt`
-- `ENGINE_BUILD_METADATA.json`
-- `ENGINE_BUILD_RESULT.txt`
-- `build-record/*`
-- `corresponding-source/YaneuraOu-<commit>.tar.gz`
+After a successful Run #6 build:
 
-A successful compiler stage alone never changes Formal Completion to PASS.
+- `engine/yaneuraou/yaneuraou.material.js`
+- `engine/yaneuraou/yaneuraou.material.worker.js`
+- `engine/yaneuraou/yaneuraou.material.wasm`
+- `engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js` — first-party outer application Worker
 
-## Real evidence binding
+The generated pthread Worker and the first-party outer Worker are different assets and receive different SHA-256 values.
 
-Build Artifactの存在だけでは正式Evidenceにならない。`REAL_YANEURAOU_USI_RESULT.json`と`REAL_YANEURAOU_E2E_RESULT.json`はそれぞれ`wasmSha256`を持ち、Formal Completion Gateは現在配置されているWASMの実SHA-256と両方が一致することを要求する。これにより別BuildのUSI結果や古いBrowser結果を流用できない。
+## Runtime evidence binding
 
-CIのPlaywright verifierは`requirements-real-engine.txt`で1.57.0を固定する。これは「最新だから」ではなく、Ver.1.8.3 Build Bridge作成時の検証Harness versionを固定するためである。Browser version自体はReal run結果へ実測記録する。
+`REAL_YANEURAOU_USI_RESULT.json` and `REAL_YANEURAOU_E2E_RESULT.json` must each record the same `wasmSha256` as the currently integrated WASM. The Formal Completion Gate rejects missing, stale, Mock, ReflectionLocal, or hash-mismatched evidence.
 
-### Runtime directory invariant added after Run #4
+## Run #6 proof still required
 
-For the pinned Emscripten 4.0.15 pthread build, `engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js`, `yaneuraou.js`, and `yaneuraou.wasm` must be co-located. The manifest Worker URL and Build Metadata SHA-256 bind that runtime layout. This avoids patching generated upstream glue or distributing a second untracked WASM alias.
+This document describes the prepared build contract only. Run #6 must still measure and prove:
+
+- successful Emscripten 3.1.43 upstream-profile build;
+- actual JS / worker.js / WASM hashes;
+- Real Worker/WASM load;
+- `usi -> usiok`;
+- `isready -> readyok`;
+- Real analysis / score / PV / bestmove / stop / quit;
+- Real Sample KIF full-ply application E2E;
+- cancel / re-analysis;
+- existing regression suites;
+- Formal Completion Gate and unpacked-ZIP re-verification.
+
+Until those checks pass, status remains **NOT FORMAL**.

@@ -180,9 +180,9 @@ Ver.1.8.3は、Ver.1.8.2 NOT-FORMALをSource of TruthとしてReal YaneuraOuを�
 - primary build host: GitHub Actions
 - YaneuraOu: V9.00 exact commit `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`
 - Evaluation: built-in MATERIAL / `MATERIAL_LEVEL=1`
-- Toolchain target: emsdk / Emscripten `4.0.15`
-- Build: `TARGET_CPU=WASM COMPILER=em++`
-- outputs: actual generated JS/WASMを採用しSHA-256固定。Emscripten 4.0.15はseparate pthread `.worker.js`を生成しないため`MAIN_JS_SELF_WORKER`を記録し、Application Worker Bootstrapを別Hash化
+- Toolchain target (Run #6): emsdk / Emscripten `3.1.43` — pinned YaneuraOu Source自身のWASM workflowへ整合
+- Build: upstream `node script/wasm_build.js material`（内部で`TARGET_CPU=WASM COMPILER=em++`）
+- outputs: `yaneuraou.material.js` / `yaneuraou.material.worker.js` / `yaneuraou.material.wasm`を実生成物としてSHA-256固定し、first-party Application Worker Bootstrapも別Hash化
 - Real Evidence: USIとApplication E2Eを別Resultへ記録し、同一WASM hashを要求
 - License: Build successとPublic/Commercial Distribution readinessを分離
 

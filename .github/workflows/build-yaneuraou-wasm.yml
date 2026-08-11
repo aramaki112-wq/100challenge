@@ -9,7 +9,6 @@ on:
       - "Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh"
       - "Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs"
       - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh"
-      - "Shogi-Reflection-Ver1.8.3/scripts/real-yaneuraou-artifact-gate.mjs"
       - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
       - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmBootstrapV182.test.js"
       - "Shogi-Reflection-Ver1.8.3/YaneuraOuBuildBridgeV183.test.js"
@@ -18,6 +17,7 @@ on:
       - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py"
       - "Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt"
       - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
+      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md"
 
 permissions:
   contents: read
@@ -28,8 +28,9 @@ env:
   YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
   YANEURAOU_VERSION: V9.00
   EMSDK_REPOSITORY: https://github.com/emscripten-core/emsdk.git
-  EMSDK_VERSION: 4.0.15
-  EXPECTED_EMSCRIPTEN_RELEASE_COMMIT: b412b6307e541b93dd93f01b61181e15c17302ec
+  EMSDK_REPOSITORY_COMMIT: e26beb67ef18a37d71d522d8b7096b20a4d3d0f9
+  EMSDK_VERSION: 3.1.43
+  EXPECTED_EMSCRIPTEN_RELEASE_COMMIT: bf3c159888633d232c0507f4c76cc156a43c32dc
   MATERIAL_LEVEL: "1"
 
 defaults:
@@ -39,7 +40,7 @@ defaults:
 jobs:
   build:
     name: Reproducible MATERIAL WASM build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 120
 
     steps:
@@ -99,7 +100,10 @@ jobs:
           set -euo pipefail
           EMSDK_DIR="$RUNNER_TEMP/emsdk"
           git clone --filter=blob:none "$EMSDK_REPOSITORY" "$EMSDK_DIR"
-          git -C "$EMSDK_DIR" rev-parse HEAD | tee build-record/emsdk-repository-commit.txt
+          git -C "$EMSDK_DIR" checkout --detach "$EMSDK_REPOSITORY_COMMIT"
+          ACTUAL_EMSDK_REPO_COMMIT="$(git -C "$EMSDK_DIR" rev-parse HEAD)"
+          test "$ACTUAL_EMSDK_REPO_COMMIT" = "$EMSDK_REPOSITORY_COMMIT"
+          printf '%s\n' "$ACTUAL_EMSDK_REPO_COMMIT" | tee build-record/emsdk-repository-commit.txt
           python3 - "$EMSDK_DIR/emscripten-releases-tags.json" <<'PY'
           import json, os, sys
           p=sys.argv[1]
@@ -136,31 +140,22 @@ jobs:
         run: |
           set -euo pipefail
           source "$EMSDK_DIR/emsdk_env.sh"
-          bash ./scripts/build-yaneuraou-wasm.sh \
-            "$YANEURAOU_SOURCE_DIR" \
-            "$GITHUB_WORKSPACE/$APP_DIR/engine/yaneuraou" \
-            "$GITHUB_WORKSPACE/$APP_DIR/build-record"
+          bash ./scripts/build-yaneuraou-wasm.sh "$YANEURAOU_SOURCE_DIR" "$GITHUB_WORKSPACE/$APP_DIR/engine/yaneuraou" "$GITHUB_WORKSPACE/$APP_DIR/build-record"
 
       - name: Package corresponding-source evidence
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p corresponding-source
-          git -C "$YANEURAOU_SOURCE_DIR" archive \
-            --format=tar.gz \
-            --output="$GITHUB_WORKSPACE/$APP_DIR/corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" \
-            "$YANEURAOU_COMMIT"
-          sha256sum "corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" \
-            | tee build-record/corresponding-source-sha256.txt
+          git -C "$YANEURAOU_SOURCE_DIR" archive --format=tar.gz --output="$GITHUB_WORKSPACE/$APP_DIR/corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" "$YANEURAOU_COMMIT"
+          sha256sum "corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz" | tee build-record/corresponding-source-sha256.txt
           cp "$YANEURAOU_SOURCE_DIR/README.md" corresponding-source/YaneuraOu-README.md
           cp "$YANEURAOU_SOURCE_DIR/source/Makefile" corresponding-source/YaneuraOu-source-Makefile
           cp "$YANEURAOU_SOURCE_DIR/source/wasm_pre.js" corresponding-source/YaneuraOu-source-wasm_pre.js
-          if [ -f "$YANEURAOU_SOURCE_DIR/LICENSE" ]; then
-            cp "$YANEURAOU_SOURCE_DIR/LICENSE" corresponding-source/YaneuraOu-LICENSE
-          fi
-          if [ -f "$EMSDK_DIR/upstream/emscripten/LICENSE" ]; then
-            cp "$EMSDK_DIR/upstream/emscripten/LICENSE" corresponding-source/Emscripten-LICENSE
-          fi
+          cp "$YANEURAOU_SOURCE_DIR/script/wasm_build.js" corresponding-source/YaneuraOu-script-wasm_build.js
+          cp "$YANEURAOU_SOURCE_DIR/.github/workflows/make-wasm.yml" corresponding-source/YaneuraOu-upstream-make-wasm.yml
+          if [ -f "$YANEURAOU_SOURCE_DIR/LICENSE" ]; then cp "$YANEURAOU_SOURCE_DIR/LICENSE" corresponding-source/YaneuraOu-LICENSE; fi
+          if [ -f "$EMSDK_DIR/upstream/emscripten/LICENSE" ]; then cp "$EMSDK_DIR/upstream/emscripten/LICENSE" corresponding-source/Emscripten-LICENSE; fi
 
       - name: Verify build artifact, hashes and automated tests
         shell: bash
@@ -249,7 +244,6 @@ jobs:
             Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh
             Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs
             Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh
-            Shogi-Reflection-Ver1.8.3/scripts/real-yaneuraou-artifact-gate.mjs
             Shogi-Reflection-Ver1.8.3/scripts/update-engine-license-gate.mjs
             Shogi-Reflection-Ver1.8.3/scripts/run-node-tests-with-evidence.sh
             Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py
@@ -257,8 +251,8 @@ jobs:
             Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_REPRODUCIBILITY.md
             Shogi-Reflection-Ver1.8.3/YANEURAOU_WASM_BUILD_BRIDGE.md
-            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_001_SHELL_PERMISSION.md
             Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_002_PTHREAD_WORKER_PACKAGING.md
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md
             Shogi-Reflection-Ver1.8.3/ENGINE_SOURCE_DISTRIBUTION_PLAN.md
             Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_AUDIT.md
             Shogi-Reflection-Ver1.8.3/THIRD_PARTY_NOTICES.md

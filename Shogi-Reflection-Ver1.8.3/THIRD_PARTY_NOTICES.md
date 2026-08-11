@@ -1,40 +1,50 @@
-# THIRD_PARTY_NOTICES — Ver.1.8.3
+# THIRD_PARTY_NOTICES — Ver.1.8.3 Run #6 Candidate
 
-Date: 2026-08-10
+Date: 2026-08-11
+Status: provisional engineering notice; final distribution notice requires post-build/license review
 
-## Current package status
+## Current repository/patch status
 
-**No Real YaneuraOu generated JS/WASM binary is bundled in this NOT-FORMAL package.** Pinned Emscripten 4.0.15 does not emit a separate pthread `.worker.js`; the first-party `YaneuraOuWasmWorkerBootstrap.js` is not a YaneuraOu binary.
+**Real YaneuraOu binary status in this Run #6 patch: NOT BUNDLED.**
 
-The following third-party components are referenced by the reproducible Build Bridge. Their inclusion in this notice does not mean every component is redistributed with the app.
+The Run #6 patch itself does **not** bundle a newly generated YaneuraOu binary. GitHub Actions is expected to generate the Real runtime assets from the pinned official source. Run #5 CI artifacts existed as test evidence, but they failed Real runtime verification and are not treated as distributable/Formal engine assets.
 
 ## YaneuraOu
 
 - Project: YaneuraOu
-- Planned engine source: V9.00 exact commit `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`
+- Release: V9.00
+- Exact commit: `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`
 - Source: official `yaneurao/YaneuraOu` repository
-- License statement: pinned README says the YaneuraOu project follows GPLv3 due to Stockfish-derived/referenced GPLv3 projects.
-- Selected evaluation: built-in MATERIAL_LEVEL=1 only.
-- Current binary status: **NOT BUILT / NOT BUNDLED**.
-
-Before a Real binary is publicly conveyed, replace this provisional notice with notices verified against the exact generated artifact and Corresponding Source package.
+- Selected profile: built-in `material`, `MATERIAL_LEVEL=1`
+- Third-party NNUE / 水匠 weights: not included
+- License handling: see `ENGINE_LICENSE_AUDIT.md`; pinned upstream license/README evidence and Corresponding Source are retained for any future binary conveyance.
 
 ## Emscripten
 
-- Fixed SDK target: 4.0.15
-- Official release mapping expected: `b412b6307e541b93dd93f01b61181e15c17302ec`
-- Emscripten license documentation: MIT OR University of Illinois/NCSA, with incorporated components carrying their own licenses.
-- Toolchain status in app ZIP: not bundled.
-- Generated JS/runtime status: not present in current package; must be audited after build.
+- Fixed Run #6 SDK target: 3.1.43
+- Expected official release mapping: `bf3c159888633d232c0507f4c76cc156a43c32dc`
+- Selection reason: the exact pinned YaneuraOu source's own WASM GitHub Actions workflow uses `emscripten/emsdk:3.1.43`.
+- Build-time toolchain is not bundled wholesale with the application.
+- Applicable Emscripten/runtime notices must be preserved according to the exact generated output and licenses.
 
-## Build-time tools
+## Generated runtime assets expected from the upstream material profile
 
-GitHub Actions hosted runner, Node and Python are used only by the CI/build process in the current architecture. Their exact versions are intentionally measured and recorded after a successful build. They are not application runtime dependencies merely because the build uses them.
+- `yaneuraou.material.js`
+- `yaneuraou.material.worker.js` — Emscripten-generated pthread Worker
+- `yaneuraou.material.wasm`
 
-## First-party fallback
+These files are generated from the pinned YaneuraOu/Emscripten build and are hash-bound before acceptance. Generated output is not assumed to be license-free merely because it is generated.
 
-`ReflectionLocalEngine` is not YaneuraOu. UI and reports must identify it as the separate first-party fallback whenever the Real engine cannot load.
+## First-party Worker bootstrap
 
-## Legal gate
+`engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js` is Shogi Reflection first-party integration code. It is **not** the same file as the Emscripten-generated `yaneuraou.material.worker.js`.
 
-**LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** of a package that bundles the Real YaneuraOu WASM engine.
+## Build-only infrastructure
+
+GitHub Actions, Node.js, Python, actions/checkout and actions/upload-artifact are build/test infrastructure. Their versions/provenance are recorded in Build Metadata/logs; they are not automatically runtime dependencies of the distributed browser app.
+
+## Distribution warning
+
+Personal testing readiness, public distribution readiness and commercial distribution readiness are intentionally separate decisions.
+
+**LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION** of a package that conveys Real YaneuraOu generated binaries unless the applicable obligations and combined-distribution architecture have been conclusively reviewed.

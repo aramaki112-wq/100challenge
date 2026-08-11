@@ -1,195 +1,111 @@
-# Shogi Reflection Ver.1.8.3 — YaneuraOu WASM Build Bridge
+# YANEURAOU_WASM_BUILD_BRIDGE — Ver.1.8.3 Run #6 Candidate
 
-Date: 2026-08-10
-Status: **IMPLEMENTED / REAL BUILD NOT EXECUTED IN THIS SANDBOX / NOT FORMAL**
+Date: 2026-08-11
+Status: **NOT FORMAL — upstream WASM toolchain alignment prepared, Real Run #6 pending**
 
 ## 1. Purpose
 
-このBridgeは「偶然入手したWASM」を採用しないための再現Build経路である。Application Domain、Repository、Storage、Replay、KeyPosition、Evaluation Graph等の既存設計は変更せず、Engine Adapter境界の外側にBuild provenanceを追加する。
+The Build Bridge exists to make a Real YaneuraOu WebAssembly artifact reproducible and explainable. It does not add a new Shogi Reflection feature and does not move YaneuraOu knowledge into the Domain layer.
+
+Architecture remains:
+
+```text
+Browser UI
+  -> Engine Application Service
+  -> ShogiEnginePort
+  -> YaneuraOuWasmAdapter
+  -> BrowserWorkerUsiTransport
+  -> first-party YaneuraOuWasmWorkerBootstrap
+  -> generated YaneuraOu MATERIAL JS / pthread Worker / WASM
+```
+
+ReflectionLocalEngine remains a separate fallback and cannot satisfy a Real/Formal gate.
+
+## 2. Pinned engine source
+
+- YaneuraOu: V9.00
+- Repository: official `yaneurao/YaneuraOu`
+- Commit: `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`
+- Evaluation: built-in MATERIAL only
+- No third-party NNUE / 水匠 weights are introduced.
+
+## 3. Run #5 evidence and correction
+
+Run #5 successfully produced hash-bound Real YaneuraOu assets with the previous Emscripten 4.0.15 bridge and reached the Real Browser verifier. However, the engine crashed before `usiok` with repeated `RuntimeError: function signature mismatch`, and application E2E therefore degraded to ReflectionLocal.
+
+That Run #5 result remains an important negative Real test. It is not reclassified as success.
+
+A primary-source re-audit of the exact pinned YaneuraOu commit then found that upstream's own `.github/workflows/make-wasm.yml` uses Ubuntu 22.04 and `emscripten/emsdk:3.1.43`. The same commit's `script/wasm_build.js` defines the `material` profile and its generated runtime set. Run #6 therefore aligns to that upstream path instead of preserving 4.0.15 merely because it had compiled.
+
+## 4. Run #6 build path
 
 ```text
 GitHub Actions
-  -> fixed emsdk 4.0.15
-  -> verify official release mapping
-  -> official YaneuraOu repository
-  -> detached exact V9.00 commit
-  -> MATERIAL_LEVEL=1 / TARGET_CPU=WASM / COMPILER=em++
-  -> actual JS/WASM/pthread worker discovery
-  -> SHA-256
-  -> ENGINE_BUILD_METADATA.json
-  -> Corresponding Source evidence archive
-  -> GitHub Actions artifact
-  -> integrate-yaneuraou-build-artifact.sh
-  -> Real Artifact Gate
-  -> Real Browser / Real USI / Real E2E
-  -> Formal Completion Gate
+  -> ubuntu-22.04
+  -> fixed emsdk installer checkout
+  -> verify 3.1.43 release mapping
+  -> install/activate Emscripten 3.1.43
+  -> clone official YaneuraOu
+  -> detached checkout exact commit
+  -> verify clean source
+  -> node script/wasm_build.js material
+  -> verify exact material JS / worker.js / WASM
+  -> SHA-256 all runtime assets
+  -> Build Metadata + Manifest
+  -> Corresponding Source evidence
+  -> existing automated/static/browser/visual/fallback tests
+  -> Real USI
+  -> Real application E2E
+  -> diagnostic Formal Gate
+  -> upload all evidence even on Real-gate failure
 ```
 
-## 2. Fixed upstream source
+## 5. Official material profile
 
-- Repository: `https://github.com/yaneurao/YaneuraOu`
-- Release: `V9.00`
-- Commit: `a5ee2786c0030edc7d4a1cdfe94b04dffec55493`
-- Evaluation: `YANEURAOU_ENGINE_MATERIAL`
+The pinned upstream build script defines:
+
+- profile: `material`
+- edition: `YANEURAOU_ENGINE_MATERIAL`
+- export name: `YaneuraOu_Material`
 - `MATERIAL_LEVEL=1`
-- `TARGET_CPU=WASM`
-- `COMPILER=em++`
+- `EM_INITIAL_MEMORY_SIZE=92274688`
 
-Pinned upstream facts were checked against the exact commit, not a moving branch.
+Its packaging loop requires:
 
-## 3. Fixed toolchain
+- `yaneuraou.material.js`
+- `yaneuraou.material.worker.js`
+- `yaneuraou.material.wasm`
 
-- emsdk target: `4.0.15`
-- expected Emscripten release commit mapping: `b412b6307e541b93dd93f01b61181e15c17302ec`
-- emsdk installer repository itself is cloned at workflow execution time, and its exact HEAD is recorded. The workflow then verifies that its release registry still maps `4.0.15` to the expected Emscripten release commit before installation.
-- actual `emcc --version`, `em++ --version`, `em++ -v`, LLVM, Node, Python, OS, runner image identifiers are recorded as measured Build evidence.
+The bridge treats those actual generated names as Source of Truth. It does not invent a nonexistent worker filename and does not patch generated glue.
 
-This separates the fixed compiler release from the mutable hosted-runner image.
+## 6. Worker boundary
 
-## 4. Build command
+`YaneuraOuWasmWorkerBootstrap.js` is a **first-party outer Worker** used by Shogi Reflection's transport boundary. It imports `yaneuraou.material.js`, obtains `YaneuraOu_Material`, and connects the upstream `wasm_pre.js` message bridge to the application's Worker messaging contract.
 
-```bash
-make -j1 normal \
-  TARGET_CPU=WASM \
-  COMPILER=em++ \
-  YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL \
-  MATERIAL_LEVEL=1
-```
+`yaneuraou.material.worker.js` is the **Emscripten-generated pthread Worker** used internally by the generated engine runtime. It is a separate generated third-party runtime asset in the 3.1.43 upstream profile.
 
-The script refuses:
+Both are hash-bound independently.
 
-- wrong YaneuraOu commit;
-- dirty upstream checkout;
-- missing `emcc` / `em++`;
-- missing upstream MATERIAL/WASM/`wasm_pre.js` evidence;
-- missing JS/WASM output;
-- any unexpected separate `yaneuraou*.worker.js` output under pinned Emscripten 4.0.15.
+## 7. Resource settings are not smartphone claims
 
-## 5. Actual output is Source of Truth
+The upstream MATERIAL profile's 92,274,688-byte initial memory is recorded as a reproducibility input. Other thread/memory/stack values that come from the pinned Makefile are also captured where applicable.
 
-The Bridge accepts the actual upstream build products documented by the pinned Makefile: `yaneuraou.js` and its emitted `yaneuraou.wasm`. A second GitHub Actions run confirmed that the compile reached completion but the original bridge failed only because it expected a separate pthread `.worker.js`. Official Emscripten 4.0.15 behavior is different: pthreads reuse the main generated JavaScript as the Worker script and no separate `.worker.js` is emitted.
+None of these values is described as "iPhone optimized", "lightweight", "fast", or "battery efficient" without physical measurement. Smartphone optimization remains a later measurement-driven task.
 
-Therefore the measured result is recorded as `pthreadWorkerPackaging=MAIN_JS_SELF_WORKER`, `generatedPthreadWorkerCount=0`, `workerFile=null`, and `workerSha256=null`. Shogi Reflection's own `YaneuraOuWasmWorkerBootstrap.js` remains the outer classic Worker boundary and receives its own SHA-256. No nonexistent generated Worker filename is invented.
+## 8. cross-origin isolation
 
-## 6. Official wasm_pre.js boundary
+The Real Browser verifier must check both `crossOriginIsolated === true` and availability of `SharedArrayBuffer` before a pthread Real Engine run is accepted. Run #5 demonstrated that those browser conditions could be established in the CI verifier, but the engine itself still failed; therefore isolation support and engine runtime correctness remain separate gates.
 
-Application code does not call `usi_command` directly. `YaneuraOuWasmWorkerBootstrap.js` continues to use the module-level `postMessage()` bridge supplied by the pinned upstream `wasm_pre.js`. The upstream pre-js owns command queueing while pthreads start and owns quit/terminate handling. Domain code remains unaware of these details.
+GitHub Pages and physical iPhone deployment remain separate hosting/device gates. No desktop-CI result is relabeled as physical-iPhone verification.
 
-## 7. Upstream WASM resource profile
+## 9. License/provenance boundary
 
-The pinned Makefile uses, for the selected MATERIAL level:
+Build success is separate from distribution permission. The Build Bridge retains exact source/commit/build/toolchain evidence and a Corresponding Source plan, but public/commercial distribution remains gated by the license audit and legal review where the combined-work characterization is unresolved.
 
-- pthread enabled;
-- `PTHREAD_POOL_SIZE=32`;
-- initial memory `138,412,032` bytes;
-- maximum memory `4,294,967,296` bytes;
-- memory growth enabled;
-- stack `67,108,864` bytes;
-- `wasm_pre.js` pre-js.
+The existing application LICENSE is not silently changed.
 
-These values are **build reproducibility facts**, not smartphone recommendations. They are explicitly labeled `UPSTREAM_WASM_DEFAULTS_NOT_SMARTPHONE_VALIDATED` in the runtime manifest. Ver.1.8.3 does not silently rewrite them for iPhone.
+## 10. Run #6 acceptance condition
 
-## 8. Browser deployment boundary
+Run #6 is only a successful Real-engine step if the generated 3.1.43 asset set loads and the Real verifier records the required USI protocol/analysis evidence. If it still fails, the artifact and failure logs are preserved and the next decision is based on that evidence.
 
-### Local development / desktop browser
-
-The supplied Real Browser verifier serves COOP/COEP response headers locally and checks `crossOriginIsolated` plus `SharedArrayBuffer` before Real Engine use.
-
-### GitHub Pages
-
-Emscripten pthread builds require COOP/COEP response headers. GitHub Pages official documentation checked in this audit documents HTTPS and publishing mechanisms, but this audit did **not** establish an official GitHub Pages configuration mechanism for arbitrary COOP/COEP response headers. Therefore:
-
-**GitHub Pages + upstream pthread WASM = NOT PROVEN FOR FORMAL DEPLOYMENT.**
-
-No Service Worker isolation shim is silently adopted in Ver.1.8.3. It may be investigated later as a distinct hosting/security design with its own browser and license tests.
-
-### iPhone Safari
-
-WebKit documents SharedArrayBuffer/Wasm threading behind COOP/COEP in Safari 15.2+, but that does not prove this specific engine/resource profile works on a physical iPhone. Physical iPhone status remains **UNVERIFIED**.
-
-### Future installed app
-
-An installed-app WebView/native wrapper can be evaluated separately. It must not inherit “browser verified” or “iPhone optimized” status from desktop tests.
-
-## 9. GitHub Actions workflow
-
-File: `.github/workflows/build-yaneuraou-wasm.yml`
-
-The workflow:
-
-1. checks out Shogi Reflection;
-2. records GitHub runner provenance;
-3. clones official emsdk;
-4. verifies `4.0.15 -> b412...` release mapping;
-5. installs and activates `4.0.15`;
-6. clones official YaneuraOu;
-7. checks out detached exact commit;
-8. verifies clean checkout;
-9. runs the fixed MATERIAL WASM build;
-10. checks actual outputs;
-11. hashes generated JS/WASM plus the application Worker bootstrap;
-12. generates measured metadata;
-13. creates a source evidence tarball from the exact checkout;
-14. stores upstream README/Makefile/wasm_pre.js and Emscripten license evidence when present;
-15. runs artifact/static/automated gates;
-16. uploads a traceable Actions artifact.
-
-## 10. Integration after Actions build
-
-After downloading the Actions artifact, overlay it through:
-
-```bash
-./scripts/integrate-yaneuraou-build-artifact.sh /path/to/downloaded-artifact
-```
-
-This script copies the generated Engine artifacts and immediately runs the Real Artifact Gate. Passing this step means only **the real build artifact is present and hash-consistent**. It does not mean Formal Completion.
-
-## 11. Real gates still required
-
-After integration, run and record:
-
-- Real Browser load;
-- USI handshake;
-- cp / mate / PV / MultiPV / depth / nodes / time;
-- bestmove / stop / quit;
-- evaluation sanity positions;
-- Sample KIF all-ply analysis;
-- Good/Bad Candidate;
-- Best/Actual/Difference/PV;
-- Candidate -> Replay -> Board Scroll -> KeyPosition;
-- Graph marker -> Replay / STEP4;
-- FACT / INTERPRETATION / HYPOTHESIS manual reflection flow;
-- cancel / re-analysis;
-- existing automated/browser/visual/static tests;
-- license/source-distribution review;
-- unpacked ZIP re-verification.
-
-Mock or ReflectionLocal output never satisfies these Real gates.
-
-## 12. Current verdict
-
-The Build Bridge is implemented, but this sandbox did not have a usable external GitHub clone path or activated Emscripten compiler. Therefore no Real YaneuraOu artifacts were produced here and **Formal Completion remains NOT ACHIEVED**.
-
-## Primary sources checked
-
-- YaneuraOu exact commit/release/README/Makefile/wasm_pre.js: `https://github.com/yaneurao/YaneuraOu`
-- Emscripten SDK install docs: `https://emscripten.org/docs/getting_started/downloads.html`
-- Emscripten pthread docs: `https://emscripten.org/docs/porting/pthreads.html`
-- emsdk release registry: `https://github.com/emscripten-core/emsdk/blob/main/emscripten-releases-tags.json`
-- WebKit Safari 15.2 threading/COOP/COEP: `https://webkit.org/blog/12140/new-webkit-features-in-safari-15-2/`
-- GitHub-hosted runners: `https://docs.github.com/en/actions/concepts/runners/github-hosted-runners`
-- GitHub Pages HTTPS/publishing docs: `https://docs.github.com/en/pages/`
-
-## 13. Ver.1.8.3 CI Real Evidence extension
-
-Build Artifact検証後、CIはPlaywright 1.57.0を意図的に固定し、既存Browser/Visual/ReflectionLocal regressionを再実行する。その後、Real USI verifierとReal Application E2E verifierを別Stepで実行する。Real verifierは失敗してもEvidence fileをArtifactへ残せるよう一旦`continue-on-error`とし、Artifact upload後の最終Enforcement StepがいずれかのReal/Formal resultがPASSでなければJobを失敗させる。
-
-この構造により「失敗したためLog/Resultが残らない」を避けつつ、失敗を成功扱いにもできない。
-
-### Formal Gate placement clarification
-
-GitHub ActionsはReal USI/E2EまでをBuild Artifactに対して強制し、Formal Completion Gateは診断として実行してResultを保存する。Jobの成功条件にはFinal Formalを含めない。理由は、Final Formal CompletionにはBuild ArtifactをShogi Reflectionへ統合した後のSource of Truth Audit、Completion Report、正式候補ZIP作成、別Folder展開後再検証まで必要だからである。Real runtime PASSと正式配布物完成を同一Stepへ短絡しない。
-
-## Run #4 runtime base-path finding
-
-Run #4 proved the Real verifier reached the built artifact, but Emscripten requested `yaneuraou.wasm` relative to the outer Worker URL. Because the outer bootstrap had been at the application root, the request returned HTML rather than WASM. Run #5 co-locates the runtime bootstrap with `yaneuraou.js` and `yaneuraou.wasm`; generated upstream assets remain unmodified and the runtime bootstrap copy remains hash-bound.
+Formal Completion remains fail-closed until all user-specified Formal Gate items, license/source-distribution gates, and final ZIP re-verification pass.
