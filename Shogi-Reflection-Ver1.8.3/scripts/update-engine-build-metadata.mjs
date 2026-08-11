@@ -14,6 +14,8 @@ const firstLine = (value) => value ? value.split(/\r?\n/)[0].trim() : null;
 const sha = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 const bootstrapRelative = path.join("engine", "yaneuraou", "YaneuraOuWasmWorkerBootstrap.js").replaceAll(path.sep,"/");
 const bootstrapFile = path.join(root, bootstrapRelative);
+const diagnosticBuild = built ? readMaybe("function-pointer-diagnostic.txt") === "1" : false;
+const diagnosticEmccCflags = built ? readMaybe("diagnostic-emcc-cflags.txt") : null;
 
 const constants = {
   engineName: "YaneuraOu", engineVersion: "V9.00", release: "V9.00",
@@ -30,7 +32,7 @@ const constants = {
 
 let metadata = {
   schemaVersion: 3,
-  status: built ? "BUILT_AWAITING_REAL_BROWSER_USI_E2E_AND_LICENSE_FORMAL_GATE" : "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT",
+  status: built ? (diagnosticBuild ? "DIAGNOSTIC_BUILD_NOT_FORMAL" : "BUILT_AWAITING_REAL_BROWSER_USI_E2E_AND_LICENSE_FORMAL_GATE") : "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT",
   ...constants,
   buildDate: built ? new Date().toISOString() : null,
   buildPlatform: built ? readMaybe("build-platform.txt") : null,
@@ -51,6 +53,8 @@ let metadata = {
   sourcePatchSha256: built ? readMaybe("source-patch-sha256.txt") : null,
   modifiedSourceFiles: built ? (readMaybe("source-modified-files.txt") ?? "").split(/\r?\n/).filter(Boolean) : [],
   wasmUsiCommandExport: built ? readMaybe("usi-command-export.txt") : null,
+  diagnosticBuild,
+  diagnosticEmccCflags,
   emccVersion: built ? firstLine(readMaybe("emcc-version.txt")) : null,
   emppVersion: built ? firstLine(readMaybe("empp-version.txt")) : null,
   llvmVersion: built ? firstLine(readMaybe("llvm-version.txt")) : null,
@@ -76,6 +80,7 @@ let metadata = {
     "The deterministic bridge emits JS, separate pthread worker.js, and WASM using the pinned source Makefile and material settings, then requires a measured usi_command WebAssembly export before accepting the artifact.",
     "The material profile fixes MATERIAL_LEVEL=1, EM_EXPORT_NAME=YaneuraOu_Material and EM_INITIAL_MEMORY_SIZE=92274688.",
     "Thread/memory values are upstream build settings, not smartphone optimization claims.",
+    diagnosticBuild ? `DIAGNOSTIC ONLY: compiler flags ${diagnosticEmccCflags}; this artifact is prohibited from Formal Completion.` : "Production compiler flags only; no function-pointer diagnostics injected.",
     "Formal Completion requires separate Real Browser/USI/E2E and distribution/license evidence."
   ] : [
     "No compiler/build was executed in the current sandbox; measured build fields remain null.",
@@ -138,6 +143,8 @@ Object.assign(manifest, {
   sourcePatchSha256: metadata.sourcePatchSha256,
   modifiedSourceFiles: metadata.modifiedSourceFiles,
   wasmUsiCommandExport: metadata.wasmUsiCommandExport,
+  diagnosticBuild: metadata.diagnosticBuild,
+  diagnosticEmccCflags: metadata.diagnosticEmccCflags,
   upstreamInitialMemoryBytesMaterialLevel1: constants.initialMemory,
   note: built ? "Official pinned-source material profile JS/worker.js/WASM build and hashes are present. Formal Completion and public distribution remain separate gates." : "Distribution-safe manifest. available=true only after the official-source Build Bridge generates and hashes real assets."
 });

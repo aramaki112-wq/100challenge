@@ -14,6 +14,8 @@ UPSTREAM_BUILD_COMMAND="node script/wasm_build.js material"
 SOURCE_PATCH_RELATIVE="patches/yaneuraou-v9.00-wasm-usi-bridge.patch"
 SOURCE_PATCH="$ROOT/$SOURCE_PATCH_RELATIVE"
 BRIDGE_ADAPTATION="split_clean_tournament_capture_make_exit_and_apply_documented_wasm_usi_bridge"
+FUNCTION_POINTER_DIAGNOSTIC="${YANEURAOU_FUNCTION_POINTER_DIAGNOSTIC:-0}"
+DIAGNOSTIC_EMCC_CFLAGS="-sASSERTIONS=2 -g3 -Wcast-function-type"
 # The pinned upstream packager runs `make -jN clean tournament` in one invocation and
 # ignores the child make exit status before checking output files. Run #6 observed the
 # target disappearing after link work. The bridge therefore preserves the exact upstream
@@ -95,7 +97,15 @@ printf '%s\n' "$DOCKER_REPO_DIGEST" > "$RECORD_DIR/emscripten-docker-image-diges
   echo "bridgeAdaptation=$BRIDGE_ADAPTATION"
   echo "sourcePatch=$SOURCE_PATCH_RELATIVE"
   echo "sourcePatchSha256=$SOURCE_PATCH_SHA256"
+  echo "functionPointerDiagnostic=$FUNCTION_POINTER_DIAGNOSTIC"
+  echo "diagnosticEmccCflags=$([[ "$FUNCTION_POINTER_DIAGNOSTIC" == "1" ]] && printf '%s' "$DIAGNOSTIC_EMCC_CFLAGS" || printf '%s' 'NONE')"
 } | tee "$RECORD_DIR/build-request.txt"
+printf '%s\n' "$FUNCTION_POINTER_DIAGNOSTIC" > "$RECORD_DIR/function-pointer-diagnostic.txt"
+if [[ "$FUNCTION_POINTER_DIAGNOSTIC" == "1" ]]; then
+  printf '%s\n' "$DIAGNOSTIC_EMCC_CFLAGS" > "$RECORD_DIR/diagnostic-emcc-cflags.txt"
+else
+  printf '%s\n' "NONE" > "$RECORD_DIR/diagnostic-emcc-cflags.txt"
+fi
 
 # All compiler/runtime versions are measured inside the build container, not from the host.
 docker run --rm "$EMSDK_DOCKER_IMAGE" emcc --version | tee "$RECORD_DIR/emcc-version.txt"
@@ -117,8 +127,17 @@ mkdir -p "$LIB_DIR"
 
 # Deterministic bridge execution: same pinned source, same compiler image, same official
 # edition/export/memory options, but clean and build are deliberately separate commands.
+DOCKER_DIAGNOSTIC_ARGS=()
+if [[ "$FUNCTION_POINTER_DIAGNOSTIC" == "1" ]]; then
+  DOCKER_DIAGNOSTIC_ARGS=(-e "EMCC_CFLAGS=$DIAGNOSTIC_EMCC_CFLAGS")
+  echo "DIAGNOSTIC ONLY: injecting EMCC_CFLAGS=$DIAGNOSTIC_EMCC_CFLAGS" | tee "$RECORD_DIR/function-pointer-diagnostic-mode.txt"
+else
+  echo "PRODUCTION BUILD: no function-pointer diagnostic compiler flags injected" | tee "$RECORD_DIR/function-pointer-diagnostic-mode.txt"
+fi
+
 set +e
 docker run --rm \
+  "${DOCKER_DIAGNOSTIC_ARGS[@]}" \
   -v "$SOURCE_ROOT:/src" \
   -w /src/source \
   "$EMSDK_DOCKER_IMAGE" \
@@ -178,6 +197,8 @@ cat > "$ROOT/ENGINE_BUILD_RESULT.txt" <<EOF2
 Shogi Reflection Ver.1.8.3 YaneuraOu WASM Build Result
 ======================================================
 Status: BUILD SUCCEEDED; REAL BROWSER/USI/E2E NOT YET IMPLIED
+Diagnostic function-pointer build: $FUNCTION_POINTER_DIAGNOSTIC
+Diagnostic EMCC_CFLAGS: $([[ "$FUNCTION_POINTER_DIAGNOSTIC" == "1" ]] && printf "%s" "$DIAGNOSTIC_EMCC_CFLAGS" || printf "%s" "NONE")
 YaneuraOu: V9.00
 Commit: $ACTUAL_COMMIT
 Evaluation: MATERIAL_LEVEL=$MATERIAL_LEVEL

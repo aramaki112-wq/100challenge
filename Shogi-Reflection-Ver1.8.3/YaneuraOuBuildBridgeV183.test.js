@@ -265,3 +265,30 @@ test("Outer Worker supplies Emscripten mainScriptUrlOrBlob so nested pthread wor
   assert.match(bootstrap,/new URL\(GLUE_URL, self\.location\.href\)\.href/);
   assert.doesNotMatch(bootstrap,/mainScriptUrlOrBlob:\s*(?:undefined|null)/);
 });
+
+
+test("Run 12 function-pointer diagnostic build is explicit and cannot pass Formal Completion",()=>{
+  const workflow=fs.readFileSync(path.resolve(root,"..",".github","workflows","build-yaneuraou-wasm.yml"),"utf8");
+  const standaloneWorkflow=read(".github/workflows/build-yaneuraou-wasm.yml");
+  const build=read("scripts/build-yaneuraou-wasm.sh");
+  const meta=read("scripts/update-engine-build-metadata.mjs");
+  const formal=read("scripts/formal-completion-gate.mjs");
+  const incident=read("ENGINE_BUILD_INCIDENT_011_FUNCTION_POINTER_SIGNATURE_MISMATCH.md");
+  assert.match(workflow,/YANEURAOU_FUNCTION_POINTER_DIAGNOSTIC:\s*"1"/);
+  assert.match(standaloneWorkflow,/YANEURAOU_FUNCTION_POINTER_DIAGNOSTIC:\s*"1"/);
+  assert.match(build,/DIAGNOSTIC_EMCC_CFLAGS="-sASSERTIONS=2 -g3 -Wcast-function-type"/);
+  assert.match(build,/EMCC_CFLAGS=\$DIAGNOSTIC_EMCC_CFLAGS/);
+  assert.match(meta,/diagnosticBuild/);
+  assert.match(meta,/DIAGNOSTIC_BUILD_NOT_FORMAL/);
+  assert.match(formal,/Production non-diagnostic build/);
+  assert.match(formal,/metadata\.diagnosticBuild !== true/);
+  assert.match(incident,/function signature mismatch/);
+});
+
+test("Run 12 diagnostic does not adopt EMULATE_FUNCTION_POINTER_CASTS as the production fix",()=>{
+  const build=read("scripts/build-yaneuraou-wasm.sh");
+  const incident=read("ENGINE_BUILD_INCIDENT_011_FUNCTION_POINTER_SIGNATURE_MISMATCH.md");
+  assert.doesNotMatch(build,/EMULATE_FUNCTION_POINTER_CASTS/);
+  assert.match(incident,/runtime overhead/i);
+  assert.match(incident,/correctly typed adapter/i);
+});

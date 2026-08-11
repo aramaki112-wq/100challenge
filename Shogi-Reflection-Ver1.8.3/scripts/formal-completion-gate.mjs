@@ -24,6 +24,7 @@ record("Measured compiler metadata", metadata.measured===true && Boolean(metadat
 record("MATERIAL WASM profile", metadata.evaluationModel==="MATERIAL" && metadata.materialLevel===1 && metadata.targetCpu==="WASM" && metadata.threads===true);
 record("Documented YaneuraOu source modification", metadata.sourceModified===true && metadata.sourcePatchFile==="patches/yaneuraou-v9.00-wasm-usi-bridge.patch" && Boolean(metadata.sourcePatchSha256));
 record("Measured WASM USI command export", ["usi_command","_usi_command"].includes(metadata.wasmUsiCommandExport), String(metadata.wasmUsiCommandExport??""));
+record("Production non-diagnostic build", metadata.diagnosticBuild !== true, metadata.diagnosticBuild===true ? `diagnostic flags=${metadata.diagnosticEmccCflags??"UNKNOWN"}` : "production");
 
 const wasmPath = metadata.wasmFile ? path.join(root,"engine","yaneuraou",metadata.wasmFile) : null;
 const wasmHash = wasmPath && fs.existsSync(wasmPath) ? crypto.createHash("sha256").update(fs.readFileSync(wasmPath)).digest("hex") : null;

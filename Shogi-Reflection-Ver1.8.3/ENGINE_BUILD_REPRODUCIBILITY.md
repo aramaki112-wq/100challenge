@@ -166,3 +166,15 @@ The runtime bootstrap now computes the absolute generated-glue URL from
 `self.location.href` and passes it as `mainScriptUrlOrBlob`. This changes only
 the browser runtime bootstrap; it does not modify YaneuraOu search/evaluation
 source or the recorded two-file WASM USI source bridge.
+
+
+## Run #12 diagnostic — function pointer signature mismatch
+
+Run #11 passed the reproducible build, asset/hash, Corresponding Source, Static, and
+browser-environment gates but failed Real USI because nested pthread workers emitted
+`RuntimeError: function signature mismatch`.
+
+Run #12 is intentionally diagnostic and sets `EMCC_CFLAGS=-sASSERTIONS=2 -g3 -Wcast-function-type`.
+`ENGINE_BUILD_METADATA.json` records `diagnosticBuild=true`, and the Formal Completion Gate
+must reject that artifact even if protocol checks improve. The fixed upstream commit and the
+documented two-file `usi_command` bridge patch remain unchanged.
