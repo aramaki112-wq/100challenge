@@ -62,6 +62,15 @@ done
 # so the Node-only probe can load the Emscripten CommonJS export explicitly.
 cp "$HARNESS_DIR/runtime/yaneuraou.material.js" "$HARNESS_DIR/runtime/yaneuraou.material.cjs"
 cp "$HARNESS_DIR/worker-bootstrap.js" "$HARNESS_DIR/runtime/worker-bootstrap.js"
+
+# The parent Shogi Reflection package uses "type": "module", but Emscripten
+# 3.1.43's generated pthread worker uses CommonJS require() in Node.
+# Establish a runtime-local package boundary so only these generated Node
+# runtime assets are treated as CommonJS. Browsers ignore package.json.
+cat > "$HARNESS_DIR/runtime/package.json" <<'JSON'
+{"type":"commonjs"}
+JSON
+
 sha256sum "$HARNESS_DIR/runtime/"* | tee "$HARNESS_DIR/evidence/runtime-sha256.txt"
 cp "$OUT_DIR/emcc-version.txt" "$HARNESS_DIR/evidence/emcc-version.txt"
 cp "$OUT_DIR/node-version.txt" "$HARNESS_DIR/evidence/build-node-version.txt"

@@ -1,0 +1,18 @@
+Shogi Reflection Ver.1.8.3 — Run #17 Verification
+
+Measured from the exact Run #16 artifact:
+- Browser usiok: PASS
+- Browser readyok: PASS
+- Node baseline: FAILED because generated pthread worker .js inherited ESM mode
+- Node with runtime/package.json {"type":"commonjs"}: PASS_USIOK_READYOK
+- Node usiok: true
+- Node readyok: true
+- Node exit code: 0
+
+Patch scope:
+- one build script
+- no YaneuraOu source changes
+- no Emscripten version changes
+- no application changes
+
+Status: READY FOR RUN #17 — NOT FORMAL
