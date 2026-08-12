@@ -1,0 +1,35 @@
+Shogi Reflection Ver.1.8.3 — Run #19 Minimal Runtime Gate Verification
+======================================================================
+Status: READY FOR GITHUB ACTIONS RUN #19 — NOT FORMAL
+Date: 2026-08-12
+
+Real Node replay against existing MATERIAL WASM artifact:
+- PASS_MINIMAL_RUNTIME
+- usiok: PASS
+- readyok: PASS
+- MultiPV option: PASS
+- multipv 1: PASS
+- multipv 2: PASS
+- MultiPV score/depth/nodes/time/PV/bestmove: PASS
+- go infinite -> stop -> bestmove: PASS
+- stop response timing: PASS
+- same-session reanalysis: PASS
+- forced-mate ordinary search: score mate -8 PASS
+- mate PV: PASS
+- mate bestmove: PASS
+- quit sent: PASS
+- runtime errors: 0
+
+Static pre-delivery checks:
+- minimal_node_runtime_probe.cjs syntax: PASS
+- minimal_browser_runtime_probe.py syntax: PASS
+- runtime_gate.html JavaScript syntax: PASS
+- root workflow YAML parse: PASS
+- workflow-reference YAML parse: PASS
+
+Browser Run #19 runtime result:
+- NOT YET MEASURED (requires GitHub Actions Chromium)
+
+Formal status:
+- NOT FORMAL
+- Full application E2E has not been reintroduced.

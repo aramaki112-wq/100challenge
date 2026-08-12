@@ -1,0 +1,61 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>YaneuraOu Minimal Runtime Gate</title>
+<main><h1>YaneuraOu Minimal Runtime Gate</h1><pre id="log"></pre></main>
+<script>
+(() => {
+  const MATE_SFEN = 'l6nl/6k2/+P3p2p1/1B1p1Pp1p/1p7/7nP/3P1SP1L/2+p3GK1/L6+r1 b B2G2S5Prgs2np 0';
+  const events=[]; const errors=[]; const infoLines=[];
+  const state={
+    done:false, passed:false, status:'RUNNING', phase:'handshake', moduleReady:false,
+    optionMultiPV:false, usiok:false, readyok:false,
+    multipv:{infoCount:0,ids:[],bestmove:'',ponder:'',scoreObserved:false,depthObserved:false,nodesObserved:false,timeObserved:false,pvObserved:false},
+    stop:{infoCount:0,bestmove:'',responseMs:null},
+    reanalysis:{infoCount:0,bestmove:'',scoreObserved:false,depthObserved:false,nodesObserved:false,timeObserved:false,pvObserved:false},
+    mate:{infoCount:0,mateObserved:false,mateScore:null,bestmove:'',pv:''},
+    quitSent:false,
+  };
+  const logEl=document.querySelector('#log');
+  const log=(s)=>{events.push(String(s));logEl.textContent=events.join('\n');};
+  const worker=new Worker('./runtime/worker-bootstrap.js',{type:'classic'});
+  let stopScheduled=false; let stopSentAt=null;
+  const send=(s)=>{log(`SEND ${s}`);worker.postMessage(s);};
+  const parseInfo=(line)=>{const o={line};let m;if((m=line.match(/\bmultipv\s+(\d+)/)))o.multipv=Number(m[1]);if((m=line.match(/\bdepth\s+(\d+)/)))o.depth=Number(m[1]);if((m=line.match(/\bnodes\s+(\d+)/)))o.nodes=Number(m[1]);if((m=line.match(/\btime\s+(\d+)/)))o.timeMs=Number(m[1]);if((m=line.match(/\bscore\s+(cp|mate)\s+(-?\d+)/))){o.scoreType=m[1];o.score=Number(m[2]);}if((m=line.match(/\bpv\s+(.+)$/)))o.pv=m[1].trim();return o;};
+  const bestmoveFrom=(line)=>{const p=line.trim().split(/\s+/),i=p.indexOf('ponder');return{bestmove:p[1]||'',ponder:i>=0?(p[i+1]||''):''};};
+  const acceptance=()=>state.optionMultiPV&&state.usiok&&state.readyok&&state.multipv.ids.includes(1)&&state.multipv.ids.includes(2)&&state.multipv.bestmove&&state.multipv.scoreObserved&&state.multipv.depthObserved&&state.multipv.nodesObserved&&state.multipv.timeObserved&&state.multipv.pvObserved&&state.stop.infoCount>0&&state.stop.bestmove&&Number.isFinite(state.stop.responseMs)&&state.reanalysis.infoCount>0&&state.reanalysis.bestmove&&state.reanalysis.scoreObserved&&state.reanalysis.depthObserved&&state.reanalysis.nodesObserved&&state.reanalysis.timeObserved&&state.reanalysis.pvObserved&&state.mate.infoCount>0&&state.mate.mateObserved&&state.mate.bestmove&&state.mate.pv&&state.quitSent&&errors.length===0;
+  const complete=()=>{if(state.done)return;state.done=true;state.passed=acceptance();state.status=state.passed?'PASS_MINIMAL_RUNTIME':'INCOMPLETE_RUNTIME_EVIDENCE';setTimeout(()=>worker.terminate(),50);};
+
+  worker.addEventListener('message',(event)=>{
+    const data=event.data;
+    if(data?.type==='module-ready'){state.moduleReady=true;log('MODULE_READY');send('usi');return;}
+    if(data?.type==='line'){
+      const line=String(data.line??''); infoLines.push(line); log(`OUT ${line}`);
+      if(line.startsWith('option name MultiPV '))state.optionMultiPV=true;
+      if(line==='usiok'&&!state.usiok){state.usiok=true;send('setoption name Threads value 1');send('setoption name USI_Hash value 64');send('setoption name USI_OwnBook value false');send('setoption name MultiPV value 2');send('isready');return;}
+      if(line==='readyok'&&!state.readyok){state.readyok=true;send('usinewgame');state.phase='multipv';send('position startpos');send('go nodes 8000');return;}
+      if(line.startsWith('info ')){
+        const info=parseInfo(line);
+        if(state.phase==='multipv'){state.multipv.infoCount++;if(Number.isFinite(info.multipv)&&!state.multipv.ids.includes(info.multipv))state.multipv.ids.push(info.multipv);if(info.scoreType)state.multipv.scoreObserved=true;if(Number.isFinite(info.depth))state.multipv.depthObserved=true;if(Number.isFinite(info.nodes))state.multipv.nodesObserved=true;if(Number.isFinite(info.timeMs))state.multipv.timeObserved=true;if(info.pv)state.multipv.pvObserved=true;}
+        else if(state.phase==='stop'){state.stop.infoCount++;if(!stopScheduled){stopScheduled=true;setTimeout(()=>{stopSentAt=performance.now();send('stop');},80);}}
+        else if(state.phase==='reanalysis'){state.reanalysis.infoCount++;if(info.scoreType)state.reanalysis.scoreObserved=true;if(Number.isFinite(info.depth))state.reanalysis.depthObserved=true;if(Number.isFinite(info.nodes))state.reanalysis.nodesObserved=true;if(Number.isFinite(info.timeMs))state.reanalysis.timeObserved=true;if(info.pv)state.reanalysis.pvObserved=true;}
+        else if(state.phase==='mate'){state.mate.infoCount++;if(info.scoreType==='mate'){state.mate.mateObserved=true;state.mate.mateScore=info.score;if(info.pv)state.mate.pv=info.pv;}}
+        return;
+      }
+      if(line.startsWith('bestmove ')){
+        const bm=bestmoveFrom(line);
+        if(state.phase==='multipv'){state.multipv.bestmove=bm.bestmove;state.multipv.ponder=bm.ponder;state.phase='stop';send('position startpos');send('go infinite');return;}
+        if(state.phase==='stop'){state.stop.bestmove=bm.bestmove;state.stop.responseMs=stopSentAt!==null?performance.now()-stopSentAt:null;state.phase='reanalysis';send('position startpos moves 7g7f 3c3d');send('go nodes 5000');return;}
+        if(state.phase==='reanalysis'){state.reanalysis.bestmove=bm.bestmove;state.phase='mate';send('setoption name MultiPV value 1');send(`position sfen ${MATE_SFEN}`);send('go nodes 200000');return;}
+        if(state.phase==='mate'){state.mate.bestmove=bm.bestmove;state.phase='quit';state.quitSent=true;send('quit');setTimeout(complete,120);return;}
+      }
+      return;
+    }
+    if(data?.type==='engine-error'||data?.type==='worker-error-event'){errors.push(data);log(`ERROR ${data.message||data.type}`);if(data.stack)log(data.stack);state.status='ENGINE_ERROR';state.done=true;state.passed=false;return;}
+    if(data?.type==='stderr'){log(`STDERR ${data.line}`);return;}
+    log(`EVENT ${JSON.stringify(data)}`);
+  });
+  worker.addEventListener('error',(event)=>{errors.push({type:'outer-worker-error',message:event.message,filename:event.filename,lineno:event.lineno,colno:event.colno});log(`OUTER_ERROR ${event.message}`);state.status='WORKER_ERROR';state.done=true;state.passed=false;event.preventDefault();});
+  setTimeout(()=>{if(!state.done){if(state.phase==='stop')send('stop');state.status=`TIMEOUT_${state.phase}`;state.passed=false;state.done=true;worker.terminate();}},30000);
+  window.minimalRuntimeGate={state,events,errors,infoLines,worker};
+})();
+</script>

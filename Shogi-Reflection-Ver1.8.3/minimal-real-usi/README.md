@@ -1,81 +1,104 @@
-# YaneuraOu Minimal Real Search Harness — Run #18
+# YaneuraOu Minimal Runtime Gate — Run #19
 
-Run #17 established the minimal Real USI handshake in both Node and Browser:
-
-```text
-usi
-  ↓
-usiok
-  ↓
-isready
-  ↓
-readyok
-```
-
-Run #18 moves exactly one step further and still excludes the Shogi Reflection
-application UI, Replay, Candidate, Evaluation Graph, STEP4, LocalStorage and
-reflection flow.
-
-The isolated question is now:
+Run #17 established the Real USI handshake in Node and Browser.
+Run #18 established a real search in both minimal environments:
 
 ```text
-Real YaneuraOu MATERIAL WASM
-  ↓
-usi → usiok
-  ↓
-setoption Threads=1
-setoption USI_Hash=64
-setoption USI_OwnBook=false
-  ↓
-isready → readyok
-  ↓
-usinewgame
 position startpos
+  ↓
 go nodes 5000
   ↓
-info score cp|mate
-info depth
-info nodes
-info time
-info pv
+info score / depth / nodes / time / pv
   ↓
-bestmove ?
+bestmove
 ```
 
-## Why `go nodes 5000`
+Run #19 still does **not** return to the Shogi Reflection full application.
+It exercises the remaining runtime behavior that the later application adapter
+will depend on.
 
-The gate is intended to prove that the engine can search a real position and
-return analysis output, without turning this step into a performance benchmark.
-A fixed node budget avoids depending on wall-clock scheduling for the first
-search proof.
+## Isolated sequence
 
-## Resource-safety options
+```text
+usi → usiok
+isready → readyok
+  ↓
+setoption MultiPV=2
+position startpos
+go nodes 8000
+  ↓
+MultiPV 1 + MultiPV 2 + bestmove
+  ↓
+position startpos
+go infinite
+  ↓
+info ...
+stop
+  ↓
+bestmove
+  ↓
+position startpos moves 7g7f 3c3d
+go nodes 5000
+  ↓
+info ... + bestmove
+  ↓
+known forced-mate position
+go nodes 200000
+  ↓
+info score mate ... pv ...
+bestmove
+  ↓
+quit
+```
 
-Before `isready`, the harness sets:
+## Why this gate exists
+
+The application needs more than a one-shot `bestmove` call.
+It must be able to:
+
+- request multiple candidate PVs;
+- cancel a running search with `stop`;
+- analyze another position in the same engine session;
+- preserve `mate` as a dedicated score type instead of converting it to a huge CP value;
+- shut down cleanly with `quit` / worker termination.
+
+## Mate evidence
+
+This gate intentionally tests **normal search output containing `score mate`**,
+not a dedicated `go mate` solver. The Shogi Reflection analysis model needs to
+preserve mate as a separate evaluation state in ordinary game analysis.
+
+The SFEN used by the harness is taken from a public YaneuraOu issue that records
+an expected `score mate -8` line under ordinary search:
+
+`l6nl/6k2/+P3p2p1/1B1p1Pp1p/1p7/7nP/3P1SP1L/2+p3GK1/L6+r1 b B2G2S5Prgs2np 0`
+
+Reference: https://github.com/yaneurao/YaneuraOu/issues/139
+
+## Resource-safety settings
+
+The minimal harness continues to use:
 
 - `Threads = 1`
 - `USI_Hash = 64`
 - `USI_OwnBook = false`
 
-These settings are only for this minimal search experiment. They are not yet the
-formal Smartphone preset.
+These values are experimental safety settings, not the final smartphone preset.
 
 ## Pass condition
 
-Both Node and cross-origin-isolated Chromium must observe:
+Both Node and cross-origin-isolated Chromium must show:
 
-- `usiok`
-- `readyok`
-- at least one `info` line
-- score (`cp` or `mate`)
-- depth
-- nodes
-- time
-- PV
-- `bestmove`
+- `usiok` / `readyok`;
+- `MultiPV` option presence;
+- `multipv 1` and `multipv 2` info;
+- score / depth / nodes / time / PV / bestmove;
+- `go infinite` followed by `stop` and a returned bestmove;
+- a second position analyzed in the same session;
+- an ordinary-search `score mate` with PV and bestmove;
+- `quit` sent without runtime errors.
 
-Even if Run #18 passes, this is **NOT FORMAL COMPLETION**. It proves only the
-minimal Real Search path. Full USI coverage, `stop`, `quit`, mate-specific
-positions, application integration, Sample KIF full-ply analysis, Cancel /
-Re-analysis, performance, license distribution gates and final ZIP
-re-verification remain later stages.
+Even a green Run #19 is **NOT FORMAL COMPLETION**. It proves only the isolated
+runtime behavior. Shogi Reflection integration, full-ply Sample KIF analysis,
+Cancel/Re-analysis through the application layers, performance measurements,
+license/distribution review and final ZIP re-verification remain later gates.

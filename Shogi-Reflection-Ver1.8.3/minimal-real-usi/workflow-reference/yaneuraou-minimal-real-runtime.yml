@@ -1,0 +1,168 @@
+name: YaneuraOu Minimal Runtime Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/yaneuraou-minimal-real-runtime.yml"
+      - "Shogi-Reflection-Ver1.8.3/minimal-real-usi/**"
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
+
+jobs:
+  minimal-runtime-gate:
+    name: MultiPV stop reanalysis mate quit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Shogi Reflection
+        uses: actions/checkout@v4.2.2
+
+      - name: Prepare minimal runtime harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          mkdir -p "$APP_DIR/minimal-real-usi/evidence"
+          bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          node --check "$APP_DIR/minimal-real-usi/minimal_node_runtime_probe.cjs"
+          python3 -m py_compile "$APP_DIR/minimal-real-usi/minimal_browser_runtime_probe.py"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, subprocess
+          html=Path('Shogi-Reflection-Ver1.8.3/minimal-real-usi/runtime_gate.html').read_text(encoding='utf-8')
+          match=re.search(r'<script>\s*(.*?)\s*</script>', html, re.S)
+          if not match:
+              raise SystemExit('runtime_gate.html script block missing')
+          p=Path('/tmp/runtime-gate-script.js')
+          p.write_text(match.group(1), encoding='utf-8')
+          subprocess.run(['node','--check',str(p)], check=True)
+          PY
+
+      - name: Pull pinned Emscripten image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "$EMSCRIPTEN_IMAGE"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
+            | tee "$APP_DIR/minimal-real-usi/evidence/runtime-emscripten-image-id.txt"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{json .RepoDigests}}' \
+            | tee "$APP_DIR/minimal-real-usi/evidence/runtime-emscripten-image-repodigests.json"
+
+      - name: Clone and verify pinned YaneuraOu
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu-runtime"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$YANEURAOU_COMMIT"
+          git -C "$SOURCE_DIR" status --porcelain=v1 \
+            | tee "$APP_DIR/minimal-real-usi/evidence/runtime-upstream-status-before-patch.txt"
+          test ! -s "$APP_DIR/minimal-real-usi/evidence/runtime-upstream-status-before-patch.txt"
+          echo "YANEURAOU_RUNTIME_SOURCE=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build minimal runtime candidate WASM
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/minimal-real-usi/build-minimal-usi.sh" \
+            "$YANEURAOU_RUNTIME_SOURCE" \
+            "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Run Node minimal runtime gate
+        id: node_runtime
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          cd "$APP_DIR/minimal-real-usi"
+          node minimal_node_runtime_probe.cjs 2>&1 | tee evidence/node-runtime-gate.log
+
+      - name: Install minimal browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check -r "$APP_DIR/requirements-real-engine.txt"
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run Browser minimal runtime gate
+        id: browser_runtime
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          cd "$APP_DIR/minimal-real-usi"
+          python3 minimal_browser_runtime_probe.py 2>&1 | tee evidence/browser-runtime-gate.log
+
+      - name: Upload minimal runtime evidence
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-minimal-runtime-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/
+
+      - name: Enforce minimal runtime gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('Shogi-Reflection-Ver1.8.3/minimal-real-usi')
+          failures=[]
+          for filename,label in [
+              ('MINIMAL_NODE_RUNTIME_RESULT.json','Node minimal runtime'),
+              ('MINIMAL_BROWSER_RUNTIME_RESULT.json','Browser minimal runtime'),
+          ]:
+              p=root/filename
+              if not p.exists():
+                  failures.append(f'{label}: result missing')
+                  continue
+              d=json.loads(p.read_text(encoding='utf-8'))
+              if d.get('passed') is not True:
+                  failures.append(f"{label}: {d.get('status','failed')}")
+                  continue
+              if d.get('optionMultiPV') is not True:
+                  failures.append(f'{label}: MultiPV option missing')
+              mp=d.get('multipv') or {}
+              if mp.get('multipv1') is not True or mp.get('multipv2') is not True:
+                  ids=mp.get('ids')
+                  if not (isinstance(ids,list) and 1 in ids and 2 in ids):
+                      failures.append(f'{label}: MultiPV 1/2 evidence missing')
+              for key in ('scoreObserved','depthObserved','nodesObserved','timeObserved','pvObserved'):
+                  if mp.get(key) is not True:
+                      failures.append(f'{label}: MultiPV {key} missing')
+              if not mp.get('bestmove'):
+                  failures.append(f'{label}: MultiPV bestmove missing')
+              stop=d.get('stop') or {}
+              if stop.get('infoCount',0) < 1 or not stop.get('bestmove'):
+                  failures.append(f'{label}: stop/bestmove evidence missing')
+              if not isinstance(stop.get('responseMs'), (int,float)):
+                  failures.append(f'{label}: stop response timing missing')
+              re=d.get('reanalysis') or {}
+              if re.get('infoCount',0) < 1 or not re.get('bestmove'):
+                  failures.append(f'{label}: reanalysis evidence missing')
+              mate=d.get('mate') or {}
+              if mate.get('mateObserved') is not True or not mate.get('bestmove') or not mate.get('pv'):
+                  failures.append(f'{label}: score mate evidence missing')
+              if d.get('quitSent') is not True:
+                  failures.append(f'{label}: quit evidence missing')
+          if failures:
+              raise SystemExit('Minimal runtime gate failure(s): ' + ' | '.join(failures))
+          print('PASS: Node and Browser both completed MultiPV -> stop -> reanalysis -> score mate -> quit.')
+          print('PASS: stop returned bestmove and mate remained a dedicated score type, not a synthetic CP conversion.')
+          print('NOTE: this remains NOT FORMAL and does not run the Shogi Reflection full application E2E.')
+          PY
