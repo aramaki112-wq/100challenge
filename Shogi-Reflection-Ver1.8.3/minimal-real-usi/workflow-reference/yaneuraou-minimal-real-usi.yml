@@ -33,7 +33,7 @@ jobs:
           chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
           mkdir -p "$APP_DIR/minimal-real-usi/evidence"
           bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
-          node --check "$APP_DIR/minimal-real-usi/minimal_node_usi_probe.js"
+          node --check "$APP_DIR/minimal-real-usi/minimal_node_usi_probe.cjs"
           python3 -m py_compile "$APP_DIR/minimal-real-usi/minimal_browser_usi_probe.py"
 
       - name: Pull and record pinned Emscripten image
@@ -74,7 +74,7 @@ jobs:
         run: |
           set -o pipefail
           cd "$APP_DIR/minimal-real-usi"
-          node minimal_node_usi_probe.js 2>&1 | tee evidence/node-probe.log
+          node minimal_node_usi_probe.cjs 2>&1 | tee evidence/node-probe.log
 
       - name: Install minimal browser verifier
         shell: bash

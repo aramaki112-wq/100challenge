@@ -57,6 +57,10 @@ for f in yaneuraou.material.js yaneuraou.material.wasm yaneuraou.material.worker
   test -s "$OUT_DIR/$f"
   cp "$OUT_DIR/$f" "$HARNESS_DIR/runtime/$f"
 done
+# Node runs inside the application package, whose package.json uses "type": "module".
+# Keep the browser .js asset unchanged, but provide a byte-identical .cjs copy
+# so the Node-only probe can load the Emscripten CommonJS export explicitly.
+cp "$HARNESS_DIR/runtime/yaneuraou.material.js" "$HARNESS_DIR/runtime/yaneuraou.material.cjs"
 cp "$HARNESS_DIR/worker-bootstrap.js" "$HARNESS_DIR/runtime/worker-bootstrap.js"
 sha256sum "$HARNESS_DIR/runtime/"* | tee "$HARNESS_DIR/evidence/runtime-sha256.txt"
 cp "$OUT_DIR/emcc-version.txt" "$HARNESS_DIR/evidence/emcc-version.txt"

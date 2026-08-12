@@ -1,0 +1,76 @@
+Shogi Reflection Ver.1.8.3 — Run #16 Minimal USI Verification
+===============================================================
+Status: READY FOR GITHUB ACTIONS RUN #16 — NOT FORMAL
+Date: 2026-08-12
+
+Run #15 measured Real Browser result
+------------------------------------
+MINIMAL_BROWSER_USI_RESULT.json:
+- passed: true
+- status: PASS_USIOK
+- crossOriginIsolated: true
+- SharedArrayBuffer: true
+- moduleReady: true
+- usiok: true
+- readyok: true
+- errors: []
+- pageErrors: []
+
+Run #15 Node job failure
+------------------------
+The Node probe did not reach YaneuraOu at all.
+It failed immediately because:
+- package.json declares "type": "module"
+- minimal_node_usi_probe.js used CommonJS require()
+
+Observed error:
+ReferenceError: require is not defined in ES module scope
+
+Local replay of the same Run #15 Real artifact
+-----------------------------------------------
+The generated Emscripten JS was copied byte-for-byte from:
+  yaneuraou.material.js
+to:
+  yaneuraou.material.cjs
+
+The Node probe was run as CommonJS.
+
+Measured result:
+- status: PASS_USIOK_READYOK
+- usiok: true
+- readyok: true
+- Node process exit: 0
+
+Run #16 change
+--------------
+No YaneuraOu source change.
+No MATERIAL change.
+No Emscripten change.
+No candidate thread patch change.
+No Browser harness change.
+
+Only:
+- Node probe uses .cjs
+- Node-only byte-identical Emscripten glue copy uses .cjs
+- minimal workflow references the .cjs probe
+
+Pre-delivery checks
+-------------------
+- build-minimal-usi.sh syntax: PASS
+- minimal_node_usi_probe.cjs syntax: PASS
+- root minimal workflow YAML parse: PASS
+- workflow-reference YAML parse: PASS
+- ZIP integrity: checked after creation
+
+Acceptance
+----------
+Run #16 is green only if BOTH:
+- Node minimal harness observes usiok
+- Browser minimal harness observes usiok
+
+Formal status
+-------------
+NOT FORMAL.
+A green Run #16 establishes only the Minimal Real USI handshake.
+Full Real USI, analysis, application E2E, Cancel/Re-analysis, licensing,
+and final ZIP re-verification remain separate later gates.
