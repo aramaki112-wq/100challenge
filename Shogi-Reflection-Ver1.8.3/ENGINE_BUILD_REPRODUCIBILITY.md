@@ -198,3 +198,12 @@ The Real USI verifier accepts the diagnostic artifact only under the explicit CI
 USI result so the measured pthread `function signature mismatch` can be diagnosed rather
 than guessed.
 
+
+
+## Run #14 — Diagnostic measured-evidence semantics
+
+Run #13 confirmed that the diagnostic build can be physically built and fully measured while still being explicitly non-formal.
+
+`measured=true` now means only that the Build Bridge captured real toolchain/build/hash evidence. Formal readiness remains a separate property and is rejected when `diagnosticBuild=true` / `status=DIAGNOSTIC_BUILD_NOT_FORMAL`.
+
+This separation allows the Real USI diagnostic to execute without weakening the production Formal Completion gates.

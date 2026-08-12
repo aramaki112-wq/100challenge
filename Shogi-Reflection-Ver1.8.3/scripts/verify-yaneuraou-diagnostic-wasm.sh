@@ -19,7 +19,8 @@ function assert(cond, msg) {
 }
 
 assert(metadata.diagnosticBuild === true, 'diagnosticBuild must be true');
-assert(metadata.measured === false, 'diagnostic build must remain non-formal measured=false');
+assert(metadata.measured === true, 'diagnostic build must preserve measured=true because the artifact was actually built and hashed');
+assert(metadata.status === 'DIAGNOSTIC_BUILD_NOT_FORMAL', 'diagnostic build must remain non-formal via status=DIAGNOSTIC_BUILD_NOT_FORMAL');
 assert(manifest.available === true, 'diagnostic runtime manifest must expose the built artifact');
 assert(manifest.diagnosticBuild === true, 'manifest must identify diagnosticBuild=true');
 assert(metadata.diagnosticEmccCflags === '-sASSERTIONS=2 -g3 -Wcast-function-type', 'unexpected diagnostic compiler flags');

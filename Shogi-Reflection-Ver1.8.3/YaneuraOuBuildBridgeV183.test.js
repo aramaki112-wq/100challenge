@@ -177,6 +177,15 @@ test("Run 13 diagnostic flow bypasses only the Formal artifact gate and still ha
   assert.match(usi,/diagnostic_build = metadata\.get\("diagnosticBuild"\) is True/);
 });
 
+
+test("Run 14 diagnostic integrity gate distinguishes measured build evidence from Formal readiness",()=>{
+  const verify=read("scripts/verify-yaneuraou-diagnostic-wasm.sh");
+  assert.match(verify,/metadata\.measured === true/);
+  assert.match(verify,/DIAGNOSTIC_BUILD_NOT_FORMAL/);
+  assert.match(verify,/metadata\.diagnosticBuild === true/);
+  assert.doesNotMatch(verify,/metadata\.measured === false/);
+});
+
 test("Run 13 Real USI verifier preserves browser console and page-error diagnostics",()=>{
   const s=read("real_yaneuraou_usi_verify.py");
   assert.match(s,/browser_console = \[\]/);
