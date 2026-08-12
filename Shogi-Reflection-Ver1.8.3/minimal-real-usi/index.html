@@ -1,23 +1,73 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>YaneuraOu Minimal Real USI Harness</title>
+<title>YaneuraOu Minimal Real Search Harness</title>
 <main>
-  <h1>YaneuraOu Minimal Real USI Harness</h1>
+  <h1>YaneuraOu Minimal Real Search Harness</h1>
   <pre id="log"></pre>
 </main>
 <script>
 (() => {
   const events = [];
   const errors = [];
-  const state = {moduleReady:false, usiok:false, readyok:false, startedAt:performance.now()};
+  const infoLines = [];
+  const state = {
+    moduleReady:false,
+    usiok:false,
+    readyok:false,
+    searchStarted:false,
+    infoCount:0,
+    scoreObserved:false,
+    scoreType:'',
+    score:null,
+    depthObserved:false,
+    depth:null,
+    nodesObserved:false,
+    nodes:null,
+    timeObserved:false,
+    timeMs:null,
+    pvObserved:false,
+    pv:'',
+    bestmoveObserved:false,
+    bestmove:'',
+    ponder:'',
+    startedAt:performance.now(),
+    searchStartedAt:null,
+    bestmoveAt:null,
+  };
   const logEl = document.querySelector('#log');
   const log = (text) => {
     events.push(String(text));
     logEl.textContent = events.join('\n');
   };
+  const parseInfo = (line) => {
+    let m;
+    if ((m = line.match(/\bscore\s+(cp|mate)\s+(-?\d+)/))) {
+      state.scoreObserved = true;
+      state.scoreType = m[1];
+      state.score = Number(m[2]);
+    }
+    if ((m = line.match(/\bdepth\s+(\d+)/))) {
+      state.depthObserved = true;
+      state.depth = Number(m[1]);
+    }
+    if ((m = line.match(/\bnodes\s+(\d+)/))) {
+      state.nodesObserved = true;
+      state.nodes = Number(m[1]);
+    }
+    if ((m = line.match(/\btime\s+(\d+)/))) {
+      state.timeObserved = true;
+      state.timeMs = Number(m[1]);
+    }
+    if ((m = line.match(/\bpv\s+(.+)$/))) {
+      state.pvObserved = true;
+      state.pv = m[1].trim();
+    }
+  };
+
   log(`crossOriginIsolated=${crossOriginIsolated}`);
   log(`SharedArrayBuffer=${typeof SharedArrayBuffer}`);
   const worker = new Worker('./runtime/worker-bootstrap.js', {type:'classic'});
+
   worker.addEventListener('message', (event) => {
     const data = event.data;
     if (data?.type === 'module-ready') {
@@ -28,13 +78,39 @@
       return;
     }
     if (data?.type === 'line') {
-      log(`OUT ${data.line}`);
-      if (data.line === 'usiok' && !state.usiok) {
+      const line = String(data.line ?? '');
+      log(`OUT ${line}`);
+      if (line === 'usiok' && !state.usiok) {
         state.usiok = true;
+        worker.postMessage('setoption name Threads value 1');
+        worker.postMessage('setoption name USI_Hash value 64');
+        worker.postMessage('setoption name USI_OwnBook value false');
         worker.postMessage('isready');
+        log('SEND setoption Threads=1');
+        log('SEND setoption USI_Hash=64');
+        log('SEND setoption USI_OwnBook=false');
         log('SEND isready');
-      } else if (data.line === 'readyok') {
+      } else if (line === 'readyok' && !state.readyok) {
         state.readyok = true;
+        worker.postMessage('usinewgame');
+        worker.postMessage('position startpos');
+        state.searchStarted = true;
+        state.searchStartedAt = performance.now();
+        worker.postMessage('go nodes 5000');
+        log('SEND usinewgame');
+        log('SEND position startpos');
+        log('SEND go nodes 5000');
+      } else if (line.startsWith('info ')) {
+        infoLines.push(line);
+        state.infoCount = infoLines.length;
+        parseInfo(line);
+      } else if (line.startsWith('bestmove ') && !state.bestmoveObserved) {
+        const parts = line.trim().split(/\s+/);
+        state.bestmoveObserved = true;
+        state.bestmove = parts[1] || '';
+        const ponderIndex = parts.indexOf('ponder');
+        if (ponderIndex >= 0 && parts[ponderIndex + 1]) state.ponder = parts[ponderIndex + 1];
+        state.bestmoveAt = performance.now();
       }
       return;
     }
@@ -50,12 +126,20 @@
     }
     log(`EVENT ${JSON.stringify(data)}`);
   });
+
   worker.addEventListener('error', (event) => {
-    const error = {type:'outer-worker-error', message:event.message, filename:event.filename, lineno:event.lineno, colno:event.colno};
+    const error = {
+      type:'outer-worker-error',
+      message:event.message,
+      filename:event.filename,
+      lineno:event.lineno,
+      colno:event.colno,
+    };
     errors.push(error);
     log(`OUTER_ERROR ${event.message}`);
     event.preventDefault();
   });
-  window.minimalUsiHarness = {state, events, errors, worker};
+
+  window.minimalUsiHarness = {state, events, errors, infoLines, worker};
 })();
 </script>

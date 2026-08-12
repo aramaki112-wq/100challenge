@@ -1,4 +1,4 @@
-name: YaneuraOu Minimal Real USI Harness
+name: YaneuraOu Minimal Real Search Harness
 
 on:
   workflow_dispatch:
@@ -17,8 +17,8 @@ env:
   EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
 
 jobs:
-  minimal-real-usi:
-    name: Minimal usi to usiok
+  minimal-real-search:
+    name: Minimal position to bestmove
     runs-on: ubuntu-22.04
     timeout-minutes: 45
 
@@ -26,15 +26,15 @@ jobs:
       - name: Checkout Shogi Reflection
         uses: actions/checkout@v4.2.2
 
-      - name: Prepare minimal harness
+      - name: Prepare minimal search harness
         shell: bash
         run: |
           set -euo pipefail
           chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
           mkdir -p "$APP_DIR/minimal-real-usi/evidence"
           bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
-          node --check "$APP_DIR/minimal-real-usi/minimal_node_usi_probe.cjs"
-          python3 -m py_compile "$APP_DIR/minimal-real-usi/minimal_browser_usi_probe.py"
+          node --check "$APP_DIR/minimal-real-usi/minimal_node_search_probe.cjs"
+          python3 -m py_compile "$APP_DIR/minimal-real-usi/minimal_browser_search_probe.py"
 
       - name: Pull and record pinned Emscripten image
         shell: bash
@@ -67,14 +67,14 @@ jobs:
             "$YANEURAOU_MINIMAL_SOURCE" \
             "$GITHUB_WORKSPACE/$APP_DIR"
 
-      - name: Run minimal Node USI probe
-        id: node_probe
+      - name: Run minimal Node search probe
+        id: node_search_probe
         continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
           cd "$APP_DIR/minimal-real-usi"
-          node minimal_node_usi_probe.cjs 2>&1 | tee evidence/node-probe.log
+          node minimal_node_search_probe.cjs 2>&1 | tee evidence/node-search-probe.log
 
       - name: Install minimal browser verifier
         shell: bash
@@ -83,26 +83,26 @@ jobs:
           python3 -m pip install --disable-pip-version-check -r "$APP_DIR/requirements-real-engine.txt"
           python3 -m playwright install --with-deps chromium
 
-      - name: Run minimal Browser USI probe
-        id: browser_probe
+      - name: Run minimal Browser search probe
+        id: browser_search_probe
         continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
           cd "$APP_DIR/minimal-real-usi"
-          python3 minimal_browser_usi_probe.py 2>&1 | tee evidence/browser-probe.log
+          python3 minimal_browser_search_probe.py 2>&1 | tee evidence/browser-search-probe.log
 
-      - name: Upload minimal harness evidence
+      - name: Upload minimal search evidence
         if: always()
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: yaneuraou-minimal-real-usi-${{ github.run_id }}-${{ github.run_attempt }}
+          name: yaneuraou-minimal-real-search-${{ github.run_id }}-${{ github.run_attempt }}
           retention-days: 30
           if-no-files-found: error
           path: |
             Shogi-Reflection-Ver1.8.3/minimal-real-usi/
 
-      - name: Enforce only the minimal usiok gate
+      - name: Enforce minimal search gate
         if: always()
         shell: bash
         run: |
@@ -112,19 +112,39 @@ jobs:
           from pathlib import Path
           root=Path('Shogi-Reflection-Ver1.8.3/minimal-real-usi')
           failures=[]
+          required=[
+              ('usiok', True),
+              ('readyok', True),
+              ('searchStarted', True),
+              ('scoreObserved', True),
+              ('depthObserved', True),
+              ('nodesObserved', True),
+              ('timeObserved', True),
+              ('pvObserved', True),
+              ('bestmoveObserved', True),
+          ]
           for filename,label in [
-              ('MINIMAL_NODE_USI_RESULT.json','Node minimal USI'),
-              ('MINIMAL_BROWSER_USI_RESULT.json','Browser minimal USI'),
+              ('MINIMAL_NODE_SEARCH_RESULT.json','Node minimal search'),
+              ('MINIMAL_BROWSER_SEARCH_RESULT.json','Browser minimal search'),
           ]:
               p=root/filename
               if not p.exists():
                   failures.append(f'{label}: result missing')
                   continue
               d=json.loads(p.read_text(encoding='utf-8'))
-              if d.get('usiok') is not True:
+              if d.get('passed') is not True:
                   failures.append(f"{label}: {d.get('status','failed')}")
+                  continue
+              missing=[key for key,value in required if d.get(key) is not value]
+              if missing:
+                  failures.append(f"{label}: missing evidence {','.join(missing)}")
+              if not d.get('bestmove'):
+                  failures.append(f'{label}: bestmove missing')
+              if d.get('infoCount',0) < 1:
+                  failures.append(f'{label}: no info line')
           if failures:
-              raise SystemExit('Minimal usiok gate failure(s): ' + ' | '.join(failures))
-          print('PASS: both Node and Browser minimal harnesses observed usiok.')
-          print('NOTE: this is not Formal Completion and does not run the Shogi Reflection full E2E.')
+              raise SystemExit('Minimal search gate failure(s): ' + ' | '.join(failures))
+          print('PASS: Node and Browser both completed position startpos -> go nodes 5000 -> info -> bestmove.')
+          print('PASS: score/depth/nodes/time/PV evidence was observed in both minimal harnesses.')
+          print('NOTE: this remains NOT FORMAL and does not run the Shogi Reflection full application E2E.')
           PY

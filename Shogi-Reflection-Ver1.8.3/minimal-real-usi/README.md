@@ -1,49 +1,81 @@
-# YaneuraOu Minimal Real USI Harness — Run #15
+# YaneuraOu Minimal Real Search Harness — Run #18
 
-This harness intentionally excludes the Shogi Reflection application UI,
-Replay, Candidate, Graph, LocalStorage and reflection flow.
-
-Its only question is:
+Run #17 established the minimal Real USI handshake in both Node and Browser:
 
 ```text
-pinned YaneuraOu V9.00
-+ Emscripten 3.1.43
-+ existing reviewed USI bridge
-+ candidate Emscripten Thread worker-init bridge
-        ↓
-Real JS / WASM / pthread worker
-        ↓
 usi
-        ↓
-usiok ?
+  ↓
+usiok
+  ↓
+isready
+  ↓
+readyok
 ```
 
-## Why this exists
+Run #18 moves exactly one step further and still excludes the Shogi Reflection
+application UI, Replay, Candidate, Evaluation Graph, STEP4, LocalStorage and
+reflection flow.
 
-A direct Node probe against the measured Run #14 diagnostic artifact reproduced
-a lower-level failure before USI handshake. The stack reached:
+The isolated question is now:
 
-- `YaneuraOu::Thread::clear_worker()::$_0::operator()()`
-- `YaneuraOu::Thread::idle_loop()`
-- libc++ `__thread_proxy`
+```text
+Real YaneuraOu MATERIAL WASM
+  ↓
+usi → usiok
+  ↓
+setoption Threads=1
+setoption USI_Hash=64
+setoption USI_OwnBook=false
+  ↓
+isready → readyok
+  ↓
+usinewgame
+position startpos
+go nodes 5000
+  ↓
+info score cp|mate
+info depth
+info nodes
+info time
+info pv
+  ↓
+bestmove ?
+```
 
-The pinned V9.00 `Thread` constructor omits the non-WASM `worker_factory`
-initialization inside the `__EMSCRIPTEN__` branch, while `ThreadPool::set()`
-subsequently calls `clear()`, and `clear_worker()` dereferences `worker`.
+## Why `go nodes 5000`
 
-Run #15 does not modify the application. It tests one narrowly scoped candidate:
-construct `Search::Worker` synchronously in the Emscripten constructor branch
-before `ThreadPool::clear()` can run.
+The gate is intended to prove that the engine can search a real position and
+return analysis output, without turning this step into a performance benchmark.
+A fixed node budget avoids depending on wall-clock scheduling for the first
+search proof.
+
+## Resource-safety options
+
+Before `isready`, the harness sets:
+
+- `Threads = 1`
+- `USI_Hash = 64`
+- `USI_OwnBook = false`
+
+These settings are only for this minimal search experiment. They are not yet the
+formal Smartphone preset.
 
 ## Pass condition
 
-The primary Run #15 gate is deliberately small:
+Both Node and cross-origin-isolated Chromium must observe:
 
-- Node minimal harness observes `usiok`.
-- Browser minimal harness under COOP/COEP observes `usiok`.
+- `usiok`
+- `readyok`
+- at least one `info` line
+- score (`cp` or `mate`)
+- depth
+- nodes
+- time
+- PV
+- `bestmove`
 
-`readyok` is recorded but is not required for the first breakthrough.
-
-Even if Run #15 passes, this is **NOT FORMAL COMPLETION**. The candidate source
-patch must still be reviewed, integrated into the formal source-modification
-plan, and followed by the full Real USI/E2E/License/ZIP gates.
+Even if Run #18 passes, this is **NOT FORMAL COMPLETION**. It proves only the
+minimal Real Search path. Full USI coverage, `stop`, `quit`, mate-specific
+positions, application integration, Sample KIF full-ply analysis, Cancel /
+Re-analysis, performance, license distribution gates and final ZIP
+re-verification remain later stages.

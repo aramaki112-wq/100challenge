@@ -1,0 +1,95 @@
+Shogi Reflection Ver.1.8.3 — Run #18 Minimal Real Search Verification
+====================================================================
+Status: READY FOR GITHUB ACTIONS RUN #18 — NOT FORMAL
+Date: 2026-08-12
+
+Purpose
+-------
+Extend the already-passing Minimal Real USI handshake by one isolated step:
+
+  position startpos
+    -> go nodes 5000
+    -> info
+    -> score/depth/nodes/time/PV
+    -> bestmove
+
+No Shogi Reflection full-application UI/E2E participates in this gate.
+
+Pinned YaneuraOu source behavior confirmed
+-------------------------------------------
+The pinned V9.00 USI dispatcher handles `position` and `go` commands.
+The `go` limit parser accepts `nodes`, and also supports `depth`, `movetime`,
+`byoyomi`, etc. Run #18 deliberately uses a fixed nodes budget.
+
+Measured local replay with the previously generated Real artifact
+-----------------------------------------------------------------
+The new Node search probe was executed against the existing Real YaneuraOu
+MATERIAL WASM artifact (same engine runtime lineage used by the minimal harness,
+with the Node CommonJS runtime boundary already proven in Run #17).
+
+Result: PASS_MINIMAL_SEARCH
+- usiok: true
+- readyok: true
+- searchStarted: true
+- infoCount: 2
+- scoreObserved: true
+- scoreType: cp
+- score: 0
+- depth: 11
+- nodes: 5002
+- timeMs: 18
+- PV observed: true
+- bestmove: 1g1f
+- ponder: 1c1d
+- process exit: 0
+
+The measured info evidence line included:
+  info depth 11 ... score cp 0 nodes 5002 ... time 18 pv 1g1f 1c1d ...
+
+Browser status before Run #18
+-----------------------------
+Run #17 is green, establishing the minimal Browser and Node USI handshake.
+Run #18 must still measure Browser search output in GitHub Actions; no local
+Browser-search success is claimed here.
+
+Run #18 search settings
+-----------------------
+- Threads = 1
+- USI_Hash = 64
+- USI_OwnBook = false
+- position startpos
+- go nodes 5000
+
+These are experiment settings only, not the final Smartphone preset.
+
+Pass rule
+---------
+BOTH Node and cross-origin-isolated Chromium must report:
+- usiok
+- readyok
+- search started
+- >= 1 info line
+- score cp or mate
+- depth
+- nodes
+- time
+- PV
+- bestmove
+
+Pre-delivery checks
+-------------------
+- Node search probe syntax: PASS
+- Browser search probe Python syntax: PASS
+- Browser page JavaScript syntax: PASS
+- Root workflow YAML parse: PASS
+- Workflow-reference YAML parse: PASS
+- Node replay against Real artifact: PASS_MINIMAL_SEARCH
+
+Formal status
+-------------
+NOT FORMAL.
+Even a green Run #18 proves only the minimal Real Search path.
+Remaining gates include fuller USI coverage (mate/stop/quit/MultiPV), Real
+Application integration, Sample KIF full-ply analysis, Cancel/Re-analysis,
+performance, licensing/distribution, source audit, Formal Completion and ZIP
+re-verification.
