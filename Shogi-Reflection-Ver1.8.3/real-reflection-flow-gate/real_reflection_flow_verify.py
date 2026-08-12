@@ -82,6 +82,7 @@ def main() -> int:
         "candidatePly": None,
         "candidateGroup": None,
         "candidateBoardVisible": False,
+        "candidateBoardGeometry": None,
         "candidateBoardPly": False,
         "candidateScrollChanged": False,
         "candidateAddKeepsScroll": False,
@@ -225,13 +226,32 @@ def main() -> int:
                     arg=candidate_ply,
                     timeout=10_000,
                 )
-                page.wait_for_timeout(700)
+                # Candidate Jump intentionally uses smooth scrolling. On the Real
+                # full-ply Step3 the page is very tall, so a fixed sleep can sample
+                # the board while the browser is still moving. Poll the actual board
+                # geometry instead and keep the same production visibility contract.
+                scroll_deadline = time.monotonic() + 10.0
+                geom = board_geometry(page)
+                while time.monotonic() < scroll_deadline:
+                    if (
+                        geom
+                        and geom["bottom"] > 0
+                        and geom["top"] < geom["viewport"]
+                        and geom["top"] >= geom["stickyBottom"] - 2
+                    ):
+                        break
+                    page.wait_for_timeout(100)
+                    geom = board_geometry(page)
+
                 after_jump_y = page.evaluate("window.scrollY")
                 result["candidateScrollChanged"] = abs(after_jump_y - before_jump_y) > 1
                 result["candidateToReplay"] = page.locator("#replay-jump-number").input_value() == str(candidate_ply)
-                geom = board_geometry(page)
+                result["candidateBoardGeometry"] = geom
                 result["candidateBoardVisible"] = bool(
-                    geom and geom["bottom"] > 0 and geom["top"] < geom["viewport"] and geom["top"] >= geom["stickyBottom"] - 2
+                    geom
+                    and geom["bottom"] > 0
+                    and geom["top"] < geom["viewport"]
+                    and geom["top"] >= geom["stickyBottom"] - 2
                 )
                 board_label = page.locator("#shogi-board").get_attribute("aria-label") or ""
                 result["candidateBoardPly"] = (
@@ -384,6 +404,7 @@ def main() -> int:
         f"Candidate group: {result.get('candidateGroup')}",
         f"Candidate intentional Board scroll: {result.get('candidateScrollChanged')}",
         f"Candidate Board visible: {result.get('candidateBoardVisible')}",
+        f"Candidate Board geometry: {result.get('candidateBoardGeometry')}",
         f"Candidate Board ply: {result.get('candidateBoardPly')}",
         f"Candidate add keeps scroll: {result.get('candidateAddKeepsScroll')}",
         f"KeyPosition added: {result.get('keyPositionAdded')} @ {result.get('keyPositionMoveNumber')}",

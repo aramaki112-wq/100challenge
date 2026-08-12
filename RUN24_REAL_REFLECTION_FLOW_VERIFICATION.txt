@@ -1,0 +1,34 @@
+Shogi Reflection Ver.1.8.3 — Run #24 Patch Verification
+========================================================
+Status: READY FOR GITHUB ACTIONS RUN #24 — NOT FORMAL
+Date: 2026-08-13
+
+Run #23 artifact:
+- analysis: 153 / 153 COMPLETED
+- graphToReplay: true
+- candidateToReplay: true
+- candidateScrollChanged: true
+- candidateBoardPly: true
+- candidateBoardVisible: false
+- candidateAddKeepsScroll: true
+- keyPositionAdded: true
+- graphKeyPositionMarker: true
+- graphToStep4: true
+- step4ExactCard: true
+- FACT / INTERPRETATION / HYPOTHESIS empty: true
+- pageErrors: 0
+- error: null
+
+Diagnosis:
+Fixed 700 ms timing sampled a long production smooth scroll before settlement.
+
+Run #24:
+- Production files changed: 0
+- Harness files changed: 1
+- Board visibility condition unchanged
+- Smooth-scroll settlement polling: up to 10 seconds
+- Final board geometry recorded as evidence
+- Python syntax: PASS
+- ZIP integrity: checked after creation
+
+Formal status: NOT FORMAL.
