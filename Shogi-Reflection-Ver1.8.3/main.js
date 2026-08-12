@@ -654,7 +654,12 @@ document.getElementById("engine-analysis-candidates").addEventListener("click", 
     // means the user is asking to see the board. Jump first so Current Move / Snapshot source /
     // Board / Move List Highlight all update, then intentionally scroll the existing Replay board.
     const rendered = replayController.jump(Number(replayButton.dataset.engineReplayPly));
-    if (rendered) replayView.scrollIntoView({ behavior: "smooth", reason: "ENGINE_CANDIDATE_JUMP" });
+    if (rendered) {
+      // Real full-ply analysis makes STEP3 very tall. A long-distance smooth scroll can be
+      // interrupted/throttled before the Replay board becomes visible. This explicit
+      // Candidate action is the formal page-scroll exception, so make the jump deterministic.
+      replayView.scrollIntoView({ behavior: "auto", reason: "ENGINE_CANDIDATE_JUMP" });
+    }
     return;
   }
   const addButton = event.target.closest("[data-engine-add-key-position]");
@@ -690,7 +695,11 @@ function activateEngineGraphTarget(target) {
   const replayMarker = target.closest?.("[data-engine-graph-replay-ply]");
   if (replayMarker) {
     const rendered = replayController.jump(Number(replayMarker.dataset.engineGraphReplayPly));
-    if (rendered) replayView.scrollIntoView({ behavior: "smooth", reason: "ENGINE_GRAPH_CANDIDATE_JUMP" });
+    if (rendered) {
+      // Graph -> Replay is also an explicit request to see the board; use the same
+      // deterministic long-page scroll as Candidate -> Replay.
+      replayView.scrollIntoView({ behavior: "auto", reason: "ENGINE_GRAPH_CANDIDATE_JUMP" });
+    }
     return true;
   }
   return false;

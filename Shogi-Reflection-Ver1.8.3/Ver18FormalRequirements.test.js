@@ -118,7 +118,7 @@ test("verified manifest時はYaneuraOuWasm primary + Local fallbackを構成す�
     Worker: DummyWorker,
     crossOriginIsolated: true,
     SharedArrayBuffer: class SharedArrayBuffer {},
-    async fetch() { return { ok: true, async json() { return { available: true, workerUrl: "./YaneuraOuWasmWorkerBootstrap.js", engineVersion: "V9.00", commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493", emscriptenVersion: "em++ 3.1.43", jsSha256: "a".repeat(64), wasmSha256: "b".repeat(64), evaluationModel: "MATERIAL", materialLevel: 1, requiresThreads: true, requiresCrossOriginIsolation: true }; } }; }
+    async fetch() { return { ok: true, async json() { return { available: true, workerUrl: "./YaneuraOuWasmWorkerBootstrap.js", engineVersion: "V9.00", commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493", emscriptenVersion: "em++ 4.0.15", jsSha256: "a".repeat(64), wasmSha256: "b".repeat(64), evaluationModel: "MATERIAL", materialLevel: 1, requiresThreads: true, requiresCrossOriginIsolation: true }; } }; }
   });
   assert.ok(engine instanceof FallbackShogiEngineAdapter);
   assert.ok(engine.primary instanceof YaneuraOuWasmAdapter);
@@ -132,10 +132,22 @@ test("Candidate JumpだけPage Scroll例外で通常Replay Scroll Policyは維�
   const block = main.slice(start, end);
   assert.match(block, /replayController\.jump/);
   assert.match(block, /replayView\.scrollIntoView/);
+  assert.match(block, /behavior:\s*"auto"/);
   assert.match(block, /ENGINE_CANDIDATE_JUMP/);
   const policy = fs.readFileSync(new URL("./ReplayScrollPolicy.js", import.meta.url), "utf8");
   assert.match(policy, /pageScroll:\s*"NONE"/);
   assert.match(policy, /pageScrollRequested:\s*false/);
+});
+
+test("Graph Replay JumpもReal full-ply長画面でdeterministic Page Scrollを使う", () => {
+  const main = fs.readFileSync(new URL("./main.js", import.meta.url), "utf8");
+  const start = main.indexOf('const replayMarker = target.closest?.("[data-engine-graph-replay-ply]")');
+  const end = main.indexOf('return true;', start);
+  const block = main.slice(start, end);
+  assert.match(block, /replayController\.jump/);
+  assert.match(block, /replayView\.scrollIntoView/);
+  assert.match(block, /behavior:\s*"auto"/);
+  assert.match(block, /ENGINE_GRAPH_CANDIDATE_JUMP/);
 });
 
 test("390px前後のCandidate/Board Scroll用responsive ruleを保持する", () => {
@@ -157,7 +169,7 @@ test("Thread必須manifestでもcross-origin isolationなしならReal WASMを�
       workerUrl: "./YaneuraOuWasmWorkerBootstrap.js",
       engineVersion: "V9.00",
       commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
-      emscriptenVersion: "em++ 3.1.43",
+      emscriptenVersion: "em++ 4.0.15",
       jsSha256: "a".repeat(64),
       wasmSha256: "b".repeat(64),
       requiresThreads: true,

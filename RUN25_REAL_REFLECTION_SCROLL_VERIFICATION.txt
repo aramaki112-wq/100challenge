@@ -1,0 +1,42 @@
+Shogi Reflection Ver.1.8.3 — Run #25 Verification
+===================================================
+Status: READY FOR GITHUB ACTIONS RUN #25 — NOT FORMAL
+Date: 2026-08-13
+
+Run #24 measured evidence:
+- Analysis: COMPLETED
+- Progress: 153 / 153
+- Real Engine: true
+- Graph -> Replay: true
+- Candidate -> Replay: true
+- Candidate ply: correct
+- Candidate Board visible: false
+- Candidate Board top: ~9571 px
+- scrollY after jump: 8
+- Candidate -> KeyPosition: true
+- Graph KeyPosition marker: true
+- Graph -> STEP4: true
+- Exact STEP4 card: true
+- FACT/INTERPRETATION/HYPOTHESIS blank: true
+
+Run #25 changes:
+- main.js Candidate -> Replay page scroll: smooth -> auto
+- main.js Graph -> Replay page scroll: smooth -> auto
+- regression test requires deterministic explicit Engine navigation scroll
+- static verification requires deterministic explicit Engine navigation scroll
+
+Unaffected:
+- ordinary Replay Scroll Policy
+- Domain / Repository / Storage
+- KIF / Replay data
+- Engine analysis and ranking
+- KeyPosition registration policy
+- Reflection fields
+- Backup / Restore / Markdown
+
+Local reconstructed-baseline checks:
+- Node Test: 698 / 698 PASS
+- Static Verification: 144 PASS / 0 FAIL
+- Missing Import: 0
+
+Formal status: NOT FORMAL
