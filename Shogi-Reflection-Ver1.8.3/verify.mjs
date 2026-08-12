@@ -39,16 +39,19 @@ check("No Baseline files deleted", deleted.length === 0, deleted.join(", "));
 check("Application LICENSE hash preserved", baseline.files.LICENSE === hash(path.join(root, "LICENSE")), hash(path.join(root, "LICENSE")));
 
 const js = files.filter((f) => /\.(?:js|mjs)$/.test(f));
+const applicationJs = js.filter((f) => !f.startsWith("corresponding-source/"));
 const syntax = [];
-for (const f of js) {
+for (const f of applicationJs) {
   try { execFileSync(process.execPath, ["--check", path.join(root, f)], { stdio: "pipe" }); syntax.push(`PASS | ${f}`); }
   catch (error) { syntax.push(`FAIL | ${f} | ${error.stderr?.toString().trim() ?? error.message}`); }
 }
-fs.writeFileSync(syntaxOutput, ["Shogi Reflection Ver.1.8 Syntax Check", "Date: 2026-08-10", `Files: ${js.length}`, "", ...syntax, ""].join("\n"));
-check("All JavaScript syntax", syntax.every((row) => row.startsWith("PASS")), String(js.length));
+fs.writeFileSync(syntaxOutput, ["Shogi Reflection Ver.1.8 Syntax Check", "Date: 2026-08-10", `Files: ${applicationJs.length}`, "", ...syntax, ""].join("\n"));
+check("All JavaScript syntax", syntax.every((row) => row.startsWith("PASS")), String(applicationJs.length));
+const correspondingSourceJs = js.filter((f) => f.startsWith("corresponding-source/"));
+check("Corresponding Source evidence excluded from application import graph", correspondingSourceJs.every((f) => !applicationJs.includes(f)), String(correspondingSourceJs.length));
 
 const missing = [];
-for (const f of js) {
+for (const f of applicationJs) {
   for (const m of read(f).matchAll(/(?:from\s+|import\s*\()(["'])(\.\.?\/[^"']+)\1/g)) {
     const target = path.resolve(path.dirname(path.join(root, f)), m[2]);
     if (!fs.existsSync(target)) missing.push(`${f} -> ${m[2]}`);
@@ -90,12 +93,16 @@ check("Real application E2E verifier script", pkg.scripts?.["test:real-yaneuraou
 const workflow = read(".github/workflows/build-yaneuraou-wasm.yml");
 const buildMetadata = JSON.parse(read("ENGINE_BUILD_METADATA.json"));
 check("Build Bridge pins YaneuraOu V9.00 commit", workflow.includes("a5ee2786c0030edc7d4a1cdfe94b04dffec55493") && workflow.includes("YANEURAOU_VERSION: V9.00"));
-check("Build Bridge pins Emscripten 4.0.15 mapping", workflow.includes("EMSDK_VERSION: 4.0.15") && workflow.includes("b412b6307e541b93dd93f01b61181e15c17302ec"));
+check("Build Bridge pins Emscripten 3.1.43 mapping", workflow.includes("EMSDK_VERSION: 3.1.43") && workflow.includes("bf3c159888633d232c0507f4c76cc156a43c32dc"));
 check("Build Bridge records runner provenance", workflow.includes("ImageOS") && workflow.includes("ImageVersion") && workflow.includes("runner-environment.txt"));
-check("Build Bridge packages Corresponding Source evidence", workflow.includes("git -C \"$YANEURAOU_SOURCE_DIR\" archive") && workflow.includes("corresponding-source/YaneuraOu-${YANEURAOU_COMMIT}.tar.gz") && workflow.includes("corresponding-source-sha256.txt"));
+check("Build Bridge packages Corresponding Source evidence", workflow.includes("package-yaneuraou-corresponding-source.sh") && exists("scripts/package-yaneuraou-corresponding-source.sh") && exists("patches/yaneuraou-v9.00-wasm-usi-bridge.patch"));
+check("Build Bridge records explicit YaneuraOu source modification", read("scripts/build-yaneuraou-wasm.sh").includes("source-modified-files.txt") && read("scripts/build-yaneuraou-wasm.sh").includes("usi-command-export.txt") && read("ENGINE_SOURCE_DISTRIBUTION_PLAN.md").includes("modified-source Corresponding Source"));
+check("Build Bridge canonicalizes reviewed patch diff abbreviation", read("scripts/build-yaneuraou-wasm.sh").includes("diff --binary --abbrev=7") && exists("ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md"));
 check("Build Bridge runs separated Real USI and application E2E", workflow.includes("real_yaneuraou_usi_verify.py") && workflow.includes("real_yaneuraou_browser_verify.py"));
-check("Build Bridge uploads evidence even when Real gate fails", workflow.includes("if: always()") && workflow.includes("Enforce Real runtime gates after evidence upload"));
-check("Build metadata does not fabricate measured values", buildMetadata.measured === false ? (buildMetadata.jsSha256 === null && buildMetadata.wasmSha256 === null && buildMetadata.workerSha256 === null) : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerSha256));
+check("Build Bridge uploads evidence even when Real/diagnostic gate finishes", workflow.includes("if: always()") && /Enforce (?:Real runtime(?: and static)? gates|diagnostic evidence production) after upload/.test(workflow));
+check("Build metadata does not fabricate measured values", buildMetadata.measured === false
+  ? (buildMetadata.jsSha256 === null && buildMetadata.wasmSha256 === null && buildMetadata.workerSha256 === null && buildMetadata.workerBootstrapSha256 === null)
+  : Boolean(buildMetadata.jsSha256 && buildMetadata.wasmSha256 && buildMetadata.workerBootstrapSha256 && buildMetadata.workerSha256 && buildMetadata.workerFile && buildMetadata.pthreadWorkerPackaging === "SEPARATE_PTHREAD_WORKER" && buildMetadata.generatedPthreadWorkerCount === 1));
 check("Current artifact remains NOT-FORMAL without Real build", buildMetadata.measured === true || (buildMetadata.status === "NOT_BUILT_IN_CURRENT_EXECUTION_ENVIRONMENT" && read("FORMAL_COMPLETION_STATUS.md").includes("FORMAL COMPLETION NOT ACHIEVED")));
 
 const html = read("index.html"), css = read("style.css"), main = read("main.js"), piece = read("ShogiPieceSvg.js");

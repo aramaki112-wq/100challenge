@@ -1,0 +1,30 @@
+Shogi Reflection Ver.1.8.3 — Run #26
+========================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+
+Run #25 early failure diagnosis:
+- Workflow duration: ~27 seconds
+- Real runtime artifact/result absent
+- failure occurred in pre-build regression/static phase
+- Run #25 commit accidentally rolled verification baseline backwards
+
+Restored:
+- Emscripten test baseline: 3.1.43
+- Emscripten pinned mapping: 3.1.43 / bf3c159...
+- Corresponding Source JS exclusion from application import graph
+- Corresponding Source package check
+- source-modification evidence check
+- reviewed patch diff abbreviation check
+- diagnostic/Real evidence upload check
+- full measured Build Metadata requirements
+
+Retained:
+- Candidate -> Replay deterministic auto scroll assertion
+- Graph -> Replay deterministic auto scroll assertion
+- Run #25 Production main.js auto-scroll correction
+
+Syntax:
+- Ver18FormalRequirements.test.js: PASS
+- verify.mjs: PASS
+
+Formal status: NOT FORMAL
