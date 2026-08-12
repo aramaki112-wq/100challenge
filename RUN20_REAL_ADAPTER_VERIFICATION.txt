@@ -1,0 +1,38 @@
+Shogi Reflection Ver.1.8.3 — Run #20 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS RUN #20 — NOT FORMAL
+Date: 2026-08-12
+
+Reconstructed current Ver.1.8.3 before Run #20:
+- Automated Test: 716 / 716 PASS
+- Static Verification: 146 / 146 PASS
+- Missing Import: 0
+
+Run #20 patch scope:
+- New independent GitHub Actions workflow
+- New adapter-real-gate browser harness
+- New runtime preparation script
+- New Playwright verifier
+- Documentation only
+
+Production source changes:
+- BrowserWorkerUsiTransport.js: NONE
+- YaneuraOuWasmAdapter.js: NONE
+- YaneuraOuEngineAdapter.js: NONE
+- UsiEngineAdapter.js: NONE
+- ShogiEnginePort.js: NONE
+- UsiPositionMapper.js: NONE
+- InitialShogiPositionFactory.js: NONE
+
+Run #20 GitHub Actions acceptance:
+- ShogiEnginePort contract exercised
+- YaneuraOuWasmAdapter exercised
+- BrowserWorkerUsiTransport exercised
+- production YaneuraOuWasmWorkerBootstrap.js exercised byte-identically
+- one real Domain Position analyzed
+- evaluation CP/MATE
+- bestMove
+- depth / nodes / time
+- MultiPV=2 with rank 1/2 PV
+
+Formal status: NOT FORMAL

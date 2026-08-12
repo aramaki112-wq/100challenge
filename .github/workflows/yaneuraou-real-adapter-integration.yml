@@ -1,0 +1,182 @@
+name: YaneuraOu Real Adapter Integration Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/yaneuraou-real-adapter-integration.yml"
+      - "Shogi-Reflection-Ver1.8.3/adapter-real-gate/**"
+      - "Shogi-Reflection-Ver1.8.3/minimal-real-usi/**"
+      - "Shogi-Reflection-Ver1.8.3/BrowserWorkerUsiTransport.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/UsiEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/UsiInfoParser.js"
+      - "Shogi-Reflection-Ver1.8.3/UsiPositionMapper.js"
+      - "Shogi-Reflection-Ver1.8.3/ShogiEnginePort.js"
+      - "Shogi-Reflection-Ver1.8.3/InitialShogiPositionFactory.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
+
+jobs:
+  real-adapter-position:
+    name: Adapter transport one real position
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Shogi Reflection
+        uses: actions/checkout@v4.2.2
+
+      - name: Verify harness syntax and unchanged application regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          chmod +x "$APP_DIR/adapter-real-gate/prepare-runtime.sh"
+          bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          bash -n "$APP_DIR/adapter-real-gate/prepare-runtime.sh"
+          python3 -m py_compile "$APP_DIR/adapter-real-gate/real_adapter_gate_verify.py"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, subprocess
+          html=Path('Shogi-Reflection-Ver1.8.3/adapter-real-gate/index.html').read_text(encoding='utf-8')
+          match=re.search(r'<script type="module">\s*(.*?)\s*</script>',html,re.S)
+          if not match:
+              raise SystemExit('adapter gate module script missing')
+          p=Path('/tmp/run20-adapter-gate.mjs')
+          p.write_text(match.group(1),encoding='utf-8')
+          subprocess.run(['node','--check',str(p)],check=True)
+          PY
+          cd "$APP_DIR"
+          npm test
+          node verify.mjs
+
+      - name: Pull pinned Emscripten image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "$EMSCRIPTEN_IMAGE"
+          mkdir -p "$APP_DIR/adapter-real-gate/evidence"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
+            | tee "$APP_DIR/adapter-real-gate/evidence/emscripten-image-id.txt"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{json .RepoDigests}}' \
+            | tee "$APP_DIR/adapter-real-gate/evidence/emscripten-image-repodigests.json"
+
+      - name: Clone and verify pinned YaneuraOu
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu-adapter-gate"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$YANEURAOU_COMMIT"
+          git -C "$SOURCE_DIR" status --porcelain=v1 \
+            | tee "$APP_DIR/adapter-real-gate/evidence/upstream-status-before-patch.txt"
+          test ! -s "$APP_DIR/adapter-real-gate/evidence/upstream-status-before-patch.txt"
+          echo "YANEURAOU_ADAPTER_SOURCE=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build known-good Minimal Real Runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/minimal-real-usi/build-minimal-usi.sh" \
+            "$YANEURAOU_ADAPTER_SOURCE" \
+            "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Prepare production Adapter runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/adapter-real-gate/prepare-runtime.sh" "$GITHUB_WORKSPACE/$APP_DIR"
+          cmp -s \
+            "$APP_DIR/YaneuraOuWasmWorkerBootstrap.js" \
+            "$APP_DIR/adapter-real-gate/runtime/YaneuraOuWasmWorkerBootstrap.js"
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check -r "$APP_DIR/requirements-real-engine.txt"
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run Real Adapter one-position gate
+        id: adapter_gate
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          cd "$APP_DIR"
+          python3 adapter-real-gate/real_adapter_gate_verify.py 2>&1 \
+            | tee adapter-real-gate/evidence/real-adapter-gate.log
+
+      - name: Upload Real Adapter evidence
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-real-adapter-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            Shogi-Reflection-Ver1.8.3/adapter-real-gate/
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BUILD_METADATA.json
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/evidence/
+
+      - name: Enforce Real Adapter Integration Gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('Shogi-Reflection-Ver1.8.3/adapter-real-gate/REAL_ADAPTER_INTEGRATION_RESULT.json')
+          if not p.exists():
+              raise SystemExit('Real Adapter result missing')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          failures=[]
+          if d.get('passed') is not True:
+              failures.append(f"status={d.get('status')}")
+          if d.get('adapterClass') != 'YaneuraOuWasmAdapter':
+              failures.append('YaneuraOuWasmAdapter not exercised')
+          if d.get('transportClass') != 'BrowserWorkerUsiTransport':
+              failures.append('BrowserWorkerUsiTransport not exercised')
+          if d.get('portAsserted') is not True:
+              failures.append('ShogiEnginePort contract not asserted')
+          info=d.get('engineInfo') or {}
+          if info.get('adapter') != 'YaneuraOuWasmAdapter' or info.get('engineVersion') != 'V9.00':
+              failures.append('Real engine identity metadata missing')
+          r=d.get('result') or {}
+          ev=r.get('evaluation') or {}
+          if ev.get('type') not in ('CP','MATE'):
+              failures.append('evaluation CP/MATE missing')
+          if not r.get('bestMove'):
+              failures.append('bestMove missing')
+          for key in ('depth','nodes'):
+              if not isinstance(r.get(key),(int,float)) or r.get(key) <= 0:
+                  failures.append(f'{key} missing')
+          if not isinstance(r.get('time'),(int,float)) or r.get('time') < 0:
+              failures.append('time missing')
+          if r.get('multiPv') != 2:
+              failures.append('MultiPV=2 mapping missing')
+          candidates=r.get('candidateMoves') or []
+          if len(candidates) < 2:
+              failures.append('two Adapter candidates missing')
+          else:
+              for rank,item in ((1,candidates[0]),(2,candidates[1])):
+                  if item.get('rank') != rank or not item.get('move') or not item.get('pv'):
+                      failures.append(f'candidate rank {rank} move/PV missing')
+          if failures:
+              raise SystemExit('Real Adapter Integration Gate failure(s): ' + ' | '.join(failures))
+          print('PASS: ShogiEnginePort -> YaneuraOuWasmAdapter -> BrowserWorkerUsiTransport -> Real YaneuraOu WASM.')
+          print('PASS: one real Domain Position returned evaluation, bestMove, depth/nodes/time and MultiPV PVs.')
+          print('NOTE: Run #20 is NOT FORMAL and does not run Sample KIF full-ply application E2E.')
+          PY

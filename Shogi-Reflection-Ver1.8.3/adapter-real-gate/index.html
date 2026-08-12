@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>YaneuraOu Real Adapter Integration Gate</title>
+</head>
+<body>
+<pre id="status">running</pre>
+<script type="module">
+import { YaneuraOuWasmAdapter } from "../YaneuraOuWasmAdapter.js";
+import { assertShogiEnginePort } from "../ShogiEnginePort.js";
+import { InitialShogiPositionFactory } from "../InitialShogiPositionFactory.js";
+
+const state = {
+  schemaVersion: 1,
+  gate: "YANEURAOU_REAL_ADAPTER_INTEGRATION",
+  done: false,
+  passed: false,
+  status: "RUNNING",
+  crossOriginIsolated: globalThis.crossOriginIsolated === true,
+  sharedArrayBuffer: typeof globalThis.SharedArrayBuffer === "function",
+  adapterClass: null,
+  transportClass: null,
+  portAsserted: false,
+  engineInfo: null,
+  result: null,
+  error: null
+};
+window.realAdapterGate = state;
+
+const statusElement = document.getElementById("status");
+function publish() {
+  statusElement.textContent = JSON.stringify(state, null, 2);
+}
+function fail(error) {
+  state.done = true;
+  state.passed = false;
+  state.status = "FAILED";
+  state.error = {
+    name: error?.name ?? "Error",
+    message: String(error?.message ?? error),
+    code: error?.code ?? null,
+    stack: String(error?.stack ?? "")
+  };
+  publish();
+}
+
+(async () => {
+  let adapter;
+  try {
+    adapter = new YaneuraOuWasmAdapter({
+      workerUrl: "./runtime/YaneuraOuWasmWorkerBootstrap.js",
+      WorkerClass: globalThis.Worker,
+      timeoutMs: 30000,
+      manifest: {
+        engineVersion: "V9.00",
+        release: "V9.00",
+        commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+        sourceRepository: "https://github.com/yaneurao/YaneuraOu",
+        evaluationModel: "MATERIAL",
+        evaluationModelVersion: "MATERIAL_LEVEL=1",
+        materialLevel: 1,
+        emscriptenVersion: "3.1.43",
+        buildId: "RUN20_REAL_ADAPTER_GATE"
+      }
+    });
+
+    state.adapterClass = adapter.constructor.name;
+    state.transportClass = adapter.transport?.constructor?.name ?? null;
+    assertShogiEnginePort(adapter);
+    state.portAsserted = true;
+    state.engineInfo = await adapter.initialize();
+
+    const position = new InitialShogiPositionFactory().create({ handicap: "平手" });
+    const result = await adapter.analyzePosition({
+      position,
+      settings: {
+        threads: 1,
+        hashMB: 16,
+        multiPv: 2,
+        maxNodes: 5000
+      }
+    });
+
+    state.result = {
+      evaluation: result.evaluation,
+      bestMove: result.bestMove,
+      depth: result.depth,
+      nodes: result.nodes,
+      time: result.time,
+      multiPv: result.multiPv,
+      analysisTime: result.analysisTime,
+      candidateMoves: result.candidateMoves
+    };
+
+    const candidate1 = result.candidateMoves?.[0];
+    const candidate2 = result.candidateMoves?.[1];
+    const valid =
+      state.crossOriginIsolated === true &&
+      state.sharedArrayBuffer === true &&
+      state.portAsserted === true &&
+      state.adapterClass === "YaneuraOuWasmAdapter" &&
+      state.transportClass === "BrowserWorkerUsiTransport" &&
+      state.engineInfo?.adapter === "YaneuraOuWasmAdapter" &&
+      state.engineInfo?.engineVersion === "V9.00" &&
+      result.evaluation && ["CP", "MATE"].includes(result.evaluation.type) &&
+      typeof result.bestMove === "string" && result.bestMove.length > 0 &&
+      Number(result.depth) > 0 &&
+      Number(result.nodes) > 0 &&
+      Number(result.time) >= 0 &&
+      result.multiPv === 2 &&
+      candidate1?.rank === 1 &&
+      Array.isArray(candidate1?.pv) && candidate1.pv.length > 0 &&
+      candidate2?.rank === 2 &&
+      Array.isArray(candidate2?.pv) && candidate2.pv.length > 0;
+
+    state.done = true;
+    state.passed = Boolean(valid);
+    state.status = valid ? "PASS_REAL_ADAPTER_POSITION" : "INVALID_ADAPTER_RESULT";
+    publish();
+  } catch (error) {
+    fail(error);
+  } finally {
+    try { await adapter?.dispose(); } catch {}
+  }
+})();
+
+publish();
+</script>
+</body>
+</html>
