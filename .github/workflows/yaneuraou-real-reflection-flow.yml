@@ -1,0 +1,207 @@
+name: YaneuraOu Real Reflection Flow Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/yaneuraou-real-reflection-flow.yml"
+      - "Shogi-Reflection-Ver1.8.3/real-reflection-flow-gate/**"
+      - "Shogi-Reflection-Ver1.8.3/minimal-real-usi/**"
+      - "Shogi-Reflection-Ver1.8.3/engine/yaneuraou/engine-manifest.json"
+      - "Shogi-Reflection-Ver1.8.3/samples/piyo_20260617_170236.kif"
+      - "Shogi-Reflection-Ver1.8.3/index.html"
+      - "Shogi-Reflection-Ver1.8.3/main.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserEngineProvider.js"
+      - "Shogi-Reflection-Ver1.8.3/FallbackShogiEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/UsiEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserWorkerUsiTransport.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
+      - "Shogi-Reflection-Ver1.8.3/AnalyzeGame.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserEngineAnalysisView.js"
+      - "Shogi-Reflection-Ver1.8.3/EngineCandidateSelector.js"
+      - "Shogi-Reflection-Ver1.8.3/EngineEvaluationGraphModel.js"
+      - "Shogi-Reflection-Ver1.8.3/EngineEvaluationGraphView.js"
+      - "Shogi-Reflection-Ver1.8.3/ShogiReplayController.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserShogiReplayView.js"
+      - "Shogi-Reflection-Ver1.8.3/AddCurrentPositionToKeyPosition.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserGameReviewFormView.js"
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
+
+jobs:
+  real-reflection-flow:
+    name: Real Candidate Replay KeyPosition STEP4
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Shogi Reflection
+        uses: actions/checkout@v4.2.2
+
+      - name: Verify gate syntax and unchanged application regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          chmod +x "$APP_DIR/real-reflection-flow-gate/prepare-runtime.sh"
+          bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          bash -n "$APP_DIR/real-reflection-flow-gate/prepare-runtime.sh"
+          python3 -m py_compile "$APP_DIR/real-reflection-flow-gate/real_reflection_flow_verify.py"
+          cd "$APP_DIR"
+          npm test
+          node verify.mjs
+
+      - name: Pull pinned Emscripten image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "$EMSCRIPTEN_IMAGE"
+          mkdir -p "$APP_DIR/real-reflection-flow-gate/evidence"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
+            | tee "$APP_DIR/real-reflection-flow-gate/evidence/emscripten-image-id.txt"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{json .RepoDigests}}' \
+            | tee "$APP_DIR/real-reflection-flow-gate/evidence/emscripten-image-repodigests.json"
+
+      - name: Clone and verify pinned YaneuraOu
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu-real-reflection-flow"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$YANEURAOU_COMMIT"
+          git -C "$SOURCE_DIR" status --porcelain=v1 \
+            | tee "$APP_DIR/real-reflection-flow-gate/evidence/upstream-status-before-patch.txt"
+          test ! -s "$APP_DIR/real-reflection-flow-gate/evidence/upstream-status-before-patch.txt"
+          echo "YANEURAOU_REFLECTION_SOURCE=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build known-good Real Runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/minimal-real-usi/build-minimal-usi.sh" \
+            "$YANEURAOU_REFLECTION_SOURCE" \
+            "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Prepare verified Real Runtime for production BrowserEngineProvider
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/real-reflection-flow-gate/prepare-runtime.sh" "$GITHUB_WORKSPACE/$APP_DIR"
+          test -s "$APP_DIR/engine/yaneuraou/engine-manifest.json"
+          test -s "$APP_DIR/engine/yaneuraou/yaneuraou.material.js"
+          test -s "$APP_DIR/engine/yaneuraou/yaneuraou.material.wasm"
+          test -s "$APP_DIR/engine/yaneuraou/yaneuraou.material.worker.js"
+          test -s "$APP_DIR/engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js"
+          sha256sum "$APP_DIR/samples/piyo_20260617_170236.kif" \
+            | tee "$APP_DIR/real-reflection-flow-gate/evidence/sample-kif-sha256.txt"
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check -r "$APP_DIR/requirements-real-engine.txt"
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run Real Reflection Flow Gate
+        id: reflection_gate
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          cd "$APP_DIR"
+          python3 real-reflection-flow-gate/real_reflection_flow_verify.py 2>&1 \
+            | tee real-reflection-flow-gate/evidence/real-reflection-flow-gate.log
+
+      - name: Upload Real Reflection Flow evidence
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-real-reflection-flow-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            Shogi-Reflection-Ver1.8.3/real-reflection-flow-gate/
+            Shogi-Reflection-Ver1.8.3/engine/yaneuraou/engine-manifest.json
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BUILD_METADATA.json
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/evidence/
+
+      - name: Enforce Real Reflection Flow Gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('Shogi-Reflection-Ver1.8.3/real-reflection-flow-gate/REAL_REFLECTION_FLOW_RESULT.json')
+          if not p.exists():
+              raise SystemExit('Real Reflection Flow result missing')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          failures=[]
+          if d.get('passed') is not True:
+              failures.append(f"status={d.get('status')}")
+          if d.get('crossOriginIsolated') is not True or d.get('sharedArrayBuffer') is not True:
+              failures.append('thread-capable browser isolation missing')
+          if d.get('samplePreview') is not True or d.get('step3Reached') is not True:
+              failures.append('existing Sample KIF -> Step3 path missing')
+          if d.get('replaySquares') != 81:
+              failures.append('existing fixed 9x9 Replay board missing')
+          if d.get('analysisStatus') != 'COMPLETED':
+              failures.append('production Real analysis did not complete')
+          if d.get('realEngineVisible') is not True:
+              failures.append('YaneuraOu V9.00 was not the visible engine')
+          if d.get('fallbackVisible') is not False or d.get('mockVisible') is not False:
+              failures.append('Mock/ReflectionLocal fallback contaminated Real evidence')
+          if '153 / 153' not in str(d.get('analysisProgress') or ''):
+              failures.append('full 153-position UI progress missing')
+          good=int(d.get('goodCandidates') or 0)
+          bad=int(d.get('badCandidates') or 0)
+          total=int(d.get('totalCandidates') or 0)
+          if not (1 <= good <= 5):
+              failures.append(f'Real Good Candidate count invalid: {good}')
+          if not (1 <= bad <= 5):
+              failures.append(f'Real Bad Candidate count invalid: {bad}')
+          if not (2 <= total <= 10):
+              failures.append(f'Real Candidate aggregate invalid: {total}')
+          if d.get('badCandidateComparison') is not True:
+              failures.append('Best/Actual/Difference/PV comparison missing')
+          if d.get('graphSvg') is not True or int(d.get('graphReplayMarkers') or 0) < 1:
+              failures.append('production Evaluation Graph / Candidate marker missing')
+          for key,label in [
+              ('graphToReplay','Graph -> Replay'),
+              ('candidateToReplay','Candidate -> Replay'),
+              ('candidateScrollChanged','Candidate -> Board Scroll'),
+              ('candidateBoardVisible','Candidate Board visible'),
+              ('candidateBoardPly','Candidate Board ply'),
+              ('candidateAddKeepsScroll','Candidate -> KeyPosition scroll preservation'),
+              ('keyPositionAdded','Candidate -> KeyPosition'),
+              ('graphKeyPositionMarker','Graph KeyPosition marker'),
+              ('graphToStep4','Graph -> STEP4'),
+              ('step4ExactCard','STEP4 exact KeyPosition card'),
+              ('factFocused','FACT focus'),
+              ('engineDidNotAutofillReflection','Engine must not auto-fill FACT/INTERPRETATION/HYPOTHESIS'),
+          ]:
+              if d.get(key) is not True:
+                  failures.append(label + ' missing')
+          if d.get('candidateGroup') != 'BAD':
+              failures.append('Bad Candidate was not used for Real comparison flow')
+          if d.get('pageErrors'):
+              failures.append('browser page errors present')
+          if failures:
+              raise SystemExit('Real Reflection Flow Gate failure(s): ' + ' | '.join(failures))
+          print('PASS: verified Real YaneuraOu was selected by the production BrowserEngineProvider.')
+          print('PASS: Real Sample analysis produced Good/Bad Candidate and the production Evaluation Graph.')
+          print('PASS: Graph/Candidate -> Replay, Board Scroll, KeyPosition, Graph Marker and exact STEP4 navigation all executed.')
+          print('PASS: FACT / INTERPRETATION / HYPOTHESIS remained user-owned blank fields.')
+          print('NOTE: Run #22 is NOT FORMAL; production Real Cancel/Re-analysis, final license/distribution and final ZIP re-test remain later gates.')
+          PY

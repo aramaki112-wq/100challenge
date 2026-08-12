@@ -1,0 +1,52 @@
+Shogi Reflection Ver.1.8.3 — Run #22 Patch Verification
+========================================================
+Status: READY FOR GITHUB ACTIONS RUN #22 — NOT FORMAL
+Date: 2026-08-13
+
+Scope
+-----
+New independent Real Reflection Flow integration gate only.
+No production Domain / Repository / Storage / Replay / Adapter source file is modified.
+
+Target chain
+------------
+Bundled Piyo Sample KIF
+-> existing KIF Import UI
+-> Step3 Replay
+-> BrowserEngineProvider
+-> verified Real YaneuraOu primary
+-> YaneuraOuWasmAdapter
+-> BrowserWorkerUsiTransport
+-> Real full-ply AnalyzeGame
+-> Good / Bad Candidate
+-> Evaluation Graph
+-> Graph -> Replay
+-> Candidate -> Replay / Board Scroll
+-> Candidate -> KeyPosition
+-> Graph KeyPosition Marker
+-> Graph -> STEP4 exact card
+-> FACT / INTERPRETATION / HYPOTHESIS stay blank
+
+Pre-delivery verification
+-------------------------
+- prepare-runtime.sh syntax: PASS
+- real_reflection_flow_verify.py syntax: PASS
+- Root workflow YAML parse: PASS
+- App workflow YAML parse: PASS
+- Production code changed: 0 files
+- Existing baseline from Run #21: Automated 716/716 PASS
+- Existing baseline from Run #21: Static 146/146 PASS
+- Existing baseline from Run #21: Missing Import 0
+
+Local Real-browser note
+-----------------------
+The model execution environment blocks localhost browser navigation with
+ERR_BLOCKED_BY_ADMINISTRATOR, so the Run #22 Real UI gate is not claimed locally.
+GitHub Actions must provide the measured Real evidence.
+
+Formal status
+-------------
+NOT FORMAL.
+Remaining later gates include production Real Cancel/Re-analysis, final
+license/distribution readiness, physical iPhone performance/battery/heat, and
+final ZIP extraction/re-verification.
