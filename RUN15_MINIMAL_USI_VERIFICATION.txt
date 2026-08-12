@@ -1,0 +1,84 @@
+Shogi Reflection Ver.1.8.3 — Run #15 Minimal Real USI Harness Verification
+============================================================================
+Status: READY FOR GITHUB ACTIONS EXPERIMENT — NOT FORMAL
+Date: 2026-08-12
+
+Strategy change
+---------------
+Run #15 does NOT execute the Shogi Reflection full application test chain.
+It isolates only:
+
+YaneuraOu JS
+  -> WASM
+  -> pthread worker
+  -> usi_command("usi")
+  -> usiok
+
+No Replay, Candidate, Evaluation Graph, STEP4, LocalStorage, Backup/Restore,
+or full application E2E participates in the minimal gate.
+
+Measured baseline evidence
+--------------------------
+The real Run #14 diagnostic artifact was executed directly with the new Node
+minimal probe. It reproduced the runtime failure before usiok:
+
+RuntimeError: memory access out of bounds
+  at std::__2::__function::__func<YaneuraOu::Thread::clear_worker()::$_0,...>::operator()()
+  at YaneuraOu::Thread::idle_loop()
+  at std::__2::__thread_proxy(...)
+
+This establishes that the measured failure is reproducible without the Shogi
+Reflection UI/application flow.
+
+Pinned-source observation
+-------------------------
+At the pinned V9.00 source, the non-Emscripten Thread constructor creates the
+Search::Worker through worker_factory, while the Emscripten branch skips that
+creation. Later ThreadPool::clear() reaches Thread::clear_worker(), which uses
+worker->clear().
+
+Run #15 candidate experiment
+----------------------------
+The experiment adds one candidate compatibility patch only to source/thread.cpp:
+construct Search::Worker synchronously in the Emscripten constructor branch.
+
+It does NOT change:
+- search algorithm
+- MATERIAL evaluation
+- move generation
+- candidate ranking
+- Shogi Reflection application architecture
+
+Candidate patch SHA-256:
+e6993e913e012da43f4414379333f086a24990af2743ec9660101a308e8a8cfe
+
+Existing reviewed USI bridge patch SHA-256:
+bb79c5297f6b3e06e4dd67187aafb4f8ab18657e837f087ae7cbab15fdc27f07
+
+Pre-delivery checks
+-------------------
+- Candidate patch applies to pinned-source test tree: PASS
+- Existing USI bridge + candidate patch together: PASS
+- git diff --check after both patches: PASS
+- Root workflow YAML parse: PASS
+- Workflow reference YAML parse: PASS
+- build-minimal-usi.sh syntax: PASS
+- minimal_node_usi_probe.js syntax: PASS
+- minimal_browser_usi_probe.py syntax: PASS
+- Baseline Run #14 Node failure capture: PASS
+- Patch ZIP integrity: checked after creation
+
+Acceptance rule for GitHub Actions Run #15
+------------------------------------------
+PASS requires BOTH:
+- direct Node minimal harness observes usiok
+- cross-origin-isolated Chromium minimal harness observes usiok
+
+readyok is recorded, but the first breakthrough gate is usiok.
+
+Formal status
+-------------
+Even if Run #15 is green, it is NOT Formal Completion.
+The candidate thread patch remains experimental until subsequent Real USI,
+full application E2E, Cancel/Re-analysis, license/corresponding-source review,
+and final ZIP re-verification gates are completed.

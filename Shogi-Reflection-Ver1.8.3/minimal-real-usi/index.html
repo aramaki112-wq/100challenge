@@ -1,0 +1,61 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>YaneuraOu Minimal Real USI Harness</title>
+<main>
+  <h1>YaneuraOu Minimal Real USI Harness</h1>
+  <pre id="log"></pre>
+</main>
+<script>
+(() => {
+  const events = [];
+  const errors = [];
+  const state = {moduleReady:false, usiok:false, readyok:false, startedAt:performance.now()};
+  const logEl = document.querySelector('#log');
+  const log = (text) => {
+    events.push(String(text));
+    logEl.textContent = events.join('\n');
+  };
+  log(`crossOriginIsolated=${crossOriginIsolated}`);
+  log(`SharedArrayBuffer=${typeof SharedArrayBuffer}`);
+  const worker = new Worker('./runtime/worker-bootstrap.js', {type:'classic'});
+  worker.addEventListener('message', (event) => {
+    const data = event.data;
+    if (data?.type === 'module-ready') {
+      state.moduleReady = true;
+      log('MODULE_READY');
+      worker.postMessage('usi');
+      log('SEND usi');
+      return;
+    }
+    if (data?.type === 'line') {
+      log(`OUT ${data.line}`);
+      if (data.line === 'usiok' && !state.usiok) {
+        state.usiok = true;
+        worker.postMessage('isready');
+        log('SEND isready');
+      } else if (data.line === 'readyok') {
+        state.readyok = true;
+      }
+      return;
+    }
+    if (data?.type === 'engine-error' || data?.type === 'worker-error-event') {
+      errors.push(data);
+      log(`ERROR ${data.message || data.type}`);
+      if (data.stack) log(data.stack);
+      return;
+    }
+    if (data?.type === 'stderr') {
+      log(`STDERR ${data.line}`);
+      return;
+    }
+    log(`EVENT ${JSON.stringify(data)}`);
+  });
+  worker.addEventListener('error', (event) => {
+    const error = {type:'outer-worker-error', message:event.message, filename:event.filename, lineno:event.lineno, colno:event.colno};
+    errors.push(error);
+    log(`OUTER_ERROR ${event.message}`);
+    event.preventDefault();
+  });
+  window.minimalUsiHarness = {state, events, errors, worker};
+})();
+</script>

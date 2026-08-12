@@ -1,0 +1,31 @@
+Shogi Reflection Ver.1.8.3 — Minimal USI Baseline Reproduction
+===============================================================
+Date: 2026-08-12
+Source artifact: measured Run #14 diagnostic YaneuraOu V9.00 MATERIAL WASM
+
+A direct Node execution of the real JS/WASM/pthread worker reproduced the
+runtime failure without loading any Shogi Reflection application code.
+
+Observed result:
+- Emscripten module began initialization.
+- pthread workers started.
+- No `usiok` was reached.
+- RuntimeError: memory access out of bounds
+
+Observed native/WASM stack:
+- YaneuraOu::Thread::clear_worker()::$_0::operator()()
+- YaneuraOu::Thread::idle_loop()
+- std::__2::__thread_proxy(...)
+- Emscripten invokeEntryPoint(...)
+
+Pinned V9.00 source observation:
+- Thread::Thread(...) creates Search::Worker in the !__EMSCRIPTEN__ branch.
+- The __EMSCRIPTEN__ branch skips worker_factory initialization.
+- ThreadPool::set() later calls clear().
+- Thread::clear_worker() schedules worker->clear().
+
+Run #15 candidate hypothesis:
+- Ensure Search::Worker exists before ThreadPool::clear() runs by constructing it
+  synchronously in the __EMSCRIPTEN__ constructor branch.
+
+This is diagnostic evidence, not a Formal source or distribution decision.

@@ -1,0 +1,32 @@
+diff --git a/source/thread.cpp b/source/thread.cpp
+index 8e97493..b3c70d1 100644
+--- a/source/thread.cpp
++++ b/source/thread.cpp
+@@ -48,17 +48,18 @@ Thread::Thread(
+ 	wait_for_search_finished();
+ 
+ #else
+-	// yaneuraou.wasm
+-	// wait_for_search_finished すると、ブラウザのメインスレッドをブロックしデッドロックが発生するため、コメントアウト。
++	// Shogi Reflection minimal WASM compatibility experiment.
+ 	//
+-	// 新しいスレッドが cv を設定するのを待ってから、ブラウザに処理をパスしたいが、
+-	// 新しいスレッド用のworkerを作成するためには、いったんブラウザに処理をパスする必要がある。
++	// V9.00's refactored Emscripten branch skips the non-WASM run_custom_job()
++	// path that creates Search::Worker. ThreadPool::set() nevertheless calls
++	// clear_worker() immediately after construction, which dereferences worker.
++	// In WebAssembly there is no NUMA placement benefit to allocating Worker on
++	// the child pthread, so construct it synchronously before ThreadPool::clear().
+ 	//
+-	// https://bugzilla.mozilla.org/show_bug.cgi?id=1049079
+-	//
+-	// threadStarted という変数を設けて全てのスレッドが開始するまでリトライするようにする
+-	//
+-	// 参考：https://github.com/lichess-org/stockfish.wasm/blob/a022fa1405458d1bc1ba22fe813bace961859102/src/thread.cpp#L38
++	// This patch is diagnostic/candidate-only. It is not a Formal Distribution
++	// decision until Real USI and application E2E gates pass.
++	this->numaAccessToken = binder();
++	this->worker = std::move(worker_factory(thread_id, this->numaAccessToken));
+ #endif
+ }
+ 
