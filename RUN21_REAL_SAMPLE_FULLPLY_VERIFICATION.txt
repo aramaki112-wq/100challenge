@@ -1,0 +1,56 @@
+Shogi Reflection Ver.1.8.3 — Run #21 Patch Verification
+========================================================
+Status: READY FOR GITHUB ACTIONS RUN #21 — NOT FORMAL
+Date: 2026-08-12
+
+Patch scope
+-----------
+- independent Real Sample Full-Ply workflow
+- independent browser gate harness
+- no production Domain/Application/Repository/Storage code modification
+
+Gate target
+-----------
+- bundled Piyo KIF via existing Shift_JIS reader
+- 152 moves / 153 positions
+- production AnalyzeGame
+- production YaneuraOuWasmAdapter
+- production BrowserWorkerUsiTransport
+- production Good/Bad Candidate selector
+- production Evaluation Graph model/view
+
+Local pre-delivery verification
+-------------------------------
+- Automated Test: 716 / 716 PASS
+- Static Verification: 146 / 146 PASS
+- Missing Import: 0
+- Root workflow YAML parse: PASS
+- App workflow YAML parse: PASS
+- Browser module script syntax: PASS
+- Python verifier syntax: PASS
+- Shell prepare-runtime syntax: PASS
+
+Real-browser status
+-------------------
+NOT RUN locally.
+The current model execution environment blocks the localhost browser URL used by
+this gate. Therefore no Real Sample Full-Ply success is claimed before the next
+GitHub Actions run.
+
+GitHub Actions acceptance
+-------------------------
+- existing Shift_JIS KIF path
+- PositionHistory FULL, 152 moves / 153 positions
+- full 0..152 Real Engine analysis, no truncation
+- 153 viewer-perspective evaluation timeline points
+- 76 GOTE player-side comparison rows
+- Good <= 5 / Bad <= 5
+- Best/PV comparison data present
+- Evaluation Graph has 153 points and renders production SVG
+- browser page errors = 0
+
+Formal status
+-------------
+NOT FORMAL.
+Replay/Board Scroll/KeyPosition/STEP4, Cancel/Re-analysis, final license and ZIP
+re-verification gates remain later.

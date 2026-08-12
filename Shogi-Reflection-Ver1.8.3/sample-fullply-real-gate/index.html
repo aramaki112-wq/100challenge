@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>YaneuraOu Real Sample Full-Ply Gate</title>
+</head>
+<body>
+<pre id="status">running</pre>
+<div id="graph"></div>
+<script type="module">
+import { YaneuraOuWasmAdapter } from "../YaneuraOuWasmAdapter.js";
+import { KifFileReaderAdapter } from "../KifFileReaderAdapter.js";
+import { KifParser } from "../KifParser.js";
+import { PositionHistoryBuilder } from "../PositionHistoryBuilder.js";
+import { AnalyzeGame } from "../AnalyzeGame.js";
+import { EngineEvaluationGraphModel } from "../EngineEvaluationGraphModel.js";
+import { EngineEvaluationGraphView } from "../EngineEvaluationGraphView.js";
+import { PIECE_OWNER } from "../ShogiPiece.js";
+
+const state = {
+  schemaVersion: 1,
+  gate: "YANEURAOU_REAL_SAMPLE_FULLPLY",
+  done: false,
+  passed: false,
+  status: "RUNNING",
+  crossOriginIsolated: globalThis.crossOriginIsolated === true,
+  sharedArrayBuffer: typeof globalThis.SharedArrayBuffer === "function",
+  adapterClass: null,
+  transportClass: null,
+  sampleEncoding: null,
+  sampleMoves: null,
+  sampleSenteName: null,
+  sampleGoteName: null,
+  playerSide: null,
+  historyStatus: null,
+  maxMoveNumber: null,
+  positionsAnalyzed: null,
+  timelineLength: null,
+  viewerPerspectiveCount: null,
+  analysisTruncated: null,
+  rowCount: null,
+  totalCandidates: null,
+  goodCandidates: [],
+  badCandidates: [],
+  hasCandidatePv: false,
+  graph: null,
+  graphSvgRendered: false,
+  progressCompleted: 0,
+  progressTotal: 0,
+  parseMs: null,
+  analysisMs: null,
+  graphMs: null,
+  error: null
+};
+window.realSampleFullPlyGate = state;
+
+const statusElement = document.getElementById("status");
+const graphElement = document.getElementById("graph");
+function publish() {
+  statusElement.textContent = JSON.stringify(state, null, 2);
+}
+function compactCandidate(item) {
+  return {
+    ply: item?.ply ?? null,
+    moveNumber: item?.moveNumber ?? null,
+    actualMove: item?.actualMove ?? null,
+    actualMoveText: item?.actualMoveText ?? null,
+    bestMove: item?.bestMove ?? null,
+    bestMoveMatched: item?.bestMoveMatched ?? false,
+    evaluationBefore: item?.evaluationBefore ?? null,
+    evaluationAfter: item?.evaluationAfter ?? null,
+    bestMoveDifferenceCp: item?.bestMoveDifferenceCp ?? null,
+    bestMovePv: Array.isArray(item?.bestMovePv) ? item.bestMovePv.slice(0, 6) : [],
+    candidateType: item?.candidateType ?? null,
+    candidateGroup: item?.candidateGroup ?? null,
+    reasons: Array.isArray(item?.reasons) ? item.reasons : []
+  };
+}
+function fail(error) {
+  state.done = true;
+  state.passed = false;
+  state.status = "FAILED";
+  state.error = {
+    name: error?.name ?? "Error",
+    message: String(error?.message ?? error),
+    code: error?.code ?? null,
+    stack: String(error?.stack ?? "")
+  };
+  publish();
+}
+
+(async () => {
+  let adapter;
+  try {
+    const parseStarted = performance.now();
+    const response = await fetch("../samples/piyo_20260617_170236.kif", { cache: "no-store" });
+    if (!response.ok) throw new Error(`Sample KIF HTTP ${response.status}`);
+    const bytes = await response.arrayBuffer();
+    const file = new File([bytes], "piyo_20260617_170236.kif", { type: "application/octet-stream" });
+    const readResult = await new KifFileReaderAdapter().read({ file });
+    const dto = new KifParser().parse({
+      text: readResult.text,
+      sourceFileName: readResult.sourceFileName,
+      byteLength: readResult.byteLength,
+      encoding: readResult.encoding,
+      readerWarnings: readResult.warnings
+    });
+    const history = new PositionHistoryBuilder().build(dto);
+    state.parseMs = Math.round(performance.now() - parseStarted);
+    state.sampleEncoding = readResult.encoding;
+    state.sampleMoves = dto.totalMoves;
+    state.sampleSenteName = dto.senteName;
+    state.sampleGoteName = dto.goteName;
+    state.playerSide = PIECE_OWNER.GOTE;
+    state.historyStatus = history.status;
+    state.maxMoveNumber = history.maxMoveNumber;
+    publish();
+
+    if (history.status !== "FULL" || history.maxMoveNumber !== 152) {
+      throw new Error(`Bundled Sample KIF replay mismatch: ${history.status} / ${history.maxMoveNumber}`);
+    }
+    if (!String(dto.goteName ?? "").includes("プレイヤー")) {
+      throw new Error(`Bundled Sample KIF player side is no longer GOTE: ${dto.goteName}`);
+    }
+
+    adapter = new YaneuraOuWasmAdapter({
+      workerUrl: "./runtime/YaneuraOuWasmWorkerBootstrap.js",
+      WorkerClass: globalThis.Worker,
+      timeoutMs: 30000,
+      manifest: {
+        engineVersion: "V9.00",
+        release: "V9.00",
+        commitHash: "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+        sourceRepository: "https://github.com/yaneurao/YaneuraOu",
+        evaluationModel: "MATERIAL",
+        evaluationModelVersion: "MATERIAL_LEVEL=1",
+        materialLevel: 1,
+        emscriptenVersion: "3.1.43",
+        buildId: "RUN21_REAL_SAMPLE_FULLPLY_GATE"
+      }
+    });
+    state.adapterClass = adapter.constructor.name;
+    state.transportClass = adapter.transport?.constructor?.name ?? null;
+
+    const analysisStarted = performance.now();
+    const result = await new AnalyzeGame({ engine: adapter }).execute({
+      gameId: "BUNDLED-SAMPLE-REAL-FULLPLY",
+      history,
+      playerSide: PIECE_OWNER.GOTE,
+      settings: "FAST",
+      onProgress(progress) {
+        state.progressCompleted = progress.completed;
+        state.progressTotal = progress.total;
+        if (progress.completed === progress.total || progress.completed % 16 === 0) publish();
+      }
+    });
+    state.analysisMs = Math.round(performance.now() - analysisStarted);
+    state.positionsAnalyzed = result.positionsAnalyzed;
+    state.timelineLength = result.evaluationTimeline.length;
+    state.viewerPerspectiveCount = result.evaluationTimeline.filter((entry) => entry.evaluation?.perspective === "VIEWER").length;
+    state.analysisTruncated = result.analysisTruncated;
+    state.rowCount = result.rows.length;
+    state.totalCandidates = result.totalCandidates;
+    state.goodCandidates = result.goodCandidates.map(compactCandidate);
+    state.badCandidates = result.badCandidates.map(compactCandidate);
+    state.hasCandidatePv = result.rows.some((row) => Array.isArray(row.bestMovePv) && row.bestMovePv.length > 0);
+
+    const graphStarted = performance.now();
+    const graphModel = new EngineEvaluationGraphModel().create({
+      evaluationTimeline: result.evaluationTimeline,
+      goodCandidates: result.goodCandidates,
+      badCandidates: result.badCandidates,
+      keyPositions: []
+    });
+    const graphHtml = new EngineEvaluationGraphView().render({
+      evaluationTimeline: result.evaluationTimeline,
+      goodCandidates: result.goodCandidates,
+      badCandidates: result.badCandidates,
+      keyPositions: []
+    });
+    graphElement.innerHTML = graphHtml;
+    state.graphMs = Math.round(performance.now() - graphStarted);
+    state.graph = {
+      points: graphModel.points.length,
+      maxPly: graphModel.maxPly,
+      hasCp: graphModel.hasCp,
+      hasMate: graphModel.hasMate,
+      goodMarkerCount: graphModel.goodMarkerCount,
+      badMarkerCount: graphModel.badMarkerCount
+    };
+    state.graphSvgRendered = Boolean(graphElement.querySelector("svg.engine-evaluation-graph"));
+
+    const valid =
+      state.crossOriginIsolated === true &&
+      state.sharedArrayBuffer === true &&
+      state.adapterClass === "YaneuraOuWasmAdapter" &&
+      state.transportClass === "BrowserWorkerUsiTransport" &&
+      state.sampleEncoding === "shift_jis" &&
+      state.sampleMoves === 152 &&
+      state.historyStatus === "FULL" &&
+      state.maxMoveNumber === 152 &&
+      state.positionsAnalyzed === 153 &&
+      state.timelineLength === 153 &&
+      state.viewerPerspectiveCount === 153 &&
+      state.analysisTruncated === false &&
+      state.rowCount === 76 &&
+      state.goodCandidates.length <= 5 &&
+      state.badCandidates.length <= 5 &&
+      state.totalCandidates >= state.goodCandidates.length + state.badCandidates.length &&
+      state.hasCandidatePv === true &&
+      state.graph?.points === 153 &&
+      state.graph?.maxPly === 152 &&
+      state.graph?.hasCp === true &&
+      state.graph?.goodMarkerCount === state.goodCandidates.length &&
+      state.graph?.badMarkerCount === state.badCandidates.length &&
+      state.graphSvgRendered === true &&
+      state.progressCompleted === 153 &&
+      state.progressTotal === 153;
+
+    state.done = true;
+    state.passed = Boolean(valid);
+    state.status = valid ? "PASS_REAL_SAMPLE_FULLPLY" : "INVALID_REAL_SAMPLE_FULLPLY";
+    publish();
+  } catch (error) {
+    fail(error);
+  } finally {
+    try { await adapter?.dispose(); } catch {}
+  }
+})();
+
+publish();
+</script>
+</body>
+</html>

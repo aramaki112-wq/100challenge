@@ -1,0 +1,199 @@
+name: YaneuraOu Real Sample Full-Ply Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/yaneuraou-real-sample-fullply.yml"
+      - "Shogi-Reflection-Ver1.8.3/sample-fullply-real-gate/**"
+      - "Shogi-Reflection-Ver1.8.3/minimal-real-usi/**"
+      - "Shogi-Reflection-Ver1.8.3/samples/piyo_20260617_170236.kif"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/UsiEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserWorkerUsiTransport.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
+      - "Shogi-Reflection-Ver1.8.3/KifFileReaderAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/KifParser.js"
+      - "Shogi-Reflection-Ver1.8.3/PositionHistoryBuilder.js"
+      - "Shogi-Reflection-Ver1.8.3/AnalyzeGame.js"
+      - "Shogi-Reflection-Ver1.8.3/EngineCandidateSelector.js"
+      - "Shogi-Reflection-Ver1.8.3/EngineEvaluationGraphModel.js"
+      - "Shogi-Reflection-Ver1.8.3/EngineEvaluationGraphView.js"
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
+
+jobs:
+  sample-full-ply:
+    name: Sample KIF full-ply real analysis
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Shogi Reflection
+        uses: actions/checkout@v4.2.2
+
+      - name: Verify gate syntax and unchanged application regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          chmod +x "$APP_DIR/sample-fullply-real-gate/prepare-runtime.sh"
+          bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          bash -n "$APP_DIR/sample-fullply-real-gate/prepare-runtime.sh"
+          python3 -m py_compile "$APP_DIR/sample-fullply-real-gate/real_sample_fullply_verify.py"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, subprocess
+          html=Path('Shogi-Reflection-Ver1.8.3/sample-fullply-real-gate/index.html').read_text(encoding='utf-8')
+          match=re.search(r'<script type="module">\s*(.*?)\s*</script>',html,re.S)
+          if not match:
+              raise SystemExit('sample full-ply gate module script missing')
+          p=Path('/tmp/run21-sample-fullply-gate.mjs')
+          p.write_text(match.group(1),encoding='utf-8')
+          subprocess.run(['node','--check',str(p)],check=True)
+          PY
+          cd "$APP_DIR"
+          npm test
+          node verify.mjs
+
+      - name: Pull pinned Emscripten image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "$EMSCRIPTEN_IMAGE"
+          mkdir -p "$APP_DIR/sample-fullply-real-gate/evidence"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
+            | tee "$APP_DIR/sample-fullply-real-gate/evidence/emscripten-image-id.txt"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{json .RepoDigests}}' \
+            | tee "$APP_DIR/sample-fullply-real-gate/evidence/emscripten-image-repodigests.json"
+
+      - name: Clone and verify pinned YaneuraOu
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu-sample-fullply"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$YANEURAOU_COMMIT"
+          git -C "$SOURCE_DIR" status --porcelain=v1 \
+            | tee "$APP_DIR/sample-fullply-real-gate/evidence/upstream-status-before-patch.txt"
+          test ! -s "$APP_DIR/sample-fullply-real-gate/evidence/upstream-status-before-patch.txt"
+          echo "YANEURAOU_SAMPLE_SOURCE=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build known-good Minimal Real Runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/minimal-real-usi/build-minimal-usi.sh" \
+            "$YANEURAOU_SAMPLE_SOURCE" \
+            "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Prepare production Sample Full-Ply runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/sample-fullply-real-gate/prepare-runtime.sh" "$GITHUB_WORKSPACE/$APP_DIR"
+          cmp -s \
+            "$APP_DIR/YaneuraOuWasmWorkerBootstrap.js" \
+            "$APP_DIR/sample-fullply-real-gate/runtime/YaneuraOuWasmWorkerBootstrap.js"
+          sha256sum "$APP_DIR/samples/piyo_20260617_170236.kif" \
+            | tee "$APP_DIR/sample-fullply-real-gate/evidence/sample-kif-sha256.txt"
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check -r "$APP_DIR/requirements-real-engine.txt"
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run Real Sample KIF full-ply gate
+        id: sample_gate
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          cd "$APP_DIR"
+          python3 sample-fullply-real-gate/real_sample_fullply_verify.py 2>&1 \
+            | tee sample-fullply-real-gate/evidence/real-sample-fullply-gate.log
+
+      - name: Upload Real Sample Full-Ply evidence
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-real-sample-fullply-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            Shogi-Reflection-Ver1.8.3/sample-fullply-real-gate/
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BUILD_METADATA.json
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/evidence/
+
+      - name: Enforce Real Sample Full-Ply Gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('Shogi-Reflection-Ver1.8.3/sample-fullply-real-gate/REAL_SAMPLE_FULLPLY_RESULT.json')
+          if not p.exists():
+              raise SystemExit('Real Sample Full-Ply result missing')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          failures=[]
+          if d.get('passed') is not True:
+              failures.append(f"status={d.get('status')}")
+          if d.get('adapterClass') != 'YaneuraOuWasmAdapter':
+              failures.append('YaneuraOuWasmAdapter not exercised')
+          if d.get('transportClass') != 'BrowserWorkerUsiTransport':
+              failures.append('BrowserWorkerUsiTransport not exercised')
+          if d.get('sampleEncoding') != 'shift_jis':
+              failures.append('Sample KIF did not use existing Shift_JIS reader path')
+          if d.get('historyStatus') != 'FULL':
+              failures.append('PositionHistory not FULL')
+          if d.get('sampleMoves') != 152 or d.get('maxMoveNumber') != 152:
+              failures.append('Sample KIF expected 152 replayable moves')
+          if d.get('positionsAnalyzed') != 153 or d.get('timelineLength') != 153:
+              failures.append('full 0..152 ply analysis missing')
+          if d.get('analysisTruncated') is not False:
+              failures.append('analysis unexpectedly truncated')
+          if d.get('viewerPerspectiveCount') != 153:
+              failures.append('viewer-side evaluation normalization missing')
+          if d.get('playerSide') != 'GOTE':
+              failures.append('bundled sample player side mismatch')
+          if d.get('rowCount') != 76:
+              failures.append('expected 76 player-side comparison rows')
+          good=d.get('goodCandidates') or []
+          bad=d.get('badCandidates') or []
+          if len(good) > 5 or len(bad) > 5:
+              failures.append('Good/Bad candidate max-5 rule violated')
+          if d.get('totalCandidates',0) < len(good)+len(bad):
+              failures.append('candidate total inconsistent')
+          if not d.get('hasCandidatePv'):
+              failures.append('Best/PV comparison data missing')
+          graph=d.get('graph') or {}
+          if graph.get('points') != 153 or graph.get('hasCp') is not True:
+              failures.append('Evaluation Graph timeline missing')
+          if graph.get('goodMarkerCount') != len(good) or graph.get('badMarkerCount') != len(bad):
+              failures.append('Good/Bad graph marker mapping mismatch')
+          if d.get('graphSvgRendered') is not True:
+              failures.append('production EngineEvaluationGraphView did not render SVG')
+          if d.get('progressCompleted') != 153 or d.get('progressTotal') != 153:
+              failures.append('full-ply progress contract missing')
+          if d.get('pageErrors'):
+              failures.append('browser page errors present')
+          if failures:
+              raise SystemExit('Real Sample Full-Ply Gate failure(s): ' + ' | '.join(failures))
+          print('PASS: bundled Piyo Sample KIF traversed the existing Shift_JIS -> KIF Parser -> PositionHistory path.')
+          print('PASS: AnalyzeGame used production YaneuraOuWasmAdapter / BrowserWorkerUsiTransport for all 153 positions.')
+          print('PASS: real evaluation timeline, bounded Good/Bad candidate selection and Evaluation Graph model/view were produced.')
+          print('NOTE: Run #21 is NOT FORMAL; it does not yet prove Replay/Board Scroll/KeyPosition/STEP4 or Cancel/Re-analysis in the full UI.')
+          PY
