@@ -178,10 +178,26 @@ def main() -> int:
             if result["graphReplayMarkers"]:
                 graph_ply = int(graph_marker.get_attribute("data-engine-graph-replay-ply"))
                 result["graphReplayPly"] = graph_ply
-                page.evaluate(
-                    "ply => document.querySelector(`[data-engine-graph-replay-ply=\\\"${ply}\\\"]`)?.click()",
+                graph_replay_dispatched = page.evaluate(
+                    """ply => {
+                        const element = document.querySelector(
+                            `[data-engine-graph-replay-ply="${ply}"]`
+                        );
+                        if (!element) return false;
+                        return element.dispatchEvent(
+                            new MouseEvent("click", {
+                                bubbles: true,
+                                cancelable: true,
+                                view: window
+                            })
+                        );
+                    }""",
                     graph_ply,
                 )
+                if not graph_replay_dispatched:
+                    raise AssertionError(
+                        f"Graph replay marker click event was not dispatched for ply {graph_ply}"
+                    )
                 page.wait_for_function(
                     "ply => document.querySelector('#replay-jump-number')?.value === String(ply)",
                     arg=graph_ply,
@@ -240,10 +256,27 @@ def main() -> int:
                 result["graphKeyPositionMarker"] = page.locator(kp_selector).count() == 1
 
                 if result["graphKeyPositionMarker"]:
-                    page.evaluate(
-                        "ply => document.querySelector(`[data-engine-graph-key-position-ply=\\\"${ply}\\\"]`)?.click()",
+                    graph_key_position_dispatched = page.evaluate(
+                        """ply => {
+                            const element = document.querySelector(
+                                `[data-engine-graph-key-position-ply="${ply}"]`
+                            );
+                            if (!element) return false;
+                            return element.dispatchEvent(
+                                new MouseEvent("click", {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                })
+                            );
+                        }""",
                         candidate_ply,
                     )
+                    if not graph_key_position_dispatched:
+                        raise AssertionError(
+                            "Graph key-position marker click event was not dispatched "
+                            f"for ply {candidate_ply}"
+                        )
                     page.wait_for_function("document.querySelector('#step-menu').value === '4'", timeout=10_000)
                     page.wait_for_function(
                         "document.activeElement?.getAttribute('data-field') === 'fact'",

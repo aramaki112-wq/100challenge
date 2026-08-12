@@ -1,0 +1,34 @@
+Shogi Reflection Ver.1.8.3 — Run #23 Patch Verification
+========================================================
+Status: READY FOR GITHUB ACTIONS RUN #23 — NOT FORMAL
+Date: 2026-08-13
+
+Run #22 artifact evidence:
+- Analysis status: COMPLETED
+- Analysis progress: 153 / 153 positions
+- Real Engine visible: true
+- Fallback visible: false
+- Mock visible: false
+- Good Candidates: 5
+- Bad Candidates: 5
+- Bad Candidate comparison data: true
+- Evaluation Graph SVG: true
+- Graph replay markers: 10
+- Failure status: PROBE_EXCEPTION
+- Failure cause: SVG graph marker does not implement HTMLElement.click()
+
+Run #23 changes:
+- Production files changed: 0
+- Verification harness changed: 1 Python file
+- Graph -> Replay uses MouseEvent dispatch
+- Graph KeyPosition -> STEP4 uses MouseEvent dispatch
+
+Pre-delivery checks:
+- Python verifier syntax: PASS
+- ZIP integrity: checked after creation
+
+Expected next measurement:
+Real full-ply -> Graph -> Replay -> Candidate -> Replay/Board Scroll ->
+KeyPosition -> Graph Marker -> STEP4 -> blank FACT/INTERPRETATION/HYPOTHESIS.
+
+Formal status: NOT FORMAL.
