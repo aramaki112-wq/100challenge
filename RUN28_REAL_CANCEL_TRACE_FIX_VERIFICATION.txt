@@ -1,0 +1,27 @@
+Shogi Reflection Ver.1.8.3 — Run #28 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Run #27 artifact:
+- ANALYZING reached: PASS
+- firstGoObserved: FAIL
+- error: wait_for_function timeout after 120000 ms
+- page errors: none
+
+Root cause:
+- page.add_init_script contained an uninvoked arrow-function expression
+
+Run #28:
+- Production files changed: 0
+- Harness files changed: 1
+- init script changed to invoked IIFE
+- traceInstalled evidence added
+- verifier Python syntax: PASS
+- ZIP integrity: checked after creation
+
+Expected measurement:
+Real go observed -> Cancel -> CANCELLING -> stop -> quit -> Worker terminate ->
+CANCELLED -> Replay usable -> fresh usi session -> 153 / 153 COMPLETED.
+
+Formal status: NOT FORMAL

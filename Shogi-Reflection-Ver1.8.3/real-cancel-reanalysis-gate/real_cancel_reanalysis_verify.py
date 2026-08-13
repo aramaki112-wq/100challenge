@@ -68,6 +68,7 @@ def main() -> int:
         "step3Reached": False,
         "replaySquares": 0,
         "analysisStarted": False,
+        "traceInstalled": False,
         "firstGoObserved": False,
         "progressBeforeCancel": None,
         "cancelImmediateStatus": None,
@@ -126,7 +127,7 @@ def main() -> int:
             # terminate() calls on its top-level Worker. Emscripten pthread workers
             # are created inside that Worker and are intentionally not counted here.
             page.add_init_script(
-                """() => {
+                """(() => {
                   const trace = { messages: [], terminateCount: 0 };
                   globalThis.__realCancelTrace = trace;
                   const proto = globalThis.Worker?.prototype;
@@ -150,7 +151,7 @@ def main() -> int:
                     trace.terminateCount += 1;
                     return originalTerminate.apply(this, arguments);
                   };
-                }"""
+                })();"""
             )
 
             page.on(
@@ -388,6 +389,7 @@ def main() -> int:
                         result["step3Reached"] is True,
                         result["replaySquares"] == 81,
                         result["analysisStarted"] is True,
+                        result["traceInstalled"] is True,
                         result["firstGoObserved"] is True,
                         result["cancellingObserved"] is True,
                         result["cancelledObserved"] is True,
@@ -452,6 +454,7 @@ def main() -> int:
         f"Step3 reached: {result.get('step3Reached')}",
         f"Replay squares: {result.get('replaySquares')}",
         f"First analysis started: {result.get('analysisStarted')}",
+        f"Worker trace installed: {result.get('traceInstalled')}",
         f"First go observed: {result.get('firstGoObserved')}",
         f"Progress before cancel: {result.get('progressBeforeCancel')}",
         f"Cancel immediate status: {result.get('cancelImmediateStatus')}",
