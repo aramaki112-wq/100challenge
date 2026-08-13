@@ -168,6 +168,21 @@ def main() -> int:
                 "typeof globalThis.SharedArrayBuffer === 'function'"
             )
 
+            # Run #28 proved the trace actually captures real usi/go/stop/quit and
+            # terminate events. Measure installation from the trace object itself,
+            # rather than from an auxiliary prototype marker.
+            result["traceInstalled"] = page.evaluate(
+                """() => Boolean(
+                    globalThis.__realCancelTrace &&
+                    Array.isArray(globalThis.__realCancelTrace.messages) &&
+                    Number.isInteger(globalThis.__realCancelTrace.terminateCount)
+                )"""
+            )
+            if not result["traceInstalled"]:
+                raise AssertionError(
+                    "Real Cancel Worker trace object was not installed."
+                )
+
             # Record every Engine UI state mutation. attributeOldValue lets us prove
             # a short-lived CANCELLING state even if CANCELLED follows immediately.
             page.evaluate(

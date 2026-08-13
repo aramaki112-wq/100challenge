@@ -1,0 +1,36 @@
+Shogi Reflection Ver.1.8.3 — Run #29 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Run #28 Artifact facts:
+- status: INVALID_REAL_CANCEL_REANALYSIS
+- traceInstalled: false
+- firstGoObserved: true
+- CANCELLING observed: true
+- CANCELLED observed: true
+- Cancel response: 90 ms
+- stop: true (1)
+- quit after Cancel: true (1)
+- Worker terminate after Cancel: true (1)
+- Replay usable after Cancel: true
+- fresh Real re-analysis: true
+- re-analysis: COMPLETED 153 / 153
+- Real Engine visible: true
+- Graph: true
+- Good/Bad: 5 / 5
+- final usi/go/stop/quit/terminate: 2 / 158 / 1 / 2 / 2
+- page errors: none
+
+Only failed acceptance field:
+- traceInstalled was never assigned by the verifier.
+
+Run #29:
+- Production files changed: 0
+- Verification harness files changed: 1
+- traceInstalled now measured from the actual trace object
+- missing trace fails fast
+- Python syntax: PASS
+- ZIP integrity: checked after creation
+
+Formal status: NOT FORMAL
