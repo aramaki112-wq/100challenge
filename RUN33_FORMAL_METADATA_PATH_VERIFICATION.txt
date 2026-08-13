@@ -1,0 +1,41 @@
+Shogi Reflection Ver.1.8.3 — Run #33 Pre-delivery Verification
+=================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Run #32 Artifact evidence:
+- Automated Test: 717 / 717 PASS
+- Static Verification: 147 PASS / 0 FAIL
+- Missing Import: 0
+- Formal source patches: applied
+- non-diagnostic JS generated: PASS
+- non-diagnostic WASM generated: PASS
+- pthread Worker generated: PASS
+- Formal Build Metadata generated: PASS
+- diagnosticBuild: false
+- diagnosticFlags: null
+- usi_command export: true
+- Formal runtime SHA-256 evidence: present
+
+Measured hashes:
+- JS: 3ba9f967053af62df3a9735c99d3aae25b5c8b21b8eaa0f0c75ebd25f77f8024
+- WASM: 1c2a534b652e45682e965a3ecb16e84ad2c787677fe3302f58d7346e902473e7
+- pthread Worker: 9cb2d7a0625b41c1771c6f7bd7c5f736d4ee607b036ab34a7d0f09272a250daf
+- Worker bootstrap: b187d37a0689babf345a6a1a2403904bcadb6c09afc134b8029f3f384923e8b6
+
+Run #32 blocker:
+- final Metadata self-check used './' + absolute APP_DIR
+- Real gate result files were therefore not reached/generated
+
+Run #33:
+- Metadata check reads exact absolute path via fs.readFileSync
+- non-diagnostic fields are validated
+- all runtime hashes are format-validated
+- self-check evidence is persisted
+- old path bug reproduced locally: PASS
+- new absolute-path read: PASS
+- shell syntax: PASS
+- Production code changes: 0
+- ZIP integrity: checked after creation
+
+Formal status: NOT FORMAL

@@ -182,4 +182,43 @@ fs.writeFileSync(path.join(gate,'FORMAL_BUILD_METADATA.json'),JSON.stringify(met
 fs.writeFileSync(path.join(app,'minimal-real-usi','MINIMAL_BUILD_METADATA.json'),JSON.stringify(metadata,null,2)+'\n');
 NODE
 
-test "$(node -e "const d=require('./$APP_DIR/formal-build-gate/FORMAL_BUILD_METADATA.json'); process.stdout.write(String(d.diagnosticBuild))")" = "false"
+test -s "$GATE_DIR/FORMAL_BUILD_METADATA.json"
+
+node - "$GATE_DIR/FORMAL_BUILD_METADATA.json" <<'NODE' \
+  | tee "$GATE_DIR/evidence/formal-build-metadata-self-check.txt"
+const fs = require('fs');
+const metadataPath = process.argv[2];
+const d = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+
+const failures = [];
+
+if (d.measured !== true) failures.push('measured must be true');
+if (d.diagnosticBuild !== false) failures.push('diagnosticBuild must be false');
+if (d.diagnosticFlags !== null) failures.push('diagnosticFlags must be null');
+if (d.buildProfile !== 'NON_DIAGNOSTIC_FORMAL_CANDIDATE') {
+  failures.push(`unexpected buildProfile=${d.buildProfile}`);
+}
+if (d.wasmUsiCommandExport !== true) {
+  failures.push('usi_command export evidence missing');
+}
+
+for (const key of ['js', 'wasm', 'pthreadWorker', 'productionWorkerBootstrap']) {
+  const value = d.hashes?.[key];
+  if (typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value)) {
+    failures.push(`invalid SHA-256 for ${key}`);
+  }
+}
+
+if (failures.length) {
+  console.error('FAIL: Formal Build Metadata self-check');
+  for (const failure of failures) console.error(`- ${failure}`);
+  process.exit(1);
+}
+
+console.log(`PASS: Formal Build Metadata loaded from absolute path: ${metadataPath}`);
+console.log('PASS: non-diagnostic Formal Build Profile is measured and hash-bound.');
+console.log(`PASS: JS SHA-256 ${d.hashes.js}`);
+console.log(`PASS: WASM SHA-256 ${d.hashes.wasm}`);
+console.log(`PASS: pthread Worker SHA-256 ${d.hashes.pthreadWorker}`);
+console.log(`PASS: Worker bootstrap SHA-256 ${d.hashes.productionWorkerBootstrap}`);
+NODE
