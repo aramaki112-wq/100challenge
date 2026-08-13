@@ -35,6 +35,14 @@ jobs:
           git rev-parse HEAD | tee "$APP_DIR/formal-build-gate/evidence/shogi-reflection-commit.txt"
           git rev-parse "HEAD:$APP_DIR" | tee "$APP_DIR/formal-build-gate/evidence/shogi-reflection-tree.txt"
           find "$APP_DIR" -type f | sort | wc -l | tee "$APP_DIR/formal-build-gate/evidence/baseline-file-count.txt"
+          date -u +"%Y-%m-%dT%H:%M:%SZ"             | tee "$APP_DIR/formal-build-gate/evidence/build-date-utc.txt"
+          {
+            printf 'RUNNER_OS=%s\n' "${RUNNER_OS:-UNKNOWN}"
+            printf 'RUNNER_ARCH=%s\n' "${RUNNER_ARCH:-UNKNOWN}"
+            printf 'ImageOS=%s\n' "${ImageOS:-UNKNOWN}"
+            printf 'ImageVersion=%s\n' "${ImageVersion:-UNKNOWN}"
+            printf 'GITHUB_ACTIONS=%s\n' "${GITHUB_ACTIONS:-UNKNOWN}"
+          } | tee "$APP_DIR/formal-build-gate/evidence/runner-environment.txt"
           chmod +x "$APP_DIR/formal-build-gate/build-formal-yaneuraou-wasm.sh"
           chmod +x "$APP_DIR/formal-build-gate/prepare-formal-runtime.sh"
           chmod +x "$APP_DIR/adapter-real-gate/prepare-runtime.sh"
@@ -208,6 +216,23 @@ jobs:
           mkdir -p "$RUNNER_TEMP/run30-postzip"
           unzip -q "$INTERNAL" -d "$RUNNER_TEMP/run30-postzip"
           POST="$RUNNER_TEMP/run30-postzip/$APP_DIR"
+
+          # One legacy regression test also checks the repository-root diagnostic
+          # workflow. A standalone app ZIP correctly contains its own identical
+          # workflow copy under APP_DIR/.github. Mirror that extracted copy only
+          # into the temporary parent test context; no external repository file is
+          # injected and the ZIP content itself remains standalone.
+          mkdir -p "$RUNNER_TEMP/run30-postzip/.github/workflows"
+          cp "$POST/.github/workflows/build-yaneuraou-wasm.yml" \
+            "$RUNNER_TEMP/run30-postzip/.github/workflows/build-yaneuraou-wasm.yml"
+          cmp -s \
+            "$POST/.github/workflows/build-yaneuraou-wasm.yml" \
+            "$RUNNER_TEMP/run30-postzip/.github/workflows/build-yaneuraou-wasm.yml"
+          sha256sum \
+            "$POST/.github/workflows/build-yaneuraou-wasm.yml" \
+            "$RUNNER_TEMP/run30-postzip/.github/workflows/build-yaneuraou-wasm.yml" \
+            | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-repo-context-workflow-mirror-sha256.txt"
+
           cd "$POST"
           npm test 2>&1 | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-npm-test.log"
           node verify.mjs 2>&1 | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-static-verification.log"
@@ -217,6 +242,32 @@ jobs:
             engine/yaneuraou/yaneuraou.material.worker.js \
             engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js \
             | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-runtime-sha256.txt"
+          sha256sum \
+            ENGINE_BUILD_METADATA.json \
+            engine/yaneuraou/engine-manifest.json \
+            | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-package-metadata-sha256.txt"
+          python3 - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          meta=json.loads(Path('ENGINE_BUILD_METADATA.json').read_text(encoding='utf-8'))
+          man=json.loads(Path('engine/yaneuraou/engine-manifest.json').read_text(encoding='utf-8'))
+          sha=lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          expected={
+            'jsSha256': sha('engine/yaneuraou/yaneuraou.material.js'),
+            'wasmSha256': sha('engine/yaneuraou/yaneuraou.material.wasm'),
+            'workerSha256': sha('engine/yaneuraou/yaneuraou.material.worker.js'),
+            'workerBootstrapSha256': sha('engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js'),
+          }
+          for key,value in expected.items():
+              assert meta.get(key)==value, (key,'metadata')
+              assert man.get(key)==value, (key,'manifest')
+          assert meta.get('measured') is True
+          assert meta.get('diagnosticBuild') is False
+          assert man.get('available') is True
+          assert man.get('pthreadWorkerPackaging')=='SEPARATE_PTHREAD_WORKER'
+          assert man.get('generatedPthreadWorkerCount')==1
+          print('PASS: extracted package metadata/manifest match the extracted engine bytes.')
+          PY
           rm -f "$INTERNAL"
           rm -rf "$RUNNER_TEMP/run30-postzip"
 

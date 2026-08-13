@@ -1,0 +1,32 @@
+Shogi Reflection Ver.1.8.3 — Run #34 Pre-delivery Verification
+=================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FINAL FORMAL
+Date: 2026-08-13
+
+Run #33 Artifact:
+- Formal candidate aggregate: PASS
+- failures: 0
+- diagnosticBuild: false
+- all 8 Real runtime/application gate groups: PASS
+- internal ZIP generated: PASS
+- post-ZIP npm test: 715 / 717
+- post-ZIP failure 1: manifest available=true vs stale root metadata measured=false
+- post-ZIP failure 2: repo-root diagnostic workflow absent outside standalone app ZIP
+- post-ZIP static verification: NOT RUN because npm test stopped the step
+
+Run #34:
+- package ENGINE_BUILD_METADATA becomes measured/hash-bound: implemented
+- package engine manifest gains legacy pthread/file fields: implemented
+- formal metadata augmented with build/runner/toolchain provenance: implemented
+- post-ZIP parent workflow mirror derived only from extracted app file: implemented
+- post-ZIP engine metadata/manifest exact hash assertions: implemented
+- Production behavior code changed: 0
+
+Expected next result:
+- same non-diagnostic build and Real gates
+- extracted npm test: 717 / 717
+- extracted static verification: PASS / Missing Import 0
+- exact engine hashes unchanged through ZIP extraction
+
+Formal rule:
+- final Formal Completion is still not declared by this patch itself.
