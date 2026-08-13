@@ -7,6 +7,7 @@ on:
       - ".github/workflows/yaneuraou-formal-build-candidate.yml"
       - "Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-formal-build-candidate.yml"
       - "Shogi-Reflection-Ver1.8.3/formal-build-gate/**"
+      - "Shogi-Reflection-Ver1.8.3/verify.mjs"
 
 permissions:
   contents: read
@@ -56,9 +57,17 @@ jobs:
           python3 -m py_compile "$APP_DIR/sample-fullply-real-gate/real_sample_fullply_verify.py"
           python3 -m py_compile "$APP_DIR/real-reflection-flow-gate/real_reflection_flow_verify.py"
           python3 -m py_compile "$APP_DIR/real-cancel-reanalysis-gate/real_cancel_reanalysis_verify.py"
+          node --check "$APP_DIR/verify.mjs"
+          node "$APP_DIR/formal-build-gate/run35_static_policy_selftest.mjs"             | tee "$APP_DIR/formal-build-gate/evidence/run35-static-policy-selftest.log"
           cd "$APP_DIR"
           npm test 2>&1 | tee formal-build-gate/evidence/npm-test.log
+          set +e
           node verify.mjs 2>&1 | tee formal-build-gate/evidence/static-verification.log
+          STATIC_RC=${PIPESTATUS[0]}
+          set -e
+          cp STATIC_VERIFICATION_RESULT.txt formal-build-gate/evidence/prezip-static-verification-full.txt
+          cp SYNTAX_CHECK_RESULT.txt formal-build-gate/evidence/prezip-syntax-check-full.txt
+          test "$STATIC_RC" -eq 0
 
       - name: Pull and record pinned Emscripten image
         shell: bash
@@ -235,7 +244,13 @@ jobs:
 
           cd "$POST"
           npm test 2>&1 | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-npm-test.log"
+          set +e
           node verify.mjs 2>&1 | tee "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-static-verification.log"
+          POSTZIP_STATIC_RC=${PIPESTATUS[0]}
+          set -e
+          cp STATIC_VERIFICATION_RESULT.txt             "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-static-verification-full.txt"
+          cp SYNTAX_CHECK_RESULT.txt             "$GITHUB_WORKSPACE/$APP_DIR/formal-build-gate/evidence/postzip-syntax-check-full.txt"
+          test "$POSTZIP_STATIC_RC" -eq 0
           sha256sum \
             engine/yaneuraou/yaneuraou.material.js \
             engine/yaneuraou/yaneuraou.material.wasm \
@@ -267,6 +282,43 @@ jobs:
           assert man.get('pthreadWorkerPackaging')=='SEPARATE_PTHREAD_WORKER'
           assert man.get('generatedPthreadWorkerCount')==1
           print('PASS: extracted package metadata/manifest match the extracted engine bytes.')
+          PY
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          static = Path('STATIC_VERIFICATION_RESULT.txt').read_text(encoding='utf-8')
+          required = [
+              'Missing imports: 0',
+              'Unexpected deleted Baseline files: 0',
+              'Failed checks: 0',
+          ]
+          missing = [token for token in required if token not in static]
+          if missing:
+              raise SystemExit('Post-ZIP static evidence missing: ' + ' | '.join(missing))
+
+          result = {
+              'schemaVersion': 1,
+              'gate': 'RUN35_POSTZIP_STANDALONE_PACKAGE',
+              'passed': True,
+              'status': 'PASS_RUN35_POSTZIP_STANDALONE_PACKAGE',
+              'automatedTests': 'PASS',
+              'staticVerification': 'PASS',
+              'missingImports': 0,
+              'unexpectedDeletedBaselineFiles': 0,
+              'allowedOmittedBaselineCaches': [
+                  '__pycache__/browser_verify.cpython-313.pyc',
+                  '__pycache__/real_engine_browser_verify.cpython-313.pyc',
+              ],
+              'correspondingSourceExcludedFromApplicationImportGraph': True,
+              'engineMetadataMatchesExtractedBytes': True,
+              'formalCompletion': False,
+              'note': 'Post-ZIP standalone technical package gate only; final Formal Completion/Distribution package remains next.',
+          }
+
+          out = Path(os.environ['GITHUB_WORKSPACE']) / 'Shogi-Reflection-Ver1.8.3' / 'formal-build-gate' / 'RUN35_POSTZIP_PACKAGE_GATE_RESULT.json'
+          out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('PASS: Run #35 Post-ZIP Standalone Package Gate recorded.')
           PY
           rm -f "$INTERNAL"
           rm -rf "$RUNNER_TEMP/run30-postzip"
@@ -307,9 +359,17 @@ jobs:
               raise SystemExit('Run30 Formal Build Profile failed: ' + ' | '.join(d.get('failures') or []))
           if d.get('diagnosticBuild') is not False:
               raise SystemExit('Run30 build is still diagnostic')
+
+          post=Path('Shogi-Reflection-Ver1.8.3/formal-build-gate/RUN35_POSTZIP_PACKAGE_GATE_RESULT.json')
+          if not post.exists():
+              raise SystemExit('Run35 Post-ZIP package result missing')
+          post_data=json.loads(post.read_text(encoding='utf-8'))
+          if post_data.get('passed') is not True:
+              raise SystemExit('Run35 Post-ZIP package gate did not pass')
+
           print('PASS: fresh non-diagnostic YaneuraOu WASM passed every Real runtime/application gate.')
           print('PASS: Corresponding Source evidence was generated and exact runtime hashes were fixed.')
-          print('PASS: internal candidate ZIP extracted and unchanged Automated/Static verification passed.')
+          print('PASS: internal candidate ZIP extracted; Automated/Static verification and package hash/metadata checks passed.')
           print('NOTE: Ver.1.8.3 is still NOT FINAL FORMAL in Run #30. Final ZIP naming/distribution package gate is next.')
           print('NOTE: Public/commercial distribution remains NOT READY; LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION.')
           PY

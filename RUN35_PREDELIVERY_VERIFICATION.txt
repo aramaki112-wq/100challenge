@@ -1,0 +1,42 @@
+Shogi Reflection Ver.1.8.3 — Run #35 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FINAL FORMAL
+Date: 2026-08-13
+
+Run #34 Artifact:
+- Post-ZIP Automated Tests: PASS 717 / 717
+- Pre-ZIP Static: PASS 147 / 0 fail / Missing Import 0
+- Post-ZIP Static: 145 pass / 2 fail / Missing Import 2
+- Run30 aggregate Formal Build candidate: PASS / failures 0
+
+Exact allowed cache omissions:
+- __pycache__/browser_verify.cpython-313.pyc
+- __pycache__/real_engine_browser_verify.cpython-313.pyc
+
+Exact false-positive import strings:
+- formal-build-gate/corresponding-source/YANEURAOU_WASM_BUILD.js -> ./lib/yaneuraou.module
+- formal-build-gate/corresponding-source/YANEURAOU_WASM_BUILD.js -> ./yaneuraou.module
+
+Run #35:
+- only those two exact pyc caches may be omitted
+- any other Baseline deletion remains fail-closed
+- corresponding-source evidence is excluded by path segment at any depth
+- full pre/post ZIP static/syntax reports are retained
+- explicit Post-ZIP package PASS JSON is required
+- Production Domain/Application/Repository/Storage/UI code changed: 0
+
+Local checks:
+- verify.mjs Node syntax: PASS
+- Run35 static-policy self-test: PASS
+- workflow YAML: PASS
+- ZIP integrity: checked after creation
+
+Self-test:
+PASS: exactly the two known Baseline pyc caches may be omitted.
+PASS: a real Baseline application/source deletion still fails closed.
+PASS: corresponding-source evidence is excluded at any nesting depth.
+PASS: Run #34's two yaneuraou.module template imports are not application imports.
+
+Formal status:
+- NOT FINAL FORMAL
+- Public/commercial distribution remains under the existing legal-review gate.
