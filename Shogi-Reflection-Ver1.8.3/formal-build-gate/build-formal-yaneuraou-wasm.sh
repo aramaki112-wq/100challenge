@@ -11,7 +11,7 @@ IMAGE="emscripten/emsdk:3.1.43"
 USI_PATCH="$APP_DIR/patches/yaneuraou-v9.00-wasm-usi-bridge.patch"
 THREAD_PATCH="$GATE_DIR/patches/yaneuraou-v9.00-emscripten-thread-worker-init-formal-candidate.patch"
 EXPECTED_USI_PATCH_SHA="bb79c5297f6b3e06e4dd67187aafb4f8ab18657e837f087ae7cbab15fdc27f07"
-EXPECTED_THREAD_PATCH_SHA="4f70920f54a35f57aef25beb9e1e6d5a3487c3ef344f2fb4151cece1a3f22f49"
+EXPECTED_THREAD_PATCH_SHA="de3b26e32d44502cf3d426d6c3fc43394228ebae2253c8cee7fa714af0a61c6d"
 COMMIT="a5ee2786c0030edc7d4a1cdfe94b04dffec55493"
 
 mkdir -p "$GATE_DIR/evidence" "$CORR_DIR" "$RUNTIME_DIR"
@@ -24,6 +24,11 @@ actual_usi="$(sha256sum "$USI_PATCH" | awk '{print $1}')"
 actual_thread="$(sha256sum "$THREAD_PATCH" | awk '{print $1}')"
 test "$actual_usi" = "$EXPECTED_USI_PATCH_SHA"
 test "$actual_thread" = "$EXPECTED_THREAD_PATCH_SHA"
+
+# Fail fast on malformed unified diffs before touching the pinned source.
+# Run #30 exposed why this check is part of reproducible build evidence.
+git apply --numstat "$USI_PATCH"   | tee "$GATE_DIR/evidence/usi-bridge-patch-numstat.txt"
+git apply --numstat "$THREAD_PATCH"   | tee "$GATE_DIR/evidence/thread-compat-patch-numstat.txt"
 
 # Pristine exact-commit source evidence.
 git -C "$SOURCE_DIR" archive --format=tar.gz -o   "$CORR_DIR/YaneuraOu-${COMMIT}-PRISTINE.tar.gz" HEAD

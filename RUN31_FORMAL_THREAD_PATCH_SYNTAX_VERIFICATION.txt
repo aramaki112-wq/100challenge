@@ -1,0 +1,29 @@
+Shogi Reflection Ver.1.8.3 — Run #31 Pre-delivery Verification
+=================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Run #30 artifact facts:
+- Automated regressions ran before the failing build step.
+- Static verification: 147 PASS / 0 FAIL / Missing Import 0.
+- Pristine pinned YaneuraOu source archive exists.
+- Formal modified-source/build outputs do not exist.
+- GitHub annotation: Build non-diagnostic Formal Build Profile candidate exit 128.
+
+Reproduced patch parser result:
+- malformed Run #30 thread patch exit code: 128
+- malformed diagnostic: error: corrupt patch at line 36
+- corrected patch exit code: 0
+- corrected numstat: 13	9	source/thread.cpp
+
+Correction:
+- old hunk: @@ -48,17 +48,19 @@ Thread::Thread(
+- new hunk: @@ -48,15 +48,19 @@ Thread::Thread(
+- old thread patch SHA-256: 4f70920f54a35f57aef25beb9e1e6d5a3487c3ef344f2fb4151cece1a3f22f49
+- corrected thread patch SHA-256: de3b26e32d44502cf3d426d6c3fc43394228ebae2253c8cee7fa714af0a61c6d
+- build script expected SHA updated: PASS
+- fail-fast `git apply --numstat` evidence added: PASS
+- build shell syntax: PASS
+- production code changes: 0
+
+Formal status: NOT FORMAL

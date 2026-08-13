@@ -19,7 +19,7 @@ against the new exact hashes.
 - USI bridge patch SHA-256:
   `bb79c5297f6b3e06e4dd67187aafb4f8ab18657e837f087ae7cbab15fdc27f07`
 - formalized thread compatibility patch SHA-256:
-  `4f70920f54a35f57aef25beb9e1e6d5a3487c3ef344f2fb4151cece1a3f22f49`
+  `de3b26e32d44502cf3d426d6c3fc43394228ebae2253c8cee7fa714af0a61c6d`
 
 ## Gates re-run on the same fresh hash
 

@@ -2,7 +2,7 @@ diff --git a/source/thread.cpp b/source/thread.cpp
 index 8e97493..b3c70d1 100644
 --- a/source/thread.cpp
 +++ b/source/thread.cpp
-@@ -48,17 +48,19 @@ Thread::Thread(
+@@ -48,15 +48,19 @@ Thread::Thread(
  	wait_for_search_finished();
 
  #else

@@ -10,7 +10,7 @@ Important correction:
 - Emscripten target: 3.1.43.
 - YaneuraOu commit: a5ee2786c0030edc7d4a1cdfe94b04dffec55493.
 - MATERIAL_LEVEL: 1.
-- Formal thread patch SHA-256: 4f70920f54a35f57aef25beb9e1e6d5a3487c3ef344f2fb4151cece1a3f22f49.
+- Formal thread patch SHA-256: de3b26e32d44502cf3d426d6c3fc43394228ebae2253c8cee7fa714af0a61c6d.
 
 Patch scope:
 - new Formal Build Profile workflow
