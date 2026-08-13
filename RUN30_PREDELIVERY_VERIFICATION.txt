@@ -1,0 +1,37 @@
+Shogi Reflection Ver.1.8.3 — Run #30 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Important correction:
+- Previous successful Real runtime used diagnostic EMCC_CFLAGS.
+- Run #30 creates a fresh non-diagnostic build profile.
+- Diagnostic EMCC_CFLAGS in Run #30: NONE.
+- Emscripten target: 3.1.43.
+- YaneuraOu commit: a5ee2786c0030edc7d4a1cdfe94b04dffec55493.
+- MATERIAL_LEVEL: 1.
+- Formal thread patch SHA-256: 4f70920f54a35f57aef25beb9e1e6d5a3487c3ef344f2fb4151cece1a3f22f49.
+
+Patch scope:
+- new Formal Build Profile workflow
+- new non-diagnostic build script
+- new hash-bound formalized thread compatibility patch
+- new production manifest preparation script
+- new Run #30 aggregate verifier/report
+- production Domain/Application/Repository/Storage code changed: 0
+
+Pre-delivery syntax:
+- Python aggregator: PASS
+- shell scripts: PASS
+- workflow YAML: checked
+- ZIP integrity: checked after creation
+
+Real Run #30 status:
+- NOT RUN YET
+- No Formal Completion claim is made before GitHub Actions result.
+
+Distribution:
+- Personal-use technical candidate only after green Run #30
+- Public distribution: NOT READY
+- Commercial distribution: NOT READY
+- LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION
