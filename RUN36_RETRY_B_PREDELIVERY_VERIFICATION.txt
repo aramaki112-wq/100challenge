@@ -1,0 +1,15 @@
+Run #36 Retry B Predelivery Verification
+
+Scope:
+- finalizer wording compatibility fix only
+
+Checks:
+PASS | Python syntax compile
+PASS | Existing Static Contract token present in generated finalizer source
+PASS | Old incompatible heading removed
+PASS | No workflow file changed
+PASS | No engine/runtime file changed
+PASS | No hash lock changed
+
+Required exact token:
+modified-source Corresponding Source

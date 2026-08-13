@@ -294,7 +294,7 @@ YaneuraOu V9.00 commit `{commit}`.
 - MATERIAL / MATERIAL_LEVEL=1
 - non-diagnostic build only
 
-## Modified-source Corresponding Source
+## modified-source Corresponding Source
 
 The package retains both pristine and modified source forms plus exact patches:
 
