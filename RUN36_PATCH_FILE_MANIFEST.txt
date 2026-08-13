@@ -1,0 +1,35 @@
+Shogi Reflection Ver.1.8.3 — Run #36 Patch File Manifest
+Apply base: 100challenge repository root
+
+ADD
+- RUN36_FINAL_FORMAL_RELEASE_PATCH_README.md
+- RUN36_PREDELIVERY_VERIFICATION.txt
+- RUN36_PATCH_FILE_MANIFEST.txt
+- .github/workflows/yaneuraou-final-formal-release.yml
+- Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-final-formal-release.yml
+- Shogi-Reflection-Ver1.8.3/RUN36_FORMAL_RELEASE_LOCK.json
+- Shogi-Reflection-Ver1.8.3/RUN36_FINAL_FORMAL_RELEASE_README.md
+- Shogi-Reflection-Ver1.8.3/formal-build-gate/run36_finalize_formal_release.py
+- Shogi-Reflection-Ver1.8.3/formal-build-gate/run36_verify_final_package.py
+
+MODIFY
+- .github/workflows/build-yaneuraou-wasm.yml
+- .github/workflows/yaneuraou-formal-build-candidate.yml
+- Shogi-Reflection-Ver1.8.3/.github/workflows/build-yaneuraou-wasm.yml
+- Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-formal-build-candidate.yml
+- Shogi-Reflection-Ver1.8.3/00_README_FIRST.md
+- Shogi-Reflection-Ver1.8.3/package.json
+- Shogi-Reflection-Ver1.8.3/YaneuraOuBuildBridgeV183.test.js
+- Shogi-Reflection-Ver1.8.3/verify.mjs
+- Shogi-Reflection-Ver1.8.3/scripts/formal-completion-gate.mjs
+- Shogi-Reflection-Ver1.8.3/scripts/update-engine-license-gate.mjs
+
+DELETE
+- none
+
+Intentionally not included:
+- generated __pycache__ / .pyc
+- locally regenerated STATIC_VERIFICATION_RESULT.txt
+- locally regenerated SYNTAX_CHECK_RESULT.txt
+
+The GitHub Run #36 workflow regenerates final verification evidence from the applied source.

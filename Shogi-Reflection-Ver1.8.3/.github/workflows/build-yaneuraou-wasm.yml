@@ -1,29 +1,7 @@
-name: Build pinned YaneuraOu WASM
+name: Legacy Diagnostic YaneuraOu WASM (non-formal)
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/build-yaneuraou-wasm.yml"
-      - "scripts/build-yaneuraou-wasm.sh"
-      - "scripts/package-yaneuraou-corresponding-source.sh"
-      - "patches/yaneuraou-v9.00-wasm-usi-bridge.patch"
-      - "scripts/hash-engine-assets.sh"
-      - "scripts/update-engine-build-metadata.mjs"
-      - "scripts/verify-yaneuraou-wasm.sh"
-      - "YaneuraOuWasmWorkerBootstrap.js"
-      - "YaneuraOuWasmBootstrapV182.test.js"
-      - "YaneuraOuBuildBridgeV183.test.js"
-      - "verify.mjs"
-      - "real_yaneuraou_usi_verify.py"
-      - "real_yaneuraou_browser_verify.py"
-      - "requirements-real-engine.txt"
-      - "ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
-      - "ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md"
-      - "ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md"
-      - "ENGINE_BUILD_INCIDENT_007_V900_WASM_USI_EXPORT_DISABLED.md"
-      - "ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md"
-      - "ENGINE_BUILD_INCIDENT_011_FUNCTION_POINTER_SIGNATURE_MISMATCH.md"
 
 permissions:
   contents: read

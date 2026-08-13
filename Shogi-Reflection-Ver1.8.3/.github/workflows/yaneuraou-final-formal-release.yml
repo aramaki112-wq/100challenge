@@ -1,4 +1,4 @@
-name: YaneuraOu Formal Build Profile Candidate
+name: YaneuraOu Final Formal Release
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ env:
 
 jobs:
   formal-build-profile:
-    name: Non-diagnostic build and all Real gates
+    name: Run36 exact-hash rebuild and final release
     runs-on: ubuntu-22.04
     timeout-minutes: 90
 
@@ -103,6 +103,30 @@ jobs:
           print('PASS: diagnostic flags are absent from the fresh Run #30 build.')
           PY
 
+      - name: Enforce frozen Run36 release lock on fresh build
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PYLOCK'
+          import json
+          from pathlib import Path
+          app=Path('Shogi-Reflection-Ver1.8.3')
+          lock=json.loads((app/'RUN36_FORMAL_RELEASE_LOCK.json').read_text(encoding='utf-8'))
+          meta=json.loads((app/'formal-build-gate/FORMAL_BUILD_METADATA.json').read_text(encoding='utf-8'))
+          if meta.get('diagnosticBuild') is not False or meta.get('diagnosticFlags') is not None:
+              raise SystemExit('Run36 refuses a diagnostic build')
+          if meta.get('commit') != lock['engine']['commit']:
+              raise SystemExit('Run36 source commit differs from release lock')
+          if meta.get('emscripten') != lock['engine']['emscripten']:
+              raise SystemExit('Run36 Emscripten version differs from release lock')
+          if meta.get('hashes') != lock['runtimeHashes']:
+              raise SystemExit('Run36 fresh runtime hashes differ from frozen successful Run30 hashes')
+          if meta.get('sizes') != lock['runtimeSizes']:
+              raise SystemExit('Run36 fresh runtime sizes differ from frozen successful Run30 sizes')
+          if meta.get('sourcePatches') != lock['sourcePatches']:
+              raise SystemExit('Run36 source patch identities differ from release lock')
+          print('PASS: fresh non-diagnostic build matches all frozen Run36 runtime hashes and sizes.')
+          PYLOCK
       - name: Install pinned browser verifier once
         shell: bash
         run: |
@@ -317,53 +341,148 @@ jobs:
           rm -f "$INTERNAL"
           rm -rf "$RUNNER_TEMP/run30-postzip"
 
-      - name: Upload Run30 evidence only
+      - name: Finalize technical Formal release metadata and distribution boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$APP_DIR"
+          python3 formal-build-gate/run36_finalize_formal_release.py "$GITHUB_WORKSPACE/$APP_DIR"
+          npm test 2>&1 | tee formal-build-gate/evidence/run36-final-npm-test.log
+          node verify.mjs 2>&1 | tee formal-build-gate/evidence/run36-final-static-verification.log
+          python3 formal-build-gate/run36_verify_final_package.py "$GITHUB_WORKSPACE/$APP_DIR" \
+            | tee formal-build-gate/evidence/run36-prezip-final-package-verify.log
+
+      - name: Create formally named Ver1.8.3 ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf release-output
+          mkdir -p release-output
+          python3 - "$APP_DIR" "release-output/Shogi-Reflection-Ver1.8.3.zip" <<'PYZIP'
+          import sys, zipfile
+          from pathlib import Path
+          root=Path(sys.argv[1]); out=Path(sys.argv[2])
+          with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+              for p in sorted(root.rglob('*')):
+                  if not p.is_file(): continue
+                  if '__pycache__' in p.parts or p.suffix=='.pyc': continue
+                  z.write(p, Path(root.name)/p.relative_to(root))
+          print(out)
+          PYZIP
+          sha256sum release-output/Shogi-Reflection-Ver1.8.3.zip \
+            | tee release-output/Shogi-Reflection-Ver1.8.3.zip.sha256
+
+      - name: Extract final ZIP to a clean location and run Run36 final gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          FINAL_ZIP="$GITHUB_WORKSPACE/release-output/Shogi-Reflection-Ver1.8.3.zip"
+          FINAL_SHA="$(sha256sum "$FINAL_ZIP" | awk '{print $1}')"
+          FINAL_SIZE="$(stat -c %s "$FINAL_ZIP")"
+          FINAL_DIR="$RUNNER_TEMP/run36-final-extracted"
+          rm -rf "$FINAL_DIR"
+          mkdir -p "$FINAL_DIR"
+          python3 - "$FINAL_ZIP" "$FINAL_DIR" <<'PYEXTRACT'
+          import sys, zipfile
+          with zipfile.ZipFile(sys.argv[1]) as z:
+              z.extractall(sys.argv[2])
+          PYEXTRACT
+          POST="$FINAL_DIR/$APP_DIR"
+          test -d "$POST"
+
+          # Preserve the legacy regression's repository-root workflow context
+          # using only the workflow copy already contained in the final ZIP.
+          mkdir -p "$FINAL_DIR/.github/workflows"
+          cp "$POST/.github/workflows/build-yaneuraou-wasm.yml" \
+            "$FINAL_DIR/.github/workflows/build-yaneuraou-wasm.yml"
+          cmp -s "$POST/.github/workflows/build-yaneuraou-wasm.yml" \
+            "$FINAL_DIR/.github/workflows/build-yaneuraou-wasm.yml"
+
+          cd "$POST"
+          npm test 2>&1 | tee "$GITHUB_WORKSPACE/release-output/RUN36_POSTZIP_NPM_TEST.txt"
+          node verify.mjs 2>&1 | tee "$GITHUB_WORKSPACE/release-output/RUN36_POSTZIP_STATIC_VERIFICATION.txt"
+          python3 formal-build-gate/run36_verify_final_package.py "$POST" \
+            | tee "$GITHUB_WORKSPACE/release-output/RUN36_POSTZIP_FORMAL_VERIFY.txt"
+
+          python3 - "$GITHUB_WORKSPACE/release-output" "$FINAL_SHA" "$FINAL_SIZE" <<'PYRESULT'
+          import json,sys
+          from pathlib import Path
+          out=Path(sys.argv[1])
+          result={
+            'schemaVersion':1,
+            'gate':'RUN36_FINAL_DISTRIBUTION_ZIP',
+            'passed':True,
+            'status':'PASS_RUN36_FINAL_DISTRIBUTION_ZIP',
+            'releaseName':'Shogi-Reflection-Ver1.8.3.zip',
+            'zipSha256':sys.argv[2],
+            'zipSizeBytes':int(sys.argv[3]),
+            'formalCompletion':True,
+            'formalCompletionScope':'TECHNICAL_PERSONAL_USE_RELEASE',
+            'freshBuildMatchesFrozenRun30Hashes':True,
+            'run30RealGates':'PASS',
+            'run35StandalonePostZipGate':'PASS',
+            'finalPostZipAutomatedTests':'PASS',
+            'finalPostZipStaticVerification':'PASS',
+            'missingImports':0,
+            'unexpectedDeletedBaselineFiles':0,
+            'publicDistributionReadiness':'NOT_READY_LEGAL_REVIEW_REQUIRED',
+            'commercialDistributionReadiness':'NOT_READY_LEGAL_REVIEW_REQUIRED',
+            'note':'This result is external to the ZIP so it can bind the SHA-256 of the exact final ZIP without a self-hash cycle.'
+          }
+          (out/'RUN36_FINAL_ZIP_GATE_RESULT.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(result,ensure_ascii=False,indent=2))
+          PYRESULT
+
+      - name: Upload Run36 evidence
         if: always()
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: yaneuraou-run30-formal-build-profile-${{ github.run_id }}-${{ github.run_attempt }}
+          name: yaneuraou-run36-final-formal-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           retention-days: 30
-          if-no-files-found: error
+          if-no-files-found: warn
           path: |
             Shogi-Reflection-Ver1.8.3/formal-build-gate/
-            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BUILD_METADATA.json
-            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_NODE_SEARCH_RESULT.json
-            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BROWSER_SEARCH_RESULT.json
-            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_NODE_RUNTIME_RESULT.json
-            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BROWSER_RUNTIME_RESULT.json
-            Shogi-Reflection-Ver1.8.3/adapter-real-gate/REAL_ADAPTER_INTEGRATION_RESULT.json
-            Shogi-Reflection-Ver1.8.3/sample-fullply-real-gate/REAL_SAMPLE_FULLPLY_RESULT.json
-            Shogi-Reflection-Ver1.8.3/real-reflection-flow-gate/REAL_REFLECTION_FLOW_RESULT.json
-            Shogi-Reflection-Ver1.8.3/real-cancel-reanalysis-gate/REAL_CANCEL_REANALYSIS_RESULT.json
+            Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_METADATA.json
+            Shogi-Reflection-Ver1.8.3/ENGINE_LICENSE_GATE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/FORMAL_COMPLETION_GATE_RESULT.json
+            Shogi-Reflection-Ver1.8.3/FORMAL_COMPLETION_STATUS.md
+            Shogi-Reflection-Ver1.8.3/RUN36_RELEASE_MANIFEST.json
             Shogi-Reflection-Ver1.8.3/engine/yaneuraou/engine-manifest.json
+            release-output/RUN36_*.txt
+            release-output/RUN36_FINAL_ZIP_GATE_RESULT.json
+            release-output/Shogi-Reflection-Ver1.8.3.zip.sha256
 
-      - name: Enforce Run30 gate
+      - name: Enforce Run36 Final Formal Release gate
         if: always()
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
+          python3 - <<'PYFINAL'
           import json
           from pathlib import Path
-          p=Path('Shogi-Reflection-Ver1.8.3/formal-build-gate/RUN30_FORMAL_BUILD_CANDIDATE_RESULT.json')
+          p=Path('release-output/RUN36_FINAL_ZIP_GATE_RESULT.json')
           if not p.exists():
-              raise SystemExit('Run30 result missing')
+              raise SystemExit('Run36 final ZIP gate result missing')
           d=json.loads(p.read_text(encoding='utf-8'))
-          if d.get('passed') is not True:
-              raise SystemExit('Run30 Formal Build Profile failed: ' + ' | '.join(d.get('failures') or []))
-          if d.get('diagnosticBuild') is not False:
-              raise SystemExit('Run30 build is still diagnostic')
-
-          post=Path('Shogi-Reflection-Ver1.8.3/formal-build-gate/RUN35_POSTZIP_PACKAGE_GATE_RESULT.json')
-          if not post.exists():
-              raise SystemExit('Run35 Post-ZIP package result missing')
-          post_data=json.loads(post.read_text(encoding='utf-8'))
-          if post_data.get('passed') is not True:
-              raise SystemExit('Run35 Post-ZIP package gate did not pass')
-
-          print('PASS: fresh non-diagnostic YaneuraOu WASM passed every Real runtime/application gate.')
-          print('PASS: Corresponding Source evidence was generated and exact runtime hashes were fixed.')
-          print('PASS: internal candidate ZIP extracted; Automated/Static verification and package hash/metadata checks passed.')
-          print('NOTE: Ver.1.8.3 is still NOT FINAL FORMAL in Run #30. Final ZIP naming/distribution package gate is next.')
+          if d.get('passed') is not True or d.get('status') != 'PASS_RUN36_FINAL_DISTRIBUTION_ZIP':
+              raise SystemExit('Run36 final ZIP gate failed')
+          if d.get('formalCompletion') is not True:
+              raise SystemExit('Run36 did not record Formal technical completion')
+          if d.get('publicDistributionReadiness') != 'NOT_READY_LEGAL_REVIEW_REQUIRED':
+              raise SystemExit('Public distribution boundary was weakened unexpectedly')
+          print('PASS: Run #36 Final Formal Release Gate.')
+          print('PASS: Shogi-Reflection-Ver1.8.3.zip may be used as the formally named technical/personal release package.')
           print('NOTE: Public/commercial distribution remains NOT READY; LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION.')
-          PY
+          PYFINAL
+
+      - name: Upload final Shogi Reflection Ver1.8.3 package
+        if: success()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Shogi-Reflection-Ver1.8.3-FINAL-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release-output/Shogi-Reflection-Ver1.8.3.zip
+            release-output/Shogi-Reflection-Ver1.8.3.zip.sha256
+            release-output/RUN36_FINAL_ZIP_GATE_RESULT.json

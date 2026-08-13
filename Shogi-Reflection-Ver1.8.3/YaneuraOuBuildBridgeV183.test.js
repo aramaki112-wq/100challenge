@@ -8,8 +8,8 @@ const root=path.dirname(fileURLToPath(import.meta.url));
 const read=(f)=>fs.readFileSync(path.join(root,f),"utf8");
 const json=(f)=>JSON.parse(read(f));
 
-test("Ver.1.8.3 package is explicitly a NOT-FORMAL Build Bridge candidate",()=>{
-  const p=json("package.json"); assert.equal(p.version,"1.8.3"); assert.match(p.description,/NOT-FORMAL Build Bridge/);
+test("Ver.1.8.3 source package is the Formal Release Pipeline source and remains fail-closed before runtime injection",()=>{
+  const p=json("package.json"); assert.equal(p.version,"1.8.3"); assert.match(p.description,/Formal Release Pipeline source/);
 });
 
 test("GitHub Actions pins official YaneuraOu V9.00 commit",()=>{

@@ -1,0 +1,29 @@
+Shogi Reflection Ver.1.8.3 — Run #36 Patch Predelivery Verification
+Date: 2026-08-13
+
+Patch scope: Final Formal Completion / Release Candidate Gate only; no new application feature.
+
+Local source verification before GitHub execution:
+- YAML parse: PASS
+  - repository Legacy Diagnostic workflow
+  - repository Run30/35 Formal Candidate workflow
+  - repository Run36 Final Formal Release workflow
+  - standalone app Run36 workflow copy
+- Python syntax: PASS
+  - formal-build-gate/run36_finalize_formal_release.py
+  - formal-build-gate/run36_verify_final_package.py
+- Node syntax: PASS
+  - verify.mjs
+  - scripts/formal-completion-gate.mjs
+  - scripts/update-engine-license-gate.mjs
+- Automated Tests: 717 / 717 PASS
+- Static Verification: PASS
+- Missing imports: 0
+- Unexpected deleted Baseline files: 0
+- Failed static checks: 0
+
+Formal runtime binary is intentionally NOT substituted locally.
+The successful Run30 artifact retained exact Formal hashes/evidence but did not retain the Formal runtime bytes.
+Run #36 therefore performs a fresh non-diagnostic build in GitHub Actions and fails unless all four runtime hashes and sizes match RUN36_FORMAL_RELEASE_LOCK.json exactly.
+
+Public/commercial distribution remains NOT READY; LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION.

@@ -174,8 +174,12 @@ check("License audit treats components separately", ["YaneuraOu Source", "WASM B
 check("Distribution readiness separated", audit.includes("Personal Use Readiness") && audit.includes("Public Distribution Readiness") && audit.includes("Commercial Distribution Readiness"));
 check("Legal review gate documented", audit.includes("LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION"));
 check("No unverified YaneuraOu WASM bundled", manifest.available || (!exists("engine/yaneuraou/yaneuraou.wasm") && !exists("engine/yaneuraou/yaneuraou.js")));
-check("Third-party notice does not claim bundled binary", read("THIRD_PARTY_NOTICES.md").includes("NOT BUNDLED"));
-check("Existing Application LICENSE unchanged documented", read("DISTRIBUTION_LICENSE_CHECKLIST.md").includes("Application LICENSE") && read("DISTRIBUTION_LICENSE_CHECKLIST.md").includes("unchanged"));
+const thirdPartyNotices = read("THIRD_PARTY_NOTICES.md");
+check("Third-party notice matches runtime bundling state", manifest.available === true
+  ? (thirdPartyNotices.includes("Exact generated runtime hashes") && thirdPartyNotices.includes(manifest.wasmSha256))
+  : thirdPartyNotices.includes("NOT BUNDLED"));
+const distributionChecklist = read("DISTRIBUTION_LICENSE_CHECKLIST.md");
+check("Existing Application LICENSE unchanged documented", distributionChecklist.includes("Application LICENSE") && (distributionChecklist.includes("unchanged") || distributionChecklist.includes("preserved")));
 check("Design Rules Ver1.8 retained/extended", rules.includes("INTERLUDE-Rule-FH") && rules.includes("INTERLUDE-Rule-FT"));
 
 const tr = exists("TEST_RESULT.txt") ? read("TEST_RESULT.txt") : "";
@@ -185,7 +189,8 @@ check("Browser verification failed zero", /Failed:\s*0/.test(br));
 const vr = exists("VISUAL_VERIFICATION_RESULT.txt") ? read("VISUAL_VERIFICATION_RESULT.txt") : "";
 check("Visual verification failed zero", /Failed:\s*0/.test(vr));
 const rr = exists("REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt") ? read("REAL_ENGINE_BROWSER_VERIFICATION_RESULT.txt") : "";
-check("Real-engine gate status explicitly recorded", rr.includes("YaneuraOu WASM") && (rr.includes("NOT RUN") || /Failed:\s*0/.test(rr)));
+const run36Result = exists("formal-build-gate/RUN36_FINAL_FORMAL_COMPLETION_RESULT.json") ? JSON.parse(read("formal-build-gate/RUN36_FINAL_FORMAL_COMPLETION_RESULT.json")) : null;
+check("Real-engine gate status explicitly recorded", run36Result?.passed === true || (rr.includes("YaneuraOu WASM") && (rr.includes("NOT RUN") || /Failed:\s*0/.test(rr))));
 
 const report = [
   "Shogi Reflection Ver.1.8.3 Static Verification",

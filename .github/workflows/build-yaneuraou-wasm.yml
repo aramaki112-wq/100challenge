@@ -1,32 +1,7 @@
-name: Build pinned YaneuraOu WASM
+name: Legacy Diagnostic YaneuraOu WASM (non-formal)
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/build-yaneuraou-wasm.yml"
-      - "Shogi-Reflection-Ver1.8.3/scripts/build-yaneuraou-wasm.sh"
-      - "Shogi-Reflection-Ver1.8.3/scripts/package-yaneuraou-corresponding-source.sh"
-      - "Shogi-Reflection-Ver1.8.3/patches/yaneuraou-v9.00-wasm-usi-bridge.patch"
-      - "Shogi-Reflection-Ver1.8.3/scripts/hash-engine-assets.sh"
-      - "Shogi-Reflection-Ver1.8.3/scripts/update-engine-build-metadata.mjs"
-      - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-wasm.sh"
-      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
-      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmBootstrapV182.test.js"
-      - "Shogi-Reflection-Ver1.8.3/YaneuraOuBuildBridgeV183.test.js"
-      - "Shogi-Reflection-Ver1.8.3/verify.mjs"
-      - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_usi_verify.py"
-      - "Shogi-Reflection-Ver1.8.3/real_yaneuraou_browser_verify.py"
-      - "Shogi-Reflection-Ver1.8.3/requirements-real-engine.txt"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_004_RUNTIME_WASM_BASE_URL.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_005_OFFICIAL_WASM_TOOLCHAIN_ALIGNMENT.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_006_UPSTREAM_WASM_PACKAGER_OUTPUT_MISSING.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_007_V900_WASM_USI_EXPORT_DISABLED.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_008_REVIEWED_PATCH_DIFF_ABBREVIATION.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_010_PTHREAD_MAIN_SCRIPT_URL.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_011_FUNCTION_POINTER_SIGNATURE_MISMATCH.md"
-      - "Shogi-Reflection-Ver1.8.3/ENGINE_BUILD_INCIDENT_012_DIAGNOSTIC_GATE_ORDERING.md"
-      - "Shogi-Reflection-Ver1.8.3/scripts/verify-yaneuraou-diagnostic-wasm.sh"
 
 permissions:
   contents: read

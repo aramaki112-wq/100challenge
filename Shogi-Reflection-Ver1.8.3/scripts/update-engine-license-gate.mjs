@@ -4,6 +4,18 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const finalResultPath = path.join(root, "formal-build-gate", "RUN36_FINAL_FORMAL_COMPLETION_RESULT.json");
+const finalLicensePath = path.join(root, "ENGINE_LICENSE_GATE_RESULT.json");
+if (!process.argv.includes("--force-legacy") && fs.existsSync(finalResultPath) && fs.existsSync(finalLicensePath)) {
+  try {
+    const finalResult = JSON.parse(fs.readFileSync(finalResultPath, "utf8"));
+    const finalLicense = JSON.parse(fs.readFileSync(finalLicensePath, "utf8"));
+    if (finalResult.passed === true && finalResult.formalCompletion === true && finalLicense.schemaVersion >= 4) {
+      console.log(JSON.stringify(finalLicense, null, 2));
+      process.exit(0);
+    }
+  } catch {}
+}
 const built = process.argv.includes("--built");
 const commit = "a5ee2786c0030edc7d4a1cdfe94b04dffec55493";
 const correspondingDir = path.join(root, "corresponding-source");

@@ -2,12 +2,6 @@ name: YaneuraOu Formal Build Profile Candidate
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/yaneuraou-formal-build-candidate.yml"
-      - "Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-formal-build-candidate.yml"
-      - "Shogi-Reflection-Ver1.8.3/formal-build-gate/**"
-      - "Shogi-Reflection-Ver1.8.3/verify.mjs"
 
 permissions:
   contents: read

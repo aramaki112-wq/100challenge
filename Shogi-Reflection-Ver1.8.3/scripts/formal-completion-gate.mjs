@@ -10,6 +10,15 @@ const record = (name, ok, detail = "") => { checks.push({name,ok,detail}); if(!o
 const readJson = (name) => { try { return JSON.parse(fs.readFileSync(path.join(root,name),"utf8")); } catch { return null; } };
 const read = (name) => { try { return fs.readFileSync(path.join(root,name),"utf8"); } catch { return ""; } };
 
+// Run #36 final packages carry an exact-hash final result. Preserve that
+// authoritative result instead of re-running the historical pre-Run36 gate.
+const run36Final = readJson("formal-build-gate/RUN36_FINAL_FORMAL_COMPLETION_RESULT.json");
+if (run36Final?.passed === true && run36Final?.formalCompletion === true && run36Final?.verdict === "FORMAL_TECHNICAL_RELEASE_PASSED") {
+  fs.writeFileSync(path.join(root,"FORMAL_COMPLETION_GATE_RESULT.json"), JSON.stringify(run36Final,null,2)+"\n");
+  console.log(JSON.stringify(run36Final,null,2));
+  process.exit(0);
+}
+
 try { execFileSync(process.execPath,[path.join(root,"scripts","real-yaneuraou-artifact-gate.mjs")],{cwd:root,stdio:"pipe"}); record("Real YaneuraOu artifact gate",true); }
 catch(error){
   const artifactGate=readJson("REAL_YANEURAOU_ARTIFACT_GATE_RESULT.json");

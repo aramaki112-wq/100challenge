@@ -3,7 +3,7 @@
   "version": "1.8.3",
   "private": true,
   "type": "module",
-  "description": "Shogi Reflection Ver.1.8.3 NOT-FORMAL Build Bridge candidate: reproducible pinned YaneuraOu V9.00 MATERIAL WASM build pipeline and explicit Real Engine Formal Gates",
+  "description": "Shogi Reflection Ver.1.8.3 — Formal Release Pipeline source; Real YaneuraOu runtime remains fail-closed until exact-hash CI injection.",
   "scripts": {
     "test": "node --test",
     "check": "node verify.mjs",

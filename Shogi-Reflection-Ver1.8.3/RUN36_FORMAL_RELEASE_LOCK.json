@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "lockName": "Shogi Reflection Ver.1.8.3 Final Formal Release Lock",
+  "sourceOfTruth": "Run #30 non-diagnostic Formal Build Profile candidate + Run #35 Post-ZIP Standalone Package Gate",
+  "engine": {
+    "name": "YaneuraOu",
+    "version": "V9.00",
+    "commit": "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+    "evaluationModel": "MATERIAL",
+    "materialLevel": 1,
+    "emscripten": "3.1.43",
+    "expectedEmscriptenReleaseCommit": "bf3c159888633d232c0507f4c76cc156a43c32dc",
+    "diagnosticBuild": false
+  },
+  "runtimeHashes": {
+    "js": "3ba9f967053af62df3a9735c99d3aae25b5c8b21b8eaa0f0c75ebd25f77f8024",
+    "wasm": "1c2a534b652e45682e965a3ecb16e84ad2c787677fe3302f58d7346e902473e7",
+    "pthreadWorker": "9cb2d7a0625b41c1771c6f7bd7c5f736d4ee607b036ab34a7d0f09272a250daf",
+    "productionWorkerBootstrap": "b187d37a0689babf345a6a1a2403904bcadb6c09afc134b8029f3f384923e8b6"
+  },
+  "runtimeSizes": {
+    "js": 47637,
+    "wasm": 679555,
+    "pthreadWorker": 2930,
+    "productionWorkerBootstrap": 2427
+  },
+  "sourcePatches": [
+    {
+      "file": "patches/yaneuraou-v9.00-wasm-usi-bridge.patch",
+      "sha256": "bb79c5297f6b3e06e4dd67187aafb4f8ab18657e837f087ae7cbab15fdc27f07"
+    },
+    {
+      "file": "formal-build-gate/patches/yaneuraou-v9.00-emscripten-thread-worker-init-formal-candidate.patch",
+      "sha256": "de3b26e32d44502cf3d426d6c3fc43394228ebae2253c8cee7fa714af0a61c6d"
+    }
+  ],
+  "requiredRun30Status": "PASS_RUN30_FORMAL_BUILD_PROFILE_CANDIDATE",
+  "requiredRun35Status": "PASS_RUN35_POSTZIP_STANDALONE_PACKAGE",
+  "releasePolicy": {
+    "technicalPersonalReleaseAllowed": true,
+    "publicDistributionReady": false,
+    "commercialDistributionReady": false,
+    "legalReviewRequiredBeforePublicDistribution": true,
+    "physicalIPhoneSafari": "NOT_VERIFIED",
+    "battery": "NOT_MEASURED",
+    "thermal": "NOT_MEASURED"
+  }
+}
