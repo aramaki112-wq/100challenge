@@ -1,0 +1,25 @@
+Shogi Reflection Ver.1.8.3 — Run #36 Retry A Predelivery Verification
+
+CAUSE CONFIRMED
+- Failure artifact Run36 fresh build hashes = frozen Run36 release lock: MATCH (4/4)
+- Failure artifact Run36 fresh build sizes = frozen Run36 release lock: MATCH (4/4)
+- Run30 candidate result in failure artifact: passed=true
+- Post-ZIP npm test evidence: 717/717 PASS
+- Post-ZIP static failure isolated to: Third-party notice matches runtime bundling state
+
+PATCH VERIFICATION
+- run36_prepare_bundled_notices.py: Python compile PASS
+- source-state npm test: 717/717 PASS
+- source-state Static Verification: PASS
+- Missing imports: 0
+- Unexpected deleted Baseline files: 0
+- simulated exact-hash bundled manifest -> notice preparation: PASS_RUN36_BUNDLED_NOTICE_PREP
+- simulated bundled-state Static Verification after notice synchronization: PASS
+
+SCOPE
+- No Engine source modification
+- No runtime hash change
+- No evaluation/model change
+- No Domain/UI change
+- No public/commercial distribution approval
+- Workflow ordering only + fail-closed notice synchronization helper

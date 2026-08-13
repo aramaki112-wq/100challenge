@@ -45,6 +45,7 @@ jobs:
           bash -n "$APP_DIR/formal-build-gate/build-formal-yaneuraou-wasm.sh"
           bash -n "$APP_DIR/formal-build-gate/prepare-formal-runtime.sh"
           python3 -m py_compile "$APP_DIR/formal-build-gate/run30_formal_candidate_verify.py"
+          python3 -m py_compile "$APP_DIR/formal-build-gate/run36_prepare_bundled_notices.py"
           python3 -m py_compile "$APP_DIR/minimal-real-usi/minimal_browser_search_probe.py"
           python3 -m py_compile "$APP_DIR/minimal-real-usi/minimal_browser_runtime_probe.py"
           python3 -m py_compile "$APP_DIR/adapter-real-gate/real_adapter_gate_verify.py"
@@ -181,6 +182,13 @@ jobs:
         run: |
           set -euo pipefail
           "$APP_DIR/formal-build-gate/prepare-formal-runtime.sh" "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Synchronize third-party notice with bundled exact-hash runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 "$APP_DIR/formal-build-gate/run36_prepare_bundled_notices.py" "$GITHUB_WORKSPACE/$APP_DIR" \
+            | tee "$APP_DIR/formal-build-gate/evidence/run36-bundled-notice-prep.log"
 
       - name: Run Real Reflection Flow on exact Run30 hashes
         continue-on-error: true
