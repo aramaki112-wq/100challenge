@@ -1,0 +1,216 @@
+name: YaneuraOu Real Cancel Re-analysis Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/yaneuraou-real-cancel-reanalysis.yml"
+      - "Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-real-cancel-reanalysis.yml"
+      - "Shogi-Reflection-Ver1.8.3/real-cancel-reanalysis-gate/**"
+      - "Shogi-Reflection-Ver1.8.3/real-reflection-flow-gate/prepare-runtime.sh"
+      - "Shogi-Reflection-Ver1.8.3/minimal-real-usi/**"
+      - "Shogi-Reflection-Ver1.8.3/engine/yaneuraou/engine-manifest.json"
+      - "Shogi-Reflection-Ver1.8.3/samples/piyo_20260617_170236.kif"
+      - "Shogi-Reflection-Ver1.8.3/index.html"
+      - "Shogi-Reflection-Ver1.8.3/main.js"
+      - "Shogi-Reflection-Ver1.8.3/AnalyzeGame.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserEngineAnalysisView.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserEngineProvider.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/UsiEngineAdapter.js"
+      - "Shogi-Reflection-Ver1.8.3/BrowserWorkerUsiTransport.js"
+      - "Shogi-Reflection-Ver1.8.3/YaneuraOuWasmWorkerBootstrap.js"
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
+
+jobs:
+  real-cancel-reanalysis:
+    name: Real Cancel stop terminate re-analysis
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Shogi Reflection
+        uses: actions/checkout@v4.2.2
+
+      - name: Verify gate syntax and unchanged application regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          chmod +x "$APP_DIR/real-reflection-flow-gate/prepare-runtime.sh"
+          bash -n "$APP_DIR/minimal-real-usi/build-minimal-usi.sh"
+          bash -n "$APP_DIR/real-reflection-flow-gate/prepare-runtime.sh"
+          python3 -m py_compile "$APP_DIR/real-cancel-reanalysis-gate/real_cancel_reanalysis_verify.py"
+          cd "$APP_DIR"
+          npm test
+          node verify.mjs
+
+      - name: Pull pinned Emscripten image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "$EMSCRIPTEN_IMAGE"
+          mkdir -p "$APP_DIR/real-cancel-reanalysis-gate/evidence"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
+            | tee "$APP_DIR/real-cancel-reanalysis-gate/evidence/emscripten-image-id.txt"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{json .RepoDigests}}' \
+            | tee "$APP_DIR/real-cancel-reanalysis-gate/evidence/emscripten-image-repodigests.json"
+
+      - name: Clone and verify pinned YaneuraOu
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu-real-cancel-reanalysis"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$YANEURAOU_COMMIT"
+          git -C "$SOURCE_DIR" status --porcelain=v1 \
+            | tee "$APP_DIR/real-cancel-reanalysis-gate/evidence/upstream-status-before-patch.txt"
+          test ! -s "$APP_DIR/real-cancel-reanalysis-gate/evidence/upstream-status-before-patch.txt"
+          echo "YANEURAOU_CANCEL_SOURCE=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build known-good Real Runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/minimal-real-usi/build-minimal-usi.sh" \
+            "$YANEURAOU_CANCEL_SOURCE" \
+            "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Prepare verified Real Runtime for production BrowserEngineProvider
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/real-reflection-flow-gate/prepare-runtime.sh" "$GITHUB_WORKSPACE/$APP_DIR"
+          test -s "$APP_DIR/engine/yaneuraou/engine-manifest.json"
+          test -s "$APP_DIR/engine/yaneuraou/yaneuraou.material.js"
+          test -s "$APP_DIR/engine/yaneuraou/yaneuraou.material.wasm"
+          test -s "$APP_DIR/engine/yaneuraou/yaneuraou.material.worker.js"
+          test -s "$APP_DIR/engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js"
+          sha256sum "$APP_DIR/samples/piyo_20260617_170236.kif" \
+            | tee "$APP_DIR/real-cancel-reanalysis-gate/evidence/sample-kif-sha256.txt"
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check -r "$APP_DIR/requirements-real-engine.txt"
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run Real Cancel Re-analysis Gate
+        id: cancel_gate
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          cd "$APP_DIR"
+          python3 real-cancel-reanalysis-gate/real_cancel_reanalysis_verify.py 2>&1 \
+            | tee real-cancel-reanalysis-gate/evidence/real-cancel-reanalysis-gate.log
+
+      - name: Upload Real Cancel Re-analysis evidence
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-real-cancel-reanalysis-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            Shogi-Reflection-Ver1.8.3/real-cancel-reanalysis-gate/
+            Shogi-Reflection-Ver1.8.3/engine/yaneuraou/engine-manifest.json
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/MINIMAL_BUILD_METADATA.json
+            Shogi-Reflection-Ver1.8.3/minimal-real-usi/evidence/
+
+      - name: Enforce Real Cancel Re-analysis Gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('Shogi-Reflection-Ver1.8.3/real-cancel-reanalysis-gate/REAL_CANCEL_REANALYSIS_RESULT.json')
+          if not p.exists():
+              raise SystemExit('Real Cancel/Re-analysis result missing')
+
+          d = json.loads(p.read_text(encoding='utf-8'))
+          failures = []
+
+          if d.get('passed') is not True:
+              failures.append(f"status={d.get('status')}")
+          if d.get('crossOriginIsolated') is not True or d.get('sharedArrayBuffer') is not True:
+              failures.append('thread-capable browser isolation missing')
+          if d.get('samplePreview') is not True or d.get('step3Reached') is not True:
+              failures.append('existing Sample KIF -> Step3 path missing')
+          if d.get('replaySquares') != 81:
+              failures.append('existing fixed 9x9 Replay board missing')
+          if d.get('analysisStarted') is not True or d.get('firstGoObserved') is not True:
+              failures.append('Real first analysis/search did not start')
+          if d.get('cancellingObserved') is not True:
+              failures.append('CANCELLING state not observed')
+          if d.get('cancelledObserved') is not True or d.get('cancelStatus') != 'CANCELLED':
+              failures.append('CANCELLED state not reached')
+          cancel_ms = d.get('cancelResponseMs')
+          if not isinstance(cancel_ms, (int, float)) or cancel_ms >= 10000:
+              failures.append(f'Cancel response too slow/unmeasured: {cancel_ms}')
+          if d.get('stopSent') is not True or int(d.get('stopCountAfterCancel') or 0) < 1:
+              failures.append('USI stop not observed')
+          if d.get('quitSentAfterCancel') is not True or int(d.get('quitCountAfterCancel') or 0) < 1:
+              failures.append('USI quit after Cancel not observed')
+          if d.get('workerTerminatedAfterCancel') is not True or int(d.get('terminateCountAfterCancel') or 0) < 1:
+              failures.append('top-level Real Worker terminate after Cancel not observed')
+          if d.get('cancelButtonDisabled') is not True or d.get('reanalyzeButtonEnabled') is not True:
+              failures.append('Cancel/re-analysis button state invalid')
+          if d.get('cancelDidNotPersistPartialResult') is not True:
+              failures.append('cancelled partial result was rendered as a completed result')
+          if d.get('replayUsableAfterCancel') is not True:
+              failures.append('Replay unusable after Cancel')
+          if d.get('reanalysisStarted') is not True or d.get('secondUsiObserved') is not True:
+              failures.append('fresh Real re-analysis session not observed')
+          if d.get('reanalysisStatus') != 'COMPLETED':
+              failures.append('Real re-analysis did not complete')
+          if '153 / 153' not in str(d.get('reanalysisProgress') or ''):
+              failures.append('full 153-position re-analysis UI progress missing')
+          if d.get('realEngineVisible') is not True:
+              failures.append('YaneuraOu V9.00 not visible after re-analysis')
+          if d.get('fallbackVisible') is not False or d.get('mockVisible') is not False:
+              failures.append('Mock/ReflectionLocal fallback contaminated re-analysis')
+          if d.get('graphSvg') is not True:
+              failures.append('Evaluation Graph missing after re-analysis')
+          good = int(d.get('goodCandidates') or 0)
+          bad = int(d.get('badCandidates') or 0)
+          if not (1 <= good <= 5) or not (1 <= bad <= 5):
+              failures.append(f'Good/Bad Candidate counts invalid after re-analysis: {good}/{bad}')
+          if d.get('reanalyzeButtonLabel') != '現在設定で再解析':
+              failures.append('re-analysis button did not return to ready state')
+          if int(d.get('finalUsiCount') or 0) < 2:
+              failures.append('two Real USI initialization sessions not observed')
+          if int(d.get('finalGoCount') or 0) < 154:
+              failures.append('cancelled search + full re-analysis go commands not observed')
+          if int(d.get('finalStopCount') or 0) < 1:
+              failures.append('final trace missing stop')
+          if int(d.get('finalQuitCount') or 0) < 2:
+              failures.append('both Real sessions were not disposed with quit')
+          if int(d.get('finalTerminateCount') or 0) < 2:
+              failures.append('both top-level Real Workers were not terminated')
+          if d.get('pageErrors'):
+              failures.append('browser page errors present')
+
+          if failures:
+              raise SystemExit('Real Cancel/Re-analysis Gate failure(s): ' + ' | '.join(failures))
+
+          print('PASS: production Real YaneuraOu search was cancelled only after a real go command.')
+          print('PASS: Abort -> AnalyzeGame.cancel -> USI stop -> quit -> Worker terminate was observed.')
+          print('PASS: Replay remained usable after Cancel and no partial analysis was accepted as completed.')
+          print('PASS: a fresh Real YaneuraOu session re-initialized and completed the full 153-position Sample KIF.')
+          print('NOTE: Run #27 is NOT FORMAL; final license/distribution, Formal Completion and final ZIP re-test remain later gates.')
+          PY

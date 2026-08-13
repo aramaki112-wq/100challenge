@@ -1,0 +1,31 @@
+Shogi Reflection Ver.1.8.3 — Run #27 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Patch scope:
+- New root GitHub Actions workflow
+- Matching app workflow evidence copy
+- New Playwright Real Cancel / Re-analysis verifier
+- Documentation only
+- Production application code changed: 0 files
+
+Current production contract targeted:
+- AnalyzeGame.cancel() marks cancellation and calls engine.cancelAnalysis()
+- UsiEngineAdapter.cancelAnalysis() sends `stop` when initialized
+- UsiEngineAdapter.dispose() sends `quit`
+- BrowserWorkerUsiTransport.dispose() terminates the top-level Worker
+- main.js aborts, cancels, disposes and returns UI to CANCELLED
+- analyze button can start a fresh engine session
+
+Pre-delivery syntax:
+- Python verifier compile: PASS
+- Workflow YAML parse: checked
+- ZIP integrity: checked after creation
+
+Real runtime:
+- NOT claimed locally
+- GitHub Actions is the authoritative Run #27 measurement
+
+Formal status:
+- NOT FORMAL
