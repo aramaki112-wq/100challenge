@@ -1,0 +1,25 @@
+Shogi Reflection Ver.1.8.3 — Run #32 Pre-delivery Verification
+================================================================
+Status: READY FOR GITHUB ACTIONS — NOT FORMAL
+Date: 2026-08-13
+
+Run #31 Artifact:
+- patch numstat evidence: present
+- source modification status: present
+- pristine source archive: present
+- patched source archive: present
+- combined source patch: present
+- GPL license evidence: present
+- successful Formal build metadata: absent
+- successful Formal runtime hashes: absent
+
+Run #32:
+- bare `clang --version` removed
+- exact `/emsdk/upstream/bin/clang --version` used
+- exact tool paths recorded
+- Docker build stdout/stderr persisted to gate evidence
+- Production application code changed: 0
+- shell syntax: PASS
+- ZIP integrity: checked after creation
+
+Formal status: NOT FORMAL

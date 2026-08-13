@@ -63,15 +63,21 @@ mkdir -p "$OUT_DIR"
 docker run --rm   -v "$SOURCE_DIR:/src"   -w /src   "$IMAGE"   bash -lc '
     set -euo pipefail
     test -z "${EMCC_CFLAGS:-}"
+    printf "PATH=%s\n" "$PATH" | tee formal-build-output/toolchain-path.txt
+    command -v emcc | tee formal-build-output/emcc-path.txt
+    command -v em++ | tee formal-build-output/empp-path.txt
+    command -v node | tee formal-build-output/node-path.txt
+    command -v python3 | tee formal-build-output/python-path.txt
+    test -x /emsdk/upstream/bin/clang
     emcc --version | tee formal-build-output/emcc-version.txt
     em++ --version | tee formal-build-output/empp-version.txt
-    clang --version | tee formal-build-output/clang-version.txt
+    /emsdk/upstream/bin/clang --version | tee formal-build-output/clang-version.txt
     node --version | tee formal-build-output/node-version.txt
     python3 --version | tee formal-build-output/python-version.txt
     cd source
     make clean
     make -j2 tournament       COMPILER=em++       TARGET_CPU=WASM       YANEURAOU_EDITION=YANEURAOU_ENGINE_MATERIAL       TARGET=../formal-build-output/yaneuraou.material.js       EM_EXPORT_NAME=YaneuraOu_Material       MATERIAL_LEVEL=1       EM_INITIAL_MEMORY_SIZE=92274688       2>&1 | tee ../formal-build-output/make.log
-  '
+  ' 2>&1 | tee "$GATE_DIR/evidence/formal-docker-build.log"
 
 for f in yaneuraou.material.js yaneuraou.material.wasm yaneuraou.material.worker.js; do
   test -s "$OUT_DIR/$f"
