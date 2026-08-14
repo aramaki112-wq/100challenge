@@ -53,6 +53,9 @@ test('A5-E1 workflowは別artifactを生成しFormal release workflowを呼ば�
     assert.match(s, /PTHREAD_POOL_SIZE=1 candidate/);
     assert.match(s, /name: yaneuraou-ios-pool1-candidate/);
     assert.match(s, /IOS_POOL1_CANDIDATE_METADATA\.json/);
+    assert.match(s, /TARGET="\$APP_DIR\/minimal-real-usi\/runtime"/);
+    assert.match(s, /rm -rf "\$TARGET"/);
+    assert.match(s, /mkdir -p "\$TARGET"/);
     assert.doesNotMatch(s, /yaneuraou-final-formal-release/);
     assert.doesNotMatch(s, /RUN36_FORMAL_RELEASE_LOCK/);
   }

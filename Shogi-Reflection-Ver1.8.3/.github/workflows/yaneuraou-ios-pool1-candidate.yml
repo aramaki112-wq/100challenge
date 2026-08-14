@@ -68,6 +68,8 @@ jobs:
           set -euo pipefail
           CAND="$APP_DIR/ios-real-engine-gate/runtime-candidate"
           TARGET="$APP_DIR/minimal-real-usi/runtime"
+          rm -rf "$TARGET"
+          mkdir -p "$TARGET"
           cp "$CAND/yaneuraou.material.js" "$TARGET/yaneuraou.material.cjs"
           cp "$CAND/yaneuraou.material.wasm" "$TARGET/yaneuraou.material.wasm"
           cp "$CAND/yaneuraou.material.worker.js" "$TARGET/yaneuraou.material.worker.js"

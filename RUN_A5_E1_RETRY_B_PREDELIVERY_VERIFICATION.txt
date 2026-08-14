@@ -1,0 +1,33 @@
+Shogi Reflection Ver.1.8.4 PWA — Run A5-E1 Retry B Pre-delivery Verification
+=============================================================================
+Status: READY FOR GITHUB ACTIONS RETRY B — NOT FORMAL
+Date: 2026-08-14
+
+Measured Retry A GitHub result:
+- App regression/isolation gate: PASS
+- Pinned Emscripten image: PASS
+- Exact YaneuraOu clone: PASS
+- Non-diagnostic Pool1 candidate build: PASS
+- Node USI runtime probe staging: FAIL before probe execution
+- Failure: minimal-real-usi/runtime directory did not exist
+
+Retry B controlled change:
+- verification workflow creates a clean minimal-real-usi/runtime staging directory before cp
+- production code changes: 0
+- Pool1 source-build parameters changed: 0
+- Run36 Formal runtime changed: 0
+
+Local checks:
+- npm test: 722 / 722 PASS
+- node verify.mjs: PASS
+- Missing Import: 0
+- Unexpected deleted Baseline files: 0
+- root/app workflow cmp: PASS
+- workflow YAML parse: PASS
+- build script bash -n: PASS
+
+Expected next GitHub stage:
+- Node USI runtime probe runs against the already-built Pool1 candidate
+- on success, technical-test-only candidate artifact is packaged and uploaded
+
+Formal status: NOT FORMAL
