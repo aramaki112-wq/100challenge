@@ -1,0 +1,25 @@
+Shogi Reflection Ver.1.8.4 PWA — Run A5-E1 Retry A Pre-delivery Verification
+================================================================================
+Observed GitHub failure:
+- Workflow: YaneuraOu iPhone Pool1 Candidate #1
+- Failed step: Verify unchanged app regressions and candidate isolation rules
+- Automated: 721 / 722 PASS, 1 FAIL
+- Failed test: 283
+- Actual manifest status: NOT_BUILT_IN_CURRENT_VERIFICATION_ENVIRONMENT
+- Incorrect expected status: VER_1_8_3_FORMAL_TECHNICAL_RELEASE
+- YaneuraOu build itself: NOT STARTED
+
+Retry A local reproduction against archived 100challenge repository baseline:
+- npm test: 722 / 722 PASS
+- Static Verification: completed
+- Missing imports: 0
+- Unexpected deleted Baseline files: 0
+- root/app candidate workflow mirror: byte-identical
+- build-ios-pool1-candidate.sh bash syntax: PASS
+- candidate test JS syntax: PASS
+
+Controlled experiment remains:
+- PTHREAD_POOL_SIZE: 32 -> 1
+- Initial memory: unchanged 92274688
+- Stack: unchanged 67108864
+- Formal status: NOT FORMAL / technical iPhone test candidate only

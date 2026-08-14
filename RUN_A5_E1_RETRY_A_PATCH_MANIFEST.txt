@@ -1,0 +1,10 @@
+Run A5-E1 Retry A patch files
+=============================
+.github/workflows/yaneuraou-ios-pool1-candidate.yml
+RUN_A5_E1_RETRY_A_APPLY_README.md
+RUN_A5_E1_RETRY_A_PATCH_MANIFEST.txt
+RUN_A5_E1_RETRY_A_PREDELIVERY_VERIFICATION.txt
+Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-ios-pool1-candidate.yml
+Shogi-Reflection-Ver1.8.3/IosRealEnginePool1CandidateV184.test.js
+Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E1_RESULT.json
+Shogi-Reflection-Ver1.8.3/ios-real-engine-gate/build-ios-pool1-candidate.sh

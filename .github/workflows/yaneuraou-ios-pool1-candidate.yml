@@ -36,6 +36,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          mkdir -p "$APP_DIR/ios-real-engine-gate/evidence"
           docker pull "$EMSCRIPTEN_IMAGE"
           docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
             | tee "$APP_DIR/ios-real-engine-gate/evidence/emscripten-image-id.txt"

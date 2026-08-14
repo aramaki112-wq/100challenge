@@ -20,16 +20,32 @@ EXPECTED_POOL_PATCH_SHA="4e1963c62afaed2e023304d11cb7c2736aca1c43db2c5bd585fb447
 mkdir -p "$RUNTIME_DIR" "$CORR_DIR" "$EVIDENCE_DIR"
 rm -f "$RUNTIME_DIR"/*
 
-# This run is deliberately a NEW candidate. It must never mutate the Run36 Formal runtime.
-FORMAL_MANIFEST="$APP_DIR/engine/yaneuraou/engine-manifest.json"
+# This run is deliberately a NEW candidate. It must never mutate the app's
+# checked-in Engine area. The GitHub repository intentionally carries a
+# distribution-safe NOT_BUILT manifest, while packaged Formal builds may carry
+# measured runtime files. Fingerprint whatever is present instead of assuming
+# the checkout itself contains Run36 binaries.
+APP_ENGINE_DIR="$APP_DIR/engine/yaneuraou"
+FORMAL_MANIFEST="$APP_ENGINE_DIR/engine-manifest.json"
 test -s "$FORMAL_MANIFEST"
-node - "$APP_DIR" <<'NODE' > "$EVIDENCE_DIR/formal-runtime-before.json"
+node - "$APP_DIR" <<'NODE' > "$EVIDENCE_DIR/app-engine-baseline-before.json"
 const fs=require('fs'), path=require('path'), crypto=require('crypto');
 const app=process.argv[2];
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-const base=path.join(app,'engine','yaneuraou');
-const files=['YaneuraOuWasmWorkerBootstrap.js','yaneuraou.material.js','yaneuraou.material.wasm','yaneuraou.material.worker.js'];
-console.log(JSON.stringify(Object.fromEntries(files.map(f=>[f,sha(path.join(base,f))])),null,2));
+const engine=path.join(app,'engine','yaneuraou');
+const walk=(dir,base=dir)=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{
+  const p=path.join(dir,e.name);
+  return e.isDirectory()?walk(p,base):[{file:path.relative(base,p).replaceAll('\\','/'),size:fs.statSync(p).size,sha256:sha(p)}];
+}).sort((a,b)=>a.file.localeCompare(b.file));
+const manifest=JSON.parse(fs.readFileSync(path.join(engine,'engine-manifest.json'),'utf8'));
+const metadataPath=path.join(app,'ENGINE_BUILD_METADATA.json');
+console.log(JSON.stringify({
+  manifestStatus:manifest.status,
+  manifestAvailable:manifest.available,
+  manifestBuildId:manifest.buildId ?? null,
+  engineFiles:walk(engine),
+  rootBuildMetadata:fs.existsSync(metadataPath)?{size:fs.statSync(metadataPath).size,sha256:sha(metadataPath)}:null
+},null,2));
 NODE
 
 # Exact pinned upstream source and exact known source patches only.
@@ -185,13 +201,12 @@ const metadata={
     pthreadWorker:size(path.join(runtime,'yaneuraou.material.worker.js')),
     productionWorkerBootstrap:size(path.join(runtime,'YaneuraOuWasmWorkerBootstrap.js'))
   },
-  formalBaseline:{
-    buildId:formal.buildId,
-    pthreadPoolSize:formal.pthreadPoolSize,
-    jsSha256:formal.jsSha256,
-    wasmSha256:formal.wasmSha256,
-    workerSha256:formal.workerSha256,
-    workerBootstrapSha256:formal.workerBootstrapSha256
+  checkoutBaseline:{
+    status:formal.status,
+    available:formal.available,
+    buildId:formal.buildId ?? null,
+    declaredPoolSize:formal.pthreadPoolSize ?? formal.upstreamPthreadPoolSize ?? null,
+    note:'The repository may intentionally contain a NOT_BUILT distribution-safe manifest. Candidate output is isolated under ios-real-engine-gate/runtime-candidate.'
   },
   publicDistributionReady:false,
   commercialDistributionReady:false,
@@ -207,14 +222,25 @@ NODE
 
 sha256sum "$RUNTIME_DIR/"* > "$GATE_DIR/IOS_POOL1_CANDIDATE_SHA256SUMS.txt"
 
-node - "$APP_DIR" <<'NODE' > "$EVIDENCE_DIR/formal-runtime-after.json"
+node - "$APP_DIR" <<'NODE' > "$EVIDENCE_DIR/app-engine-baseline-after.json"
 const fs=require('fs'), path=require('path'), crypto=require('crypto');
 const app=process.argv[2];
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-const base=path.join(app,'engine','yaneuraou');
-const files=['YaneuraOuWasmWorkerBootstrap.js','yaneuraou.material.js','yaneuraou.material.wasm','yaneuraou.material.worker.js'];
-console.log(JSON.stringify(Object.fromEntries(files.map(f=>[f,sha(path.join(base,f))])),null,2));
+const engine=path.join(app,'engine','yaneuraou');
+const walk=(dir,base=dir)=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{
+  const p=path.join(dir,e.name);
+  return e.isDirectory()?walk(p,base):[{file:path.relative(base,p).replaceAll('\\','/'),size:fs.statSync(p).size,sha256:sha(p)}];
+}).sort((a,b)=>a.file.localeCompare(b.file));
+const manifest=JSON.parse(fs.readFileSync(path.join(engine,'engine-manifest.json'),'utf8'));
+const metadataPath=path.join(app,'ENGINE_BUILD_METADATA.json');
+console.log(JSON.stringify({
+  manifestStatus:manifest.status,
+  manifestAvailable:manifest.available,
+  manifestBuildId:manifest.buildId ?? null,
+  engineFiles:walk(engine),
+  rootBuildMetadata:fs.existsSync(metadataPath)?{size:fs.statSync(metadataPath).size,sha256:sha(metadataPath)}:null
+},null,2));
 NODE
-cmp "$EVIDENCE_DIR/formal-runtime-before.json" "$EVIDENCE_DIR/formal-runtime-after.json"
+cmp "$EVIDENCE_DIR/app-engine-baseline-before.json" "$EVIDENCE_DIR/app-engine-baseline-after.json"
 
-echo 'PASS: A5-E1 candidate built with PTHREAD_POOL_SIZE=1; Run36 Formal runtime remained untouched.'
+echo 'PASS: A5-E1 candidate built with PTHREAD_POOL_SIZE=1; checked-in app Engine state remained untouched.'

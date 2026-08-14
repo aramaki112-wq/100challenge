@@ -10,15 +10,27 @@ const repoRoot = path.resolve(HERE, '..');
 const sha = (p) => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const read = (p) => fs.readFileSync(p, 'utf8');
 
-test('A5-E1はRun36 Formal runtimeを変更せず別candidateとして隔離する', () => {
+test('A5-E1はcheckoutのEngine状態に依存せず別candidateとして隔離する', () => {
   const manifest = JSON.parse(read(path.join(HERE, 'engine/yaneuraou/engine-manifest.json')));
-  assert.equal(manifest.status, 'VER_1_8_3_FORMAL_TECHNICAL_RELEASE');
-  assert.equal(manifest.buildId, 'RUN36_FINAL_FORMAL_RELEASE');
-  assert.equal(manifest.pthreadPoolSize, 32);
-  assert.equal(sha(path.join(HERE, 'engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js')), manifest.workerBootstrapSha256);
-  assert.equal(sha(path.join(HERE, 'engine/yaneuraou/yaneuraou.material.js')), manifest.jsSha256);
-  assert.equal(sha(path.join(HERE, 'engine/yaneuraou/yaneuraou.material.wasm')), manifest.wasmSha256);
-  assert.equal(sha(path.join(HERE, 'engine/yaneuraou/yaneuraou.material.worker.js')), manifest.workerSha256);
+  assert.equal(manifest.engineName, 'YaneuraOu');
+  assert.equal(manifest.engineVersion, 'V9.00');
+  assert.equal(manifest.commitHash, 'a5ee2786c0030edc7d4a1cdfe94b04dffec55493');
+  const baselinePool = manifest.pthreadPoolSize ?? manifest.upstreamPthreadPoolSize;
+  assert.equal(baselinePool, 32);
+
+  // Repository checkout is allowed to carry the distribution-safe NOT_BUILT manifest;
+  // a packaged Formal runtime may instead carry the measured Formal manifest.
+  // The candidate build must work in either case and must never write into engine/yaneuraou.
+  assert.ok(
+    manifest.status === 'NOT_BUILT_IN_CURRENT_VERIFICATION_ENVIRONMENT' ||
+    manifest.status === 'VER_1_8_3_FORMAL_TECHNICAL_RELEASE'
+  );
+  if (manifest.available === true) {
+    assert.equal(sha(path.join(HERE, 'engine/yaneuraou/YaneuraOuWasmWorkerBootstrap.js')), manifest.workerBootstrapSha256);
+    assert.equal(sha(path.join(HERE, 'engine/yaneuraou/yaneuraou.material.js')), manifest.jsSha256);
+    assert.equal(sha(path.join(HERE, 'engine/yaneuraou/yaneuraou.material.wasm')), manifest.wasmSha256);
+    assert.equal(sha(path.join(HERE, 'engine/yaneuraou/yaneuraou.material.worker.js')), manifest.workerSha256);
+  }
 });
 
 test('A5-E1 source patchはPTHREAD_POOL_SIZE 32から1だけを変更する', () => {
@@ -54,9 +66,9 @@ test('A5-E1 build scriptはpool1以外の主要resource設定を固定しFormal 
   assert.match(s, /INITIAL_MEMORY=92274688/);
   assert.match(s, /STACK_SIZE=67108864/);
   assert.match(s, /runtime-candidate/);
-  assert.match(s, /formal-runtime-before\.json/);
-  assert.match(s, /formal-runtime-after\.json/);
-  assert.match(s, /cmp \"\$EVIDENCE_DIR\/formal-runtime-before\.json\" \"\$EVIDENCE_DIR\/formal-runtime-after\.json\"/);
+  assert.match(s, /app-engine-baseline-before\.json/);
+  assert.match(s, /app-engine-baseline-after\.json/);
+  assert.match(s, /cmp \"\$EVIDENCE_DIR\/app-engine-baseline-before\.json\" \"\$EVIDENCE_DIR\/app-engine-baseline-after\.json\"/);
   assert.doesNotMatch(s, /cp .*\$APP_DIR\/engine\/yaneuraou\/yaneuraou\.material/);
 });
 

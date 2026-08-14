@@ -22,5 +22,16 @@
   "technicalPersonalUseTestOnly": true,
   "publicDistributionReady": false,
   "commercialDistributionReady": false,
-  "legalReviewRequiredBeforePublicDistribution": true
+  "legalReviewRequiredBeforePublicDistribution": true,
+  "retry": "A",
+  "previousRunFailure": {
+    "stage": "pre-build automated regression",
+    "test": 283,
+    "cause": "test assumed GitHub checkout already contained Run36 Formal runtime; repository correctly contains distribution-safe NOT_BUILT manifest"
+  },
+  "retryAChanges": [
+    "accept safe NOT_BUILT or packaged Formal baseline in isolation test",
+    "fingerprint checked-in engine area before/after instead of assuming Formal runtime files exist",
+    "create evidence directory before Docker image inspection"
+  ]
 }
