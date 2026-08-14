@@ -1,0 +1,12 @@
+084b67d09d40a7ff432aca52aecc8a8be04df52cdd4b4dbad2310ae31c267435  .github/workflows/yaneuraou-ios-pool1-stack8-candidate.yml
+ff458798ce8c3bc6c52aa41f7423ff8257497b7969a063fd3b25b984ea3834fc  RUN_A5_E2_APPLY_README.md
+686d44c009c09c7cd0b996604be6e8f3ea627f25ddddd6e05ea7ff8aea303703  RUN_A5_E2_PATCH_MANIFEST.txt
+1e5ba57657c1c00391a4762bbd4495e9391248666f3bfebb4e6a21a553dd6285  RUN_A5_E2_PREDELIVERY_VERIFICATION.txt
+084b67d09d40a7ff432aca52aecc8a8be04df52cdd4b4dbad2310ae31c267435  Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-ios-pool1-stack8-candidate.yml
+b2a76f33f6ee466e03b72b7e32ef9bc4e42d75c7adb592c447669d77607fea79  Shogi-Reflection-Ver1.8.3/IosRealEnginePool1Stack8CandidateV184.test.js
+c38701e86793b4cdf000b1d5bca81050122d089512d81c24f0366ec4f971dfe5  Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E2_IOS_POOL1_STACK8_PLAN.md
+e6b8282607a8d4fe75c46984f2a8ef7b531842d64675d605acb7b4c2dd0d0320  Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E2_RESULT.json
+4e1963c62afaed2e023304d11cb7c2736aca1c43db2c5bd585fb4477ee70d8f4  Shogi-Reflection-Ver1.8.3/ios-real-engine-gate/patches/yaneuraou-v9.00-pthread-pool-size-1.patch
+bb58c16f63b271fb3b8bbcb75b9e0b01dad92c3c2bf973ac818b9ac365f30bad  Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/README.md
+98c4f85030adfa76d255dc657049599d2381cf06f07d870da466995d1960a7ef  Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/build-ios-pool1-stack8-candidate.sh
+5fcee573b4a0a898e747e303b6e003db8af99c901d63b15b88e88708057678d9  Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/patches/yaneuraou-v9.00-stack-size-8m.patch

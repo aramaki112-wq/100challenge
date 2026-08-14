@@ -1,0 +1,21 @@
+Run: A5-E2 — iPhone Pool1 + Stack8 Candidate
+Apply target: 100challenge repository ROOT
+Status: NOT_FORMAL / TECHNICAL_TEST_ONLY
+
+Controlled change:
+- PTHREAD_POOL_SIZE: keep 1
+- INITIAL_MEMORY: keep 92274688 bytes
+- STACK_SIZE: 67108864 -> 8388608 bytes
+
+Files in this overlay:
+.github/workflows/yaneuraou-ios-pool1-stack8-candidate.yml
+RUN_A5_E2_APPLY_README.md
+RUN_A5_E2_PATCH_MANIFEST.txt
+Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-ios-pool1-stack8-candidate.yml
+Shogi-Reflection-Ver1.8.3/IosRealEnginePool1Stack8CandidateV184.test.js
+Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E2_IOS_POOL1_STACK8_PLAN.md
+Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E2_RESULT.json
+Shogi-Reflection-Ver1.8.3/ios-real-engine-gate/patches/yaneuraou-v9.00-pthread-pool-size-1.patch
+Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/README.md
+Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/build-ios-pool1-stack8-candidate.sh
+Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/patches/yaneuraou-v9.00-stack-size-8m.patch

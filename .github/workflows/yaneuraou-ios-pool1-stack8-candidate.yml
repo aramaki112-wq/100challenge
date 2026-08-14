@@ -1,0 +1,143 @@
+name: YaneuraOu iPhone Pool1 Stack8 Candidate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  APP_DIR: Shogi-Reflection-Ver1.8.3
+  YANEURAOU_REPOSITORY: https://github.com/yaneurao/YaneuraOu.git
+  YANEURAOU_COMMIT: a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+  EMSCRIPTEN_IMAGE: emscripten/emsdk:3.1.43
+
+jobs:
+  ios-pool1-stack8-candidate:
+    name: Build iPhone Pool1 STACK_SIZE=8MiB candidate
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout exact Shogi Reflection source
+        uses: actions/checkout@v4.2.2
+
+      - name: Verify unchanged app regressions and A5-E2 isolation rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x "$APP_DIR/ios-real-engine-stack8-gate/build-ios-pool1-stack8-candidate.sh"
+          bash -n "$APP_DIR/ios-real-engine-stack8-gate/build-ios-pool1-stack8-candidate.sh"
+          cd "$APP_DIR"
+          npm test
+          node verify.mjs
+
+      - name: Pull pinned Emscripten image
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$APP_DIR/ios-real-engine-stack8-gate/evidence"
+          docker pull "$EMSCRIPTEN_IMAGE"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{.Id}}' \
+            | tee "$APP_DIR/ios-real-engine-stack8-gate/evidence/emscripten-image-id.txt"
+          docker image inspect "$EMSCRIPTEN_IMAGE" --format '{{json .RepoDigests}}' \
+            | tee "$APP_DIR/ios-real-engine-stack8-gate/evidence/emscripten-image-repodigests.json"
+
+      - name: Clone exact pinned YaneuraOu
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_DIR="$RUNNER_TEMP/YaneuraOu-ios-pool1-stack8"
+          git clone "$YANEURAOU_REPOSITORY" "$SOURCE_DIR"
+          git -C "$SOURCE_DIR" checkout --detach "$YANEURAOU_COMMIT"
+          test "$(git -C "$SOURCE_DIR" rev-parse HEAD)" = "$YANEURAOU_COMMIT"
+          test -z "$(git -C "$SOURCE_DIR" status --porcelain=v1)"
+          echo "YANEURAOU_IOS_POOL1_STACK8_SOURCE=$SOURCE_DIR" >> "$GITHUB_ENV"
+
+      - name: Build non-diagnostic Pool1 Stack8 candidate without touching Run36 Formal runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$APP_DIR/ios-real-engine-stack8-gate/build-ios-pool1-stack8-candidate.sh" \
+            "$YANEURAOU_IOS_POOL1_STACK8_SOURCE" \
+            "$GITHUB_WORKSPACE/$APP_DIR"
+
+      - name: Run Node USI runtime probe on candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          CAND="$APP_DIR/ios-real-engine-stack8-gate/runtime-candidate"
+          TARGET="$APP_DIR/minimal-real-usi/runtime"
+          rm -rf "$TARGET"
+          mkdir -p "$TARGET"
+          cp "$CAND/yaneuraou.material.js" "$TARGET/yaneuraou.material.cjs"
+          cp "$CAND/yaneuraou.material.wasm" "$TARGET/yaneuraou.material.wasm"
+          cp "$CAND/yaneuraou.material.worker.js" "$TARGET/yaneuraou.material.worker.js"
+          printf '{"type":"commonjs"}\n' > "$TARGET/package.json"
+          cd "$APP_DIR/minimal-real-usi"
+          rm -f MINIMAL_NODE_RUNTIME_RESULT.json MINIMAL_NODE_RUNTIME_RESULT.txt
+          node minimal_node_runtime_probe.cjs
+          node - <<'NODE'
+          const fs=require('fs');
+          const d=JSON.parse(fs.readFileSync('MINIMAL_NODE_RUNTIME_RESULT.json','utf8'));
+          if(d.passed!==true) throw new Error(`candidate runtime probe failed: ${d.reason}`);
+          console.log('PASS: Pool1+Stack8 candidate answered USI/MultiPV/stop/reanalysis/mate/quit in Node probe.');
+          NODE
+
+      - name: Package technical-test-only candidate artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          ART="$APP_DIR/ios-real-engine-stack8-gate/artifact"
+          CAND="$APP_DIR/ios-real-engine-stack8-gate/runtime-candidate"
+          rm -rf "$ART"
+          mkdir -p "$ART/runtime" "$ART/source-evidence" "$ART/evidence"
+          cp "$CAND/YaneuraOuWasmWorkerBootstrap.js" "$ART/runtime/"
+          cp "$CAND/yaneuraou.material.js" "$ART/runtime/"
+          cp "$CAND/yaneuraou.material.wasm" "$ART/runtime/"
+          cp "$CAND/yaneuraou.material.worker.js" "$ART/runtime/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/IOS_POOL1_STACK8_CANDIDATE_METADATA.json" "$ART/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/IOS_POOL1_STACK8_CANDIDATE_SHA256SUMS.txt" "$ART/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/README.md" "$ART/README_FIRST.md"
+          cp "$APP_DIR/ios-real-engine-gate/patches/yaneuraou-v9.00-pthread-pool-size-1.patch" "$ART/source-evidence/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/patches/yaneuraou-v9.00-stack-size-8m.patch" "$ART/source-evidence/"
+          cp "$APP_DIR/patches/yaneuraou-v9.00-wasm-usi-bridge.patch" "$ART/source-evidence/"
+          cp "$APP_DIR/formal-build-gate/patches/yaneuraou-v9.00-emscripten-thread-worker-init-formal-candidate.patch" "$ART/source-evidence/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/corresponding-source-candidate/YANEURAOU_COPYING_GPL3.txt" "$ART/source-evidence/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/corresponding-source-candidate/SOURCE_MODIFICATION_STATUS.txt" "$ART/source-evidence/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/corresponding-source-candidate/YaneuraOu-ShogiReflection-IOS-POOL1-STACK8-CANDIDATE.patch" "$ART/source-evidence/"
+          cp "$APP_DIR/ios-real-engine-stack8-gate/evidence/make.log" "$ART/evidence/"
+          cp "$APP_DIR/minimal-real-usi/MINIMAL_NODE_RUNTIME_RESULT.json" "$ART/evidence/"
+          cat > "$ART/TECHNICAL_TEST_SCOPE.txt" <<'TXT'
+          STATUS=IOS_POOL1_STACK8_CANDIDATE_NOT_FORMAL
+          SCOPE=TECHNICAL_PERSONAL_USE_TEST_ONLY
+          PUBLIC_DISTRIBUTION_READY=false
+          COMMERCIAL_DISTRIBUTION_READY=false
+          LEGAL_REVIEW_REQUIRED_BEFORE_PUBLIC_DISTRIBUTION=true
+          FORMAL_RUN36_RUNTIME_REPLACED=false
+          TXT
+          python3 - "$ART" <<'PY'
+          import hashlib, json, pathlib, sys
+          root=pathlib.Path(sys.argv[1])
+          h={}
+          for p in sorted((root/'runtime').iterdir()):
+              h[p.name]=hashlib.sha256(p.read_bytes()).hexdigest()
+          meta=json.loads((root/'IOS_POOL1_STACK8_CANDIDATE_METADATA.json').read_text())
+          assert meta['pthreadPoolSize']==1
+          assert meta['initialMemory']==92274688
+          assert meta['stackSize']==8388608
+          assert h['yaneuraou.material.js']==meta['hashes']['js']
+          assert h['yaneuraou.material.wasm']==meta['hashes']['wasm']
+          assert h['yaneuraou.material.worker.js']==meta['hashes']['pthreadWorker']
+          assert h['YaneuraOuWasmWorkerBootstrap.js']==meta['hashes']['productionWorkerBootstrap']
+          (root/'ARTIFACT_RUNTIME_SHA256.json').write_text(json.dumps(h,indent=2)+'\n')
+          print('PASS: A5-E2 artifact is hash-consistent and explicitly NOT FORMAL.')
+          PY
+
+      - name: Upload Pool1 Stack8 candidate artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: yaneuraou-ios-pool1-stack8-candidate
+          path: Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/artifact
+          if-no-files-found: error
+          retention-days: 14

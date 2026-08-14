@@ -1,0 +1,23 @@
+Run A5-E2 Pre-delivery Verification
+Date: 2026-08-14
+
+Purpose:
+Isolate iPhone resource behavior by keeping A5-E1 Pool1 and changing only WASM STACK_SIZE 64MiB -> 8MiB.
+
+Local verification against current A5-E1 Retry B repository simulation:
+- New A5-E2 focused tests: 5 / 5 PASS
+- Full Automated Test: 727 / 727 PASS
+- Static Verification: PASS
+- Unexpected deleted Baseline files: 0
+- Missing imports: 0
+- Shell syntax: PASS
+- Workflow YAML parse: PASS
+- Root/App workflow mirror: PASS
+- Pool1 patch SHA-256 preserved: 4e1963c62afaed2e023304d11cb7c2736aca1c43db2c5bd585fb4477ee70d8f4
+- Stack8 patch SHA-256: 5fcee573b4a0a898e747e303b6e003db8af99c901d63b15b88e88708057678d9
+
+Safety:
+- Run36 Formal runtime is not replaced.
+- Candidate output is isolated under ios-real-engine-stack8-gate.
+- Formal status remains NOT_FORMAL.
+- Distribution readiness is false.

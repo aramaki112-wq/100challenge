@@ -1,0 +1,24 @@
+{
+  "run": "A5-E2",
+  "status": "READY_TO_BUILD_NOT_FORMAL",
+  "purpose": "iPhone Real YaneuraOu resource isolation after Pool1 alone did not resolve Home Screen App reload",
+  "controlledChange": {
+    "setting": "STACK_SIZE",
+    "baselineBytes": 67108864,
+    "candidateBytes": 8388608
+  },
+  "heldConstant": {
+    "pthreadPoolSize": 1,
+    "initialMemoryBytes": 92274688,
+    "maximumMemoryBytes": 4294967296,
+    "memoryGrowth": true,
+    "smartphoneSafeThreads": 1,
+    "engine": "YaneuraOu V9.00",
+    "commit": "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+    "evaluation": "MATERIAL_LEVEL=1",
+    "emscripten": "3.1.43"
+  },
+  "formalStatus": "NOT_FORMAL",
+  "technicalTestOnly": true,
+  "replacesRun36FormalRuntime": false
+}
