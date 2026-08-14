@@ -1,0 +1,12 @@
+24e5547b1deaaaaf05c23b6606af068cd1a5b3383c07965f115cd5d05304b9d1  ./.github/workflows/yaneuraou-ios-pool5-stack8-candidate.yml
+2a8fcd7d143712943e40f6aeb95c37b7252702b6c430f6f794ed1dbb5596bd51  ./RUN_A5_E6_APPLY_README.md
+83111df5dac5f456a4ecb1a9e6e210601ba90968d86a3e7e59a1ab408c24d988  ./RUN_A5_E6_PATCH_MANIFEST.txt
+2899f56ee33ca62175cae6997b2fab18c8a01e4baa810f094f827bf535e9f7bd  ./RUN_A5_E6_PREDELIVERY_VERIFICATION.txt
+24e5547b1deaaaaf05c23b6606af068cd1a5b3383c07965f115cd5d05304b9d1  ./Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-ios-pool5-stack8-candidate.yml
+0c3ad536254d97d9660dc0bf80c0822f6cf8181c2fcaa2e083c4d5dce7ef7d6c  ./Shogi-Reflection-Ver1.8.3/IosRealEnginePool5Stack8CandidateV184.test.js
+1634fcaa3dbb0021ad5d1be15bf29a2b8766a549ae9056f248e5ef6df9e6590b  ./Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E6_IOS_POOL5_STACK8_PLAN.md
+08c11a49f66431bc0eaa17eee1bae7702770f16edb543799f85b418710c02a77  ./Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E6_RESULT.json
+14f3e71128d1ab157e55ae8bf45aac359590295ab24272a247bf3bbca32c0485  ./Shogi-Reflection-Ver1.8.3/ios-real-engine-pool5-stack8-gate/README.md
+4e4a42d714fc6d9c49778b7dd03f2cbca03343d622242dfa06d614bf384ef52b  ./Shogi-Reflection-Ver1.8.3/ios-real-engine-pool5-stack8-gate/build-ios-pool5-stack8-candidate.sh
+8c1c829c9dcc7b3fdf82f93e8cdbefa3b93cbd4c0d987f43bf894589233acef1  ./Shogi-Reflection-Ver1.8.3/ios-real-engine-pool5-stack8-gate/patches/yaneuraou-v9.00-pthread-pool-size-5.patch
+5fcee573b4a0a898e747e303b6e003db8af99c901d63b15b88e88708057678d9  ./Shogi-Reflection-Ver1.8.3/ios-real-engine-stack8-gate/patches/yaneuraou-v9.00-stack-size-8m.patch

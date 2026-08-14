@@ -1,0 +1,51 @@
+Run A5-E6 Pre-delivery Verification
+Date: 2026-08-15
+
+Purpose:
+Test one-variable change PTHREAD_POOL_SIZE 4 -> 5 after A5-E5 iPhone Safari measured:
+- four precreated pthread Workers returned loaded
+- factory resolved in 519 ms from factory start
+- bridge became ready
+- usiok was received (usi -> usiok 559 ms)
+- isready was sent
+- a fifth pthread Worker was then created
+- readyok was not received
+- Real search did not start
+- primary initialization timed out after ~30 s
+
+Controlled change:
+- PTHREAD_POOL_SIZE: 4 -> 5
+
+Held constant:
+- STACK_SIZE: 8388608 bytes
+- INITIAL_MEMORY: 92274688 bytes
+- MAXIMUM_MEMORY: 4294967296 bytes
+- SMARTPHONE_SAFE USI Threads: 1
+- YaneuraOu V9.00 / pinned commit / MATERIAL_LEVEL=1 / Emscripten 3.1.43
+
+Local overlay checks performed before delivery:
+- New A5-E6 focused tests: 6 / 6 PASS
+- Pool5 patch exact one-setting diff: PASS
+- Pool5 patch SHA-256: 8c1c829c9dcc7b3fdf82f93e8cdbefa3b93cbd4c0d987f43bf894589233acef1
+- Stack8 patch SHA-256 preserved: 5fcee573b4a0a898e747e303b6e003db8af99c901d63b15b88e88708057678d9
+- Build script shell syntax: PASS
+- Root/App workflow mirror: PASS
+- Result JSON parse: PASS
+- No production/Formal runtime binary included in overlay: PASS
+- Overlay unexpected deletions: 0 (additive/isolated candidate)
+
+CI remains authoritative for:
+- full npm regression suite on current repository state
+- static verification / missing import gate
+- exact upstream YaneuraOu checkout
+- git apply --check against pinned upstream source
+- Emscripten build
+- linker evidence
+- Node USI runtime probe of built candidate
+- runtime artifact hashes
+
+Safety:
+- Run36 Formal runtime is not replaced.
+- Candidate output is isolated under ios-real-engine-pool5-stack8-gate.
+- Formal status remains NOT_FORMAL.
+- Distribution readiness is false.

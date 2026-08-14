@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "run": "A5-E6",
+  "status": "READY_TO_BUILD_NOT_FORMAL",
+  "technicalTestOnly": true,
+  "purpose": "Test whether precreating a fifth pthread Worker lets iPhone Safari pass isready -> readyok after A5-E5 reached factoryResolved/bridgeReady/usiok and then created a fifth Worker before timing out.",
+  "controlledChange": {
+    "setting": "PTHREAD_POOL_SIZE",
+    "baseline": 4,
+    "candidate": 5
+  },
+  "heldConstant": {
+    "stackSizeBytes": 8388608,
+    "initialMemoryBytes": 92274688,
+    "maximumMemoryBytes": 4294967296,
+    "memoryGrowth": true,
+    "smartphoneSafeThreads": 1,
+    "engine": "YaneuraOu V9.00",
+    "commit": "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+    "evaluation": "MATERIAL_LEVEL=1",
+    "emscripten": "3.1.43"
+  },
+  "a5e5MeasuredObservation": {
+    "environment": {
+      "crossOriginIsolated": true,
+      "sharedArrayBuffer": true,
+      "hardwareConcurrency": 4
+    },
+    "pthreadPoolSize": 4,
+    "factoryResolved": true,
+    "factoryResolveMs": 519,
+    "bridgeReady": true,
+    "usiokReceived": true,
+    "usiToUsiokMs": 559,
+    "isreadySent": true,
+    "fifthPthreadWorkerCreatedAfterIsready": true,
+    "readyokReceived": false,
+    "firstSearchStarted": false,
+    "firstSearchCompleted": false,
+    "primaryFailureCode": "TIMEOUT",
+    "primaryInitializationMs": 30568
+  },
+  "acceptanceOrder": [
+    "factoryResolved",
+    "bridgeReady",
+    "usiok",
+    "readyok",
+    "firstRealSearchStarted",
+    "firstRealSearchCompleted"
+  ],
+  "formalStatus": "NOT_FORMAL",
+  "replacesRun36FormalRuntime": false,
+  "publicDistributionReady": false,
+  "commercialDistributionReady": false
+}
