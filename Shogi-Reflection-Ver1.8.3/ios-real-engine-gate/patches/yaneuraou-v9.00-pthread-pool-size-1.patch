@@ -1,0 +1,12 @@
+diff --git a/source/Makefile b/source/Makefile
+--- a/source/Makefile
++++ b/source/Makefile
+@@ -218,7 +218,7 @@ else
+ 		LDFLAGS += --pre-js wasm_pre.js
+ 		# LDFLAGS += --preload-file eval/nn.bin
+ 		LDFLAGS += -s MODULARIZE=1 -s EXPORT_NAME="$(EM_EXPORT_NAME)" -s ENVIRONMENT=web,worker,node
+-		LDFLAGS += -s PTHREAD_POOL_SIZE=32
++		LDFLAGS += -s PTHREAD_POOL_SIZE=1
+ 		# -s PTHREAD_POOL_SIZE_STRICT=32
+ 		LDFLAGS += -s FILESYSTEM=1 -s EXIT_RUNTIME=0 -s "EXPORTED_RUNTIME_METHODS=['FS','ccall']"
+ 		LDFLAGS += -s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=$(EM_INITIAL_MEMORY_SIZE) -s MAXIMUM_MEMORY=4294967296

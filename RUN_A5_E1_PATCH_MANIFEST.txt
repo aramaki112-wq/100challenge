@@ -1,0 +1,13 @@
+Run A5-E1 Patch File Manifest
+=============================
+
+7bf3efc17100b4924ee54c9fa670e369218b0c9bfd62622dbc0dde45d203f78d  .github/workflows/yaneuraou-ios-pool1-candidate.yml
+7bf3efc17100b4924ee54c9fa670e369218b0c9bfd62622dbc0dde45d203f78d  Shogi-Reflection-Ver1.8.3/.github/workflows/yaneuraou-ios-pool1-candidate.yml
+71021b3499b3d93e6707ba1eb35d7cc71ba3addf5ba61cfec28bd3401bcf2147  Shogi-Reflection-Ver1.8.3/ios-real-engine-gate/build-ios-pool1-candidate.sh
+4e1963c62afaed2e023304d11cb7c2736aca1c43db2c5bd585fb4477ee70d8f4  Shogi-Reflection-Ver1.8.3/ios-real-engine-gate/patches/yaneuraou-v9.00-pthread-pool-size-1.patch
+310add6bfd6ea4ea2360ed3031eaae475d2cc7df9e00ce14546ef1b7c2f59b01  Shogi-Reflection-Ver1.8.3/ios-real-engine-gate/README.md
+1b3466646f95621de3eb3a84322e06415519b2d7f6b19055ac1dd03f9bb1a3e9  Shogi-Reflection-Ver1.8.3/IosRealEnginePool1CandidateV184.test.js
+00d175b6802d007fadde1b9dd32853d9960abed189f1c71c5530ff107384291e  Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E1_IOS_REAL_ENGINE_POOL1_PLAN.md
+d8768ff2bd2d50e793140d8fd23379ca2c3bd77762f7c87b13fac1644e624432  Shogi-Reflection-Ver1.8.3/PWA_RUN_A5_E1_RESULT.json
+2a3b1de687cbc8172b5884d5b8a04742259f1a62460156241021072c52c07ee7  RUN_A5_E1_APPLY_README.md
+418cd31b90362b095ab0dedfec4b409151450419610a3dc1b6b855bc9190769e  RUN_A5_E1_PREDELIVERY_VERIFICATION.txt

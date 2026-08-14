@@ -1,0 +1,26 @@
+{
+  "run": "A5-E1",
+  "phase": "IPHONE_REAL_ENGINE_ISOLATION",
+  "status": "BUILD_CANDIDATE_PREPARED_NOT_YET_DEVICE_TESTED",
+  "observedFailure": "IPHONE_HOME_SCREEN_APP_RELOADED_TO_STEP1_ON_REAL_ENGINE_ANALYSIS_START",
+  "controlledChange": {
+    "setting": "PTHREAD_POOL_SIZE",
+    "baseline": 32,
+    "candidate": 1
+  },
+  "unchanged": {
+    "engine": "YaneuraOu V9.00",
+    "commit": "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+    "evaluationModel": "MATERIAL_LEVEL=1",
+    "emscripten": "3.1.43",
+    "initialMemory": 92274688,
+    "stackSize": 67108864,
+    "smartphoneSafeThreads": 1,
+    "formalRun36Runtime": "PRESERVED"
+  },
+  "formalStatus": "NOT_FORMAL",
+  "technicalPersonalUseTestOnly": true,
+  "publicDistributionReady": false,
+  "commercialDistributionReady": false,
+  "legalReviewRequiredBeforePublicDistribution": true
+}

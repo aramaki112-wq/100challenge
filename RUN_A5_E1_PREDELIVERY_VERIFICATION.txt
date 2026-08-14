@@ -1,0 +1,33 @@
+Shogi Reflection Ver.1.8.4 PWA — Run A5-E1 Pre-delivery Verification
+===================================================================
+Purpose: Prepare an isolated iPhone Real Engine candidate build with PTHREAD_POOL_SIZE=1.
+Candidate status: IOS_PTHREAD_POOL1_CANDIDATE_NOT_FORMAL
+
+Local automated regression:
+- Automated Test: 722 / 722 PASS
+- Static Verification: PASS (exit code 0)
+- Missing imports: 0
+- Unexpected deleted Baseline files: 0
+
+Controlled-change verification:
+- New source patch changes only active PTHREAD_POOL_SIZE=32 -> 1
+- Source patch SHA-256: 4e1963c62afaed2e023304d11cb7c2736aca1c43db2c5bd585fb4477ee70d8f4
+- SMARTPHONE_SAFE remains Threads=1
+- INITIAL_MEMORY remains 92274688
+- STACK_SIZE remains 67108864
+- YaneuraOu commit remains a5ee2786c0030edc7d4a1cdfe94b04dffec55493
+- Emscripten remains 3.1.43
+
+Run36 Formal runtime preserved by isolation tests:
+- JS: 3ba9f967053af62df3a9735c99d3aae25b5c8b21b8eaa0f0c75ebd25f77f8024
+- WASM: 1c2a534b652e45682e965a3ecb16e84ad2c787677fe3302f58d7346e902473e7
+- pthread Worker: 9cb2d7a0625b41c1771c6f7bd7c5f736d4ee607b036ab34a7d0f09272a250daf
+- Worker Bootstrap: b187d37a0689babf345a6a1a2403904bcadb6c09afc134b8029f3f384923e8b6
+- Formal manifest pthreadPoolSize remains 32
+
+Important:
+- This patch does NOT include a rebuilt Pool1 runtime.
+- GitHub Actions must build the new candidate from pinned source/toolchain.
+- The resulting artifact is technical personal-use test only and NOT FORMAL.
+- Public/commercial distribution remains NOT READY.
+- LEGAL REVIEW REQUIRED BEFORE PUBLIC DISTRIBUTION.
