@@ -1,0 +1,34 @@
+{
+  "run": "A5-E5",
+  "status": "READY_TO_BUILD_NOT_FORMAL",
+  "purpose": "Test whether increasing the precreated pthread pool resolves the iPhone Safari Real YaneuraOu factory stall observed in A5-E4",
+  "controlledChange": {
+    "setting": "PTHREAD_POOL_SIZE",
+    "baseline": 1,
+    "candidate": 4
+  },
+  "heldConstant": {
+    "stackSizeBytes": 8388608,
+    "initialMemoryBytes": 92274688,
+    "maximumMemoryBytes": 4294967296,
+    "memoryGrowth": true,
+    "smartphoneSafeThreads": 1,
+    "engine": "YaneuraOu V9.00",
+    "commit": "a5ee2786c0030edc7d4a1cdfe94b04dffec55493",
+    "evaluation": "MATERIAL_LEVEL=1",
+    "emscripten": "3.1.43"
+  },
+  "a5e4Observation": {
+    "crossOriginIsolated": true,
+    "sharedArrayBuffer": true,
+    "firstPthreadLoaded": true,
+    "pthreadLoadedMsFromFactory": 31,
+    "additionalWorkerCreatesObserved": 3,
+    "factoryResolved": false,
+    "usiokReceived": false,
+    "primaryFailureCode": "TIMEOUT"
+  },
+  "formalStatus": "NOT_FORMAL",
+  "technicalTestOnly": true,
+  "replacesRun36FormalRuntime": false
+}

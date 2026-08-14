@@ -1,0 +1,53 @@
+Run A5-E5 Pre-delivery Verification
+Date: 2026-08-14
+
+Purpose:
+Test one-variable change PTHREAD_POOL_SIZE 1 -> 4 after A5-E4 iPhone Safari evidence showed:
+- first pthread Worker created and returned loaded
+- three additional pthread Worker creations followed
+- factory never resolved
+- usiok was not received
+- Real initialization timed out at 30 seconds
+
+Controlled change:
+- PTHREAD_POOL_SIZE: 1 -> 4
+
+Held constant:
+- STACK_SIZE: 8388608 bytes
+- INITIAL_MEMORY: 92274688 bytes
+- MAXIMUM_MEMORY: 4294967296 bytes
+- SMARTPHONE_SAFE USI Threads: 1
+- YaneuraOu V9.00 / pinned commit / MATERIAL_LEVEL=1 / Emscripten 3.1.43
+
+Local verification simulation basis:
+- user-supplied Shogi-Reflection-Ver1.8.3 source
+- Run36 Final Formal Release overlay
+- A5-E2 Pool1+Stack8 overlay
+- this A5-E5 overlay
+
+Verification results:
+- New A5-E5 focused tests: 6 / 6 PASS
+- Full Automated Test: 728 / 728 PASS
+- Static Verification: PASS
+- Unexpected deleted Baseline files: 0
+- Missing imports: 0
+- Shell syntax (build candidate script): PASS
+- Workflow YAML parse: PASS
+- Root/App workflow mirror: PASS
+- Result JSON parse: PASS
+- Pool4 patch SHA-256: f8b82eef754d44488b093c9b688cb0ec43b40985162204c6682eebb963b9a013
+- Stack8 patch SHA-256 preserved: 5fcee573b4a0a898e747e303b6e003db8af99c901d63b15b88e88708057678d9
+
+CI remains authoritative for:
+- exact upstream YaneuraOu checkout
+- git apply --check against pinned upstream source
+- Emscripten build
+- linker evidence
+- Node USI runtime probe of built candidate
+- runtime artifact hashes
+
+Safety:
+- Run36 Formal runtime is not replaced.
+- Candidate output is isolated under ios-real-engine-pool4-stack8-gate.
+- Formal status remains NOT_FORMAL.
+- Distribution readiness is false.
